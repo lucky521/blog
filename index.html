@@ -1,9 +1,8 @@
 ---
 layout: default
-title: Lucky's Octopress Blog
+title: Lucky's Github Blog
 ---
-<h2>{{ page.title }}</h2>
-<p>New pages</p>
+<p>Archive list.</p>
 <ul>
 {% for post in site.posts %}
 <li>{{ post.date | date_to_string }} 
@@ -11,3 +10,4 @@ title: Lucky's Octopress Blog
 </li>
 {% endfor %}
 </ul>
+
