@@ -1,7 +1,0 @@
----
-layout: default
-title: The second one.
----
-<h3>{{ page.title }}</h3>
-<p>This is my second post with octopress.It is time to make more layouts. </p>
-<p>{{ page.date | date_to_string }}</p>
