@@ -11,6 +11,7 @@ ifr.addEventListener( "load", function(){
          //代码能执行到这里说明已经载入成功完毕了  
       this.removeEventListener( "load", arguments.call, false);  
          //这里是回调函数  
+      alert("focus!\n");
       ifr.focus();
          
 }, false);
