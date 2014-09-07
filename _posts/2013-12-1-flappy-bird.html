@@ -3,4 +3,16 @@ layout: default
 title: 累了吧，玩个游戏
 ---
 
-<iframe src="http://lucky521.github.io/Flappy-Bird/" width="100%" height="600"> </iframe>
+<iframe id="ifr" src="http://lucky521.github.io/Flappy-Bird/" width="100%" height="600"> </iframe>
+<script language=javascript>
+
+ifr = windows.getElementById("ifr");
+ifr.addEventListener( "load", function(){  
+         //代码能执行到这里说明已经载入成功完毕了  
+      this.removeEventListener( "load", arguments.call, false);  
+         //这里是回调函数  
+      ifr.focus();
+         
+}, false);
+
+</script>
