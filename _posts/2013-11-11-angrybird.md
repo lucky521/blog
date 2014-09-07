@@ -28,4 +28,4 @@ The source code structure:
 &emsp;|- physicalobject.py   Base class, moving things   
 &emsp;|- load.py   instantiate and load all objects   
 
-### [How to Play](https://github.com/lucky521/Pig-Hate-Angry-Bird/blob/master/readme.txt)
+#### [How to Play](https://github.com/lucky521/Pig-Hate-Angry-Bird/blob/master/readme.txt)
