@@ -2,7 +2,9 @@
 layout: default
 title: Lucky's Github Blog
 ---
+
 <p>Lucky List</p>
+
 <ul>
 {% for post in site.posts %}
 <li>{{ post.date | date_to_string }} 
@@ -11,6 +13,8 @@ title: Lucky's Github Blog
 {% endfor %}
 </ul>
 
+
+<!-- disqus Comment Plugin -->
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
