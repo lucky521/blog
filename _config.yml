@@ -12,7 +12,7 @@ url: "" # the base hostname & protocol for your site
 author:
   fullname: Lucky
   github: lucky521
- #disqus: ojshilu
+  disqus: yes
 
 # google_analytics: 'UA-XXXXXXXX-X'
 
