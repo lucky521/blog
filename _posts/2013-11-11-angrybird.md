@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: 愤怒的傻鸟
 ---
 

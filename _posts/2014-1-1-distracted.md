@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: 学习时间再也不刷微博了，摔！
 ---
 
