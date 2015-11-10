@@ -1,22 +1,18 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>{{ page.title }} </title>
-<style type="text/css">
-body {background-color:#E6E6E6}
-h2 {font-size:35px; color:#2200AA;}
-h3 {font-size:25px; color:#2B2B2B;}
-div#footer {background-color:#D5D5D5; clear:both; text-align:center;}
-</style>
-</head>
+<html lang="en">
+    <head>
+        {% include meta_tags/base.html %}
+        {% include externals/styling.html %}
+    </head>
 
+    <body>
+        <div class="wrapper">
+            {% include header.html %}
 
-<body>
-<a href="http://lucky521.github.io/blog/home.html"><h2>Lucky's Github Blog</h2></a>
-<hr>
-{{ content }}
-</body>
+            {{ content }}
+        </div>
 
-
+        {% include externals/scripting.html %}
+        {% include externals/google_analytics.html %}
+    </body>
 </html>

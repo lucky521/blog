@@ -1,1 +1,19 @@
-baseurl: /blog
+# Site settings
+title: Lucky
+description: >
+  Write an awesome description for your new site here. You can edit this
+  line in _config.yml. It will appear in your document head meta (for
+  Google search results) and in your feed.xml site description.
+
+baseurl: /blog # the subpath of your site, e.g. /blog/
+url: "" # the base hostname & protocol for your site
+
+author:
+  fullname: Lucky
+  github: lucky521
+  disqus: ojshilu
+
+# google_analytics: 'UA-XXXXXXXX-X'
+
+# Build settings
+markdown: kramdown
