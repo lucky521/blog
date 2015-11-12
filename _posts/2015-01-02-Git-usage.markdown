@@ -12,7 +12,7 @@ $ git config
 
 2. 生成ssh key
 
-{% highlight %}
+{% highlight shell %}
 $ ssh-keygen -t rsa -b 4096  -f ~/.ssh/github  -C "youremail@email.com"
 $ eval `ssh-agent -s`
 $ ssh-add ~/.ssh/github
