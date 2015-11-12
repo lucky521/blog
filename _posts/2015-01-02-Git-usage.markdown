@@ -6,6 +6,18 @@ categories: [tool]
 ---
 
 #准备工作
+1. 配置用户名和邮箱
+
+$ git config 
+
+2. 生成ssh key
+
+{% highlight %}
+$ ssh-keygen -t rsa -b 4096  -f ~/.ssh/github  -C "youremail@email.com"
+$ eval `ssh-agent -s`
+$ ssh-add ~/.ssh/github
+$ ssh-add -l
+{% endhighlight %}
 
 
 
