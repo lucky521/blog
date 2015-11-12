@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Startup"
-subtitile: "Subtitle"
+subtitle: "Subtitle"
 categories: []
 ---
 #这篇start-up作为我每篇post的template
