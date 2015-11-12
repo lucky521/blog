@@ -1,0 +1,18 @@
+---
+layout: post
+title: "Startup"
+subtitile: "Subtitle"
+categories: []
+---
+#这篇start-up作为我每篇post的template
+
+{% highlight python %}
+print "hello, Lucky!"
+{% endhighlight %}
+
+
+
+
+My Github is [here][mygithub].
+
+[mygithub]: https://github.com/lucky521
