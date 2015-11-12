@@ -6,11 +6,17 @@ categories: [tool]
 ---
 
 #准备工作
-1. 配置用户名和邮箱
+## 配置用户名和邮箱
 
-$ git config 
+{% highlight ruby %}
+$ git config --global user.name "yourname"
+$ git config --global user.email "youremail@email.com"
+{% endhighlight %}
+上面这样设置的是全局的用户角色，其配置文件写在~/.gitconfig里面。
 
-2. 生成ssh key
+如果你既用github，又用公司的git，就不可以设置global的账户名和邮箱了,不加global，在repro之内配置，就可以把用户配置保存在repro的.ssh/confi文件中。
+
+## 生成ssh key
 
 {% highlight ruby %}
 $ ssh-keygen -t rsa -b 4096  -f ~/.ssh/github  -C "youremail@email.com"
@@ -19,6 +25,14 @@ $ ssh-add ~/.ssh/github
 $ ssh-add -l
 {% endhighlight %}
 
+然后将生成的~/.ssh/github.pub公钥添加到github主页的配置中去。
+
+如果要登录不同的git站点，自然需要配置多个key，这时需要添加~/.ssh/confi来保存不同的key对应不同的站点。
+{% highlight ruby %}
+Host oneid
+	HostName github.com
+	IdentityFile ~/.ssh/github
+{% endhighlight %}
 
 
 #在本地创建项目
