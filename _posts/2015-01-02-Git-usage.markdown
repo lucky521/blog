@@ -6,6 +6,7 @@ categories: [tool]
 ---
 
 #准备工作
+
 ## 配置用户名和邮箱
 
 {% highlight ruby %}
