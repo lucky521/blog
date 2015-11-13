@@ -11,6 +11,9 @@ print "hello, Lucky!"
 {% endhighlight %}
 
 
+```
+hello
+```
 
 
 My Github is [here][mygithub].
