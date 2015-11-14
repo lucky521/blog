@@ -15,7 +15,7 @@ $ git config --global user.email "youremail@email.com"
 {% endhighlight %}
 上面这样设置的是全局的用户角色，其配置文件写在~/.gitconfig里面。
 
-如果你既用github，又用公司的git，就不可以设置global的账户名和邮箱了,不加global，在repro之内配置，就可以把用户配置保存在repro的.ssh/confi文件中。
+如果你既用github，又用公司的git，就不可以设置global的账户名和邮箱了,不加global，在repro之内配置，就可以把用户配置保存在repro的.ssh/config文件中。
 
 ## 生成ssh key
 
