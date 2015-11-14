@@ -93,6 +93,8 @@ Karabiner 键盘超级自定义。我主要用它在HHKB连接时关闭内置键
 
 
 ---
-My Github is [here][mygithub].
+My ToolNotes have more details [here][mygithub].
 
-[mygithub]: https://github.com/lucky521
+[mygithub]: https://github.com/lucky521/LuckyToolNotes
+
+
