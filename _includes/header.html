@@ -15,5 +15,10 @@
                 <i class="fa fa-github"></i>
             </a>
         {% endif %}
+        {% if site.abouturl %}
+            <a href="https://{{ site.abouturl }}" class="social-links__entry" target="_blank">
+                <i class="fa fa-info-circle"></i>
+            </a>
+        {% endif %}
     </ul>
 </header>
