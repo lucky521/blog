@@ -10,15 +10,19 @@
     </div>
 
     <ul class="social-links">
-        {% if site.author.github %}
-            <a href="https://github.com/{{ site.author.github }}" class="social-links__entry" target="_blank">
-                <i class="fa fa-github"></i>
-            </a>
-        {% endif %}
         {% if site.abouturl %}
             <a href="https://{{ site.abouturl }}" class="social-links__entry" target="_blank">
                 <i class="fa fa-info-circle"></i>
             </a>
         {% endif %}
+        {% if site.author.github %}
+            <a href="https://github.com/{{ site.author.github }}" class="social-links__entry" target="_blank">
+                <i class="fa fa-github"></i>
+            </a>
+        {% endif %}
+            <a href="{{ '/feed.xml' | prepend: site.baseurl }}" class="social-links__entry" target="_blank">
+                <i class="fa fa-rss-square"></i>
+            </a>
+
     </ul>
 </header>
