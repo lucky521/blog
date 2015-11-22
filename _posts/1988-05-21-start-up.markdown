@@ -2,7 +2,7 @@
 layout: post
 title: "Startup"
 subtitle: "Subtitle"
-categories: []
+categories: [design, productivity, tool]
 ---
 #这篇start-up作为我每篇post的template
 
@@ -10,10 +10,6 @@ categories: []
 print "hello, Lucky!"
 {% endhighlight %}
 
-
-```
-hello
-```
 
 
 My Github is [here][mygithub].
