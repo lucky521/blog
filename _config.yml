@@ -4,7 +4,7 @@ description: Lucky Blog. This is your RSS. Welcome!
 
 baseurl: /blog # the subpath of your site, e.g. /blog/
 abouturl: lucky521.github.io
-url: "" # the base hostname & protocol for your site
+url: lucky521.github.io # the base hostname & protocol for your site
 
 author:
   fullname: Lucky
