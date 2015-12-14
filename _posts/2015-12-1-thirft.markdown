@@ -1,0 +1,74 @@
+---
+title: "Thrift"
+subtitle: "入门手册"
+categories: [design]
+layout: post
+---
+#Thirft入门手册
+
+## Thrift是什么？
+RPC服务框架，为了跨语言的服务开发。
+它是一个生成代码的工具。只需要依照IDL（Interface Description Language）定义一次接口，Thrift工具就能自动生成 C++, Java, Python, PHP, Ruby, Erlang, Perl, Haskell, C#, Cocoa, JavaScript, Node.js, Smalltalk, and OCaml等语言的代码。
+
+## Thrift怎么用？
+首先，你要按照thrift所定义的[接口标准](https://thrift.apache.org/docs/idl)写一个.thrift文件，定义类型和服务。
+然后用Thrift生成源代码。
+
+{% highlight python %}
+$ thrift --gen `<language>` `<thirft filename>`
+{% endhighlight %}
+
+## Thrift接口描述语言 IDL
+IDL是用来表述Thrift类型定义的特定描述语言。Thrift代码生成器根据IDL来生成各种不同的目标语言。
+因此IDL的类型会特别注意通用性质。
+
+### Thrift IDL 基本类型
+基本类型是所有语言都会有的最基础数据类型，包括
+- 布尔类型bool，
+- 字节类型byte
+- 十六位有符号整型i16, 
+- 三十二位有符号整型i32, 
+- 六十四位有符号整型i64，
+- 浮点数double，
+- 字符串string（utf-8）。
+
+基本类型中并没有无符号整型，这是因为许多编程语言中并没有这一类型。
+
+### Thrift IDL 特殊类型
+- binary : 无编码字节序列，为Java特别提供的一种字符串类型。
+
+### Thrift IDL 结构体类型
+这是一种不带继承性质的类类型。
+
+### Thrift IDL 容器类型
+很多语言中都有的强类型容器。容器元素的类型可以任意的thrift类型。
+- list 有序列表
+- set 无序集合
+- map 键值映射，其中k的类型经过是thrift基本类型。
+
+### Thrift IDL 异常类型
+它是结构体类型的一种，可以继承目标语言的原生异常基类。
+
+### Thrift IDL 服务类型
+服务类型定义了一个接口（纯虚抽象类），thrift会生成stubs来实现该接口的client和server端。一个服务类型包括若干个函数，返回类型可以使void。一般的服务请求都是阻塞式的，关键字`oneway`修饰void返回类型则表示对该服务的请求是不阻塞的。
+
+
+未完待续。。。
+
+
+
+
+
+
+
+<!--
+{% highlight python %}
+print "hello, Lucky!"
+{% endhighlight %}
+
+![My image]({{ site.baseurl }}/images/emule.png)
+
+My Github is [here][mygithub].
+
+[mygithub]: https://github.com/lucky521
+-->

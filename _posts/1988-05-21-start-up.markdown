@@ -1,8 +1,8 @@
 ---
-layout: post
 title: "Startup"
 subtitle: "Subtitle"
 categories: [design, productivity, tool]
+layout: post
 ---
 #这篇start-up作为我每篇post的template
 
@@ -15,3 +15,10 @@ print "hello, Lucky!"
 My Github is [here][mygithub].
 
 [mygithub]: https://github.com/lucky521
+
+
+<!--
+这里是注释区
+
+
+-->
