@@ -1,6 +1,6 @@
 ---
-title: "Thrift"
-subtitle: "入门手册"
+title: "Thrift入门手册"
+subtitle: "基础教程"
 categories: [design]
 layout: post
 ---
@@ -15,7 +15,7 @@ RPC服务框架，为了跨语言的服务开发。
 然后用Thrift生成源代码。
 
 {% highlight python %}
-$ thrift --gen `<language>` `<thirft filename>`
+$ thrift --gen `language` `thirft filename`
 {% endhighlight %}
 
 ## Thrift接口描述语言 IDL
@@ -24,6 +24,7 @@ IDL是用来表述Thrift类型定义的特定描述语言。Thrift代码生成�
 
 ### Thrift IDL 基本类型
 基本类型是所有语言都会有的最基础数据类型，包括
+
 - 布尔类型bool，
 - 字节类型byte
 - 十六位有符号整型i16, 
@@ -42,6 +43,7 @@ IDL是用来表述Thrift类型定义的特定描述语言。Thrift代码生成�
 
 ### Thrift IDL 容器类型
 很多语言中都有的强类型容器。容器元素的类型可以任意的thrift类型。
+
 - list 有序列表
 - set 无序集合
 - map 键值映射，其中k的类型经过是thrift基本类型。
@@ -54,10 +56,6 @@ IDL是用来表述Thrift类型定义的特定描述语言。Thrift代码生成�
 
 
 未完待续。。。
-
-
-
-
 
 
 
