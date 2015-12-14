@@ -10,7 +10,7 @@ categories: [design, productivity, tool]
 print "hello, Lucky!"
 {% endhighlight %}
 
-![My image]({{ site.url }}/images/emule.png)
+![My image]({{ site.baseurl }}/images/emule.png)
 
 My Github is [here][mygithub].
 
