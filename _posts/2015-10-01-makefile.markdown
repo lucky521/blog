@@ -17,14 +17,32 @@ Makefile脚本在大型软件中不可或缺，它用来将一个个源代码文
 	[tab] system command
 
 - 默认的target是`all`，这一般会是整个软件总的target；
-- dependenies如果没有的话可以不写；
+- dependenies有的是源文件，有的是链接文件，如果没有的话可以不写；
 - system command 一般会是gcc/g++的编译命令；
 - 细化到模块一般会有若干个分支target，形成层级的target依赖关系；
-- `clean`这个target里一般要做的是rm的清理工作；
+- `clean`这个target里一般要做的是rm清理工作；
 
 # Makefile中的变量
 
-无处不在的变量使得makefile很灵活
+无处不在的变量使得makefile很灵活，
+
+- 常用`CC`来代替具体的编译器，比如`CC=g++`；
+- 常用`CFLAGS`来代替C语言编译选项，比如`CFLAGS=-c -Wall`；还会指定头文件include路径，比如`CFLAGS+=-I/usr/include`
+- 常用`LDFLAGS`来指定库文件lib路径，比如`LDFLAGS+=-L/usr/lib`；
+- 常用`LDLIBS`来指定要链接的库名称，比如`LDLIBS+=-llibname`。
+
+那么，在编译命令的时候，就会是这样
+
+	$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) main.cpp
+
+
+# 参考资料
+[make官方文档](http://www.gnu.org/software/make/manual/make.html)
+
+[implicit variables](https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html)
+
+
+
 
 <!--
 这里是注释区
