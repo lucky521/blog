@@ -1,0 +1,42 @@
+---
+title: "How to read and write Makefile"
+subtitle: "怎么编写makefile"
+categories: [design]
+layout: post
+---
+Makefile脚本在大型软件中不可或缺，它用来将一个个源代码文件组织起来编译，再将一个个编译好的模块组织起来互相依赖。各种平台下都是有makefile，这里针对的是linux下的makefile语法。由于用到makefile的软件有时非常庞大，所以makefile看起来有时候会多到吓人。而它本身的语法其实是比较简单的。
+
+# Makefile被make运行
+
+	$ man make
+你会看到make命令是如何使用的
+
+# Makefile最基本的组成
+
+	target: dependencies
+	[tab] system command
+
+- 默认的target是`all`，这一般会是整个软件总的target；
+- dependenies如果没有的话可以不写；
+- system command 一般会是gcc/g++的编译命令；
+- 细化到模块一般会有若干个分支target，形成层级的target依赖关系；
+- `clean`这个target里一般要做的是rm的清理工作；
+
+# Makefile中的变量
+
+无处不在的变量使得makefile很灵活
+
+<!--
+这里是注释区
+
+{% highlight python %}
+print "hello, Lucky!"
+{% endhighlight %}
+
+![My image]({{ site.baseurl }}/images/emule.png)
+
+My Github is [here][mygithub].
+
+[mygithub]: https://github.com/lucky521
+
+-->
