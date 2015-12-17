@@ -1,26 +1,63 @@
 ---
 title: "How to read and write Makefile"
-subtitle: "怎么编写makefile"
+subtitle: "怎么看懂和编写makefile"
 categories: [design]
 layout: post
 ---
-Makefile脚本在大型软件中不可或缺，它用来将一个个源代码文件组织起来编译，再将一个个编译好的模块组织起来互相依赖。各种平台下都是有makefile，这里针对的是linux下的makefile语法。由于用到makefile的软件有时非常庞大，所以makefile看起来有时候会多到吓人。而它本身的语法其实是比较简单的。
+Makefile脚本在大型软件中不可或缺，它用来将一个个源代码文件组织起来编译，再将一个个编译好的模块组织起来互相依赖。各种平台下都是有makefile，这里针对的是linux下GNU的makefile语法。由于用到makefile的软件有时非常庞大，所以makefile看起来有时候会多到吓人。而它本身的语法其实是比较简单的。
 
-# Makefile被make运行
-
-	$ man make
-你会看到make命令是如何使用的
 
 # Makefile最基本的组成
 
 	target: dependencies
 	[tab] system command
 
-- 默认的target是`all`，这一般会是整个软件总的target；
-- dependenies有的是源文件，有的是链接文件，如果没有的话可以不写；
-- system command 一般会是gcc/g++的编译命令；
-- 细化到模块一般会有若干个分支target，形成层级的target依赖关系；
-- `clean`这个target里一般要做的是rm清理工作；
+- target可以是object文件，也可以是可执行文件，也可以是target关键字。可以一次写多个文件作为同一批次的target。
+- dependencies有的是源文件，有的是链接文件，如果没有的话可以不写；想要编target必须先准备好dependencies。
+- `clean`是一个特殊的target，一般要做的是rm清理工作；
+- make命令在执行的时候会比较target文件和dependencies文件的修改日期，如果存在更新的dependencies文件，那么对应的system command就会执行，否则的话就不执行，还使用已存在target文件。
+- system command 必须要以tab来对齐， 一般会是gcc/g++的编译命令；
+- 细化到模块一般会有若干个分支target，形成层级的target依赖关系。
+
+# Makefile被make运行
+
+	$ man make
+你会看到make命令是如何使用的。make命令在运行的时候会去寻找当前目录下的makefile文件。
+
+- `-f filename`可以指定makefile文件。
+- `-C filepath`可以指定makefile的所在位置。
+- 如果我只属于`make`，那么第一个target就是总的target。
+- 如果我输入了`make some_target`，那么就会去找我声明的target；
+- 假如我输入的是`make clean`，虽然clean并不是一个要编译的文件，但make直到这也是一个target。
+- 如果程序最终的产出是多个文件，可以使用`all`作为第一个target，它的dependencies作为程序最终的产出文件。
+
+确定了总的target，make就会为了这个目标而不断寻找，不断编译中间文件，直到能把总的target实现为止或者发现无法实现。
+
+
+# `.PHONY`目标的妙用
+经常被用来作为伪目标。它的使用目的是这样的：因为当类似clean这样的target关键字作为target并且没有依赖文件时，假如目录下有一个文件也叫clean时，`make clean`命令则会以为我想编clean这个目标文件，恰好clean文件又不会比依赖文件更旧，所以下面的system command就不会被执行。现在我们用`.PHONY`作为target，clean作为依赖。这就是告诉make，`clean`它是一个target，而不是一个普通的文件。
+
+	.PHONY: clean
+	clean:
+		rm -rf *.o
+
+
+
+# 约定俗成的隐性规则
+
+为了使得makefile的内容尽量少一些废话，GNU为makefile加入了一些约定的规则。
+
+- 如果target文件的名称是`aa.o`，那么make会主动的把同名的源代码文件（如aa.c,aa.cpp）加入到依赖中去
+
+
+
+# 多个makefile文件之间的引用关系
+
+如果makefile中引入其他makefile，那么这一场搜寻就会变得更大范围，make会读完所有的makefile之后再进行推导。
+	include another.mk
+	include foo *.mk $(bar)
+	
+	
 
 # Makefile中的变量
 
@@ -36,8 +73,13 @@ Makefile脚本在大型软件中不可或缺，它用来将一个个源代码文
 	$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) main.cpp
 
 
+
+# Makefile中的条件选择语句
+
 # 参考资料
 [make官方文档](http://www.gnu.org/software/make/manual/make.html)
+
+[约定俗称的规则](https://www.gnu.org/software/make/manual/html_node/Implicit-Rules.html)
 
 [implicit variables](https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html)
 
