@@ -1,6 +1,6 @@
 ---
-title: "How to read and write Makefile"
-subtitle: "怎么看懂和编写makefile"
+title: "怎么看懂和编写makefile"
+subtitle: "How to read and write Makefile"
 categories: [design]
 layout: post
 ---
@@ -47,13 +47,19 @@ Makefile脚本在大型软件中不可或缺，它用来将一个个源代码文
 
 为了使得makefile的内容尽量少一些废话，GNU为makefile加入了一些约定的规则。
 
-- 如果target文件的名称是`aa.o`，那么make会主动的把同名的源代码文件（如aa.c,aa.cpp）加入到依赖中去
+- 如果target文件的名称是`aa.o`，那么make会主动的把同名的源代码文件（如aa.c,aa.cpp）加入到依赖中去。
+- 名称的通配规则，用`%`通配任意的非空字符串，这样就能把所有`.c`文件编译成同名的`.o`文件，命令中的`$<`和`$@`叫做自动变量。
+
+
+	%.o : %.c
+			$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 
 
 
 # 多个makefile文件之间的引用关系
 
 如果makefile中引入其他makefile，那么这一场搜寻就会变得更大范围，make会读完所有的makefile之后再进行推导。
+
 	include another.mk
 	include foo *.mk $(bar)
 	
@@ -61,7 +67,7 @@ Makefile脚本在大型软件中不可或缺，它用来将一个个源代码文
 
 # Makefile中的变量
 
-无处不在的变量使得makefile很灵活，
+无处不在的变量使得makefile很灵活，变量在定义或被赋值时不加`$()`，在使用其值时要加`$()`。
 
 - 常用`CC`来代替具体的编译器，比如`CC=g++`；
 - 常用`CFLAGS`来代替C语言编译选项，比如`CFLAGS=-c -Wall`；还会指定头文件include路径，比如`CFLAGS+=-I/usr/include`
@@ -73,17 +79,60 @@ Makefile脚本在大型软件中不可或缺，它用来将一个个源代码文
 	$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) main.cpp
 
 
+## Makefile中的自动变量
+
+当我们使用通配方法来写target和dependencies的时候，用上自动变量会更简单一些，也会让编译更顺畅。
+
+- $@ ： target文件名
+- $< ： 第一个dependencies文件
+- $? ： 所有比target文件更新的dependencies文件
+- $^ ： 所有的dependencies文件，不管文件修改时间如何。
+
+
+# 特殊的命令字
+
+如果要在makefile中使用下面这些系统命令，需要使用makefile规定的替代变量名。
+
+	ar bison cc flex install ld ldconfig lex
+	make makeinfo ranlib texi2dvi yacc
+
+使用下面这些变量
+
+	$(AR) $(BISON) $(CC) $(FLEX) $(INSTALL) $(LD) $(LDCONFIG) $(LEX)
+	$(MAKE) $(MAKEINFO) $(RANLIB) $(TEXI2DVI) $(YACC)
+
 
 # Makefile中的条件选择语句
+
+条件语句的基本结构一般由`ifeq`, `else`, `endif`三个关键字组成。
+
+
+	libs_for_gcc = -lgnu
+	normal_libs =
+	
+	ifeq ($(CC),gcc)
+		libs=$(libs_for_gcc)
+	else
+		libs=$(normal_libs)
+	endif
+
+	foo: $(objects)
+	ifeq ($(CC),gcc)
+			$(CC) -o foo $(objects) $(libs_for_gcc)
+	else
+			$(CC) -o foo $(objects) $(normal_libs)
+	endif
+
+上面就要看变量`CC`的值是不是`gcc`了。可以看出条件语句可以用在变量的赋值，也可以用在对目标的命令上。
 
 # 参考资料
 [make官方文档](http://www.gnu.org/software/make/manual/make.html)
 
-[约定俗称的规则](https://www.gnu.org/software/make/manual/html_node/Implicit-Rules.html)
+[隐式规则 Implicit-Rules](https://www.gnu.org/software/make/manual/html_node/Implicit-Rules.html)
 
-[implicit variables](https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html)
+[隐式变量 implicit variables](https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html)
 
-
+[自动变量 Automatic-Variables](http://www.gnu.org/software/make/manual/make.html#Automatic-Variables)
 
 
 <!--
