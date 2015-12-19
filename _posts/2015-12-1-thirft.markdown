@@ -1,28 +1,36 @@
 ---
-title: "Thrift入门手册"
+title: "Thrift手册"
 subtitle: "基础教程"
 categories: [design]
 layout: post
 ---
-#Thirft入门手册
-
-## Thrift是什么？
+# Thrift是什么？
 RPC服务框架，为了跨语言的服务开发。
 它是一个生成代码的工具。只需要依照IDL（Interface Description Language）定义一次接口，Thrift工具就能自动生成 C++, Java, Python, PHP, Ruby, Erlang, Perl, Haskell, C#, Cocoa, JavaScript, Node.js, Smalltalk, and OCaml等语言的代码。
+其实很多公司都有自己的类似Thrift的基础代码架构，服务构建、事件处理、传输协议的代码都让架构来根据接口定义自动生成，码农只写跟具体业务相关的逻辑代码就行。
 
-## Thrift怎么用？
-首先，你要按照thrift所定义的[接口标准](https://thrift.apache.org/docs/idl)写一个.thrift文件，定义类型和服务。
-然后用Thrift生成源代码。
+# Thrift怎么用？
+
+- 首先，你要编译安装thrift，安装所需[依赖库](https://thrift.apache.org/docs/install/)，`configure && make`即可。如果要生成你想要的语言，机器里还应该有该语言的编译环境。
+- 你要按照thrift所定义的[接口标准](https://thrift.apache.org/docs/idl)写一个.thrift文件，定义类型和服务。
+- 然后用Thrift生成源代码。
 
 {% highlight python %}
 $ thrift --gen `language` `thirft filename`
 {% endhighlight %}
 
-## Thrift接口描述语言 IDL
+- 然后你会得到Thrift生成的server端接口类的源文件，你要再写自己再写个类来实现这个接口类。编译server端的项目得到server端程序。
+
+- 你还会得到Thrift生成的client端的基础代码，你要再写个主程序来调用基础代码去访问server端的服务。
+
+
+
+
+# Thrift接口描述语言 IDL
 IDL是用来表述Thrift类型定义的特定描述语言。Thrift代码生成器根据IDL来生成各种不同的目标语言。
 因此IDL的类型会特别注意通用性质。
 
-### Thrift IDL 基本类型
+## Thrift IDL 基本类型
 基本类型是所有语言都会有的最基础数据类型，包括
 
 - 布尔类型bool，
@@ -35,27 +43,48 @@ IDL是用来表述Thrift类型定义的特定描述语言。Thrift代码生成�
 
 基本类型中并没有无符号整型，这是因为许多编程语言中并没有这一类型。
 
-### Thrift IDL 特殊类型
+## Thrift IDL 特殊类型
 - binary : 无编码字节序列，为Java特别提供的一种字符串类型。
 
-### Thrift IDL 结构体类型
+## Thrift IDL 结构体类型
 这是一种不带继承性质的类类型。
 
-### Thrift IDL 容器类型
-很多语言中都有的强类型容器。容器元素的类型可以任意的thrift类型。
+## Thrift IDL 容器类型
+很多语言中都有的强类型容器。容器元素的类型可以任意的thrift类型。但同一个容器中的类型必须都一样。
 
 - list 有序列表
 - set 无序集合
 - map 键值映射，其中k的类型经过是thrift基本类型。
 
-### Thrift IDL 异常类型
+## Thrift IDL 异常类型
 它是结构体类型的一种，可以继承目标语言的原生异常基类。
 
-### Thrift IDL 服务类型
-服务类型定义了一个接口（纯虚抽象类），thrift会生成stubs来实现该接口的client和server端。一个服务类型包括若干个函数，返回类型可以使void。一般的服务请求都是阻塞式的，关键字`oneway`修饰void返回类型则表示对该服务的请求是不阻塞的。
+## Thrift IDL 服务类型
+
+- 服务类型定义了一个接口（纯虚抽象类），thrift会生成stubs来实现该接口的client和server端。一个服务类型包括若干个函数，返回类型可以使void。
+- 一般的服务请求都是阻塞式的，关键字`oneway`修饰void返回类型则表示对该服务的请求是不阻塞的。
+- 服务类型是可以继承扩展的。扩展服务（子服务）要实现所有父服务所有函数，再外加自有的函数。
 
 
-未完待续。。。
+# Thrift接口描述语言IDL的描述结构
+上面说了IDL是干什么用的，说了IDL中可以使用什么数据类型，现在要说Thrift描述文件该怎么写。
+
+- 描述文件以`.thrift`为扩展名，文件中加注释方式和C/Cpp一样。
+- namespace关键字：声明要生成的目标模块的开发语言和模块名称。比如`namespace py ThriftTest`。
+- 描述文件中可以使用简单类型来定义复合类型，例如enum关键字枚举类型，struct结构体，typedef来定义类型别名。
+- 在描述文件中定义Server服务是thrift文件的核心，接口中罗列出服务会提供的函数声明.
+
+
+# Thrift目前不支持的特性
+
+- 结构体不支持继承派生。所以要选择结构体内包含结构体的方式。
+- 函数不支持重载。服务接口中的一个函数名只对应一个函数体。
+- 容器类型中的元素类型不支持多样。
+- 服务接口函数不能返回Null类型，非想返回null的话，最起码你得把null包成结构体。
+
+
+# 参考资料
+[官网教程](https://thrift.apache.org/tutorial/)
 
 
 

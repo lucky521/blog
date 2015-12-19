@@ -4,7 +4,17 @@ subtitle: "Subtitle"
 categories: [design, productivity, tool]
 layout: post
 ---
-#这篇start-up作为我每篇post的template
+# 序篇
+这篇start-up作为我每篇post的template
+
+![My image]({{ site.baseurl }}/images/emule.png)
+
+
+
+
+<!--
+这里是注释区
+
 
 {% highlight python %}
 print "hello, Lucky!"
@@ -16,9 +26,6 @@ My Github is [here][mygithub].
 
 [mygithub]: https://github.com/lucky521
 
-
-<!--
-这里是注释区
 
 
 -->
