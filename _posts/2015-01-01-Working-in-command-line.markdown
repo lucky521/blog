@@ -2,7 +2,6 @@
 layout: post
 title: "Working in command line"
 subtitle : ""
-date: 2015-01-01 00:00:00
 categories: [tool, productivity]
 ---
 ## common command

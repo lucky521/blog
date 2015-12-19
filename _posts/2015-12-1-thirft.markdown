@@ -1,5 +1,5 @@
 ---
-title: "Thrift手册"
+title: "Thrift 开源多语言服务开发框架"
 subtitle: "基础教程"
 categories: [design]
 layout: post
@@ -85,7 +85,7 @@ IDL是用来表述Thrift类型定义的特定描述语言。Thrift代码生成�
 
 # 参考资料
 [官网教程](https://thrift.apache.org/tutorial/)
-
+[相关介绍](http://jnb.ociweb.com/jnb/jnbJun2009.html)
 
 
 <!--

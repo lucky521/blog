@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Git Usage"
+title: "使用Git工作"
 subtitle: "How to use git"
 categories: [tool]
 ---
