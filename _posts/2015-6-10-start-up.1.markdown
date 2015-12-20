@@ -5,7 +5,9 @@ categories: [design]
 layout: post
 ---
 所谓标准库，是要满足一些比通用计算和操作而设计的库。必须访问操作系统接口、文件读写、复杂数学计算、网络传输等。
+
 # 操作系统接口访问
+
 ## 操作系统命令库`import os`
 
 - os.system('some_commands') 执行操作系统的命令。用它可以直接去调用系统的命令。不过python还是提供了很多自有的命令来包装操作系统命令。
@@ -14,16 +16,19 @@ layout: post
 
 ## 文件操作库`import shutil`
 python自己的文件操作模块。
+
 - shutil.copyfile('src_file', 'dst_file') 文件拷贝
 - shutil.move('src_file','dst_file') 文件移动
 
 ## 文件名通配库`import glob`
-用于文件名通配查找。
-- glob.glob('path_name') 会返回当前目录下所有通配的文件名，path_name可以用正则表达式进行通配。
+用于文件名通配查找。`glob.glob('path_name') `会返回当前目录下所有通配的文件名，path_name可以用正则表达式进行通配。
+
 
 
 # 多线程并发
+
 ## 多线程库`import threading`
+
 在多CPU的架构下运行多线程程序是极好的，python提供了自己的`threading`库来让python程序使用多线程。
 
 {% highlight python %}
@@ -43,12 +48,12 @@ print 'Done'
 {% endhighlight %}
 
 多线程的程序中要面临的数据共享问题，因此为线程提供有锁、信号量、条件变量、事件、队列。使用的方法和操作系统中的这些东西很接近。
+
 - `threading.Event`  线程可以set或wait一个事件。
 - `threading.Lock` 
 - `thrading.Condition` 
 - `threading.Semaphore` 
 - `import Queue` 这是一个同步的、线程安全的队列，用它作为线程之间的数据共享更方便。
-
 
 
 
