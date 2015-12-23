@@ -1,7 +1,8 @@
-/* base element*/
+/* base element */
 body {
-  font-family: Helvetica, arial, sans-serif;
-  font-size: 14px;
+  //font-family: Helvetica, arial, sans-serif;
+  font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+  font-size: 15px;
   line-height: 1.6;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -72,10 +73,11 @@ h6 tt, h6 code {
 h1 {
   font-size: 28px;
   color: black;
+  color: #4183C4;
   padding-top: 15px; }
 
 h2 {
-  font-size: 24px;
+  font-size: 22px;
   border-bottom: 1px solid #cccccc;
   color: black; }
 
@@ -86,11 +88,11 @@ h4 {
   font-size: 16px; }
 
 h5 {
-  font-size: 14px; }
+  font-size: 15px; }
 
 h6 {
   color: #777777;
-  font-size: 14px; }
+  font-size: 15px; }
 
 
 
@@ -373,6 +375,7 @@ strong {
 /* =Titles */
 .page-title {
     margin-top:60px;
+	color: #000000;
     margin-bottom:70px;
     text-align: center;
 }
@@ -451,6 +454,7 @@ strong {
 .categories {
     list-style-type: none;
     margin-top: 15px;
+	margin: 5px;
     padding: 0px;
 }
 
