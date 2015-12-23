@@ -1,2 +1,4 @@
 
 _posts/.vscode/settings.json
+_site/
+.sass-cache/
