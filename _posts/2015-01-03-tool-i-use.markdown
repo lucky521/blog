@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "我的工具集"
-subtitle: "Tools I usethat help my work and life"
+subtitle: "Tools I use that help my work and life"
 categories: [tool]
 ---
 # 工欲善其事，必先利其器
@@ -12,7 +12,7 @@ categories: [tool]
 
 
 
-## 1. 软件
+## 软件
 
 ### 命令行工具
 
@@ -79,7 +79,7 @@ Karabiner 键盘超级自定义。我主要用它在HHKB连接时关闭内置键
 百度云，快盘，邮箱附件，IFTTT，多看，Github
 
 
-## 2. 硬件
+## 硬件
 
 办公电脑： PC + Server + 双显示器
 
