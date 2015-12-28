@@ -41,6 +41,7 @@ Lisp程序是一些表达式树的集合，每个表达式都返回一个值。�
 
 
 [原文链接](http://www.paulgraham.com/diff.html)
+
 [Garbage Collection](http://www.gnu.org/software/emacs/manual/html_node/elisp/Garbage-Collection.html)
 
 
