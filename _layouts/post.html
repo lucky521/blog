@@ -2,10 +2,20 @@
 layout: default
 ---
 {% include post/title.html %}
+<div id="toc"></div>
 
 <div class="content">
     {{ content }}
 </div>
+
+
+<script src="/blog/assets/vendor/jquery-1.11.3.min.js"></script>
+<script src="/blog/assets/vendor/toc.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+		    $('#toc').toc();
+		});
+</script>
 
 {% include post/about.html %}
 

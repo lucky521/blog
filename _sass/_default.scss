@@ -72,7 +72,6 @@ h6 tt, h6 code {
 
 h1 {
   font-size: 28px;
-  color: black;
   color: #4183C4;
   padding-top: 15px; }
 
@@ -560,3 +559,20 @@ strong {
         font-size: 18px;
     }
 }
+
+
+
+// TOC
+#toc, .toc {
+    background-color: #F9F9F9;
+    border: 1px solid #AAAAAA;
+    font-size: 80%;
+	line-height: 10px;
+    padding: 5px;
+}
+#toc h1, .toc h1 {
+  font-size: 20px;
+  color: black;
+  padding: 5px;
+  padding-top: 1px; }
+
