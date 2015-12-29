@@ -4,6 +4,10 @@ title: "Common Lisp 要点总结"
 subtitle: "Lisp 知识点汇总"
 categories: [design]
 ---
+
+* TOC
+{:toc}
+
 # 编译器
 Common Lisp是Lisp的一种有名的方言，另外两种是Scheme和Clojure。此外还有一种是Emacs Lisp。
 
