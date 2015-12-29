@@ -14,5 +14,7 @@ author:
 # google_analytics: 'UA-XXXXXXXX-X'
 
 # Build settings
-#markdown: kramdown
-#markdown: redcarpet
+markdown: kramdown
+kramdown:
+  input:  GFM
+  use_coderay: true
