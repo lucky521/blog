@@ -5,7 +5,6 @@ categories: [design, productivity, tool]
 layout: post
 ---
 # 序篇
-这篇start-up作为我每篇post的template
 
 ![My image]({{ site.baseurl }}/images/emule.png)
 
@@ -15,6 +14,10 @@ layout: post
 <!--
 这里是注释区
 
+```
+print "hello"
+```
+***Stronger***
 
 {% highlight python %}
 print "hello, Lucky!"
@@ -23,8 +26,6 @@ print "hello, Lucky!"
 ![My image]({{ site.baseurl }}/images/emule.png)
 
 My Github is [here][mygithub].
-
 [mygithub]: https://github.com/lucky521
-
 
 -->
