@@ -4,7 +4,8 @@ subtitle: "Django 使用手册"
 categories: [design]
 layout: post
 ---
-Django是一款流行的Web框架，完全使用Python打造。内置功能丰富，直接提供的功能有：
+Django是一款流行的Web框架，完全使用Python打造。内置功能丰富，直接提供的功能有SS：
+
 - 账户权限认证
 - 日志系统
 - 缓存系统
@@ -21,7 +22,7 @@ Django是一款流行的Web框架，完全使用Python打造。内置功能丰�
 
 
 
-## 官方文档
+# 官方文档
 
 [docs.djangoproject](https://docs.djangoproject.com/en/1.9/)
 
