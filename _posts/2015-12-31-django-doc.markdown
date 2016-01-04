@@ -15,11 +15,19 @@ Django是一款流行的Web框架，完全使用Python打造。内置功能丰�
 
 # MTV 架构
 
-- M stands for “Model,” the data access layer. This layer contains anything and everything about the data: how to access it, how to validate it, which behaviors it has, and the relationships between the data.
-- T stands for “Template,” the presentation layer. This layer contains presentation-related decisions: how something should be displayed on a Web page or other type of document.
-- V stands for “View,” the business logic layer. This layer contains the logic that access the model and defers to the appropriate template(s). You can think of it as the bridge between models and templates.
+- Model 代表“模型”，数据访问层。这一层包含一切有关数据的东西：如何访问数据，如何对其进行验证，哪些行为和数据有关系。
+- Template 代表“模板”，表示层。这个层包含展示相关的东西：如何东西应的网页或其他类型的文档上显示。
+- View 代表“视图”，业务逻辑层。虽然它名字叫做视图，但不是负责界面展示的。这个层访问模型Model并套取适当的模板Template。可以把它看作模型与模板之间的桥梁。
 
+# 文件结构
 
+- manage.py
+- `<project_name>`/settings.py
+- `<project_name>`/urls.py
+- `<project_name>`/wsgi.py
+- `<apps-folder>`/views.py
+- `STATICFILES_DIRS/*.[js|css]`
+- `TEMPLATE_DIRS/*.html`
 
 
 # 官方文档
