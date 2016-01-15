@@ -11,19 +11,19 @@
 
     <ul class="social-links">
         {% if site.abouturl %}
-            <a href="https://{{ site.abouturl }}" class="social-links__entry" target="_blank">
+            <a href="https://{{ site.abouturl }}" class="social-links__entry" target="_blank" title="HomePage">
                 <i class="fa fa-info-circle"></i>
             </a>
         {% endif %}
         {% if site.author.github %}
-            <a href="https://github.com/{{ site.author.github }}" class="social-links__entry" target="_blank">
+            <a href="https://github.com/{{ site.author.github }}" class="social-links__entry" target="_blank" title="GitHub">
                 <i class="fa fa-github"></i>
             </a>
         {% endif %}
-            <a href="{{ '/tip-wall.html' | prepend: site.baseurl }}" class="social-links__entry" target="_blank">
+            <a href="{{ '/tip-wall.html' | prepend: site.baseurl }}" class="social-links__entry" target="_blank" title="Tip-Wall">
                 <i class="fa fa-pencil-square-o"></i>
             </a>
-            <a href="{{ '/feed.xml' | prepend: site.baseurl }}" class="social-links__entry" target="_blank">
+            <a href="{{ '/feed.xml' | prepend: site.baseurl }}" class="social-links__entry" target="_blank" title="Feed">
                 <i class="fa fa-rss-square"></i>
             </a>
 
