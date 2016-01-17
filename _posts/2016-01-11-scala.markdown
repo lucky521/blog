@@ -1,0 +1,85 @@
+---
+title: "Scala"
+subtitle: "Scala 简要手册"
+categories: [design]
+layout: post
+---
+# 为什么要scala？
+函数式语言，函数也是对象。
+
+闭包特性。
+
+和Java是一家。
+
+
+# 安装和使用
+和java一样，scala的程序也运行在JVM上。scala的官方编译工具是SBT。
+
+sbt把scala源代码编译成java字节码，这样在任何jvm中运行。
+
+
+# 函数
+
+## 命名函数
+```
+def fun(x: Int):Int = x + 1
+```
+
+## 匿名函数
+```
+(x: Int) => x * 2
+```
+
+
+# 闭包
+
+闭包是一种带有状态的函数，它的返回值取决于该函数作用于之外的某个值。
+
+普通的函数像数学函数函数一样，一样的输入一定得到一样的输出。而闭包这种函数自带了一个影响因子，会对输出结果产生影响。这个影响因子的值是在该闭包对象创建时才决定好的。
+
+
+
+# Trait
+一个类除了有一个祖先类继承特性之外，还应该有许许多多的特质（trait）是从不同的地方继承来的。
+
+scala的类不仅可以从父类继承，还可以从一个或者多个traits引入。
+
+```
+class person {
+    ...
+}
+
+trait Java {
+    val name: String
+}
+
+trait Scala {
+    val name: String
+}
+
+class programmer extends person with Java with Scala{
+    ...
+}
+
+```
+trait是不可以实例化的，也不可以有构造函数的。
+
+
+<!--
+这里是注释区
+
+```
+print "hello"
+```
+***Stronger***
+
+{% highlight python %}
+print "hello, Lucky!"
+{% endhighlight %}
+
+![My image]({{ site.baseurl }}/images/emule.png)
+
+My Github is [here][mygithub].
+[mygithub]: https://github.com/lucky521
+
+-->
