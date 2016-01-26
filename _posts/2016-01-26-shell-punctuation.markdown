@@ -31,14 +31,14 @@ layout: post
     - -f 参数判断$myFile是否存在
         [ ! -f "$myFile" ]
 
-- `[[ ]]`：一对方括号是一个方括号的加强版，则是Shell的保留字，里边支持了 || && 等等这些逻辑运算符号。
+- `[[ ]]`：一对方括号是一个方括号的加强版，则是Shell的保留字，里边支持了 `|| &&` 等等这些逻辑运算符号。
 
 ## 感叹号
 
 - `!` 当后面跟随的字符不是“空格、换行、回车、=和(”时，做命令替换。
 - `!` 当后面是个数字n时，会指向shell 历史命令的第n跳命令。负数的话就是倒数第几条。
 
-## 点
+## dot点
 `.` A dot in that context means to "source" the contents of that file into the current shell.
 
 ## 反引号
