@@ -17,6 +17,7 @@ layout: post
 ```
 print "hello"
 ```
+
 ***Stronger***
 
 {% highlight python %}
