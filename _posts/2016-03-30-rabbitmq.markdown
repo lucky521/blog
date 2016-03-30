@@ -27,13 +27,13 @@ channel = connection.channel() //
 channel.queue_declare(queue='hello')   //声明server端消息队列的名称
 ```
 
-###对于生产者，向队列publish
+### 对于生产者，向队列publish
 
 ```
 channel.basic_publish(exchange='', routing_key='hello',  body='Hello World!') //routing_key设置为queue的名称
 ```
 
-###对于消费者，从队列中consume
+### 对于消费者，从队列中consume
 
 ```
 def callback(ch, method, properties, body):
@@ -84,6 +84,7 @@ channel.start_consuming()
 ```
 
 # 消息分类的发布-订阅模式
+
 消息是有分类的，比如log条目的级别error/warn/info。
 消息根据routing_key的设定进行Routing。
 发布者按照分类进行消息发布，订阅者按需进行消息订阅。
@@ -103,9 +104,10 @@ queue_name = result.method.queue
 
 for severity in severities:
  channel.queue_bind(exchange='direct_logs', queue=queue_name, routing_key=severity)  // 需要按需绑定routing_key
- ```
+```
 
 # 消息多重分类的发布-订阅模式
+
 消息的分类更多，还支持对分类进行正则匹配。注意通配符和别的地方不太一样。
 
 - . (dot) 点符号用来隔离不同级别的分类。
