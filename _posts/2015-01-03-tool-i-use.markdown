@@ -64,6 +64,8 @@ Baregreppro 可视化的grep工具，查日志最需要。
 
 ProcessExplorer 查看进程线程运行库信息。
 
+Clover 以Tab方式的管理文件夹窗口。
+
 
 ### Mac
 
@@ -75,8 +77,9 @@ Brew 下载命令行工具，相当于apt-get。
 
 Karabiner 键盘超级自定义。我主要用它在HHKB连接时关闭内置键盘。
 
-### 数据存储和同步
-百度云，快盘，邮箱附件，IFTTT，多看，Github
+### 数据同步和备份
+
+百度云，快盘，微云，邮箱附件，IFTTT，多看云存储，Github
 
 
 ## 硬件
@@ -89,7 +92,7 @@ Karabiner 键盘超级自定义。我主要用它在HHKB连接时关闭内置键
 
 外出阅读：Kindle
 
-在家看视频：iPadMini
+在家看视频：iPad
 
 
 ---
