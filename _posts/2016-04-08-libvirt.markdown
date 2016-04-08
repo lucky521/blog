@@ -1,6 +1,6 @@
 ---
-title: "Libvirt"
-subtitle: "虚拟化管理中间件"
+title: "使用Libvirt管理虚拟化平台"
+subtitle: "Libvirt-虚拟化管理中间件"
 categories: [design]
 layout: post
 ---
