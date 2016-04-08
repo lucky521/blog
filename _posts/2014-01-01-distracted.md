@@ -4,10 +4,12 @@ title: 学习时间再也不刷微博了，摔！
 ---
 
 #[Do not be distracted](https://github.com/lucky521/Donot-be-distracted)
+
 A useful to Help you stay focus on your work.
 It is a extension app for Chrome.
 
 ##Code Structure
+
 manifest.json - manifest version 2
 
 background.js - background script
