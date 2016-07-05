@@ -10,12 +10,13 @@ layout: post
 
 # Snippet
 
+先用CreateToolhelp32Snapshot获取所有进程的snapshot，然后Process32Next进行遍历，比较每一个进程的名字找出目标名称，OpenProcess获取句柄，然后MiniDumpWriteDump抓取到自建的文件里面。
+
 ```
 #include <windows.h>
 #include <DbgHelp.h>
 #include <tlhelp32.h>
 #pragma comment(lib, "dbghelp.lib")
-
 
 PROCESSENTRY32 entry;
 HANDLE snapshot, mkshProcess, file_handle;
@@ -95,7 +96,7 @@ int _tmain(int argc, _TCHAR* argv[])
     }
 
     CloseHandle(snapshot);
-	printf("collect-dump: Done.\n");
+    printf("collect-dump: Done.\n");
     return 0;
 }
 ```
