@@ -1,4 +1,4 @@
-    ---
+---
 title: "Macbook使用技巧"
 subtitle: ""
 categories: [productivity]
