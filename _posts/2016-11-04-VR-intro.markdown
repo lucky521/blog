@@ -78,8 +78,28 @@ Unity3D构建的虚拟世界，任何一个可见的物体都是实时渲染出�
 
 ## 以手机为内容输出的VR眼罩
 
-VR视频播放器
+以Google Carboard项目为核心，产生了非常多的手机VR眼镜。
+因为这类设备一般依托于手机，所以我在小标题上把这个写成是眼罩。
+它们没有显示屏，主要结构是一个放大镜片，VR成像、动作感应都有手机来完成。
+
+### Google Cardboard
+
+Cardboard VR 的门槛极低，以最简单的方式把VR眼镜平民化的普及开来。
+
+### Samsung Gear
+
+另外一家是三星的Gear VR，这个眼镜相比google就贵多了，只兼容三星的少部分高分辨率手机。
+
 Ref: https://developers.google.com/vr/concepts/vrview
 
 ## 以PC为内容输出的VR设备
+
+其实这种设备才是真正的VR，因为他们有足够强大的显卡处理器、足够强大的传感器，加上合理的交互设计。
+因此这种VR的体验算是浸入式，下面这三种是市面上最主要的产品。
+
+### Oculus Rift
+
+### HTC Vive
+
+### PlayStation VR
 
