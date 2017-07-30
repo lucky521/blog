@@ -1,0 +1,66 @@
+---
+title: "Hadoop使用手册"
+categories: [design]
+layout: post
+---
+
+# Hadoop是做什么的？ 
+
+分布式。数据存储。数据处理。
+
+# Linux下安装和启动过程
+
+### 添加用户和用户组
+> sudo addgroup hadoop
+> sudo adduser --ingroup hadoop hduser
+
+### 开启ssh连接（要为Hadoop集群中的所有机器提供SSH授权）
+> ssh hduser@localhost
+
+### Disable IPV6
+> sudo vim /etc/sysctl.conf
+add 
+# disable ipv6
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+安装hadoop
+> sudo add-apt-repository ppa:hadoop-ubuntu/stable 
+> sudo apt-get update && sudo apt-get upgrade  
+> sudo apt-get install hadoop
+> man hadoop
+设置环境变量
+> sudo vim /home/hduser/.bashrc
+# Set Hadoop-related environment variables   设置hadoop程序的路径，这样程序找自带jar包也容易。
+export HADOOP_HOME=/usr/lib/hadoop 
+# Set JAVA_HOME (we will also configure JAVA_HOME directly for Hadoop later on)  设置JDK的路径
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+修改conf/hadoop-env.sh
+$ sudo vim /etc/hadoop/conf/hadoop-env.sh
+add 
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+给HDFS文件系统创建一个目录
+HDFS文件系统的权限属于hduser
+$ sudo mkdir -p /app/hadoop/tmp
+$ sudo chown hduser:hadoop /app/hadoop/tmp
+# ...and if you want to tighten up security, chmod from 755 to 750...
+$ sudo chmod 750 /app/hadoop/tmp
+填写conf/core-site.xml
+$ sudo vim /etc/hadoop/conf/core-site.xml
+填写了hadoop.tmp.dir的path， fs.default.name的link
+填写conf/mapred-site.xml
+$ sudo vim /etc/hadoop/conf/mapred-site.xml
+填写了mapred.job.tracker的link地址（唯一的JobTracker主服务器地址）
+填写conf/hdfs-site.xml
+$ sudo vim /etc/hadoop/conf/hdfs-site.xml
+设置了dfs.replication的值为1。
+格式化HDFS文件系统
+以hduser的身份进行操作
+$ hadoop namenode -format
+这样就在/app/hadoop/tmp下创建了一个空的文件系统。
+启动系统
+> /usr/lib/hadoop/bin/start-all.sh
+这就会启动a Namenode, SecondaryNameNode, Datanode, Jobtracker and a Tasktracker
+查看java 进程
+> jps
+看到5个进程都启动起来了。
