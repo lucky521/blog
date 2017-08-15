@@ -3,7 +3,7 @@ title: 给我留言
 layout: default
 ---
 
-# [Sina Weibo](weibo.com/troubleshoot)  
+# [Sina Weibo](https://weibo.com/troubleshoot)  
 
 # [Wechat](https://lucky521.github.io/img/wechat-qrcode.jpg)
 
