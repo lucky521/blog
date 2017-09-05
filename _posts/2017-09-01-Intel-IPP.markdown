@@ -1,0 +1,279 @@
+---
+title: "Intel IPP库"
+categories: [design]
+layout: post
+---
+
+Integrated Performance Primitives (Intel® IPP) 是Intel提供的一套软件库，
+支持在使用intel处理器的windows、linux、mac平台上对常用的一些运算库、多媒体处理等高处理器需求的库进行硬件加速。
+
+
+{% highlight cpp %} 
+/* /////////////////////////////////////////////////////////////////////////////
+//          Wavelet Transform Fucntions for User Filter Banks
+///////////////////////////////////////////////////////////////////////////// */
+
+/* //////////////////////////////////////////////////////////////////////
+// Name:        ippsWTFwdGetSize
+//
+// Purpose:      Get sizes, in bytes, of the ippsWTFwd state structure.
+//
+// Parameters:
+//   srcType   - Data type of the source vector.
+//   lenLow    - Length of lowpass filter.
+//   offsLow   - Input delay of lowpass filter.
+//   lenHigh   - Length of highpass filter.
+//   offsHigh  - Input delay of highpass filter.
+//   pStateSize- Pointer to the size of the ippsWTFwd state structure (in bytes).
+//
+// Returns:
+//   ippStsNoErr        - Ok.
+//   ippStsNullPtrErr   - Error when any of the specified pointers is NULL.
+//   ippStsSizeErr      - Error when filters length is negative, or equal to zero.
+//   ippStsWtOffsetErr  - Error when filter delay is less than (-1).
+*/
+IPPAPI(IppStatus, ippsWTFwdGetSize, (IppDataType srcType, int lenLow, int offsLow, int lenHigh, int offsHigh, int* pStateSize))
+
+/* //////////////////////////////////////////////////////////////////////
+// Name:        ippsWTFwdInit
+//
+// Purpose:     Initialize forward wavelet transform state structure.
+//
+// Parameters:
+//   pState    - Pointer to allocated ippsWTFwd state structure.
+//   pTapsLow  - Pointer to lowpass filter taps.
+//   lenLow    - Length of lowpass filter.
+//   offsLow   - Input delay of lowpass filter.
+//   pTapsHigh - Pointer to highpass filter taps.
+//   lenHigh   - Length of highpass filter.
+//   offsHigh  - Input delay of highpass filter.
+//
+// Returns:
+//   ippStsNoErr        - Ok.
+//   ippStsNullPtrErr   - Error when any of the specified pointers is NULL.
+//   ippStsSizeErr      - Error when filters length is negative, or equal to zero.
+//   ippStsWtOffsetErr  - Error when filter delay is less than (-1).
+*/
+IPPAPI(IppStatus, ippsWTFwdInit_8u32f,  (IppsWTFwdState_8u32f*  pState, const Ipp32f* pTapsLow, int lenLow, int offsLow, const Ipp32f* pTapsHigh, int lenHigh, int offsHigh))
+IPPAPI(IppStatus, ippsWTFwdInit_16s32f, (IppsWTFwdState_16s32f* pState, const Ipp32f* pTapsLow, int lenLow, int offsLow, const Ipp32f* pTapsHigh, int lenHigh, int offsHigh))
+IPPAPI(IppStatus, ippsWTFwdInit_16u32f, (IppsWTFwdState_16u32f* pState, const Ipp32f* pTapsLow, int lenLow, int offsLow, const Ipp32f* pTapsHigh, int lenHigh, int offsHigh))
+IPPAPI(IppStatus, ippsWTFwdInit_32f,    (IppsWTFwdState_32f*    pState, const Ipp32f* pTapsLow, int lenLow, int offsLow, const Ipp32f* pTapsHigh, int lenHigh, int offsHigh))
+
+/* //////////////////////////////////////////////////////////////////////
+// Name:        ippsWTFwdSetDlyLine_32f, ippsWTFwdSetDlyLine_8s32f,
+//              ippsWTFwdSetDlyLine_8u32f, ippsWTFwdSetDlyLine_16s32f,
+//              ippsWTFwdSetDlyLine_16u32f
+//
+// Purpose:     The function copies the pointed vectors to internal delay lines.
+//
+// Parameters:
+//   pState   - pointer to pState structure;
+//   pDlyLow  - pointer to delay line for lowpass filtering;
+//   pDlyHigh - pointer to delay line for highpass filtering.
+//
+// Returns:
+//   ippStsNoErr            - Ok;
+//   ippStsNullPtrErr       - some of pointers pDlyLow
+//                              or pDlyHigh vectors are NULL;
+//   ippStspStateMatchErr   - mismatch pState structure.
+//
+// Notes: lengths of delay lines:
+//          len(pDlyLow)  = lenLow  + offsLow  - 1;
+//          len(pDlyHigh) = lenHigh + offsHigh - 1;
+//  lenLow, offsLow, lenHigh, offsHigh - parameters
+//    for ippsWTFwdInitAlloc function.
+*/
+IPPAPI(IppStatus, ippsWTFwdSetDlyLine_8u32f,  (IppsWTFwdState_8u32f*  pState, const Ipp32f* pDlyLow, const Ipp32f* pDlyHigh))
+IPPAPI(IppStatus, ippsWTFwdSetDlyLine_16s32f, (IppsWTFwdState_16s32f* pState, const Ipp32f* pDlyLow, const Ipp32f* pDlyHigh))
+IPPAPI(IppStatus, ippsWTFwdSetDlyLine_16u32f, (IppsWTFwdState_16u32f* pState, const Ipp32f* pDlyLow, const Ipp32f* pDlyHigh))
+IPPAPI(IppStatus, ippsWTFwdSetDlyLine_32f,    (IppsWTFwdState_32f*    pState, const Ipp32f* pDlyLow, const Ipp32f* pDlyHigh))
+
+/* //////////////////////////////////////////////////////////////////////
+// Name:        ippsWTFwdGetDlyLine_32f, ippsWTFwdGetDlyLine_8s32f,
+//              ippsWTFwdGetDlyLine_8u32f, ippsWTFwdGetDlyLine_16s32f,
+//              ippsWTFwdGetDlyLine_16u32f
+//
+// Purpose:     The function copies data from interanl delay lines
+//                to the pointed vectors.
+// Parameters:
+//   pState   - pointer to pState structure;
+//   pDlyLow  - pointer to delay line for lowpass filtering;
+//   pDlyHigh - pointer to delay line for highpass filtering.
+//
+// Returns:
+//   ippStsNoErr            - Ok;
+//   ippStsNullPtrErr       - some of pointers pDlyLow
+//                              or pDlyHigh vectors are NULL;
+//   ippStspStateMatchErr   - mismatch pState structure.
+//
+// Notes: lengths of delay lines:
+//          len(pDlyLow)  = lenLow  + offsLow  - 1;
+//          len(pDlyHigh) = lenHigh + offsHigh - 1;
+//  lenLow, offsLow, lenHigh, offsHigh - parameters
+//    for ippsWTFwdInitAlloc function.
+*/
+IPPAPI(IppStatus, ippsWTFwdGetDlyLine_8u32f,  (IppsWTFwdState_8u32f*  pState, Ipp32f* pDlyLow, Ipp32f* pDlyHigh))
+IPPAPI(IppStatus, ippsWTFwdGetDlyLine_16s32f, (IppsWTFwdState_16s32f* pState, Ipp32f* pDlyLow, Ipp32f* pDlyHigh))
+IPPAPI(IppStatus, ippsWTFwdGetDlyLine_16u32f, (IppsWTFwdState_16u32f* pState, Ipp32f* pDlyLow, Ipp32f* pDlyHigh))
+IPPAPI(IppStatus, ippsWTFwdGetDlyLine_32f,    (IppsWTFwdState_32f*    pState, Ipp32f* pDlyLow, Ipp32f* pDlyHigh))
+
+/* //////////////////////////////////////////////////////////////////////
+// Name:        ippsWTFwd_32f, ippsWTFwd_16s32f, ippsWTFwd_16u32f,
+//              ippsWTFwd_8s32f, ippsWTFwd_8u32f
+//
+// Purpose:     Forward wavelet transform.
+//
+// Parameters:
+//   pSrc     - pointer to source block of data;
+//   pDstLow  - pointer to destination block of
+//                "low-frequency" component;
+//   pDstHigh - pointer to destination block of
+//                "high-frequency" component;
+//   dstLen   - length of destination;
+//   pState    - pointer to pState structure.
+//
+//  Returns:
+//   ippStsNoErr            - Ok;
+//   ippStsNullPtrErr       - some of pointers to pSrc, pDstLow
+//                              or pDstHigh vectors are NULL;
+//   ippStsSizeErr          - the length is less or equal zero;
+//   ippStspStateMatchErr    - mismatch pState structure.
+//
+// Notes:      source block length must be 2 * dstLen.
+*/
+IPPAPI(IppStatus, ippsWTFwd_8u32f,  (const Ipp8u*  pSrc, Ipp32f* pDstLow, Ipp32f* pDstHigh, int dstLen, IppsWTFwdState_8u32f*  pState))
+IPPAPI(IppStatus, ippsWTFwd_16s32f, (const Ipp16s* pSrc, Ipp32f* pDstLow, Ipp32f* pDstHigh, int dstLen, IppsWTFwdState_16s32f* pState))
+IPPAPI(IppStatus, ippsWTFwd_16u32f, (const Ipp16u* pSrc, Ipp32f* pDstLow, Ipp32f* pDstHigh, int dstLen, IppsWTFwdState_16u32f* pState))
+IPPAPI(IppStatus, ippsWTFwd_32f,    (const Ipp32f* pSrc, Ipp32f* pDstLow, Ipp32f* pDstHigh, int dstLen, IppsWTFwdState_32f*    pState))
+
+/* //////////////////////////////////////////////////////////////////////
+// Name:        ippsWTInvGetSize
+//
+// Purpose:      Get sizes, in bytes, of the ippsWTInv state structure.
+//
+// Parameters:
+//   dstType   - Data type of the destination vector.
+//   lenLow    - Length of lowpass filter.
+//   offsLow   - Input delay of lowpass filter.
+//   lenHigh   - Length of highpass filter.
+//   offsHigh  - Input delay of highpass filter.
+//   pStateSize- Pointer to the size of the ippsWTInv state structure (in bytes).
+//
+// Returns:
+//   ippStsNoErr        - Ok.
+//   ippStsNullPtrErr   - Error when any of the specified pointers is NULL.
+//   ippStsSizeErr      - Error when filters length is negative, or equal to zero.
+//   ippStsWtOffsetErr  - Error when filter delay is less than (-1).
+*/
+IPPAPI(IppStatus, ippsWTInvGetSize, (IppDataType dstType, int lenLow, int offsLow, int lenHigh, int offsHigh, int* pStateSize))
+
+/* //////////////////////////////////////////////////////////////////////
+// Name:        ippsWTInvInit
+//
+// Purpose:     Initialize inverse wavelet transform state structure.
+//
+// Parameters:
+//   pState    - Pointer to allocated ippsWTInv state structure.
+//   pTapsLow  - Pointer to lowpass filter taps.
+//   lenLow    - Length of lowpass filter.
+//   offsLow   - Input delay of lowpass filter.
+//   pTapsHigh - Pointer to highpass filter taps.
+//   lenHigh   - Length of highpass filter.
+//   offsHigh  - Input delay of highpass filter.
+//
+// Returns:
+//   ippStsNoErr        - Ok.
+//   ippStsNullPtrErr   - Error when any of the specified pointers is NULL.
+//   ippStsSizeErr      - Error when filters length is negative, or equal to zero.
+//   ippStsWtOffsetErr  - Error when filter delay is less than (-1).
+*/
+IPPAPI(IppStatus, ippsWTInvInit_32f8u,  (IppsWTInvState_32f8u*  pState, const Ipp32f* pTapsLow, int lenLow, int offsLow, const Ipp32f* pTapsHigh, int lenHigh, int offsHigh))
+IPPAPI(IppStatus, ippsWTInvInit_32f16u, (IppsWTInvState_32f16u* pState, const Ipp32f* pTapsLow, int lenLow, int offsLow, const Ipp32f* pTapsHigh, int lenHigh, int offsHigh))
+IPPAPI(IppStatus, ippsWTInvInit_32f16s, (IppsWTInvState_32f16s* pState, const Ipp32f* pTapsLow, int lenLow, int offsLow, const Ipp32f* pTapsHigh, int lenHigh, int offsHigh))
+IPPAPI(IppStatus, ippsWTInvInit_32f,    (IppsWTInvState_32f*    pState, const Ipp32f* pTapsLow, int lenLow, int offsLow, const Ipp32f* pTapsHigh, int lenHigh, int offsHigh))
+
+/* //////////////////////////////////////////////////////////////////////
+// Name:        ippsWTInvSetDlyLine_32f, ippsWTInvSetDlyLine_32f8s,
+//              ippsWTInvSetDlyLine_32f8u, ippsWTInvSetDlyLine_32f16s,
+//              ippsWTInvSetDlyLine_32f16u
+//
+// Purpose:     The function copies the pointed vectors to internal delay lines.
+//
+// Parameters:
+//   pState   - pointer to pState structure;
+//   pDlyLow  - pointer to delay line for lowpass filtering;
+//   pDlyHigh - pointer to delay line for highpass filtering.
+//
+// Returns:
+//   ippStsNoErr            - Ok;
+//   ippStsNullPtrErr       - some of pointers pDlyLow
+//                              or pDlyHigh vectors are NULL;
+//   ippStspStateMatchErr   - mismatch pState structure.
+//
+// Notes: lengths of delay lines (as "C" expression):
+//          len(pDlyLow)  = (lenLow   + offsLow  - 1) / 2;
+//          len(pDlyHigh) = (lenHigh  + offsHigh - 1) / 2;
+//  lenLow, offsLow, lenHigh, offsHigh - parameters
+//    for ippsWTInvInitAlloc function.
+*/
+IPPAPI(IppStatus, ippsWTInvSetDlyLine_32f8u,  (IppsWTInvState_32f8u*  pState, const Ipp32f* pDlyLow, const Ipp32f* pDlyHigh))
+IPPAPI(IppStatus, ippsWTInvSetDlyLine_32f16s, (IppsWTInvState_32f16s* pState, const Ipp32f* pDlyLow, const Ipp32f* pDlyHigh))
+IPPAPI(IppStatus, ippsWTInvSetDlyLine_32f16u, (IppsWTInvState_32f16u* pState, const Ipp32f* pDlyLow, const Ipp32f* pDlyHigh))
+IPPAPI(IppStatus, ippsWTInvSetDlyLine_32f,    (IppsWTInvState_32f*    pState, const Ipp32f* pDlyLow, const Ipp32f* pDlyHigh))
+
+/* //////////////////////////////////////////////////////////////////////
+// Name:        ippsWTInvGetDlyLine_32f, ippsWTInvGetDlyLine_32f8s,
+//              ippsWTInvGetDlyLine_32f8u, ippsWTInvGetDlyLine_32f16s,
+//              ippsWTInvGetDlyLine_32f16u
+//
+// Purpose:     The function copies data from interanl delay lines
+//                to the pointed vectors.
+// Parameters:
+//   pState   - pointer to pState structure;
+//   pDlyLow  - pointer to delay line for lowpass filtering;
+//   pDlyHigh - pointer to delay line for highpass filtering.
+//
+// Returns:
+//   ippStsNoErr            - Ok;
+//   ippStsNullPtrErr       - some of pointers pDlyLow
+//                              or pDlyHigh vectors are NULL;
+//   ippStspStateMatchErr    - mismatch pState structure.
+//
+// Notes: lengths of delay lines (as "C" expression):
+//          len(pDlyLow)  = (lenLow   + offsLow  - 1) / 2;
+//          len(pDlyHigh) = (lenHigh  + offsHigh - 1) / 2;
+//  lenLow, offsLow, lenHigh, offsHigh - parameters
+//    for ippsWTInvInitAlloc function.
+*/
+IPPAPI(IppStatus, ippsWTInvGetDlyLine_32f8u,  (IppsWTInvState_32f8u*  pState, Ipp32f* pDlyLow, Ipp32f* pDlyHigh))
+IPPAPI(IppStatus, ippsWTInvGetDlyLine_32f16s, (IppsWTInvState_32f16s* pState, Ipp32f* pDlyLow, Ipp32f* pDlyHigh))
+IPPAPI(IppStatus, ippsWTInvGetDlyLine_32f16u, (IppsWTInvState_32f16u* pState, Ipp32f* pDlyLow, Ipp32f* pDlyHigh))
+IPPAPI(IppStatus, ippsWTInvGetDlyLine_32f,    (IppsWTInvState_32f*    pState, Ipp32f* pDlyLow, Ipp32f* pDlyHigh))
+
+/* //////////////////////////////////////////////////////////////////////
+// Name:        ippsWTInv_32f, ippsWTInv_32f16s, ippsWTInv_32f16u,
+//              ippsWTInv_32f8u
+//
+// Purpose:     Inverse wavelet transform.
+//
+// Parameters:
+//   srcLow  - pointer to source block of "low-frequency" component;
+//   srcHigh - pointer to source block of "high-frequency" component;
+//   dstLen  - length of components.
+//   dst     - pointer to destination block of reconstructed data;
+//   pState  - pointer to pState structure;
+//
+//  Returns:
+//   ippStsNoErr            - Ok;
+//   ippStsNullPtrErr       - some of pointers to pDst pSrcLow or pSrcHigh vectors are NULL;
+//   ippStsSizeErr          - the length is less or equal zero;
+//   ippStspStateMatchErr   - mismatch pState structure.
+//
+// Notes:      destination block length must be 2 * srcLen.
+*/
+IPPAPI(IppStatus, ippsWTInv_32f8u,  (const Ipp32f* pSrcLow, const Ipp32f* pSrcHigh, int srcLen, Ipp8u*  pDst, IppsWTInvState_32f8u*  pState))
+IPPAPI(IppStatus, ippsWTInv_32f16s, (const Ipp32f* pSrcLow, const Ipp32f* pSrcHigh, int srcLen, Ipp16s* pDst, IppsWTInvState_32f16s* pState))
+IPPAPI(IppStatus, ippsWTInv_32f16u, (const Ipp32f* pSrcLow, const Ipp32f* pSrcHigh, int srcLen, Ipp16u* pDst, IppsWTInvState_32f16u* pState))
+IPPAPI(IppStatus, ippsWTInv_32f,    (const Ipp32f* pSrcLow, const Ipp32f* pSrcHigh, int srcLen, Ipp32f* pDst, IppsWTInvState_32f*    pState))
+
+{% endhighlight %}
