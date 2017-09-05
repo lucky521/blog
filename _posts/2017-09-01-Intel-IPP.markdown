@@ -8,13 +8,15 @@ Integrated Performance Primitives (Intel® IPP) 是Intel提供的一套软件库
 支持在使用intel处理器的windows、linux、mac平台上对常用的一些运算库、多媒体处理等高处理器需求的库进行硬件加速。
 
 
+## 小波变换DWT运算的IPP实现
+
 {% highlight cpp %} 
 /* /////////////////////////////////////////////////////////////////////////////
 //          Wavelet Transform Fucntions for User Filter Banks
 ///////////////////////////////////////////////////////////////////////////// */
 
 /* //////////////////////////////////////////////////////////////////////
-// Name:        ippsWTFwdGetSize
+// Name:        ippsWTFwdGetSize 创建DWT结构
 //
 // Purpose:      Get sizes, in bytes, of the ippsWTFwd state structure.
 //
@@ -35,7 +37,7 @@ Integrated Performance Primitives (Intel® IPP) 是Intel提供的一套软件库
 IPPAPI(IppStatus, ippsWTFwdGetSize, (IppDataType srcType, int lenLow, int offsLow, int lenHigh, int offsHigh, int* pStateSize))
 
 /* //////////////////////////////////////////////////////////////////////
-// Name:        ippsWTFwdInit
+// Name:        ippsWTFwdInit  初始化
 //
 // Purpose:     Initialize forward wavelet transform state structure.
 //
@@ -121,7 +123,7 @@ IPPAPI(IppStatus, ippsWTFwdGetDlyLine_32f,    (IppsWTFwdState_32f*    pState, Ip
 // Name:        ippsWTFwd_32f, ippsWTFwd_16s32f, ippsWTFwd_16u32f,
 //              ippsWTFwd_8s32f, ippsWTFwd_8u32f
 //
-// Purpose:     Forward wavelet transform.
+// Purpose:     Forward wavelet transform.   小波变换
 //
 // Parameters:
 //   pSrc     - pointer to source block of data;
