@@ -12,7 +12,33 @@ layout: post
 ## Learning rate
 
 
-## Activation Function
+## 激活函数 Activation Function
+
+计算输入数据的带权之和，加上一个偏差，然后判断该样本的结果（是否“激活”）。
+
+下面有四种激活函数。
+
+### Linear function 
+
+A = cx
+线性函数。
+
+### Sigmoid Function
+
+A = 1/(1+e^(-x)
+
+输出范围0-1之间。
+
+### Tanh Function
+
+A = 2/(1+e^(-2x)) - 1 = 2sigmoid(2x) - 1
+
+输出范围是-1，1之间
+
+
+### ReLu function
+
+A = x if x>0 else 0 
 
 
 ## Regularization method and Regularization rate
