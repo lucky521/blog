@@ -135,10 +135,10 @@ L2 正规化是附加权重的平方之和，L1是附加权重的绝对值之和
 ```
 import numpy as np
 
-```
-The simplest nerual network
-: No hidden layer
-```
+
+# The simplest nerual network
+# : No hidden layer
+
 
 # sigmoid function
 # True: f(x) = 1/(1+e^(-x))
