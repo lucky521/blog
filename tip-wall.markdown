@@ -3,12 +3,14 @@ title: 给我留言
 layout: default
 ---
 
-# [Sina Weibo](https://weibo.com/troubleshoot)  
+## [Email](mailto:lu.dev@outlook.com)
 
-# [Wechat](https://lucky521.github.io/img/wechat-qrcode.jpg)
+## [微博](https://weibo.com/troubleshoot)  
 
-# [Email](mailto:lu.dev@outlook.com)
+## [微信](https://lucky521.github.io/img/wechat-qrcode.jpg)
 
-# [Stackoverflow](https://stackoverflow.com/users/3346980/lucky)
+## [Stackoverflow](https://stackoverflow.com/users/3346980/lucky)
 
-# [Github](https://github.com/lucky521)
+## [Github](https://github.com/lucky521)
+
+## [豆瓣](https://www.douban.com/people/68649119/)
