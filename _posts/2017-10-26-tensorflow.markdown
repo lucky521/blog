@@ -7,6 +7,39 @@ layout: post
 本篇所涉及的TensorFlow API都在官方文档有所涉及，https://www.tensorflow.org/api_docs/
 
 
+# 常用函数 
+
+
+## 神经网络相关函数
+
+### 激活函数
+
+```
+tf.nn.relu
+tf.nn.sigmoid
+tf.nn.tanh
+tf.nn.dropout
+```
+
+### 卷积函数
+
+```
+tf.nn.convolution
+tf.nn.conv2d
+```
+
+### 池化函数
+
+```
+tf.nn.avg_pool
+tf.nn.max_pool
+```
+
+### 优化函数
+
+```
+tf.train.GradientDescentOptimizer
+```
 
 
 # MNIST数据集模型训练

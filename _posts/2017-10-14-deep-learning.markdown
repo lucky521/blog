@@ -307,8 +307,15 @@ print l2
 
 
 
+## LeNet
 
+## AlexNet
 
+## VggNet
+
+## GoogLeNet
+
+## ResNet
 
 
 
