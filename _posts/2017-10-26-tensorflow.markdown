@@ -46,19 +46,42 @@ tf.train.GradientDescentOptimizer
 
 https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/tutorials/mnist
 
-https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3_NeuralNetworks
-
-https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.py
 
 	fully_connected_feed.py 采用Feed数据方式训练。
 	mnist_softmax.py  使用Softmax回归训练。
 	mnist_softmax_xla.py 采用XLA框架训练。
-	mnist_with_summaries.py, 05_convolutional_net.py 使用CNN训练。
+	mnist_with_summaries.py
 	recurrent_network.py 使用RNN训练。
 	autoencoder.py 使用Autoencoder训练。
 
 
+https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3_NeuralNetworks
 
+	neural_network_raw.py 	2-Hidden Layers Fully Connected Neural Network
+
+
+https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.py
+
+	05_convolutional_net.py 使用CNN训练。
+
+
+# LFW数据集模型训练
+
+## FaceNet
+
+https://github.com/davidsandberg/facenet
+
+## Openface
+
+https://github.com/cmusatyalab/openface
+
+
+
+# 语音识别
+
+## spoken numbers pcm 数据集
+
+https://github.com/pannous/tensorflow-speech-recognition
 
 <!--
 这里是注释区
