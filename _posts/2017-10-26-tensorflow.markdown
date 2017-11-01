@@ -51,13 +51,15 @@ https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/tutoria
 	mnist_softmax.py  使用Softmax回归训练。
 	mnist_softmax_xla.py 采用XLA框架训练。
 	mnist_with_summaries.py
-	recurrent_network.py 使用RNN训练。
 	autoencoder.py 使用Autoencoder训练。
 
 
 https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3_NeuralNetworks
 
 	neural_network_raw.py 	2-Hidden Layers Fully Connected Neural Network
+	recurrent_network.py 使用RNN训练。
+	convolutional_network.py
+	convolutional_network_raw.py
 
 
 https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.py
