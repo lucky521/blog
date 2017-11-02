@@ -10,15 +10,173 @@ layout: post
 
 这套以前叫做Grid SDK。它提供给使用者获取屏幕或应用的图像的功能。调用者可以获取桌面屏幕buffer，也可以获取某个应用所渲染的区域。可以以图像的形式，也可以以视频流的形式。
 
+Capture SDK提供了两种API，NvFBC适合提供远程桌面方案，NvIFR适合截取特定应用的画面。
 
 ## NvFBC
 
 NVFBC的全称是NVIDIA Frame Buffer Capture，用来抓取OS全屏帧buffer。它把全屏图像数据放到一个GPU buffer。对于Windows来讲，不管 Windows Desktop Manager是否启动，NVFBC都可以工作。这个buffer在内部可以直接通过NVENCODE API直接编码为H.264/HEVC。
 
+NVIDIA提供了5种不同的NvFBC接口：
+	
+		NVFBC_TO_SYS 捕获桌面将frame拷贝到系统内存。
+		NVFBC_TO_CUDA 捕获桌面拷贝到GPU上的CUDA内存。
+		NVFBC_TO_GL 捕获桌面将其拷贝到OpenGL texture。
+		NVFBC_TO_DX9VID 捕获桌面并将其拷贝到DX9 surface。
+		NVFBC_TO_HW_ENCODER 捕获桌面，使用硬件编码器编码城H264/HEVC流，然后将其拷贝到系统内存。
+
+
+
 
 ## NvIFR
 
 NvIFR的全程是NVIDIA Inband Frame Readback，所以它是用来抓取应用程序所渲染的区域。
+
+
+
+## NvFBC 用法
+
+```
+#include <NvFBCLibrary.h>
+#include <NvFBC/nvFBCHwEnc.h>
+
+
+    NvFBCLibrary nvfbcLibrary;
+    NvFBCToSys *nvfbcToSys = NULL;
+
+    DWORD maxDisplayWidth = -1, maxDisplayHeight = -1;
+    BOOL bRecoveryDone = FALSE;
+
+    NvFBCFrameGrabInfo grabInfo;
+    unsigned char *frameBuffer = NULL;
+    unsigned char *diffMap = NULL;
+    char frameNo[10];
+    std::string outName;
+
+    //! Load NvFBC
+    nvfbcLibrary.load();
+
+    //! Create an instance of NvFBCToSys
+    nvfbcToSys = (NvFBCToSys *)nvfbcLibrary.create(NVFBC_TO_SYS, &maxDisplayWidth, &maxDisplayHeight);
+
+    NVFBCRESULT status = NVFBC_SUCCESS;
+
+    //! Setup the frame grab
+    NVFBC_TOSYS_SETUP_PARAMS fbcSysSetupParams = {0};
+    fbcSysSetupParams.dwVersion = NVFBC_TOSYS_SETUP_PARAMS_VER;
+    fbcSysSetupParams.eMode = args.eBufFormat;
+    fbcSysSetupParams.bWithHWCursor = args.bHWCursor;
+    fbcSysSetupParams.bDiffMap = FALSE;
+    fbcSysSetupParams.ppBuffer = (void **)&frameBuffer;
+    fbcSysSetupParams.ppDiffMap = NULL;
+
+    status = nvfbcToSys->NvFBCToSysSetUp(&fbcSysSetupParams);
+    if (status == NVFBC_SUCCESS)
+    {
+        //! Sleep so that ToSysSetUp forces a framebuffer update
+        Sleep(100);
+        
+        NVFBC_TOSYS_GRAB_FRAME_PARAMS fbcSysGrabParams = {0};
+        //! For each frame to grab..
+        for(int cnt = 0; cnt < args.iFrameCnt; ++cnt)
+        {
+            outName = args.sBaseName + "_" + _itoa(cnt, frameNo, 10) + ".bmp";
+            //! Grab the frame.  
+            // If scaling or cropping is enabled the width and height returned in the
+            // NvFBCFrameGrabInfo structure reflect the current desktop resolution, not the actual grabbed size.
+            fbcSysGrabParams.dwVersion = NVFBC_TOSYS_GRAB_FRAME_PARAMS_VER;
+            fbcSysGrabParams.dwFlags = args.iSetUpFlags;
+            fbcSysGrabParams.dwTargetWidth = args.iWidth;
+            fbcSysGrabParams.dwTargetHeight = args.iHeight;
+            fbcSysGrabParams.dwStartX = args.iStartX;
+            fbcSysGrabParams.dwStartY = args.iStartY;
+            fbcSysGrabParams.eGMode = args.eGrabMode;
+            fbcSysGrabParams.pNvFBCFrameGrabInfo = &grabInfo;
+        
+            status = nvfbcToSys->NvFBCToSysGrabFrame(&fbcSysGrabParams);
+            if (status == NVFBC_SUCCESS)
+            {
+                bRecoveryDone = FALSE;
+                //! Save the frame to disk
+                switch(args.eBufFormat)
+                {
+                case NVFBC_TOSYS_ARGB:
+                    SaveARGB(outName.c_str(), frameBuffer, grabInfo.dwWidth, grabInfo.dwHeight, grabInfo.dwBufferWidth);
+                    fprintf (stderr, "Grab succeeded. Wrote %s as ARGB.\n", outName.c_str() );
+                    break;
+
+                case NVFBC_TOSYS_RGB:
+                    SaveRGB(outName.c_str(), frameBuffer, grabInfo.dwWidth, grabInfo.dwHeight, grabInfo.dwBufferWidth);
+                    fprintf (stderr, "Grab succeeded. Wrote %s as RGB.\n", outName.c_str());
+                    break;
+
+                case NVFBC_TOSYS_YUV444p:
+                    if(args.yuvFile) {
+                        fwrite(frameBuffer, grabInfo.dwWidth*grabInfo.dwHeight*3, 1, args.yuvFile);
+                    }
+                    else {
+                        SaveYUV444(outName.c_str(), frameBuffer, grabInfo.dwWidth, grabInfo.dwHeight);
+                        fprintf (stderr, "Grab succeeded. Wrote %s as YUV444 converted to RGB.\n", outName.c_str());
+                    }
+                    break;
+
+                case NVFBC_TOSYS_YYYYUV420p:
+                    if(args.yuvFile) {
+                        fwrite(frameBuffer, grabInfo.dwWidth*grabInfo.dwHeight*3/2, 1, args.yuvFile);
+                    }
+                    else {
+                        SaveYUV420(outName.c_str(), frameBuffer, grabInfo.dwWidth, grabInfo.dwHeight);
+                        fprintf (stderr, "Grab succeeded. Wrote %s as YYYYUV420p.\n", outName.c_str() );
+                    }
+                    break;
+
+                case NVFBC_TOSYS_RGB_PLANAR:
+                    SaveRGBPlanar(outName.c_str(), frameBuffer, grabInfo.dwWidth, grabInfo.dwHeight);
+                    fprintf (stderr, "Grab succeeded. Wrote %s as RGB_PLANAR.\n", outName.c_str() );
+                break;
+
+                case NVFBC_TOSYS_XOR:
+                    // The second grab results in the XOR of the first and second frame.
+                    fbcSysGrabParams.dwVersion = NVFBC_TOSYS_GRAB_FRAME_PARAMS_VER;
+                    fbcSysGrabParams.dwFlags = args.iSetUpFlags;
+                    fbcSysGrabParams.dwTargetWidth = args.iWidth;
+                    fbcSysGrabParams.dwTargetHeight = args.iHeight;
+                    fbcSysGrabParams.dwStartX = 0;
+                    fbcSysGrabParams.dwStartY = 0;
+                    fbcSysGrabParams.eGMode = args.eGrabMode;
+                    fbcSysGrabParams.pNvFBCFrameGrabInfo = &grabInfo;
+                    status = nvfbcToSys->NvFBCToSysGrabFrame(&fbcSysGrabParams);
+                    if (status == NVFBC_SUCCESS)
+                        SaveRGB(outName.c_str(), frameBuffer, grabInfo.dwWidth, grabInfo.dwHeight, grabInfo.dwBufferWidth);
+
+                    fprintf (stderr, "Grab succeeded. Wrote %s as XOR.\n", outName.c_str() );
+                    break;
+                case NVFBC_TOSYS_ARGB10:
+                    SaveARGB10(outName.c_str(), frameBuffer, grabInfo.dwWidth, grabInfo.dwHeight, grabInfo.dwBufferWidth);
+                    fprintf(stderr, "Grab succeeded. Wrote %s as ARGB10.\n", outName.c_str());
+                    break;
+
+                default:
+                    fprintf (stderr, "Un-expected grab format %d.", args.eBufFormat);
+                    break;
+                }
+            }
+        }
+    }
+    
+    if (nvfbcToSys)
+    {
+        //! Relase the NvFBCToSys object
+        nvfbcToSys->NvFBCToSysRelease();
+    }
+
+    if(args.yuvFile) {
+        fclose(args.yuvFile);
+    }
+
+    return 0;
+
+```
+
 
 
 # NVIDIA Video Codec SDK
