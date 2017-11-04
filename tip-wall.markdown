@@ -3,11 +3,17 @@ title: 给我留言
 layout: default
 ---
 
+# Contact Me 与我联系
+
 ## [Email](mailto:lu.dev@outlook.com)
 
 ## [微博](https://weibo.com/troubleshoot)  
 
+![My image](https://lucky521.github.io/img/weibo.png)
+
 ## [微信](https://lucky521.github.io/img/wechat-qrcode.jpg)
+
+![My image](https://lucky521.github.io/img/wechat-qrcode.jpg)
 
 ## [Stackoverflow](https://stackoverflow.com/users/3346980/lucky)
 
