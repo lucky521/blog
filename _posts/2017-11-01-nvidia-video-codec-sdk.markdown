@@ -12,6 +12,8 @@ layout: post
 
 Capture SDK提供了两种API，NvFBC适合提供远程桌面方案，NvIFR适合截取特定应用的画面。
 
+Shadowplay 是Nvidia显卡驱动提供的游戏录屏工具，能够记录下过去一段时间的屏幕视频。
+
 ## NvFBC
 
 NVFBC的全称是NVIDIA Frame Buffer Capture，用来抓取OS全屏帧buffer。它把全屏图像数据放到一个GPU buffer。对于Windows来讲，不管 Windows Desktop Manager是否启动，NVFBC都可以工作。这个buffer在内部可以直接通过NVENCODE API直接编码为H.264/HEVC。
