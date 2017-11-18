@@ -37,7 +37,10 @@ cost function 用于表示所训练出模型的好坏程度。
 
 ### 交叉熵 cross-entropy 
 
+
 ### 均方误差 Mean Square Error
+
+
 
 
 

@@ -7,6 +7,26 @@ layout: post
 本篇所涉及的TensorFlow API都在官方文档有所涉及，https://www.tensorflow.org/api_docs/
 
 
+# 重要的元素
+
+## tf.Variable 参数
+
+Variable 代表着模型中的参数，算法的核心目的是在训练参数。
+
+
+## tf.placeholder 可变输入
+
+在构建模型的时候没必要先把数据写好，先用tf.placeholder把数据类型确定就行。在真正session执行的时候再用feed_dict把输入填进去就好。
+
+## tf.Session 运行数据流
+
+在 tf.Session 之前的过程都是定义，tf.Session().run(...)才是真正执行前面定义好的操作。
+
+
+## tf.summary 查看数据流图
+
+
+
 # 常用函数 
 
 
@@ -35,6 +55,16 @@ tf.nn.avg_pool
 tf.nn.max_pool
 ```
 
+## 代价函数
+
+```
+tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits_nn, labels=Y))
+
+softmax_cross_entropy_with_logits是用的最多的，此外还有mean_squared_error和sigmoid_cross_entropy。
+
+```
+
+
 ### 优化函数
 
 ```
@@ -43,6 +73,8 @@ tf.train.GradientDescentOptimizer
 
 
 # MNIST数据集模型训练
+
+MNIST数据集是一个手写阿拉伯数字0-9的图像素材库，它包含60000个训练样本集和10000个测试样本集。我们可以去官网下载素材库，也可以直接使用TensorFlow以package引用形式提供的MNIST。
 
 https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/tutorials/mnist
 
@@ -67,7 +99,11 @@ https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.
 	05_convolutional_net.py 使用CNN训练。
 
 
+
+
 # LFW数据集模型训练
+
+LFW 是人脸识别数据集，英文全称是Labeled Faces in the Wild，所有人脸样本都加了标签。
 
 ## FaceNet
 
@@ -79,7 +115,7 @@ https://github.com/cmusatyalab/openface
 
 
 
-# 语音识别
+# 语音识别数据集训练模型
 
 ## spoken numbers pcm 数据集
 
