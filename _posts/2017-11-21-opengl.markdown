@@ -1,5 +1,5 @@
 ---
-title: "OpenGL 指南"
+title: "OpenGL 开发指南"
 categories: [design]
 layout: post
 ---
@@ -22,6 +22,20 @@ OpenGL是一个硬件无关的接口。它是一套接口，实现部分可以�
     片元着色器
 
 
+## 渲染数据流
+
+几何数据源（顶点、几何图元），依次要经过定点着色器、细分控制着色器、细分计算着色器、几何着色器，接着光栅化单元对所有剪切区域内的图元生成片元数据，对每个片元执行片元着色器。
+
+创建缓存对象 glBufferData()
+绘制 glDrawArrays()
+
+
+
+# 词汇解释
+
+### Clipping Regions
+
+A clipping region is one of the graphic objects that an application can select into a device context (DC). It is typically rectangular.
 
 
 # FAQ
