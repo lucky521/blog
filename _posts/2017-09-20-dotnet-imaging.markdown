@@ -1,5 +1,5 @@
 ---
-title: ".Net Framework中的图像接口与原理"
+title: "Windows中的图像接口与原理"
 categories: [design]
 layout: post
 ---

@@ -1,0 +1,78 @@
+---
+title: "OpenCV实践"
+categories: [design]
+layout: post
+---
+
+# OpenCV 简介
+
+## OpenCV 是什么？
+
+OpenCV的全称是 Open Source Computer Vision Library，是一个跨平台的计算机视觉库。
+
+OpenCV可用于开发实时的图像处理、计算机视觉以及模式识别程序。
+
+OpenCV可用于解决如下领域的问题：
+人机交互 物体识别 图像分区 人脸识别 动作识别 运动跟踪 机器人
+
+## OpenCV 和 OpenGL 有什么关系？
+
+这两者名字类似，且都是图像相关的，没接触过的人容易混淆。
+OpenGL带open是代表接口跨平台一致、保持开放性。OpenCV带open是指这个库是open source的。
+他们所做的事情，以及所做事情所处的层次是不同的。
+
+OpenCV是应用程序层面用来做图像处理的，和硬件层没有关系，主要的工作逻辑是图像数据本身的处理，比如图像变换、物理识别、图像算法。图像最初不是OpenCV生成的、也不是OpenCV渲染的，而是拿到一张照片，进行分析、处理。
+
+OpenGL是驱动层面用来把图像数据渲染图像到显示器屏幕上的，这和显示驱动息息相关。OpenGL的渲染实质是将矢量图转换成位图。
+
+说到图像，其实是有两大类，一类是真实世界采集到的像素集合，即“照片”；另一类是由计算机绘制的矢量图形。
+
+真实世界是三维立体的，而当其被捕捉到计算机上成为像素矩阵之后，三维属性其实已经消失了，OpenCV中的一些算法会去理解这些空间属性。计算机内存不是三维立体的，而计算机以矢量形式存储图像时，三维属性是被以一定形式保存的，OpenGL可以将其以一定的视角渲染到平面屏幕上。
+
+
+OpenGL的细节可以参考我的另一篇文章[OpenGL开发指南](https://lucky521.github.io/blog/design/2017/11/21/opengl.html)
+
+
+# OpenCV基础功能
+
+https://docs.opencv.org/master/de/d7a/tutorial_table_of_content_core.html
+
+基础功能是在像素级别处理一张图片所需要的基本操作。
+
+
+
+# OpenCV常见的图像处理
+
+https://docs.opencv.org/master/d7/da8/tutorial_table_of_content_imgproc.html
+
+
+
+# OpenCV高级算法应用
+
+https://docs.opencv.org/master/d2/d64/tutorial_table_of_content_objdetect.html
+
+https://docs.opencv.org/master/d2/d58/tutorial_table_of_content_dnn.html
+
+https://docs.opencv.org/master/d1/d69/tutorial_table_of_content_ml.html
+
+
+
+<!--
+这里是注释区
+
+```
+print "hello"
+```
+
+***Stronger***
+
+{% highlight python %}
+print "hello, Lucky!"
+{% endhighlight %}
+
+![My image]({{ site.baseurl }}/images/emule.png)
+
+My Github is [here][mygithub].
+[mygithub]: https://github.com/lucky521
+
+-->

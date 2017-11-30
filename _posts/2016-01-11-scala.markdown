@@ -1,6 +1,5 @@
 ---
-title: "Scala"
-subtitle: "Scala 简要手册"
+title: "Scala语言简要手册"
 categories: [design]
 layout: post
 ---
