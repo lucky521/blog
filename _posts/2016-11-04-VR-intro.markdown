@@ -162,11 +162,9 @@ UE4的私有协议：可以使用其源代码，盈利超过多少之后要缴�
 
 ### SteamVR Plugin
 
-这个插件由Steam开发。目前只支持Windows DX11.
+这个插件由Steam开发。目前这个插件只支持Windows DX11.
 
 The SteamVR SDK allows developers to target a single interface that will work with all major virtual reality headsets from seated to room scale experiences. Additionally, it provides access to tracked controllers, chaperoning, render models for tracked devices. SteamVR's compositor allows you to preview your content in VR using Unity's play mode, while leaving the normal game window to act as your companion screen on the main monitor. 
-
-
 
 
 ### Vive Input Utility
@@ -185,4 +183,151 @@ HTC手柄上面有五种按键
 		四、System         系统按键，圆盘下面的那个按键，
 		五、ApplicationMenu         圆盘上面的那个按键。
 
+
+
+
+
+# Unity3D
+
+这里我想专门立一章来讲Unity3D，毕竟真正上手VR开发主要是和Unity3D打交道。
+
+Unity3D的开发平台可以是在windows和Mac。目标程序可以编译到所有主流的桌面、移动、游戏平台。
+
+Unity开发是以资源为中心。资源包括material、texture、scripts、sound、custom editor。
+
+
+## 几个核心元素
+
+### Scene 
+
+Scene是一个虚拟世界，或者说游戏场景。场景下的所有物体及其属性都包含在其中。
+
+
+## Components 基于组件的开发模式
+
+Unity3D的模块都是以组件形式体现的。物体、属性、代码、材质等都是component。通常一个虚拟对象会由若干个组件结合而成。
+
+
+### Inspector 
+
+unity开发界面的左侧始终有个inspector的窗口。选中任何一个对象，其中包含的组件就会实时显示在Inspector窗口中。
+The Inspector window is context sensitive and displays all the properties of any selected GameObject, Asset or Setting.
+
+### Material
+
+Materials are used in conjunction with Mesh or Particle Renderers attached to the GameObject. They play an essential part in defining how your object is displayed. Materials include a reference to the Shader used to render the Mesh or Particles, so these Components can not be displayed without some kind of Material.
+
+### Shader
+
+
+### Prefabs
+
+已经设计好，可以重用的物体。
+
+
+### Editor
+
+
+
+## 创建一个物体
+
+在菜单栏点击GameObject，就可以选择一种带有基本属性的GameObject，创建到当前Scene里。在Scene里单击这个新建的物体，可以在Inspector中看到它的属性，这时可以添加一个新的Component，比如一个属性Rigidbody带加入物理学属性，比如一个c#脚本来编写特定逻辑。
+
+### GameObject
+
+虚拟世界的物体都是GameObject。
+
+GameObject在一个Scene是有层级关系的，可以通过手工或代码来设置一个GameObject的父和子。父子物体之间的空间位置是相对的。
+
+### MonoBehaviour
+
+MonoBehaviour是unity中所有代码的基类。
+
+代码作为Gameobject的一个component，是被Gameobject加载的。代码中我们会设计物体的行为属性。
+
+在自定义的类中我们通常会重写这几个基类函数：
+
+		Awake：当一个脚本实例被载入时Awake被调用。我们大多在这个类中完成成员变量的初始化
+		Start：仅在Update函数第一次被调用前调用。因为它是在Awake之后被调用的，我们可以把一些需要依赖Awake的变量放在Start里面初始化。 同时我们还大多在这个类中执行StartCoroutine进行一些协程的触发。要注意在用C#写脚本时，必须使用StartCoroutine开始一个协程，但是如果使用的是JavaScript，则不需要这么做。
+		Update：当MonoBehaviour启用时，其Update在每一帧被调用。
+		FixedUpdate：当MonoBehaviour启用时，其 FixedUpdate 在每一固定帧被调用。
+		OnEnable：当对象变为可用或激活状态时此函数被调用。
+		OnDisable：当对象变为不可用或非激活状态时此函数被调用。
+		OnDestroy：当MonoBehaviour将被销毁时，这个函数被调用。
+
+
+
+### Mesh
+
+Mesh Renderer 网格渲染器 ：一个3D模型的表面是由多个彼此相连的三角面构成。三维空间中，构成这些三角面的点以及三角形的边的集合就是Mesh。
+
+Mesh Filter 网格过滤器 ：网格过滤器 与 网格渲染器 联合使用，使模型显示到屏幕上。
+
+
+
+
+
+
+
+## 重要的物体
+
+### Camera
+
+Camera代表一个主人翁的视角。摄像机的个数和位置可以使任意的。
+
+
+### EventSystem
+
+The EventSystem is responsible for processing and handling events in a Unity scene. A scene should only contain one EventSystem.
+添加某些内置GameObject时会自动生成出一个EventSystem对象，里面主要有两个Components，分别是Event System和Standalone Input Module。其中Standalone Input Module是派生自BaseInputModule。
+
+EventSystem负责管理，BaseInputModule负责输入，BaseRaycaster负责确定目标对象。
+
+Event System 觸發流程：
+1.使用者輸入(滑鼠、觸摸、鍵盤)
+2.透過 Event System Manager 決定使用 Standalone 還是 Touch Input Module
+3.決定使用的 Input Module 後，透過 Scene 中的 Raycasters 計算哪個元素被點中
+4.傳送Event
+
+
+
+
+## 编程语言
+
+Unity3D支持开发语言是c#和JavaScript。
+
+
+### Mono C# 
+
+unity3d中的C#代码不是被VS编译器编译，而是用Mono。Mono是一个开源的.net实现，MonoDevelop是它的IDE。不过当前unity下默认Mono的.net版本比较低。
+
+
+Mono版本和.net版本的对应
+
+date | mono version | net version
+---- | ------------ | -----------
+2008-10-01 |	mono 2.0	| .net 2.0 c# 3.0	
+2011-12-19 |	mono 2.10.8	| .net 4.0 c# 4.0	
+2014-03-31 |	mono 3.4	| .net 4.5 c#5.0	
+2016-06-08 |	mono 4.4.0	| .net 4.6.1 c#6.0
+
+
+Unity3D版本和所采用Mono版本的对应
+
+Unity Version |	Mono Runtime/Compiler Version
+3.5	|	
+4.0	|
+4.3	|
+4.6	|
+5.0	| 2.0/2.0
+5.3.5p8	| 2.0/4.4	
+5.4.0f1 | 2.0/2.0
+
+
+### C# 调用 Native plugin
+
+unity支持以plugin的形式在C#代码里调用C/C++/OC所编的库。一般的引用方式是在C#中声明出库的名字和函数名。
+
+		[DllImport ("PluginName")]
+		private static extern float FooPluginFunction ();
 
