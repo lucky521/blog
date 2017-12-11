@@ -39,11 +39,25 @@ https://docs.opencv.org/master/de/d7a/tutorial_table_of_content_core.html
 
 基础功能是在像素级别处理一张图片所需要的基本操作。
 
+Mat对象是存储一张图片的基本单元，它由两部分组成the matrix header和指向像素数组的指针。
+
+一个像素以BGR的顺序构成一个存储单元。
+
+
+## 针对像素的Mask操作
+
+使用一个mask matrix 或者叫kernel核，来重算图像中的每一个像素值。比如，核矩阵I(i,j)=5∗I(i,j)−[I(i−1,j)+I(i+1,j)+I(i,j−1)+I(i,j+1)] 是增加图像对比度的一种方法。opencv中的filter2D函数是内置的核操作函数。
+
+
+
 
 
 # OpenCV常见的图像处理
 
 https://docs.opencv.org/master/d7/da8/tutorial_table_of_content_imgproc.html
+
+
+
 
 
 
@@ -55,6 +69,16 @@ https://docs.opencv.org/master/d2/d58/tutorial_table_of_content_dnn.html
 
 https://docs.opencv.org/master/d1/d69/tutorial_table_of_content_ml.html
 
+https://docs.opencv.org/trunk/d6/de2/tutorial_py_table_of_contents_ml.html
+
+
+## 人脸检测
+
+https://docs.opencv.org/master/db/d28/tutorial_cascade_classifier.html
+
+https://docs.opencv.org/master/dc/d88/tutorial_traincascade.html
+
+https://docs.opencv.org/trunk/d7/d8b/tutorial_py_face_detection.html
 
 
 <!--
