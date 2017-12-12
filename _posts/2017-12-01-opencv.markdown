@@ -65,12 +65,33 @@ https://docs.opencv.org/master/d7/da8/tutorial_table_of_content_imgproc.html
 
 https://docs.opencv.org/master/d2/d64/tutorial_table_of_content_objdetect.html
 
-https://docs.opencv.org/master/d2/d58/tutorial_table_of_content_dnn.html
+
 
 https://docs.opencv.org/master/d1/d69/tutorial_table_of_content_ml.html
 
 https://docs.opencv.org/trunk/d6/de2/tutorial_py_table_of_contents_ml.html
 
+
+## 机器学习
+
+## DNN深度学习模块
+
+ <opencv2/dnn.hpp>
+
+ Net net;
+
+ dnn::readNetFromCaffe
+
+ net.setInput(inputBlob, "data");        
+
+ prob = net.forward("prob");  
+ 
+
+## 图像识别
+
+opencv3.3.0之后的DNN深度学习模块，用它可以进行图片分类或图片识别。下面这个链接是使用opencv_dnn模块进行图片分类的例子，其中使用的神经网络是Caffe实现的GoogLeNet。
+
+https://docs.opencv.org/master/d2/d58/tutorial_table_of_content_dnn.html
 
 ## 人脸检测
 
@@ -79,6 +100,8 @@ https://docs.opencv.org/master/db/d28/tutorial_cascade_classifier.html
 https://docs.opencv.org/master/dc/d88/tutorial_traincascade.html
 
 https://docs.opencv.org/trunk/d7/d8b/tutorial_py_face_detection.html
+
+
 
 
 <!--
