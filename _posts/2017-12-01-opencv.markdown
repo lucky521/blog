@@ -1,5 +1,5 @@
 ---
-title: "OpenCV实践"
+title: "OpenCV开发实践"
 categories: [design]
 layout: post
 ---
@@ -39,15 +39,39 @@ https://docs.opencv.org/master/de/d7a/tutorial_table_of_content_core.html
 
 基础功能是在像素级别处理一张图片所需要的基本操作。
 
-Mat对象是存储一张图片的基本单元，它由两部分组成the matrix header和指向像素数组的指针。
+## Mat
 
-一个像素以BGR的顺序构成一个存储单元。
+Mat是由matrix简写而来的。Mat类可以被看做是opencv中C++版本的矩阵类。
+
+Mat对象是存储一张图片的基本单元，Mat类定义于core.hpp中，主要包含有两部分数据：一部分是矩阵头（matrix header），这部分的大小是固定的，包含矩阵的大小，存储的方式，矩阵存储的地址等等；另一个部分是一个指向矩阵包含像素值的指针（data）。
+
+Mat的存储是逐行存储的，一般一个像素以BGR的顺序构成一个存储单元。
+
+
+
+
+## Blob
+
+Blob是binary large object简写而来。
+
+blobFromImage 函数将图片矩阵Mat转换为Blob.
+
+Creates 4-dimensional blob from image. Optionally resizes and crops image from center, subtract mean values, scales values by scalefactor, swap Blue and Red channels.
+
+	Parameters
+	image	input image (with 1-, 3- or 4-channels).
+	size	spatial size for output image
+	mean	scalar with mean values which are subtracted from channels. Values are intended to be in (mean-R, mean-G, mean-B) order if image has BGR ordering and swapRB is true.
+	scalefactor	multiplier for image values.
+	swapRB	flag which indicates that swap first and last channels in 3-channel image is necessary.
+	crop	flag which indicates whether image will be cropped after resize or not
+	Returns
+	4-dimansional Mat with NCHW dimensions order.
 
 
 ## 针对像素的Mask操作
 
 使用一个mask matrix 或者叫kernel核，来重算图像中的每一个像素值。比如，核矩阵I(i,j)=5∗I(i,j)−[I(i−1,j)+I(i+1,j)+I(i,j−1)+I(i,j+1)] 是增加图像对比度的一种方法。opencv中的filter2D函数是内置的核操作函数。
-
 
 
 
@@ -63,35 +87,46 @@ https://docs.opencv.org/master/d7/da8/tutorial_table_of_content_imgproc.html
 
 # OpenCV高级算法应用
 
-https://docs.opencv.org/master/d2/d64/tutorial_table_of_content_objdetect.html
-
-
-
-https://docs.opencv.org/master/d1/d69/tutorial_table_of_content_ml.html
-
-https://docs.opencv.org/trunk/d6/de2/tutorial_py_table_of_contents_ml.html
-
 
 ## 机器学习
 
+
+https://docs.opencv.org/trunk/d6/de2/tutorial_py_table_of_contents_ml.html
+
+https://docs.opencv.org/master/d1/d69/tutorial_table_of_content_ml.html
+
 ## DNN深度学习模块
+
+https://docs.opencv.org/master/d2/d58/tutorial_table_of_content_dnn.html
 
  <opencv2/dnn.hpp>
 
  Net net;
 
- dnn::readNetFromCaffe
+ cv::dnn::readNetFromCaffe 从Caffe神经网络模型的prototxt和caffemodel文件中读取NN模型。
 
- net.setInput(inputBlob, "data");        
+ 	prototxt文件是一个树形文本文件，存储的是神经网络的结构设计。
+ 	caffemodel文件是满足Google Protocol Buffer标准的二进制文件，存储的是神经网络的权值参数。
+ 	synset_words.txt文本文件是ILSVRC的1000个图片分类的名称。
+
+
+ cv::dnn::blobFromImage 从图片数据中读取以NCHW [batch, in_channels, in_height, in_width]格式的Mat数据。
+
+
+ net.setInput(inputBlob, "data");   设置输入   
 
  prob = net.forward("prob");  
  
 
 ## 图像识别
 
+https://docs.opencv.org/master/d2/d64/tutorial_table_of_content_objdetect.html
+
+
+
 opencv3.3.0之后的DNN深度学习模块，用它可以进行图片分类或图片识别。下面这个链接是使用opencv_dnn模块进行图片分类的例子，其中使用的神经网络是Caffe实现的GoogLeNet。
 
-https://docs.opencv.org/master/d2/d58/tutorial_table_of_content_dnn.html
+
 
 ## 人脸检测
 

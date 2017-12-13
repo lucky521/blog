@@ -348,15 +348,27 @@ s(t) = (x * w)(t)
     第三级池化层：不变性
 
 
+# 典型的卷积神经网络模型
+
+
 ## LeNet
 
 ## AlexNet
+
+http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks
 
 ## VggNet
 
 ## GoogLeNet
 
+http://arxiv.org/abs/1409.4842
+
 ## ResNet
+
+
+## CaffeNet
+
+
 
 
 

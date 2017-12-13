@@ -1,5 +1,5 @@
 ---
-title: "OpenGL 开发指南"
+title: "OpenGL开发指南"
 categories: [design]
 layout: post
 ---
