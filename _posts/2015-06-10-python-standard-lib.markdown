@@ -6,6 +6,39 @@ layout: post
 ---
 所谓标准库，是要满足一些比通用计算和操作而设计的库。必须访问操作系统接口、文件读写、复杂数学计算、网络传输等。
 
+# Python内置函数
+
+http://www.runoob.com/python/python-built-in-functions.html
+
+## 数学运算内置函数
+
+abs返回输入的绝对值。divmod返回一个包含商和余数的元组。
+
+## IO函数
+
+input返回用户的交互输入。open返回被打开的文件对象。
+
+raw_input
+
+
+
+
+## 对象函数
+
+all()输入一个数组，如果所有元素不为0、''、False或者iterable为空，all(iterable)返回True，否则返回False
+
+any() 函数用于判断给定的可迭代参数 iterable 是否全部为空对象，如果都为空、0、false，则返回 False，如果不都为空、0、false，则返回 True。
+
+enumerate() 函数用于将一个可遍历的数据对象(如列表、元组或字符串)组合为一个索引序列，同时列出数据和数据下标，一般用在 for 循环当中。
+
+vars()输入一个对象，函数返回对象object的属性和属性值的字典对象。
+
+staticmethod
+
+classmethod
+
+
+
 # 操作系统接口访问
 
 ## 操作系统命令库`import os`
@@ -22,6 +55,8 @@ python自己的文件操作模块。
 
 ## 文件名通配库`import glob`
 用于文件名通配查找。`glob.glob('path_name') `会返回当前目录下所有通配的文件名，path_name可以用正则表达式进行通配。
+
+
 
 
 
@@ -54,6 +89,8 @@ print 'Done'
 - `thrading.Condition` 
 - `threading.Semaphore` 
 - `import Queue` 这是一个同步的、线程安全的队列，用它作为线程之间的数据共享更方便。
+
+
 
 
 
