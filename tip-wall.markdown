@@ -1,5 +1,5 @@
 ---
-title: 给我留言
+title: Contact Me 与我联系
 layout: default
 ---
 
@@ -28,3 +28,10 @@ lu.dev at outlook.com
 ## [豆瓣](https://www.douban.com/people/68649119/)
 
 [https://www.douban.com/people/68649119/](https://www.douban.com/people/68649119/)
+
+## [简书](http://www.jianshu.com/users/8181b6c0a274)
+
+[http://www.jianshu.com/users/8181b6c0a274](http://www.jianshu.com/users/8181b6c0a274)
+
+## [知乎]()
+
