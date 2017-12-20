@@ -33,5 +33,7 @@ lu.dev at outlook.com
 
 [http://www.jianshu.com/users/8181b6c0a274](http://www.jianshu.com/users/8181b6c0a274)
 
-## [知乎]()
+## [知乎](https://www.zhihu.com/people/troubleshoot)
+
+[https://www.zhihu.com/people/troubleshoot](https://www.zhihu.com/people/troubleshoot)
 
