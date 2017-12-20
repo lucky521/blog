@@ -13,6 +13,8 @@ lu.dev at outlook.com
 
 <img src="https://lucky521.github.io/img/weibo.png" width="150">
 
+[https://weibo.com/troubleshoot](https://weibo.com/troubleshoot) 
+
 ## [微信](https://lucky521.github.io/img/wechat-qrcode.jpg)
 
 <img src="https://lucky521.github.io/img/wechat-qrcode.jpg" width="150">
@@ -33,7 +35,7 @@ lu.dev at outlook.com
 
 [http://www.jianshu.com/users/8181b6c0a274](http://www.jianshu.com/users/8181b6c0a274)
 
-## [知乎](https://www.zhihu.com/people/troubleshoot)
+## [知乎](https://www.zhihu.com/people/troubleshoot/posts)
 
-[https://www.zhihu.com/people/troubleshoot](https://www.zhihu.com/people/troubleshoot)
+[https://www.zhihu.com/people/troubleshoot/posts](https://www.zhihu.com/people/troubleshoot/posts)
 
