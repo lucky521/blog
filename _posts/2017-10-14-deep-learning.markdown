@@ -4,16 +4,17 @@ categories: [design]
 layout: post
 ---
 
-这几年深度神经网络在解决模式识别问题上有很大突破，比如计算机视觉和语音识别领域。一个重要的原因是“卷积神经网络”的应用。
+这几年深度神经网络在解决模式识别问题上有很大突破，比如计算机视觉和语音识别领域。
 
 一般的回归预测问题常用标准神经网络模型(Standard NN)，图片分类问题常用卷积神经网络(CNN)，语音识别问题常用递归神经网络(RNN)。
 
 
 # 神经网络的基本构成
 
-这是一个演示神经网络工作的[WEB界面。](http://playground.tensorflow.org/)，通过它可以了解到神经网络的基本构成和工作流程。
+这是一个演示神经网络工作的[WEB界面](http://playground.tensorflow.org/)，通过它可以了解到神经网络的基本构成和工作流程。
 
 ![NN-playground]({{ site.baseurl }}/images/nn-playground.png)
+
 
 
 
@@ -22,6 +23,9 @@ layout: post
 Neuron是神经网络的一个单元。它是一个函数，一个回归模型。
 
 那么机器学习的关键就在于，怎么根据数据来训练模型，也就是怎么根据样本数据来找到最合适的模型参数。
+
+
+
 
 
 ## 代价函数 Cost Function / 损失函数 Loss / 误差函数 Error / Objective 目标函数
@@ -78,6 +82,8 @@ A = 2/(1+e^(-2x)) - 1 = 2sigmoid(2x) - 1
 A = x if x>0 else 0 
 
 
+
+
 ## 模型的优化方法
 
 优化方法指的是不断寻找网络的参数，使得它能显著地降低代价函数。
@@ -87,6 +93,8 @@ A = x if x>0 else 0
 ### 动量
 
 ### Nesterov动量
+
+
 
 
 ## Features of data
@@ -136,6 +144,7 @@ Batch size 是要一次通过神经网络的样本个数。
 
 
 
+
 ## 正规化 Regularization method and Regularization rate
 
 Regularization 的目的是要避免过拟合。减少真实数据生成错误（不是样本数据训练错误），避免训练数据过于片面，避免模型过于贴合训练样本而不能反映数据的真实规律。
@@ -164,7 +173,10 @@ L2 正规化是附加权重的平方之和，L1是附加权重的绝对值之和
 
 
 
+
 ## 全连接层 Fully Connected layer
+
+
 
 
 
@@ -248,6 +260,9 @@ l2是输出层，运算参数syn1是4X1的矩阵，输出结果是一个整数�
 
 ```
 import numpy as np
+
+# Simplest nerual network
+# one hidden layer
  
 # sigmoid function
 # True: f(x) = 1/(1+e^(-x))
@@ -309,87 +324,3 @@ print "Output After Training:"
 print l2
 ```
 
-
-
-# 卷积神经网络的结构
-
-卷积神经网络是用到了多个一样的神经元，可以表达更大的模型。
-
-我们在写程序的时候，会写一个函数，然后在多个地方调用这个函数。这是函数的复用作用。类似的，卷积神经网络学习一个神经元，然后在多个地方复用它。
-
-
-假设你有一个神经网络，训练声音样本，预测是否有人声在里面。
-
-最简单的方法是把所有声音样本按时间平分，作为同一层的输入。复杂的方法是加入数据的其他属性，比如频率。
-
-## 卷积操作
-
-所谓卷积神经网络，指的是至少在神经网络的某一层使用卷积运算来替代一般的矩阵乘法运算。
-
-s(t) = (x * w)(t) 
-
-比如上面是用函数w对函数x做卷积，原函数w是t的函数x(t)，函数w称作核函数，卷积时候的新函数是s(t)。输入t可以是多维的，比如多维数组(i,j,k,...)。对于二维的情况，卷积对应了一个双重分块循环矩阵。
-
-为什么卷积运算有助于改进神经网络？ 
-    
-    稀疏交互：通过核函数的大小来控制输入影响的范围。
-    参数共享：非卷积的运算中参数只会用到一次。而卷积的核参数是多次使用的。
-    等变表示：如果原函数是输入的平移函数，那么卷积函数对原函数有等变性。
-
-
-## 池化操作
-
-池化操作是几乎所有卷积网络都会有的操作。池化函数使用某一位置的相邻输出的总体统计特征来代替网络在该位置的输出。例如，MAX pooling函数是给出相邻矩阵区域内的最大值，当然还有平均值、加权平均值等其他池化函数。
-
-池化的平移不变性指的是当我们对输入进行少量平移时，经过池化函数后的大多数输出不会发生变化。当我们关心一个特征是否出现而不是关心在哪里出现时，局部平移不变性是很有用的性质。
-
-典型的卷积神经网络层有三级。
-
-    第一级卷积层：仿射变换
-    第二级探测层：整流线性
-    第三级池化层：不变性
-
-
-# 典型的卷积神经网络模型
-
-
-## LeNet
-
-## AlexNet
-
-http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks
-
-## VggNet
-
-## GoogLeNet
-
-http://arxiv.org/abs/1409.4842
-
-## ResNet
-
-
-## CaffeNet
-
-
-
-
-
-<!--
-这里是注释区
-
-```
-print "hello"
-```
-
-***Stronger***
-
-{% highlight python %}
-print "hello, Lucky!"
-{% endhighlight %}
-
-![My image]({{ site.baseurl }}/images/emule.png)
-
-My Github is [here][mygithub].
-[mygithub]: https://github.com/lucky521
-
--->

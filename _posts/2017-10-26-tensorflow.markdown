@@ -142,24 +142,3 @@ https://github.com/cmusatyalab/openface
 
 https://github.com/pannous/tensorflow-speech-recognition
 
-
-
-<!--
-这里是注释区
-
-```
-print "hello"
-```
-
-***Stronger***
-
-{% highlight python %}
-print "hello, Lucky!"
-{% endhighlight %}
-
-![My image]({{ site.baseurl }}/images/emule.png)
-
-My Github is [here][mygithub].
-[mygithub]: https://github.com/lucky521
-
--->
