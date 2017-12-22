@@ -30,7 +30,36 @@ Variable 代表着模型中的参数，算法的核心目的是在训练参数�
 # 常用函数 
 
 
-## 神经网络相关函数
+## 基础操作函数
+
+### 基本运算函数
+
+```
+tf.reduce_mean
+
+tf.equal
+
+tf.argmax(vector, dimention)：返回的是vector中的最大值的索引号
+```
+
+### 类型转换函数
+
+```
+tf.cast
+```
+
+## 模型保存和加载
+
+```
+tf.train.Saver()
+save_path = saver.save(sess, model_path)
+saver.restore(sess, model_path)
+```
+
+
+
+
+## 神经网络构建函数
 
 ### 激活函数
 
@@ -55,21 +84,49 @@ tf.nn.avg_pool
 tf.nn.max_pool
 ```
 
-## 代价函数
 
-```
-tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits_nn, labels=Y))
+
+
+## 模型训练函数
+
+### 代价函数
+
+交叉熵 softmax_cross_entropy_with_logits
 
 softmax_cross_entropy_with_logits是用的最多的，此外还有mean_squared_error和sigmoid_cross_entropy。
 
 ```
+cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits_nn, labels=Y)
 
+tf.reduce_mean(cross_entropy)
 
-### 优化函数
 
 ```
+
+
+### 优化器函数
+
+```
+tf.train.AdamOptimizer
+
 tf.train.GradientDescentOptimizer
 ```
+
+
+
+
+# Tensorflow机器学习模型
+
+https://github.com/aymericdamien/TensorFlow-Examples/tree/master/examples/2_BasicModels
+
+	kmeans
+	线性回归
+	逻辑回归
+	KNN
+	随机森林
+
+
+
 
 
 
@@ -84,15 +141,17 @@ https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/tutoria
 	mnist_softmax.py  使用Softmax回归训练。
 	mnist_softmax_xla.py 采用XLA框架训练。
 	mnist_with_summaries.py
-	autoencoder.py 使用Autoencoder训练。
+
 
 
 https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3_NeuralNetworks
 
+	autoencoder.py 使用Autoencoder训练。
 	neural_network_raw.py 	2-Hidden Layers Fully Connected Neural Network
 	recurrent_network.py 使用RNN训练。
-	convolutional_network.py
+	convolutional_network.py  using TensorFlow layers API
 	convolutional_network_raw.py
+	gan.py 
 
 
 https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.py

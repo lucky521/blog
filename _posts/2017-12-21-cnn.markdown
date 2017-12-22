@@ -1,5 +1,5 @@
 ---
-title: "卷积神经网络的结构及应用"
+title: "卷积神经网络"
 categories: [design]
 layout: post
 ---
@@ -44,6 +44,17 @@ s(t) = (x * w)(t)
     第一级卷积层：仿射变换
     第二级探测层：整流线性
     第三级池化层：不变性
+
+
+## 卷积层 Convolutional Layer
+
+## 全连接层
+
+## 扁平层 Flatten layer
+
+Flatten层用来将输入“压平”，即把多维的输入一维化，常用在从卷积层到全连接层的过渡。Flatten不影响batch的大小。
+
+The Flatten layer is a utility layer that flattens an input of shape n * c * h * w to a simple vector output of shape n * (c*h*w).
 
 
 # 典型的卷积神经网络模型
