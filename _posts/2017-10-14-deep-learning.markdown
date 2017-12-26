@@ -41,7 +41,7 @@ cost function 用于表示所训练出模型的好坏程度。它是构建一个
 下面有几种常见的代价函数。
 
 
-### 交叉熵 cross-entropy 
+### 交叉熵 cross-entropy
 
 
 ### 均方误差 Mean Square Error
@@ -95,7 +95,7 @@ cost function 用于表示所训练出模型的好坏程度。它是构建一个
 
 下面有四种激活函数。
 
-### Linear function 
+### Linear function
 
 A = cx
 线性函数。
@@ -116,7 +116,7 @@ A = 2/(1+e^(-2x)) - 1 = 2sigmoid(2x) - 1
 ### ReLu function 线性整流函数
 
 通常意义下，线性整流函数代指代数学中的斜坡函数，即
-A = x if x>0 else 0 
+A = x if x>0 else 0
 
 
 
@@ -146,7 +146,7 @@ Learning rate 用于表示更新参数的快慢程度。
 
 Epoch 是对所有训练数据的一次 forward pass 和一次 backward pass过程。
 
-### Batch size 
+### Batch size
 
 Batch size 是要一次通过神经网络的样本个数。
 
@@ -184,7 +184,7 @@ L2 正规化是附加权重的平方之和，L1是附加权重的绝对值之和
 
 
 
-## 网络层 
+## 网络层
 
 ### 全连接层 Fully Connected layer
 
@@ -268,7 +268,7 @@ for iter in xrange(10000):
     # how much did we miss?
     l1_error = y - l1
 
-    # multiply how much we missed by the 
+    # multiply how much we missed by the
     # slope of the sigmoid at the values in l1
     l1_delta = l1_error * sigmoid(l1, True)
 
@@ -303,7 +303,7 @@ import numpy as np
 
 # Simplest nerual network
 # one hidden layer
- 
+
 # sigmoid function
 # True: f(x) = 1/(1+e^(-x))
 # False: f'(x) = f(x)(1-f(x))
@@ -312,51 +312,51 @@ def sigmoid(x,deriv=False):
         return x*(1-x)
     else:   # origin function
         return 1/(1+np.exp(-x))
- 
+
 X = np.array([[0,0,1],
             [0,1,1],
             [1,0,1],
             [1,1,1]])
- 
+
 y = np.array([[0],
             [1],
             [1],
             [0]])
- 
+
 np.random.seed(1)
- 
+
 # randomly initialize our weights with mean 0
 syn0 = 2*np.random.random((3,4)) - 1
 syn1 = 2*np.random.random((4,1)) - 1
- 
+
 for j in xrange(60000):
- 
+
     # Feed forward through layers 0, 1, and 2
-    l0 = X  # layer 0 - input 
+    l0 = X  # layer 0 - input
     l1 = sigmoid(np.dot(l0,syn0)) # layer 1 - hidden layer with syn0
     l2 = sigmoid(np.dot(l1,syn1)) # layer 2 - output with syn1
 
     # how much did we miss the target value?
     l2_error = y - l2
- 
+
     if (j% 10000) == 0:
         print "Error:" + str(np.mean(np.abs(l2_error)))
- 
+
     # in what direction is the target value?
     # were we really sure? if so, don't change too much.
     l2_delta = l2_error*sigmoid(l2,deriv=True)
- 
+
     # how much did each l1 value contribute to the l2 error (according to the weights)?
     l1_error = l2_delta.dot(syn1.T)
- 
+
     # in what direction is the target l1?
     # were we really sure? if so, don't change too much.
     l1_delta = l1_error * sigmoid(l1,deriv=True)
- 
+
     syn1 += l1.T.dot(l2_delta)
     syn0 += l0.T.dot(l1_delta)
 
-print 
+print
 print "Weights after Training:"
 print syn0
 print syn1
@@ -364,3 +364,9 @@ print "Output After Training:"
 print l2
 ```
 
+
+# 有意思的东西
+
+https://github.com/google/deepdream
+
+https://github.com/jcjohnson/neural-style

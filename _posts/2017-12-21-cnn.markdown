@@ -22,12 +22,12 @@ layout: post
 
 所谓卷积神经网络，指的是至少在神经网络的某一层使用卷积运算来替代一般的矩阵乘法运算。
 
-s(t) = (x * w)(t) 
+s(t) = (x * w)(t)
 
 比如上面是用函数w对函数x做卷积，原函数w是t的函数x(t)，函数w称作核函数，卷积时候的新函数是s(t)。输入t可以是多维的，比如多维数组(i,j,k,...)。对于二维的情况，卷积对应了一个双重分块循环矩阵。
 
-为什么卷积运算有助于改进神经网络？ 
-    
+为什么卷积运算有助于改进神经网络？
+
     稀疏交互：通过核函数的大小来控制输入影响的范围。
     参数共享：非卷积的运算中参数只会用到一次。而卷积的核参数是多次使用的。
     等变表示：如果原函数是输入的平移函数，那么卷积函数对原函数有等变性。
@@ -62,7 +62,11 @@ The Flatten layer is a utility layer that flattens an input of shape n * c * h *
 
 ## LeNet
 
+http://yann.lecun.com/exdb/lenet/
+
 ## AlexNet
+
+从2012年这篇CNN的大作之后，卷积神经网络彻底火起来。
 
 http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks
 
@@ -80,4 +84,6 @@ http://arxiv.org/abs/1409.4842
 ## MobileNet
 
 
+# CNN benchmarks
 
+https://github.com/jcjohnson/cnn-benchmarks
