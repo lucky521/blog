@@ -37,7 +37,7 @@ staticmethod
 
 classmethod
 
-
+map函数 会根据提供的函数对指定序列做映射。第一个参数 function 以参数序列中的每一个元素调用 function 函数，返回包含每次 function 函数返回值的新列表。
 
 # 操作系统接口访问
 
@@ -85,9 +85,9 @@ print 'Done'
 多线程的程序中要面临的数据共享问题，因此为线程提供有锁、信号量、条件变量、事件、队列。使用的方法和操作系统中的这些东西很接近。
 
 - `threading.Event`  线程可以set或wait一个事件。
-- `threading.Lock` 
-- `thrading.Condition` 
-- `threading.Semaphore` 
+- `threading.Lock`
+- `thrading.Condition`
+- `threading.Semaphore`
 - `import Queue` 这是一个同步的、线程安全的队列，用它作为线程之间的数据共享更方便。
 
 
@@ -100,7 +100,7 @@ print 'Done'
 
 	import timeit
 	timeit.timeit('some-commands/operations', number=100)
-	
+
 可以通过timeit来测试一下一些简单操作的时间性能，number参数是测试的次数。
 
 ## 单元测试`import unittest`
@@ -123,7 +123,7 @@ print 'Done'
 
 	>>> function-name(function-input)
 	function-return-value
-	
+
 找到之后，就会拿它作为函数function-name的测试用例进行测试，如果运行结果和function-return-value不同的话，则会输出这一次单元测试的错误内容。
 
 下面是个弱智例子。这是一个两个参数做加法后返回的函数，文档字符串中写出了函数运行结果1+1=3,很明显和运行结果不对，因此这里就会测试时报错了。

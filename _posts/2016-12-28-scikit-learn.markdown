@@ -69,27 +69,33 @@ pipe中的最后一个estimator可以是transformer, classifier。之前的estim
 
 线性回归
 LinearRegression这个名字已经说明了是X->y的1次函数，所以自然的X向量的纬度是多少，所求的参数个数也就是多少。
+'''
 >>> from sklearn import linear_model   //导入库
 >>> regr = linear_model.LinearRegression()   //  指明算法模型，是一个对象。
 >>> regr.fit(X_train, y_train)   // 用训练数据进行模型训练。
 >>> regr.coef_   // 训练之后模型所计算出的方程参数。
 >>> regr.score(X_test, y_test))   // 用测试数据（已知X和y）进行测评。
 >>> regr.predict(X_unknown)  //  满意的话，以后就可以用这个模型进行“预测”了，给X让计算出y来。
+'''
 
 ## 分类预测问题 Classification
 
 SVM
+'''
 >>> classifier = svm.SVC(gamma=0.001)
 >>> classifier.fit(train_X, train_y)
 >>> classifier.decision_function(np.c_[X1.ravel(), X2.ravel()])
 >>> classifier.predict(new_X)
+'''
 
 ## 聚类问题 Clustering
 
 Kmeans
 输入是若干个抽象空间的坐标点位置。输出是这些点的标签。
+'''
 >>> import sklearn  #引入库
 >>> kmeans = sklearn.cluster.KMeans(n_clusters=cluster_num, n_init=10) #算法模型
 >>> kmeans.fit(train_data)  #训练
 >>> labels = kmeans.labels_   #输出聚类标签
 >>> cluster = kmeans.predict(new_data) #用这个模型进行聚类
+'''
