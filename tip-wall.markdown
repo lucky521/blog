@@ -5,9 +5,20 @@ layout: default
 
 # Contact Me 与我联系
 
+## [FrontPage](https://lucky521.github.io/)
+
+[https://lucky521.github.io/](https://lucky521.github.io/)
+
+
 ## [Email](mailto:lu.dev@outlook.com)
 
 lu.dev at outlook.com
+
+
+## [Github](https://github.com/lucky521)
+
+[https://github.com/lucky521](https://github.com/lucky521)
+
 
 ## [微博](https://weibo.com/troubleshoot)  
 
@@ -23,9 +34,6 @@ lu.dev at outlook.com
 
 [https://stackoverflow.com/users/3346980/lucky](https://stackoverflow.com/users/3346980/lucky)
 
-## [Github](https://github.com/lucky521)
-
-[https://github.com/lucky521](https://github.com/lucky521)
 
 ## [豆瓣](https://www.douban.com/people/68649119/)
 
