@@ -27,7 +27,7 @@ Variable 代表着模型中的参数，算法的核心目的是在训练参数�
 
 
 
-# 常用函数 
+# 常用函数
 
 
 ## 基础操作函数
@@ -151,7 +151,7 @@ https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3_Neur
 	recurrent_network.py 使用RNN训练。
 	convolutional_network.py  using TensorFlow layers API
 	convolutional_network_raw.py
-	gan.py 
+	gan.py
 
 
 https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.py
@@ -185,11 +185,11 @@ https://github.com/tensorflow/models/blob/master/tutorials/image/mnist/convoluti
 
 ## FaceNet
 
+FaceNet启发于OpenFace项目，使用TensorFlow创建的人脸识别框架。
+
 https://github.com/davidsandberg/facenet
 
-## Openface
 
-https://github.com/cmusatyalab/openface
 
 
 
@@ -200,4 +200,3 @@ https://github.com/cmusatyalab/openface
 ## spoken numbers pcm 数据集
 
 https://github.com/pannous/tensorflow-speech-recognition
-
