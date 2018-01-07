@@ -89,6 +89,11 @@ openface识别人脸的工作流程：
 3. 使用深度神经网络以128-dimensional unit hypersphere来表示一张脸。这种表示方法使得聚类和分类都变得容易。
 4. 应用聚类或分类方法来完成识别任务。
 
+在docker镜像里体验openface：
+    http://cmusatyalab.github.io/openface/setup/
+    docker pull bamos/openface
+    docker run -p 9000:9000 -p 8000:8000 -t -i bamos/openface /bin/bash
+
 ### face_recognition
 
 https://github.com/ageitgey/face_recognition
