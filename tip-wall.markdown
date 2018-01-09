@@ -5,9 +5,7 @@ layout: default
 
 # Contact Me 与我联系
 
-## [FrontPage](https://lucky521.github.io/)
-
-[https://lucky521.github.io/](https://lucky521.github.io/)
+Thanks for reading my [Blog](https://lucky521.github.io/blog/). Apart from my [FrontPage](https://lucky521.github.io/), you can also find me in some other social media platforms.
 
 
 ## [Email](mailto:lu.dev@outlook.com)
