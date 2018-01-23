@@ -4,7 +4,7 @@ categories: [design]
 layout: post
 ---
 
-# Hadoop是做什么的？ 
+# Hadoop是做什么的？
 
 分布式。数据存储。数据处理。
 
@@ -29,7 +29,7 @@ layout: post
 ### Disable IPV6
 ```
 > sudo vim /etc/sysctl.conf
-add 
+add
 # disable ipv6
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
@@ -39,7 +39,7 @@ net.ipv6.conf.lo.disable_ipv6 = 1
 ### 安装hadoop
 
 ```
-> sudo add-apt-repository ppa:hadoop-ubuntu/stable 
+> sudo add-apt-repository ppa:hadoop-ubuntu/stable
 > sudo apt-get update && sudo apt-get upgrade  
 > sudo apt-get install hadoop
 > man hadoop
@@ -50,7 +50,7 @@ net.ipv6.conf.lo.disable_ipv6 = 1
 ```
 > sudo vim /home/hduser/.bashrc
 # Set Hadoop-related environment variables   设置hadoop程序的路径，这样程序找自带jar包也容易。
-export HADOOP_HOME=/usr/lib/hadoop 
+export HADOOP_HOME=/usr/lib/hadoop
 # Set JAVA_HOME (we will also configure JAVA_HOME directly for Hadoop later on)  设置JDK的路径
 export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 ```
@@ -59,7 +59,7 @@ export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 
 ```
 $ sudo vim /etc/hadoop/conf/hadoop-env.sh
-add 
+add
 export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 ```
 
@@ -96,15 +96,21 @@ $ sudo vim /etc/hadoop/conf/hdfs-site.xml
 
 ### 格式化HDFS文件系统
 以hduser的身份进行操作
-```$ hadoop namenode -format``` 
+```
+$ hadoop namenode -format
+```
 这样就在/app/hadoop/tmp下创建了一个空的文件系统。
 
 ### 启动Hadoop
-```> /usr/lib/hadoop/bin/start-all.sh```
+```
+> /usr/lib/hadoop/bin/start-all.sh
+```
 这就会启动a Namenode, SecondaryNameNode, Datanode, Jobtracker and a Tasktracker
 
 ### 查看java 进程
-```> jps```
+```
+> jps
+```
 看到5个进程都启动起来了。
 
 
@@ -114,16 +120,93 @@ $ sudo vim /etc/hadoop/conf/hdfs-site.xml
 - 2、已经自带了ssh。
 打开hadoop的时候不要连接外网。连外网之后本机ip就变了。ssh到localhost出错。需要去System Preferences的Sharing里面手动允许22端口开放：http://stackoverflow.com/questions/6313929/how-do-i-open-port-22-in-osx-10-6-7
 - 3、brew install hadoop 直接安装了1.2.1稳定版
-	```hadoop version 查看版本号```
+```
+hadoop version 查看版本号
+```
 hadoop系统安装路径在
-```/usr/local/Cellar/hadoop/1.2.1/```
+```
+/usr/local/Cellar/hadoop/1.2.1/
+```
 
 
 ## 填写配置文件：
 三大配置文件，core-site.xml, hdfs-site.xml, mapred-site.xml (在0.2老版本中是三合一的一个xml)。要分别在里面填写name、jobtracker、replication的配置内容。
 
 ## 格式化一个新的文件系统（在hadoop所有进程关闭的时候运行这个）
-```$ hadoop namenode -format```
+```
+$ hadoop namenode -format
+```
 默认情况下这个文件系统hdfs被放在本机的/tmp/hadoop-liulu/。对于hdfs本身来说，其中的文件被放在/user/liulu里面。
 
 
+
+# Hadoop的启动与配置
+
+## hadoop启动与关闭
+```
+> start-all.sh  全体node启动
+启动hadoop的五个默认进程，
+> stop-all.sh 关闭hadoop的五个默认进程，他们都运行在JVM之上。
+77857 SecondaryNameNode
+77659 NameNode
+77930 JobTracker
+78028 TaskTracker
+77758 DataNode
+```
+
+## 配置文件
+
+/etc/hadoop/conf
+https://hadoop.apache.org/docs/r1.0.4/hdfs-default.html
+
+core-site.xml
+- 必须在所有master及slave上的conf/core-site.xml中设置fs.default.name项。并且因为Hadoop架构是主master模式，所以在一个集群中的所有master及slave上设置的fs.default.name值应该是唯一一个NameNode 主服务器的地址。
+- 为每个node上的HDFS系统设置文件系统在本机的路径，hadoop.tmp.dir。
+
+hdfs-site.xml
+- 设置dfs.replication，即hdfs数据块的复制份数，默认3。
+- 可以设置dfs.name.dir来改变Namenoode的存储位置，也可以不改，默认就在hadoop.tmp.dir下面。
+-可以设置dfs.data.dir来改变Datanoode的存储位置，也可以不改，默认就在hadoop.tmp.dir下面。
+
+mapred-site.xml
+- 必须在所有master及slave上的conf/mapred-site.xml中设置mapred.job.tracker项。并且因为Hadoop架构是主master模式，所以在一个集群中的所有master及slave上设置的mapred.job.tracker的值应该是唯一一个JobTracker主服务器的地址。
+
+mapred-queue-acls.xml
+- mapred.queue.<queue-name>.acl-submit-job ， List of users and groups that can submit jobs to the specified queue-name.
+- mapred.queue.<queue-name>.acl-administer-jobs， List of users and groups that can view job details, change the priority or kill jobs that have been submitted to the specified queue-name.
+
+/etc/hadoop/conf/hadoop-site.xml ？？？
+/etc/hadoop/conf/hadoop-env.xml ？？？
+
+
+## 主要可执行文件
+/usr/lib/hadoop
+
+
+## 单独node启动脚本
+启动/停止NameNode
+/etc/init.d/hadoop-namenode
+启动/停止DataNode
+/etc/init.d/hadoop-datanode
+启动/停止Secondary NameNode
+/etc/init.d/hadoop-secondarynamenode
+启动/停止jobtracker
+/etc/init.d/hadoop-jobtracker
+启动/停止tasktracker
+/etc/init.d/hadoop-tasktracker
+
+
+## 默认的web可视化监控页面
+对job tracker的监控  http://10.117.175.50:50030/
+对NameNode的监控  http://10.117.175.50:50070/
+对task tracker的监控 http://10.117.175.50:50060/
+
+
+## 日志文件
+放在/usr/lib/hadoop/logs
+
+
+
+# HDFS文件系统
+是一个虚拟的文件系统。
+home目录叫做" /user/hduser"（hduser是为hadoop专门添加的一个用户）
