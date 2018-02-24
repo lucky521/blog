@@ -32,13 +32,23 @@ layout: post
 ## 搜索过滤选项
 
 
+# 开源搜索引擎
+
+## Lucene
+
+
+## Elasticsearch
 
 
 
 # References
 
-http://www.csdn.net/article/2015-10-29/2826086
+电商搜索引擎的架构设计和性能优化 http://www.csdn.net/article/2015-10-29/2826086
 
-http://geek.csdn.net/news/detail/126786
+京东亿级商品搜索核心技术解密 http://geek.csdn.net/news/detail/126786
 
 https://tech.youzan.com/you_zan_searchengine2/
+
+http://www.36dsj.com/archives/61886
+
+电商搜索引擎报告 https://www.jianshu.com/p/aaed2650ee18
