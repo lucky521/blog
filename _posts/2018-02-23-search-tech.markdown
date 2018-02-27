@@ -25,11 +25,17 @@ layout: post
 
 ## 数据索引
 
+倒排索引结构。
 
 ## 内容相关性分析
 
 
 ## 搜索过滤选项
+
+搜索选择决定了搜索范围、排名规则。
+
+
+
 
 
 # 开源搜索引擎
@@ -38,6 +44,40 @@ layout: post
 
 
 ## Elasticsearch
+
+Rest API
+
+Status
+
+        http://localhost:9200/_cat/health?v
+        http://localhost:9200/_cat/nodes?v
+        http://localhost:9200/_cat/indices?v
+
+Index
+
+一个index是具有某种相似属性的文档的集合，index以一个名字来标识。
+
+
+添加一个index
+
+        PUT http://localhost:9200/customer?pretty
+
+        PUT http://localhost:9200/customer/_doc/1?pretty  header里要设置content-type为json
+
+        http://localhost:9200/customer/_doc/1?pretty
+
+删除一个index
+
+        DELETE http://localhost:9200/customer?pretty
+
+
+Search
+
+        http://localhost:9200/customer/_search
+
+
+## solr
+
 
 
 
