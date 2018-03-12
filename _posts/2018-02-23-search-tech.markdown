@@ -35,6 +35,15 @@ layout: post
 搜索选择决定了搜索范围、排名规则。
 
 
+## 搜索排序
+
+Learn to Rank
+
+排序打分。
+
+
+
+
 
 
 
@@ -92,3 +101,5 @@ https://tech.youzan.com/you_zan_searchengine2/
 http://www.36dsj.com/archives/61886
 
 电商搜索引擎报告 https://www.jianshu.com/p/aaed2650ee18
+
+美团的搜索排序方案 https://tech.meituan.com/meituan-search-rank.html
