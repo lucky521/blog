@@ -1,0 +1,31 @@
+---
+title: "Boosting 提升方法"
+categories: [design]
+layout: post
+---
+
+集成学习是结合多个学习器、组合单一分类方法来完成学习任务。
+
+集成学习策略主要可以分为三大类，Boosting, Bagging, Stacking。
+
+      Boosting的代表有AdaBoost, gbdt, xgboost。
+      Bagging的代表则是随机森林 (Random Forest)。
+      Stacking 的话，好像还没有著名的代表，可以视其为一种集成的套路。
+
+
+
+# Ensemble tree based models
+
+      	* RandomForestClassifier
+      	* RandomForestRegressor
+      	* ExtraTreesClassifier
+      	* ExtraTreesRegressor
+      	* XGBClassifier
+      	* XGBRegressor
+
+
+# GBDT
+
+GBDT（Gradient Boosting Decision Tree，梯度提升决策树）
+
+也叫 Multiple Additive Regression Tree（MART），也叫 Treelink。
