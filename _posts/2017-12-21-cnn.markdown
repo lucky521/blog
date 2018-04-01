@@ -78,10 +78,14 @@ http://arxiv.org/abs/1409.4842
 
 ## ResNet
 
-
 ## CaffeNet
 
 ## MobileNet
+
+https://arxiv.org/abs/1704.04861
+
+
+
 
 
 # CNN benchmarks

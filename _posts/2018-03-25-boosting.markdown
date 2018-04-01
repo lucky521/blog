@@ -4,7 +4,8 @@ categories: [design]
 layout: post
 ---
 
-集成学习是结合多个学习器、组合单一分类方法来完成学习任务。
+集成学习
+Ensemble learning 是结合多个学习器、组合单一分类方法来完成学习任务。
 
 集成学习策略主要可以分为三大类，Boosting, Bagging, Stacking。
 
@@ -26,6 +27,51 @@ layout: post
 
 # GBDT
 
+Gradient boosting 主要的思想是，每一次建立模型是在之前建立模型损失函数的梯度下降方向
+
 GBDT（Gradient Boosting Decision Tree，梯度提升决策树）
 
 也叫 Multiple Additive Regression Tree（MART），也叫 Treelink。
+
+
+
+
+# XGBoost
+
+XGBoost 是一个用来做 Gradient boosting 的开源库。
+
+下面是用法的一般用法：
+
+训练一个模型
+
+    dtrain = xgb.DMatrix('agaricus.txt.train')
+    param = {'max_depth':2, 'eta':1, 'silent':1, 'objective':'binary:logistic' }
+    num_round = 2
+    bst = xgb.train(param, dtrain, num_round)
+
+进行一次预测
+
+    dtest = xgb.DMatrix('agaricus.txt.test')
+    preds = bst.predict(dtest)
+
+Dump一个模型到文件
+
+    bst.dump_model('model.txt')  # 保存为文本形式的模型
+    bst.save_model('model.bin')    # 保存为二进制形式的模型
+
+
+Load一个模型文件
+
+    # load xgboost model
+    bst_new = xgb.Booster({'nthread':4})    #init model
+    bst_new.load_model("model.bin")        # load data  这个接口只能载入二进制形式的模型
+
+    # predict using loaded model
+    preds = bst_new.predict(dtest)
+    print(preds)
+
+
+训练数据的文件格式
+
+    Each line represent a single instance, and in the first line ‘1’ is the instance label,‘101’ and ‘102’ are feature indices, ‘1.2’ and ‘0.03’ are feature values.  
+    每行代表一个测试数据，格式为： 标签（分类）  特征k：特征v  特征k：特征v……
