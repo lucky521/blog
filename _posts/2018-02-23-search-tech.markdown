@@ -100,11 +100,65 @@ Step4：基于上述运算得分对文档进行综合排序，最后返回结果
 • Pair-wise 每两个文章计算一下谁的得分高，用这个相对得分进行排序。
 • List-wise 枚举topk的所有排列情况，计算综合得分最高的一种作为结果。
 
+从这三类方法都能看出，打分是排序的一个重要手段。
 
-威尔逊得分排序：
+## 基于投票的排序算法
+
+-- 威尔逊得分排序
 一种基于用户投票的排名算法算法。用于质量排序，数据含有好评和差评，综合考虑评论数与好评率，得分越高，质量越高。
 
+![Wilson score interval](https://wikimedia.org/api/rest_v1/media/math/render/svg/c999019cc4f806d147bffb46158dc022b822f01a)
 
+其中，u表示正例数（好评），v表示负例数（差评），n表示实例总数（评论总数），p表示好评率，z是正态分布的分位数（参数），S表示最终的威尔逊得分。z一般取值2即可，即95%的置信度。
+
+
+-- Reddit网站的热帖排序
+Reddit网站对热门帖子排序考虑了帖子的存在时间t，赞成票与反对票的差值x。
+
+![reddit](http://chart.googleapis.com/chart?cht=tx&chl=Score%3Dlog_%7B10%7Dz%2B%5Cfrac%7Byt%7D%7B45000%7D&chs=80)
+
+其中，z表示赞成票与反对票之间差额的绝对值。如果对某个帖子的评价，越是一边倒，z就越大。如果赞成票等于反对票，z就等于1。y表示对文章的总体看法。如果赞成票居多，y就是+1；如果反对票居多，y就是-1；如果赞成票和反对票相等，y就是0。
+
+
+-- HackerNews网站的文章排序
+HackerNews热门文章的排序考虑了文章的赞成票数，帖子的时间衰减。
+
+![HN](http://chart.googleapis.com/chart?cht=tx&chl=Score%3D%5Cfrac%7BP-1%7D%7B(T%2B2)%5E%7BG%7D%7D&chs=60)
+
+其中，P表示帖子的赞成票数，减去1是为了忽略发帖人的投票。T表示帖子存在的时间，加上2是为了防止最新的帖子导致分母过小（之所以选择2，可能是因为从原始文章出现在其他网站，到转贴至Hacker News，平均需要两个小时）。G表示"重力因子"（gravityth power），即将帖子排名往下拉的力量，默认值为1.8。
+
+
+-- StackOverflow的热门问答排序
+StackOverflow的热门问答排序考虑了用户的浏览次数、对问题和回答的投票、以及时间衰减。
+
+![StackOverflow](http://chart.googleapis.com/chart?cht=tx&chl=%5Cfrac%7B(log_%7B10%7DQviews)%5Ctimes%204%2B%5Cfrac%7BQanswers%5Ctimes%20Qscore%7D%7B5%7D%2Bsum(Ascores)%7D%7B((Qage%2B1)-(%5Cfrac%7BQage-Qupdated%7D%7B2%7D))%5E%7B1.5%7D%7D&chs=120)
+
+其中，Qviews代表问题的浏览次数。以10为底的对数，用意是当访问量越来越大，它对得分的影响将不断变小。Qanswers代表问题中的答案数量。Qscore代表问题得分=对问题的赞成票-反对票。Ascores代表一个回答的得分=对回答的赞成票-反对票。Qage代表问题的存在时间。Qupdated代表最后一个回答的存在时间。
+
+
+-- IMDB的电影评分排序
+IMDB电影打分考虑了用户对一部电影的投票和所有电影的平均票数。把m个平均分票加给冷门电影以保证它有足够多的票数。
+
+![imdb](http://chart.googleapis.com/chart?cht=tx&chl=WR%3D%5Cfrac%7Bv%7D%7Bv%2Bm%7DR%2B%5Cfrac%7Bm%7D%7Bv%2Bm%7DC&chs=60)
+
+其中，R表示投票分数的平均数。V表示投票人数。m表示排名前250名的电影的最低投票数。C表示所有电影的平均得分。
+
+
+## 基于目标的排序算法
+
+前面的基于投票的排序都是根据投票判断一个文档的好坏程度来打分。对于没有投票的场景，比如订阅流、推荐流，希望是结合更多维度的特征来判断，目标也不仅仅是好坏程度，而可能是用户的感兴趣程度。
+
+对于这种排序，假设要考虑几十种因素来打分。这里直接把考虑因素叫作特征吧。有些情况下，特征本身就是需要计算间接得到的。比如EdgeRank算法。
+
+-- Facebook的新鲜事排序EdgeRank
+EdgeRank用来给一个用户的新鲜事流进行排序。计算公式为
+
+![EdgeRank](https://beta.techcrunch.com/wp-content/uploads/2010/04/edgerankform2.png)
+
+其中，u表示事件生产者和观察者之间的亲密度。w表示由事件类型所决定的权重（创建、点赞、评分、转发等不同类型事件的权重不同）。d表示时间衰减因子。
+
+
+有些情况下，直接设计一个打分的公式算法不太现实。这时就可以借助机器学习方法来拟合一个从考虑因素到目标分数的函数。一般叫做Learn to Rank，通过训练数据来学出一个排序算法（排序模型）来。
 
 
 
