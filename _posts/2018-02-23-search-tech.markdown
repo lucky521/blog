@@ -96,15 +96,17 @@ Step4：基于上述运算得分对文档进行综合排序，最后返回结果
 # 排序算法
 
 排序打分的三类方法：
-• Point-wise 每一个文章计算一个绝对得分，然后按照得分排序。
-• Pair-wise 每两个文章计算一下谁的得分高，用这个相对得分进行排序。
-• List-wise 枚举topk的所有排列情况，计算综合得分最高的一种作为结果。
+
+    • Point-wise 每一个文章计算一个绝对得分，然后按照得分排序。
+    • Pair-wise 每两个文章计算一下谁的得分高，用这个相对得分进行排序。
+    • List-wise 枚举topk的所有排列情况，计算综合得分最高的一种作为结果。
 
 从这三类方法都能看出，打分是排序的一个重要手段。
 
 ## 基于投票的排序算法
 
 -- 威尔逊得分排序
+
 一种基于用户投票的排名算法算法。用于质量排序，数据含有好评和差评，综合考虑评论数与好评率，得分越高，质量越高。
 
 ![Wilson score interval](https://wikimedia.org/api/rest_v1/media/math/render/svg/c999019cc4f806d147bffb46158dc022b822f01a)
@@ -113,6 +115,7 @@ Step4：基于上述运算得分对文档进行综合排序，最后返回结果
 
 
 -- Reddit网站的热帖排序
+
 Reddit网站对热门帖子排序考虑了帖子的存在时间t，赞成票与反对票的差值x。
 
 ![reddit](http://chart.googleapis.com/chart?cht=tx&chl=Score%3Dlog_%7B10%7Dz%2B%5Cfrac%7Byt%7D%7B45000%7D&chs=80)
@@ -121,6 +124,7 @@ Reddit网站对热门帖子排序考虑了帖子的存在时间t，赞成票与�
 
 
 -- HackerNews网站的文章排序
+
 HackerNews热门文章的排序考虑了文章的赞成票数，帖子的时间衰减。
 
 ![HN](http://chart.googleapis.com/chart?cht=tx&chl=Score%3D%5Cfrac%7BP-1%7D%7B(T%2B2)%5E%7BG%7D%7D&chs=60)
@@ -129,6 +133,7 @@ HackerNews热门文章的排序考虑了文章的赞成票数，帖子的时间�
 
 
 -- StackOverflow的热门问答排序
+
 StackOverflow的热门问答排序考虑了用户的浏览次数、对问题和回答的投票、以及时间衰减。
 
 ![StackOverflow](http://chart.googleapis.com/chart?cht=tx&chl=%5Cfrac%7B(log_%7B10%7DQviews)%5Ctimes%204%2B%5Cfrac%7BQanswers%5Ctimes%20Qscore%7D%7B5%7D%2Bsum(Ascores)%7D%7B((Qage%2B1)-(%5Cfrac%7BQage-Qupdated%7D%7B2%7D))%5E%7B1.5%7D%7D&chs=120)
@@ -137,6 +142,7 @@ StackOverflow的热门问答排序考虑了用户的浏览次数、对问题和�
 
 
 -- IMDB的电影评分排序
+
 IMDB电影打分考虑了用户对一部电影的投票和所有电影的平均票数。把m个平均分票加给冷门电影以保证它有足够多的票数。
 
 ![imdb](http://chart.googleapis.com/chart?cht=tx&chl=WR%3D%5Cfrac%7Bv%7D%7Bv%2Bm%7DR%2B%5Cfrac%7Bm%7D%7Bv%2Bm%7DC&chs=60)
@@ -151,6 +157,7 @@ IMDB电影打分考虑了用户对一部电影的投票和所有电影的平均�
 对于这种排序，假设要考虑几十种因素来打分。这里直接把考虑因素叫作特征吧。有些情况下，特征本身就是需要计算间接得到的。比如EdgeRank算法。
 
 -- Facebook的新鲜事排序EdgeRank
+
 EdgeRank用来给一个用户的新鲜事流进行排序。计算公式为
 
 ![EdgeRank](https://beta.techcrunch.com/wp-content/uploads/2010/04/edgerankform2.png)
