@@ -200,3 +200,7 @@ https://github.com/davidsandberg/facenet
 ## spoken numbers pcm 数据集
 
 https://github.com/pannous/tensorflow-speech-recognition
+
+## WaveNet
+
+https://deepmind.com/blog/wavenet-generative-model-raw-audio/
