@@ -22,6 +22,8 @@ Bag of words model
 连续词袋模型（CBOW）模型
 
 
+# Problem
+
 ## Sequence Tagging Problem
 
 CRF
@@ -38,9 +40,23 @@ LSTM Networks
 
 Bi-LSTM
 
-
-
 self-attention mechanism
+
+
+### 意图分类
+
+输入为词序列，输出为一个意图。
+
+
+
+# Framework
+
+## fasttext
+
+This library has two main use cases: word representation learning and text classification.
+
+## Gensim
+
 
 
 
