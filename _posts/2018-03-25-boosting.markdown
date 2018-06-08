@@ -10,8 +10,15 @@ Ensemble learning 是结合多个学习器、组合单一分类方法来完成�
 
 集成学习策略主要可以分为三大类，Boosting, Bagging, Stacking。
 
-      Boosting的代表有AdaBoost, gbdt, xgboost。
-      Bagging的代表则是随机森林 (Random Forest)。
+      Bagging方法: Averaging methods, 训练好几个模型，最终预测结果用的是几个模型预测结果的平均值。
+      Boosting方法：训练好几个模型，模型之间是承接关系，后一个模型是在预测前一个模型的预测误差值。
+      Stacking：训练一个模型用于组合(combine)其他各个模型，称作为2-level model。
+
+
+三种集成学习测量的代表：
+
+      Boosting 的代表有AdaBoost, gbdt, xgboost。
+      Bagging 的代表则是随机森林 (Random Forest)。
       Stacking 的话，好像还没有著名的代表，可以视其为一种集成的套路。
 
 
@@ -26,7 +33,15 @@ Ensemble learning 是结合多个学习器、组合单一分类方法来完成�
       	* XGBRegressor
 
 
-# GBDT
+
+
+
+
+# Gradient Boosting & GBDT
+
+        https://en.wikipedia.org/wiki/Gradient_boosting
+        https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3885826/
+
 
 Gradient boosting 主要的思想是，每一次建立模型是在之前建立模型损失函数的梯度下降方向
 
@@ -37,7 +52,30 @@ GBDT（Gradient Boosting Decision Tree，梯度提升决策树）
 也叫 Gradient Boosting Machine（GBM）。
 
 
-# XGBoost
+## 多个决策树
+
+从XGBoost的默认dump出的模型文件可以看出，一个GBDT模型包含若干个booster，每个booster下是一棵决策树。
+
+不同booster之间的关系是什么呢？
+预测的时候可以并行的。训练的时候下一轮的目标值依赖上一轮的结果，需要iteratively fits，不能并行。而预测的时候每棵树都已经建好，输入是原始数据，输出是把每棵树的预测值加在一起，这也MART(muliple additive regression trees)得名的由来，预测过程树之间并没有依赖，不存在先算后算的问题，所以可以并行。
+
+
+
+# 训练 Gradient Boosting 模型的框架
+
+
+xgboost 是个实现gradient boosting的库。
+https://github.com/dmlc/xgboost
+https://xgboost.readthedocs.io/en/latest/python/python_api.html
+
+lightGBM 也是一个实现gradient boosting的框架。
+https://github.com/Microsoft/LightGBM
+
+sciki-learn里面的例子
+http://scikit-learn.org/stable/auto_examples/ensemble/plot_gradient_boosting_regression.html
+
+
+## XGBoost
 
 XGBoost 是一个用来做 Gradient boosting 的开源库。
 
@@ -76,3 +114,8 @@ Load一个模型文件
 
     Each line represent a single instance, and in the first line ‘1’ is the instance label,‘101’ and ‘102’ are feature indices, ‘1.2’ and ‘0.03’ are feature values.  
     每行代表一个测试数据，格式为： 标签（分类）  特征k：特征v  特征k：特征v……
+
+    这种格式称作为libsvm format。
+
+
+set_group

@@ -47,6 +47,25 @@ fit(X, y)方法总是接受数据的feature向量和类别label。
 predict（T）方法总是接受一个新的feature向量。
 
 
+
+
+# 数据格式
+
+## svmlight / libsvm format
+
+This format is a text-based format, with one sample per line. It does not store zero valued features hence is suitable for sparse dataset.
+
+The first element of each line can be used to store a target variable to predict.
+
+'''
+      1 101:1.2 102:0.03
+      0 1:2.1 10001:300 10002:400
+      0 0:1.3 1:0.3
+      1 0:0.01 1:0.3
+      0 0:0.2 1:0.3
+'''
+
+
 # sklearn做机器学习的一般流程
 
 引入feature和label集
@@ -63,12 +82,20 @@ pipeline可以用来把多个estimator串起来合成一个条流水线。这样
 pipe中的最后一个estimator可以是transformer, classifier。之前的estimator必须是transformer。
 
 
+
+
+
+
+
+
+
 # 机器学习问题
 
 ## 回归预测问题 Regression
 
 线性回归
 LinearRegression这个名字已经说明了是X->y的1次函数，所以自然的X向量的纬度是多少，所求的参数个数也就是多少。
+
 '''
 >>> from sklearn import linear_model   //导入库
 >>> regr = linear_model.LinearRegression()   //  指明算法模型，是一个对象。
@@ -81,6 +108,7 @@ LinearRegression这个名字已经说明了是X->y的1次函数，所以自然�
 ## 分类预测问题 Classification
 
 SVM
+
 '''
 >>> classifier = svm.SVC(gamma=0.001)
 >>> classifier.fit(train_X, train_y)
@@ -92,6 +120,7 @@ SVM
 
 Kmeans
 输入是若干个抽象空间的坐标点位置。输出是这些点的标签。
+
 '''
 >>> import sklearn  #引入库
 >>> kmeans = sklearn.cluster.KMeans(n_clusters=cluster_num, n_init=10) #算法模型
