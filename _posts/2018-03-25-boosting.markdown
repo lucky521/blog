@@ -66,7 +66,10 @@ GBDT（Gradient Boosting Decision Tree，梯度提升决策树）
 
 xgboost 是个实现gradient boosting的库。
 https://github.com/dmlc/xgboost
-https://xgboost.readthedocs.io/en/latest/python/python_api.html
+PythonAPI https://xgboost.readthedocs.io/en/latest/python/python_api.html
+数据格式 http://xgboost.readthedocs.io/en/latest/input_format.html
+模型参数 http://xgboost.readthedocs.io/en/latest/parameter.html
+Demo https://github.com/dmlc/xgboost/tree/master/demo
 
 lightGBM 也是一个实现gradient boosting的框架。
 https://github.com/Microsoft/LightGBM
@@ -87,6 +90,14 @@ XGBoost 是一个用来做 Gradient boosting 的开源库。
     param = {'max_depth':2, 'eta':1, 'silent':1, 'objective':'binary:logistic' }
     num_round = 2
     bst = xgb.train(param, dtrain, num_round)
+
+注意param这一项中的objective指明学习目标
+    reg:linear  线性回归模型
+    binary:logistic    逻辑分类模型
+    rank:pairwise  do ranking task by minimizing the pairwise loss
+
+eval_metric这一项可以自己指明评价指标
+    默认情况下是:rmse for regression, and error for classification, mean average precision for ranking
 
 进行一次预测
 
@@ -118,4 +129,16 @@ Load一个模型文件
     这种格式称作为libsvm format。
 
 
-set_group
+## Pairwise Training
+
+
+XGBoost支持pairwise方式的训练目标。我们来看一下pairwise方式的训练策略是怎么样进行的。他在训练样本、训练方式、预测方式上和pointwise方式的模型有什么区别？
+
+
+set_group ，Set group size of DMatrix (used for ranking).对于搜索排序来讲，我们需要同样query下的样本放在一起，这就成了group。
+
+group input format，group文件的格式非常简单，一行一个数字，一个数字的意义是表名这多少个样本是一个group的。
+
+
+
+qid

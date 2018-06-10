@@ -179,6 +179,22 @@ EdgeRank用来给一个用户的新鲜事流进行排序。计算公式为
 
 有些情况下，直接设计一个打分的公式算法不太现实。这时就可以借助机器学习方法来拟合一个从考虑因素到目标分数的函数。一般叫做Learn to Rank，通过训练数据来学出一个排序算法（排序模型）来。
 
+### Learning to Rank Metric
+
+如何评价排序的好坏是一个非常重要的事情。否则我们无法知道怎么去优化自己的算法。评价这件事是我们在训练时进行的。这不是在评价样本数据的好坏，也不是为了评价某一次预测的结果，而是为了把模型对所有训练数据的表现整体来看。
+
+AUC Area under the curve
+MAP Mean average precision
+NDCG Normalized Discounted Cumulative Gain
+MRR
+
+
+
+### RankNet
+
+
+### LambdaRank
+
 
 
 
@@ -227,6 +243,9 @@ Search
 
 
 
+
+
+
 # References
 
 电商搜索引擎的架构设计和性能优化 http://www.csdn.net/article/2015-10-29/2826086
@@ -240,3 +259,5 @@ http://www.36dsj.com/archives/61886
 电商搜索引擎报告 https://www.jianshu.com/p/aaed2650ee18
 
 美团的搜索排序方案 https://tech.meituan.com/meituan-search-rank.html
+
+信息检索评价指标 https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Mean_average_precision
