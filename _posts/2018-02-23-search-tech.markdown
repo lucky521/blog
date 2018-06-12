@@ -115,6 +115,13 @@ Step4：基于上述运算得分对文档进行综合排序，最后返回结果
 
 从这三类方法都能看出，打分是排序的一个重要手段。
 
+1.Pointwise方法主要包括以下算法：Pranking (NIPS 2002), OAP-BPM (EMCL 2003), Ranking with Large Margin Principles (NIPS 2002), Constraint Ordinal Regression (ICML 2005)。
+
+2.Pairwise方法主要包括以下几种算法：Learning to Retrieve Information (SCC 1995), Learning to Order Things (NIPS 1998), Ranking SVM (ICANN 1999), RankBoost (JMLR 2003), LDM (SIGIR 2005), RankNet (ICML 2005), Frank (SIGIR 2007), MHR(SIGIR 2007), Round Robin Ranking (ECML 2003), GBRank (SIGIR 2007), QBRank (NIPS 2007), MPRank (ICML 2007), IRSVM (SIGIR 2006)  
+
+3.Listwise方法主要包括以下几种算法：LambdaRank (NIPS 2006), AdaRank (SIGIR 2007), SVM-MAP (SIGIR 2007), SoftRank (LR4IR 2007), GPRank (LR4IR 2007), CCA (SIGIR 2007), RankCosine (IP&M 2007), ListNet (ICML 2007), ListMLE (ICML 2008) 。
+
+
 ## 基于投票的排序算法
 
 -- 威尔逊得分排序
@@ -179,21 +186,26 @@ EdgeRank用来给一个用户的新鲜事流进行排序。计算公式为
 
 有些情况下，直接设计一个打分的公式算法不太现实。这时就可以借助机器学习方法来拟合一个从考虑因素到目标分数的函数。一般叫做Learn to Rank，通过训练数据来学出一个排序算法（排序模型）来。
 
-### Learning to Rank Metric
-
-如何评价排序的好坏是一个非常重要的事情。否则我们无法知道怎么去优化自己的算法。评价这件事是我们在训练时进行的。这不是在评价样本数据的好坏，也不是为了评价某一次预测的结果，而是为了把模型对所有训练数据的表现整体来看。
-
-AUC Area under the curve
-MAP Mean average precision
-NDCG Normalized Discounted Cumulative Gain
-MRR
-
 
 
 ### RankNet
 
+RankNet算法是一种复杂度为 O(n) 但是属于pair-wise方法的算法。
+以错误pair最少为优化目标。
+
+http://x-algo.cn/index.php/2016/07/31/ranknet-algorithm-principle-and-realization/
+
+https://blog.csdn.net/huagong_adu/article/details/40710305
+
 
 ### LambdaRank
+
+LambdaRank是一个经验算法，它不是通过显示定义损失函数再求梯度的方式对排序问题进行求解，而是分析排序问题需要的梯度的物理意义，直接定义梯度，即Lambda梯度。
+
+https://www.cnblogs.com/bentuwuying/p/6690836.html
+
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.180.634&rep=rep1&type=pdf
+
 
 
 
@@ -241,6 +253,10 @@ Search
 ## solr
 
 
+
+## RankLib
+
+https://sourceforge.net/p/lemur/wiki/RankLib/
 
 
 
