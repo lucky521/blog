@@ -98,9 +98,6 @@ XGBoost在训练模型时有两类参数，Tree Booster Parameters和Task parame
     binary:logistic    逻辑分类模型
     rank:pairwise  do ranking task by minimizing the pairwise loss
 
-eval_metric这一项可以自己指明评价指标
-    默认情况下是:rmse for regression, and error for classification, mean average precision for ranking
-
 进行一次预测
 
     dtest = xgb.DMatrix('agaricus.txt.test')
@@ -132,7 +129,6 @@ Load一个模型文件
 
 ## Pairwise Training
 
-
 XGBoost支持pairwise方式的训练目标。我们来看一下pairwise方式的训练策略是怎么样进行的。他在训练样本、训练方式、预测方式上和pointwise方式的模型有什么区别？
 
 我们先来看简单的使用例子。
@@ -140,6 +136,7 @@ XGBoost支持pairwise方式的训练目标。我们来看一下pairwise方式的
 ```
 import sys
 import xgboost as xgb
+import numpy as np
 
 def save_data(group_data,output_feature,output_group):
     if len(group_data) == 0:
@@ -180,6 +177,8 @@ def trans_data(fi_name, output_feature_name, output_group_name):
 
 
 if __name__ == "__main__":
+
+    # Convert normal label-features file to label-features + group file
     trans_data("train.txt", "mq2008.train", "mq2008.train.group")
 
     trans_data("test.txt", "mq2008.test", "mq2008.test.group")
@@ -188,20 +187,41 @@ if __name__ == "__main__":
 
     param = {
         "objective": "rank:pairwise", # learning objective
+        "eval_metric": ["logloss", "map", "error", "ndcg"],
         "eta": 0.1, # learning_rate
         "gama": 1.0, # min_split_loss
         "min_child_weight": 0.1, # minimum sum of instance weight(hessian) needed in a child
         "max_depth": 6 # maximum depth of a tree
-
     }
 
     dtrain = xgb.DMatrix('mq2008.train')
+    group_file = "mq2008.train.group"
+    group = np.loadtxt(group_file)
+    group = group.astype(int)
+    dtrain.set_group(group)
 
-    num_round = 4
-
-    bst_model = xgb.train(param, dtrain, num_round)
+    dvalid = xgb.DMatrix('mq2008.vali')
+    group_file = "mq2008.vali.group"
+    group = np.loadtxt(group_file)
+    group = group.astype(int)
+    dvalid.set_group(group)
 
     dtest = xgb.DMatrix('mq2008.test')
+    group_file = "mq2008.test.group"
+    group = np.loadtxt(group_file)
+    group = group.astype(int)
+    dtest.set_group(group)
+
+
+    num_round = 15
+    evals_result = {}
+    bst_model = xgb.train(param, dtrain,
+         evals=[(dvalid, "Valid")],
+         num_boost_round=num_round,
+         evals_result=evals_result)
+
+    print(evals_result)
+
 
     preds = bst_model.predict(dtest)
 
@@ -211,17 +231,99 @@ if __name__ == "__main__":
 
 通过最小化pairwise loss来求解模型，模型仍然是在预测一个文档的绝对得分。
 
-
-set_group - Set group size of DMatrix (used for ranking).对于搜索排序来讲，我们需要同样query下的样本放在一起，这就成了group。
-
 group input format - group文件的格式非常简单，一行一个数字，一个数字的意义是表名这多少个样本是一个group的。
 
+set_group - Set group size of DMatrix (used for ranking).对于搜索排序来讲，我们需要同样query下的样本放在一起，这就成了group。 该函数的输入就是group file。
+
+qid - 标识了一个query。它其实是一个特征。
 
 
-qid - 标识了一个query
+## 评估模型的效果
+
+eval_metric
+该参数是Booster参数，这一项可以自己指明评价指标，用来在验证集上进行评价。
+默认情况下是制定了训练目标objective，会有默认分配一个eval_metric。
+默认metric为：rmse for regression, and error for classification, mean average precision for ranking
+
+自己选metric的话，可以一次填写多个metric，以list的形式放在一起，
+
+“ndcg@n”,”map@n”: n can be assigned as an integer to cut off the top positions in the lists for evaluation.
+“ndcg-”,”map-”,”ndcg@n-”,”map@n-”: In XGBoost, NDCG and MAP will evaluate the score of a list without any positive samples as 1. By adding “-” in the evaluation metric XGBoost will evaluate these score as 0 to be consistent under some conditions. training repeatedly
+
+evals
+该参数是task参数，这一项是在train的时候就可以指明一个或多个验证集，然后在evals_result参数就会返回评估结果。
+
+evals_result
+该参数是task参数，用来输出metric计算结果。
+
+
+## Feature Importance
+
+XGBoost提供了plot_importance方法来计算和展示一个模型的feature importance，这个API返回的是一个 matplotlib Axes。
+
+我们先看怎么用XGBoost计算模型的Feature Importance。
+
+```
+import matplotlib.pyplot as plt
+
+# show feature importance plot
+fig, ax = plt.subplots(figsize=(12, 18))
+xgb.plot_importance(bst_model, height=0.8, ax=ax)
+#plt.show()
+fig.savefig('feature_importance.png')
+
+
+# show feature importance table
+fmap = bst_model.get_score(importance_type='cover')
+print(fmap)
+fmap = bst_model.get_score(importance_type='gain')
+print(fmap)
+fmap = bst_model.get_score(importance_type='weight')
+print(fmap)
+
+
+```
+
+
+下面是对feature importance中每个feature计算指标的解释。
+
+    ‘weight’ - the number of times a feature is used to split the data across all trees.
+    The Frequence (frequency) is the percentage representing the relative number of times a particular feature occurs in the trees of the model. In the above example, if feature1 occurred in 2 splits, 1 split and 3 splits in each of tree1, tree2 and tree3; then the weightage for feature1 will be 2+1+3 = 6. The frequency for feature1 is calculated as its percentage weight over weights of all features.
+
+    ‘gain’ - the average gain of the feature when it is used in trees
+    The Gain implies the relative contribution of the corresponding feature to the model calculated by taking each feature's contribution for each tree in the model. A higher value of this metric when compared to another feature implies it is more important for generating a prediction.
+
+    ‘cover’ - the average coverage of the feature when it is used in trees
+    The Cover metric means the relative number of observations related to this feature. For example, if you have 100 observations, 4 features and 3 trees, and suppose feature1 is used to decide the leaf node for 10, 5, and 2 observations in tree1, tree2 and tree3 respectively; then the metric will count cover for this feature as 10+5+2 = 17 observations. This will be calculated for all the 4 features and the cover will be 17 expressed as a percentage for all features' cover metrics.
+
+
+https://datascience.stackexchange.com/questions/12318/how-do-i-interpret-the-output-of-xgboost-importance?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
 
 
 ## XGBFir
+
+这个工具建立子啊xgboost之上，帮我们分析多个特征之间的交叉关系。
+它会尝试把1到多个特征结合在一起，然后判断几项Metrics，将结果保存到一个excel文件里。
+
+当Interaction Depth为0的时候，其实就是在算每个Feature的Importance，和xgboost自带的get_score是一样的。但是我发现计算的结果不同。
+
+先看一个简单的例子。
+
+```
+from sklearn.datasets import load_iris, load_boston
+import xgboost as xgb
+import xgbfir
+
+# loading database
+boston = load_boston()
+
+# doing all the XGBoost magic
+xgb_rmodel = xgb.XGBRegressor().fit(boston['data'], boston['target'])
+
+# saving to file with proper feature names
+xgbfir.saveXgbFI(xgb_rmodel, feature_names=boston.feature_names, OutputXlsxFile='bostonFI.xlsx')
+
+```
 
 https://github.com/limexp/xgbfir

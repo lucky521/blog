@@ -12,7 +12,7 @@ layout: post
 ## Word Embedding
 
 word2vec model
-这不是一个特定的模型。word2vec is a group of related models that are used to produce word embeddings.
+这不是一个特定的模型，而是一类模型。word2vec is a group of related models that are used to produce word embeddings.
 模型的输入是一段语料。输出是词向量空间。
 
 Skip-Gram model
@@ -20,6 +20,11 @@ Skip-Gram model
 Bag of words model
 
 连续词袋模型（CBOW）模型
+
+
+
+
+
 
 
 # Problem
@@ -51,9 +56,17 @@ self-attention mechanism
 
 # Framework
 
+## word2vec
+
+上面说了 word2vec 是用来产生词向量的模型。但其实有一个同名的开源项目来实现了这个模型。
+https://code.google.com/archive/p/word2vec/
+这个工具把一个文本语录集合作为输入，输出word vector。
+
+
 ## fasttext
 
 This library has two main use cases: word representation learning and text classification.
+
 
 ## Gensim
 

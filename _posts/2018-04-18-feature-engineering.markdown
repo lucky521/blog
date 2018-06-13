@@ -112,6 +112,21 @@ PolynomialFeatures 以多项式运算的方式将2个以上的特征以多项式
 
 
 
+# 特征交叉 Feature Interaction / 特征组合 Feature Cross
+
+组合两个特征，我们可以进行加减乘除运算。
+
+Sum of two features: Let’s say you wish to predict revenue based on preliminary sales data. You have the features sales_blue_pens and sales_black_pens. You could sum those features if you only care about overall sales_pens.
+
+Difference between two features: You have the features house_built_date and house_purchase_date. You can take their difference to create the feature house_age_at_purchase.
+
+Product of two features: You’re running a pricing test, and you have the feature price and an indicator variable conversion. You can take their product to create the feature earnings.
+
+Quotient of two features: You have a dataset of marketing campaigns with the features n_clicks and n_impressions. You can divide clicks by impressions to create  click_through_rate, allowing you to compare across campaigns of different volume.
+
+除了组合两个特征，我们也可以组合多个特征。
+
+
 
 
 # 从特征到训练集

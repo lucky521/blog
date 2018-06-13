@@ -14,12 +14,24 @@ Offline metrics是希望在模型上线之前，使用历史数据进行效果�
 
 # Classification Metrics
 
-Classification Accuracy
-Logarithmic Loss
-Confusion Matrix
-Area under Curve
-Classification Report
-F1 Score
+## Classification Accuracy
+
+
+## Logarithmic Loss
+
+Logarithmic loss (related to cross-entropy) measures the performance of a classification model where the prediction input is a probability value between 0 and 1. The goal of our machine learning models is to minimize this value. A perfect model would have a log loss of 0. Log loss increases as the predicted probability diverges from the actual label.
+
+
+## Confusion Matrix
+
+
+## AUC Area under Curve
+
+AUC metric is only designed for binary classifiers
+
+## Classification Report
+
+## F1 Score
 
 
 
@@ -39,9 +51,18 @@ R^2 Metric
 
 Information Retrieval的评价指标包括：MRR，MAP，ERR，NDCG等
 
-AUC Area under the curve
-MAP Mean average precision
-NDCG Normalized Discounted Cumulative Gain
+
+## MAP Mean average precision
+
+Mean average precision for a set of queries is the mean of the average precision scores for each query.
+
+其中，Precision at i is a percentage of correct items among first i recommendations.
+
+
+
+## NDCG Normalized Discounted Cumulative Gain
+
+
 MRR
 
 
