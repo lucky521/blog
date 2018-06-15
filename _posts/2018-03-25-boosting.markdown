@@ -93,10 +93,13 @@ XGBoost 是一个用来做 Gradient boosting 的开源库。
 
 XGBoost在训练模型时有两类参数，Tree Booster Parameters和Task parameters。体现在API上就是train函数的第一个参数params就是Booster params，第二个参数dtrain是训练数据，从第三个参数开始就都是Task parameter，都有默认值。
 
-注意param这一项中的objective指明学习目标
+注意param这一项中的objective指明学习目标：
     reg:linear  线性回归模型
     binary:logistic    逻辑分类模型
     rank:pairwise  do ranking task by minimizing the pairwise loss
+注意task参数：
+    注意 n_estimators 是scikit-learn版本接口的参数！
+    num_round 控制booster的个数
 
 进行一次预测
 

@@ -56,11 +56,17 @@ self-attention mechanism
 
 # Framework
 
+以上讲的算法、理论、模型，都有成熟的开源项目来实现。
+
 ## word2vec
 
 上面说了 word2vec 是用来产生词向量的模型。但其实有一个同名的开源项目来实现了这个模型。
 https://code.google.com/archive/p/word2vec/
 这个工具把一个文本语录集合作为输入，输出word vector。
+
+demo scripts: ./demo-word.sh and ./demo-phrases.sh
+
+可以试试中文预料，当然要先分词。http://www.cnblogs.com/hebin/p/3507609.html
 
 
 ## fasttext
@@ -70,8 +76,13 @@ This library has two main use cases: word representation learning and text class
 
 ## Gensim
 
+这是一个Python库，用来做语义相似度。
+这个库实现了tf-idf, random projections, word2vec and document2vec algorithms, hierarchical Dirichlet processes (HDP), latent semantic analysis (LSA, LSI, SVD) and latent Dirichlet allocation (LDA).
 
 
+## Tensorflow
+
+Tensorflow属于大而全的功能框架，我有另一篇[Blog文章](https://lucky521.github.io/blog/design/2017/10/26/tensorflow.html)里单独描述的。
 
 
 # Reference
