@@ -18,7 +18,7 @@ layout: post
 
     品牌广告（Brand Awareness）：创造独特良好的品牌或者产品形象，目的在于提升较长时期内的离线转化率。
 
-　　效果广告（Direct Response）：在短时间内明确用户转化行为（比如：购买、注册、投票等）诉求的广告。
+    效果广告（Direct Response）：在短时间内明确用户转化行为（比如：购买、注册、投票等）诉求的广告。
 
 　　ROI（Return On Investment）：投资回报率。
 
@@ -45,6 +45,9 @@ layout: post
 　　eCPM（effective Cost Per Mille）：指的就是每一千次展示可以获得的广告收入，展示的单位可以是网页，广告单元，甚至是单个广告，经常被用来衡量一个网站的盈利能力。
 
 
+# 广告CTR预估
+
+https://zhuanlan.zhihu.com/p/35465875
 
 # 参考
 

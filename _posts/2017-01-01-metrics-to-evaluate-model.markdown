@@ -9,7 +9,9 @@ layout: post
 
 Online metrics是直接在线上环境做AB测试，比较两个实验组的核心指标，比如CTR、转化率等。
 
-Offline metrics是希望在模型上线之前，使用历史数据进行效果评估。
+Offline metrics是希望在模型上线之前，使用历史数据进行效果评估。离线指标有些是纯数学模型指标，有些是结合实际问题的量化指标。
+
+
 
 
 # Classification Metrics
@@ -36,12 +38,19 @@ AUC metric is only designed for binary classifiers
 
 
 
+
+
 # Regression Metrics
 
 
 Mean Absolute Error
 Mean Squared Error
 R^2 Metric
+
+
+
+
+
 
 
 
@@ -64,6 +73,10 @@ Mean average precision for a set of queries is the mean of the average precision
 
 
 MRR
+
+
+
+
 
 
 
