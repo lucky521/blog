@@ -127,7 +127,10 @@ Load一个模型文件
     Each line represent a single instance, and in the first line ‘1’ is the instance label,‘101’ and ‘102’ are feature indices, ‘1.2’ and ‘0.03’ are feature values.  
     每行代表一个测试数据，格式为： 标签（分类）  特征k：特征v  特征k：特征v……
 
-    这种格式称作为libsvm format。
+    这种格式称作为libsvm format。https://www.csie.ntu.edu.tw/~cjlin/libsvm/faq.html#/Q3%3a_Data_preparation
+
+    注意，这个格式的特征k:v是稀疏形式存储的，样本有特征才会存储k:v，如果一个k在某一行没有，就说明此行该特征是缺失的。不同的训练框架的处理可能不太一致，有些框架会把缺失的特征当做0，xgboost会把它作为缺失值missing。如果在文件里存储的v为0，那么框架也可能会认为这是一个缺失值。
+    详见https://github.com/dmlc/xgboost/issues/21
 
 
 ## Pairwise Training

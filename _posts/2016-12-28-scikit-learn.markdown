@@ -65,6 +65,8 @@ The first element of each line can be used to store a target variable to predict
       0 0:0.2 1:0.3
 ```
 
+详见https://www.csie.ntu.edu.tw/~cjlin/libsvm/faq.html#/Q3%3a_Data_preparation
+
 
 # sklearn做机器学习的一般流程
 
