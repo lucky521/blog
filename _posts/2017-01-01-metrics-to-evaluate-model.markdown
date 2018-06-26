@@ -42,12 +42,22 @@ AUC metric is only designed for binary classifiers
 
 # Regression Metrics
 
-
 Mean Absolute Error
 Mean Squared Error
 R^2 Metric
 
 
+
+# Clustering metrics
+
+‘adjusted_mutual_info_score’	metrics.adjusted_mutual_info_score	 
+‘adjusted_rand_score’	metrics.adjusted_rand_score	 
+‘completeness_score’	metrics.completeness_score	 
+‘fowlkes_mallows_score’	metrics.fowlkes_mallows_score	 
+‘homogeneity_score’	metrics.homogeneity_score	 
+‘mutual_info_score’	metrics.mutual_info_score	 
+‘normalized_mutual_info_score’	metrics.normalized_mutual_info_score	 
+‘v_measure_score’	metrics.v_measure_score
 
 
 
@@ -81,6 +91,8 @@ MRR
 
 
 # References
+
+scikit-learn中的metric http://scikit-learn.org/stable/modules/model_evaluation.html
 
 https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)
 

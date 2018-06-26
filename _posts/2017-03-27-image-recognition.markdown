@@ -73,6 +73,9 @@ OCR是很早就有的技术。
 ## 图片物体标注
 
 
+## 视频物体检测
+
+
 ## 人脸识别
 
 在CNN尚未火热的年代，人们使用haar/lbp + adaboost级连的组合方式检测人脸，hog+svm的组合方式检测行人。其中，haar，lbp，hog等手工设计的特征提取算子用于提取特征，adaboost，svm用于对提取的特征分类。
@@ -97,6 +100,3 @@ openface识别人脸的工作流程：
 ### face_recognition
 
 https://github.com/ageitgey/face_recognition
-
-
-## 视频物体检测

@@ -68,6 +68,13 @@ demo scripts: ./demo-word.sh and ./demo-phrases.sh
 
 可以试试中文预料，当然要先分词。http://www.cnblogs.com/hebin/p/3507609.html
 
+关键代码：
+  word2phrase
+  word2vec
+  distance
+
+
+
 
 ## fasttext
 

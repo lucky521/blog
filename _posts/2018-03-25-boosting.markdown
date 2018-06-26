@@ -99,7 +99,8 @@ XGBoost在训练模型时有两类参数，Tree Booster Parameters和Task parame
     rank:pairwise  do ranking task by minimizing the pairwise loss
 注意task参数：
     注意 n_estimators 是scikit-learn版本接口的参数！
-    num_round 控制booster的个数
+    num_round, 控制booster的个数
+    tree_method, The tree construction algorithm used in XGBoost
 
 进行一次预测
 
@@ -135,7 +136,7 @@ Load一个模型文件
 
 ## Pairwise Training
 
-XGBoost支持pairwise方式的训练目标。我们来看一下pairwise方式的训练策略是怎么样进行的。他在训练样本、训练方式、预测方式上和pointwise方式的模型有什么区别？
+XGBoost支持pairwise方式的训练目标。我们来看一下pairwise方式的训练策略是怎么样进行的。
 
 我们先来看简单的使用例子。
 
@@ -235,6 +236,8 @@ if __name__ == "__main__":
 
 ```
 
+他在训练样本、训练方式、预测方式上和pointwise方式的模型有什么区别？
+
 通过最小化pairwise loss来求解模型，模型仍然是在预测一个文档的绝对得分。
 
 group input format - group文件的格式非常简单，一行一个数字，一个数字的意义是表名这多少个样本是一个group的。
@@ -304,6 +307,10 @@ print(fmap)
 
 
 https://datascience.stackexchange.com/questions/12318/how-do-i-interpret-the-output-of-xgboost-importance?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+
+
+注意，get_score中的feature并不一定就是训练时所用的全部feature，因为有些feature在本次构建模型树时可能并没有起任何作用。
+https://stackoverflow.com/questions/43862499/xgboost-get-fscore-or-get-score-returning-less-number-of-columns
 
 
 
