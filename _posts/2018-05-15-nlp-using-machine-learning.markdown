@@ -19,7 +19,7 @@ Skip-Gram model
 
 Bag of words model
 
-连续词袋模型（CBOW）模型
+Continuous Bag of Words（CBOW）model
 
 
 
@@ -54,6 +54,9 @@ self-attention mechanism
 
 
 
+
+
+
 # Framework
 
 以上讲的算法、理论、模型，都有成熟的开源项目来实现。
@@ -85,6 +88,9 @@ This library has two main use cases: word representation learning and text class
 
 这是一个Python库，用来做语义相似度。
 这个库实现了tf-idf, random projections, word2vec and document2vec algorithms, hierarchical Dirichlet processes (HDP), latent semantic analysis (LSA, LSI, SVD) and latent Dirichlet allocation (LDA).
+
+
+
 
 
 ## Tensorflow
