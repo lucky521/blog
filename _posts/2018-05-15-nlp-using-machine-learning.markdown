@@ -7,13 +7,25 @@ layout: post
 
 自然语言处理和信息检索有一定的关系，因为搜索的查询词本身是自然语言，对查询词有合适的理解和表达，能够帮助搜索系统更好的工作。
 
+# Terminology
+
+Inside–outside–beginning tagging
+
+Part-of-speech tagging
+https://web.stanford.edu/class/cs124/lec/postagging.pdf
+
+Named-entity recognition
+
 # Concept
 
 ## Word Embedding
 
 word2vec model
-这不是一个特定的模型，而是一类模型。word2vec is a group of related models that are used to produce word embeddings.
+这不是一个特定的模型，而是一类模型。
+word2vec is a group of related models that are used to produce word embeddings.
 模型的输入是一段语料。输出是词向量空间。
+
+具体到算法，我们这么把一个词变为一个浮点数向量？
 
 Skip-Gram model
 
@@ -82,6 +94,9 @@ demo scripts: ./demo-word.sh and ./demo-phrases.sh
 ## fasttext
 
 This library has two main use cases: word representation learning and text classification.
+
+
+$ ./fasttext skipgram -input data.txt -output model
 
 
 ## Gensim
