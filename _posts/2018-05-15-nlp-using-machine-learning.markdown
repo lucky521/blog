@@ -9,14 +9,39 @@ layout: post
 
 # Terminology
 
-Inside–outside–beginning tagging
+## Tag
 
-Part-of-speech tagging
+### BMES Tag
+标签为B（Begin）、M（Middle）、E（End）、S（Single）
+
+### BB2B3MES Tag
+
+
+
+
+
+## Named-entity recognition
+
+### Inside–outside–beginning tagging
+
+
+## 词性标注 Part-of-speech tagging
 https://web.stanford.edu/class/cs124/lec/postagging.pdf
 
-Named-entity recognition
 
-# Concept
+
+## N-gram
+
+An n-gram is a contiguous sequence of n items from a given sample of text or speech.
+
+### Unigram
+
+A bigram is an n-gram for n=1.
+
+### Bigram
+
+A bigram is an n-gram for n=2.
+
 
 ## Word Embedding
 
@@ -43,7 +68,13 @@ Continuous Bag of Words（CBOW）model
 
 ## Sequence Tagging Problem
 
-CRF
+CRF, HMM, MEMM
+
+CRF(条件随机场)，HMM(隐马模型)，MEMM(最大熵隐马模型)都常用来做序列标注的建模，像分词、词性标注，以及命名实体标注。
+隐马模型一个最大的缺点就是由于其输出独立性假设，导致其不能考虑上下文的特征，限制了特征的选择。
+最大熵隐马模型则解决了隐马的问题，可以任意选择特征，但由于其在每一节点都要进行归一化，所以只能找到局部的最优值，同时也带来了标记偏见的问题，即凡是训练语料中未出现的情况全都忽略掉。
+条件随机场则很好的解决了这一问题，他并不在每一个节点进行归一化，而是所有特征进行全局归一化，因此可以求得全局的最优值。
+
 
 
 ## Sequence Classification Problem
@@ -60,7 +91,7 @@ Bi-LSTM
 self-attention mechanism
 
 
-### 意图分类
+## 意图分类
 
 输入为词序列，输出为一个意图。
 
@@ -89,12 +120,13 @@ demo scripts: ./demo-word.sh and ./demo-phrases.sh
   distance
 
 
+## CRF++
+
 
 
 ## fasttext
 
 This library has two main use cases: word representation learning and text classification.
-
 
 $ ./fasttext skipgram -input data.txt -output model
 
@@ -107,10 +139,11 @@ $ ./fasttext skipgram -input data.txt -output model
 
 
 
-
 ## Tensorflow
 
 Tensorflow属于大而全的功能框架，我有另一篇[Blog文章](https://lucky521.github.io/blog/design/2017/10/26/tensorflow.html)里单独描述的。
+
+
 
 
 # Reference
