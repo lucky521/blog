@@ -10,6 +10,7 @@ layout: post
 
 http://www.runoob.com/python/python-built-in-functions.html
 
+
 ## 数学运算内置函数
 
 abs返回输入的绝对值。divmod返回一个包含商和余数的元组。

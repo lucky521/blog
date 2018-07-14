@@ -60,8 +60,7 @@ Feature hashing
 
 The Bag of Words
 
-
-
+Embeddings
 
 
 

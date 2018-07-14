@@ -6,6 +6,75 @@ layout: post
 
 本篇所涉及的TensorFlow API都在官方文档有所涉及，https://www.tensorflow.org/api_docs/
 
+# 框架体系
+
+## TensorFlow Core
+
+TensorFlow Core 指的是 low-level TensorFlow APIs。 https://www.tensorflow.org/guide/low_level_intro
+
+Running the computational graph in a session
+
+			tf.Graph
+			tf.Session
+			tf.constant
+			tf.add
+			tf.placeholder
+
+
+在TensorFlow中，数据以 tensor 为单元。tensor本质上是n维数组。
+数组的维度叫做tensor的rank。一个标量是rank为0的tensor。
+每个维度的数组长度组成的tuple元组叫做tensor的shape。
+
+
+## Tensorboard
+
+		tensorboard --logdir=/path/to/log-directory
+
+
+tensorboard默认占用了6006端口
+
+		lsof -i:6006
+
+
+一个例子：https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/4_Utils/tensorboard_basic.py
+
+
+## TensorFlow Serving
+
+TensorFlow Serving 是基于 gRPC 和 Protocol Buffers 开发的。https://github.com/tensorflow/serving
+
+
+
+### 服务端 tensorflow-model-server
+
+在服务器端安装好之后，核心就是tensorflow_model_server这个binary。
+
+		tensorflow_model_server --help
+
+在服务端先要训练一个模型
+
+		python tensorflow_serving/example/mnist_saved_model.py /tmp/mnist_model
+
+
+然后将这个模型载入到 TensorFlow ModelServer
+
+    tensorflow_model_server --port=9000 --model_name=mnist --model_base_path=/tmp/mnist_model/
+
+https://www.tensorflow.org/serving/serving_basic
+
+
+### 客户端 tensorflow-serving-api
+
+
+在客户端把样本数据作为请求发送到TensorFlow ModelServer，
+
+		python tensorflow_serving/example/mnist_client.py --num_tests=1000 --server=localhost:9000
+
+
+## TensorFlow Debugger
+
+
+
 
 # 重要的元素
 
@@ -115,7 +184,7 @@ tf.train.GradientDescentOptimizer
 
 
 
-# Tensorflow机器学习模型
+# Tensorflow 机器学习模型
 
 https://github.com/aymericdamien/TensorFlow-Examples/tree/master/examples/2_BasicModels
 
@@ -127,6 +196,18 @@ https://github.com/aymericdamien/TensorFlow-Examples/tree/master/examples/2_Basi
 
 
 
+
+# 训练 Embeddings
+
+Embedding是一个行为，把离线形式的事物影响到为实数向量。Embedding这个词同时也是该行为所输出的东西，我们把输出的实数向量也称作是Embedding。
+
+An embedding is a mapping from discrete objects, such as words, to vectors of real numbers.
+
+An embedding is a relatively low-dimensional space into which you can translate high-dimensional vectors. Embeddings make it easier to do machine learning on large inputs like sparse vectors representing words. Ideally, an embedding captures some of the semantics of the input by placing semantically similar inputs close together in the embedding space. An embedding can be learned and reused across models.
+
+
+
+这个链接讲了我们如何用TensorFlow做embedding https://www.tensorflow.org/guide/embedding。
 
 
 
@@ -188,9 +269,6 @@ https://github.com/tensorflow/models/blob/master/tutorials/image/mnist/convoluti
 FaceNet启发于OpenFace项目，使用TensorFlow创建的人脸识别框架。
 
 https://github.com/davidsandberg/facenet
-
-
-
 
 
 
