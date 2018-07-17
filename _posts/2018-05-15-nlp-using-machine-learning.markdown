@@ -45,18 +45,18 @@ A bigram is an n-gram for n=2.
 
 ## Word Embedding
 
-word2vec model
-这不是一个特定的模型，而是一类模型。
+word2vec model 这不是一个特定的模型，而是一类模型。
 word2vec is a group of related models that are used to produce word embeddings.
-模型的输入是一段语料。输出是词向量空间。
+
+模型的输入是一段语料，输出是词向量空间。
 
 具体到算法，我们这么把一个词变为一个浮点数向量？
 
-Skip-Gram model
+### Skip-Gram model
 
-Bag of words model
+### Bag of words model
 
-Continuous Bag of Words（CBOW）model
+### Continuous Bag of Words（CBOW）model
 
 
 
@@ -129,6 +129,9 @@ demo scripts: ./demo-word.sh and ./demo-phrases.sh
 This library has two main use cases: word representation learning and text classification.
 
 $ ./fasttext skipgram -input data.txt -output model
+
+官方提供了一份由CBOW模型，输入维基百科语料训练而出的语言模型，每个word为300维向量。
+https://github.com/facebookresearch/fastText/blob/master/docs/crawl-vectors.md
 
 
 ## Gensim

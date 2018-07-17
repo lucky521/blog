@@ -242,7 +242,7 @@ if __name__ == "__main__":
 
 group input format - group文件的格式非常简单，一行一个数字，一个数字的意义是表名这多少个样本是一个group的。
 
-set_group - Set group size of DMatrix (used for ranking).对于搜索排序来讲，我们需要同样query下的样本放在一起，这就成了group。 该函数的输入就是group file。
+set_group - Set group size of DMatrix (used for ranking).对于搜索排序来讲，我们需要同一次Query下的样本放在一起，这就成了group。 该函数的输入就是group file。
 
 qid - 标识了一个query。它其实是一个特征。
 

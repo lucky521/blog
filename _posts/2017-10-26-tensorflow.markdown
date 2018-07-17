@@ -39,6 +39,9 @@ tensorboard默认占用了6006端口
 一个例子：https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/4_Utils/tensorboard_basic.py
 
 
+Embedding Projector是Tensorboard的一个功能，可以可视化的查看embeddings。
+
+
 ## TensorFlow Serving
 
 TensorFlow Serving 是基于 gRPC 和 Protocol Buffers 开发的。https://github.com/tensorflow/serving
@@ -53,10 +56,18 @@ TensorFlow Serving 是基于 gRPC 和 Protocol Buffers 开发的。https://githu
 
 在服务端先要训练一个模型
 
-		python tensorflow_serving/example/mnist_saved_model.py /tmp/mnist_model
+可以用 models repo 中的例子：
+
+		cd models/official/mnist
+		python mnist.py --export_dir ./tmp/mnist_saved_model
+
+或者用 tensorflow_serving repo中的例子：
+
+		cd tensorflow_serving/example/
+		python mnist_saved_model.py ./tmp/mnist_model
 
 
-然后将这个模型载入到 TensorFlow ModelServer
+然后将这个模型载入到 TensorFlow ModelServer，注意输入的模型路径必须是绝对路径。
 
     tensorflow_model_server --port=9000 --model_name=mnist --model_base_path=/tmp/mnist_model/
 
@@ -93,6 +104,8 @@ Variable 代表着模型中的参数，算法的核心目的是在训练参数�
 
 
 ## tf.summary 查看数据流图
+
+
 
 
 
@@ -205,9 +218,20 @@ An embedding is a mapping from discrete objects, such as words, to vectors of re
 
 An embedding is a relatively low-dimensional space into which you can translate high-dimensional vectors. Embeddings make it easier to do machine learning on large inputs like sparse vectors representing words. Ideally, an embedding captures some of the semantics of the input by placing semantically similar inputs close together in the embedding space. An embedding can be learned and reused across models.
 
+这个链接讲了我们如何用TensorFlow做embedding https://www.tensorflow.org/guide/embedding，https://github.com/tensorflow/models/tree/master/tutorials/embedding
+
+比如我们要做word embeddings.
+
+## Do embedding
 
 
-这个链接讲了我们如何用TensorFlow做embedding https://www.tensorflow.org/guide/embedding。
+## Visualize your embeddings
+
+把一个embedding在tensorboard上可视化出来，需要做三件事。
+
+1) Setup a 2D tensor that holds your embedding(s).
+2) Periodically save your model variables in a checkpoint in LOG_DIR.
+3) (Optional) Associate metadata with your embedding.
 
 
 
