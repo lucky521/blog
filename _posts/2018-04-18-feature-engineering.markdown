@@ -60,7 +60,7 @@ Feature hashing
 
 The Bag of Words
 
-Embeddings
+Feature Embedding
 
 
 
@@ -113,15 +113,21 @@ PolynomialFeatures 以多项式运算的方式将2个以上的特征以多项式
 
 # 特征选择 Feature Selection
 
+
+## 分析特征值的分布
+
+画出特征取值分布图，计算方差
+
+
+## 计算特征之间的相关系数
+
+
+
 ## PCA 主成分分析
 
 
 
-
-
-
-
-# 特征交叉 Feature Interaction / 特征组合 Feature Cross
+## 特征交叉 Feature Interaction / 特征组合 Feature Cross
 
 组合两个特征，我们可以进行加减乘除运算。
 

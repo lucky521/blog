@@ -140,6 +140,8 @@ $ hadoop namenode -format
 
 
 
+
+
 # Hadoop的启动与配置
 
 ## hadoop启动与关闭

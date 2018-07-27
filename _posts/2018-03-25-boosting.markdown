@@ -296,15 +296,14 @@ print(fmap)
 
 下面是对feature importance中每个feature计算指标的解释。
 
-    ‘weight’ - the number of times a feature is used to split the data across all trees.
+    ‘weight’/'frequency' - 指的是一个特征在GBDT模型文件中出现的次数，这是静态统计的，在模型文件里直接搜索就能计算。The number of times a feature is used to split the data across all trees.
     The Frequence (frequency) is the percentage representing the relative number of times a particular feature occurs in the trees of the model. In the above example, if feature1 occurred in 2 splits, 1 split and 3 splits in each of tree1, tree2 and tree3; then the weightage for feature1 will be 2+1+3 = 6. The frequency for feature1 is calculated as its percentage weight over weights of all features.
 
-    ‘gain’ - the average gain of the feature when it is used in trees
-    The Gain implies the relative contribution of the corresponding feature to the model calculated by taking each feature's contribution for each tree in the model. A higher value of this metric when compared to another feature implies it is more important for generating a prediction.
-
-    ‘cover’ - the average coverage of the feature when it is used in trees
+    ‘cover’ - 指的是一个特征在若干次预测中被用到的平均次数，这是动态统计的，需要拿测试样本集进行预测，然后来累计计算该值。the average coverage of the feature when it is used in trees
     The Cover metric means the relative number of observations related to this feature. For example, if you have 100 observations, 4 features and 3 trees, and suppose feature1 is used to decide the leaf node for 10, 5, and 2 observations in tree1, tree2 and tree3 respectively; then the metric will count cover for this feature as 10+5+2 = 17 observations. This will be calculated for all the 4 features and the cover will be 17 expressed as a percentage for all features' cover metrics.
 
+    ‘gain’ - Gain值也是需要在若干次预测之后累计计算的。Gain值的计算方法见https://homes.cs.washington.edu/~tqchen/pdf/BoostedTree.pdf。the average gain of the feature when it is used in trees
+    The Gain implies the relative contribution of the corresponding feature to the model calculated by taking each feature's contribution for each tree in the model. A higher value of this metric when compared to another feature implies it is more important for generating a prediction.
 
 https://datascience.stackexchange.com/questions/12318/how-do-i-interpret-the-output-of-xgboost-importance?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
