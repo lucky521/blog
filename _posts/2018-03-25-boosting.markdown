@@ -77,6 +77,10 @@ sciki-learn里面的例子
 http://scikit-learn.org/stable/auto_examples/ensemble/plot_gradient_boosting_regression.html
 
 
+陈天奇对BoostedTree的介绍
+https://homes.cs.washington.edu/~tqchen/pdf/BoostedTree.pdf
+
+
 ## XGBoost
 
 XGBoost 是一个用来做 Gradient boosting 的开源库。

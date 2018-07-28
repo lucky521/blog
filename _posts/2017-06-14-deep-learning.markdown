@@ -32,9 +32,11 @@ Neuron是神经网络的一个单元。它是一个函数，一个回归模型�
 
 cost function 用于表示所训练出模型的好坏程度。它是构建一个网络模型必须的两个参数之一。
 
-神经网络的cost function返回一个非负数，这个数会表示神经网络将训练样本映射到正确输出的准确率。cost返回值越小表明训练结果越好，那么模型训练的过程就是在使得cost尽可能小的过程。
-
 任何能够衡量模型预测出来的值 h(θ) 与真实值 y 之间的差异的函数都可以叫做代价函数 C(θ)。
+
+比如cost function返回一个非负数，这个数会表示神经网络将训练样本映射到正确输出的准确率。cost返回值越小表明训练结果越好，那么模型训练的过程就是在使得cost尽可能小的过程。
+
+
 
 一个好的代价函数需要满足两个最基本的要求：能够评价模型的准确性，对参数θ可微。
 
@@ -88,7 +90,7 @@ cost function 用于表示所训练出模型的好坏程度。它是构建一个
 
 ## 激活函数 Activation Function
 
-激活函数是在神经网络的某些层运算中加入非线性。
+激活函数是在神经网络的某些层运算中加入非线性。使其能够学习更复杂的函数。如果没有它, 神经网络将只能够学习线性函数, 它只能产生输入数据的线性组合。
 
 计算输入数据的带权之和，加上一个偏差，然后判断该样本的结果（是否“激活”）。
 
@@ -181,13 +183,14 @@ Regularization 的目的是要避免过拟合。减少真实数据生成错误�
 Weight penalty基于一个假设：模型的权重越小，模型越简单，要尽量使得权重的绝对值小。
 
 Weight penalty的方法有两种：L2和L1. 他们用于附加在cost function的计算上。
+
 L2 正规化是附加权重的平方之和，L1是附加权重的绝对值之和。
 
 
 
 
 
-## 网络层
+## 网络分层
 
 ### 全连接层 Fully Connected layer
 
@@ -222,8 +225,9 @@ Permute层将输入的维度按照给定模式进行重排，例如，当需要�
 
 
 
+# 神经网络实现
 
-# 一个简单的神经网络实现
+## 一个最简单的神经网络实现
 
 下面是一个极度简化的神经网络实现，没有隐含层，输入是长度为3的数组，输出是一个整数。训练样本数据有四套。
 
@@ -232,10 +236,8 @@ Permute层将输入的维度按照给定模式进行重排，例如，当需要�
 ```
 import numpy as np
 
-
 # The simplest nerual network
 # : No hidden layer
-
 
 # sigmoid function
 # True: f(x) = 1/(1+e^(-x))
@@ -287,10 +289,14 @@ print syn0
 ```
 
 
-算法的关键在于，在10000次迭代中，如何更新参数，也就是for循环中最后三行代码。
+算法的关键在于，在10000次迭代中，如何更新权值参数，也就是for循环中最后三行代码。
 
 为什么要用 "误差 * 斜率" 来更新权值参数？
+这就是梯度下降吧。
 
+
+
+# 具有隐藏层的简单神经网络实现
 
 很多场景下，直接输入数据和输出结果是没有直观联系的，联系或者是局部的、或者是间接的，这时候我们可以加入隐藏层来发现和记录这些间接规律。
 
@@ -347,7 +353,7 @@ for j in xrange(60000):
 
     # in what direction is the target value?
     # were we really sure? if so, don't change too much.
-    l2_delta = l2_error*sigmoid(l2,deriv=True)
+    l2_delta = l2_error * sigmoid(l2,deriv=True)
 
     # how much did each l1 value contribute to the l2 error (according to the weights)?
     l1_error = l2_delta.dot(syn1.T)
