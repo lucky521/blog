@@ -19,7 +19,7 @@ layout: post
 
 这三个事儿分别叫做特征提取、特征处理、特征选择。
 
-特征提取是指将机器学习算法不能识别的原始数据转化为算法可以识别的特征的过程。
+特征提取是指将机器学习算法不能识别的原始数据转化为算法可以识别的特征的过程。来自自然界的特征本身可能并不是数学形式，或者原始值虽是数值但特征值之间没有任何偏序关系。特征提取这个过程类似于编码的过程。
 
 特征处理也可以称作特征预处理，处理的手段有很多，比如 scaling, centering, normalization, binarization, imputation。
 
@@ -41,7 +41,6 @@ layout: post
 连续型特征, continuous features，又叫数值特征,是指取值本身就蕴含数值大小关系的特征。比如价格、尺寸。
 
 离散型特征, categorical features，又叫定性特征：是指取值没有偏序关系的特征。比如无意义的编号、颜色（红黄蓝）、语言文字。
-
 
 ## 特征向量到特征矩阵
 
@@ -125,13 +124,19 @@ PolynomialFeatures 以多项式运算的方式将2个以上的特征以多项式
 
 ## PCA 主成分分析
 
+PCA降维的大致思想是挑选特征明显的、显得比较重要的信息保留下来。
+
+
+
+## SVD 奇异值分解
+
 
 
 ## 特征交叉 Feature Interaction / 特征组合 Feature Cross
 
 组合两个特征，我们可以进行加减乘除运算。
 
-Sum of two features: Let’s say you wish to predict revenue based on preliminary sales data. You have the features sales_blue_pens and sales_black_pens. You could sum those features if you only care about overall sales_pens.
+Sum of two features: Let’s say you wish o predict revenue based on preliminary sales data. You have the features sales_blue_pens and sales_black_pens. You could sum those features if you only care about overall sales_pens.
 
 Difference between two features: You have the features house_built_date and house_purchase_date. You can take their difference to create the feature house_age_at_purchase.
 

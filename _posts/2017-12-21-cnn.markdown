@@ -48,7 +48,7 @@ s(t) = (x * w)(t)
 
 ## 卷积层 Convolutional Layer
 
-## 全连接层
+## 全连接层 Fully-Connected Layer
 
 ## 扁平层 Flatten layer
 
@@ -58,7 +58,6 @@ The Flatten layer is a utility layer that flattens an input of shape n * c * h *
 
 
 # 典型的卷积神经网络模型
-
 
 ## LeNet
 

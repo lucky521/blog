@@ -16,8 +16,6 @@ Running the computational graph in a session
 
 			tf.Graph
 			tf.Session
-			tf.constant
-			tf.add
 			tf.placeholder
 
 
@@ -89,21 +87,28 @@ https://www.tensorflow.org/serving/serving_basic
 
 # 重要的元素
 
+## tf.constant
+
 ## tf.Variable 参数
 
 Variable 代表着模型中的参数，算法的核心目的是在训练参数。
-
 
 ## tf.placeholder 可变输入
 
 在构建模型的时候没必要先把数据写好，先用tf.placeholder把数据类型确定就行。在真正session执行的时候再用feed_dict把输入填进去就好。
 
+
+## tf.global_variables_initializer
+
 ## tf.Session 运行数据流
 
 在 tf.Session 之前的过程都是定义，tf.Session().run(...)才是真正执行前面定义好的操作。
 
-
 ## tf.summary 查看数据流图
+
+## tf.name_scope
+
+## tf.variable_scope
 
 
 
@@ -117,11 +122,19 @@ Variable 代表着模型中的参数，算法的核心目的是在训练参数�
 ### 基本运算函数
 
 ```
+tf.random_normal
+
+tf.random_uniform
+
 tf.reduce_mean
 
-tf.equal
-
 tf.argmax(vector, dimention)：返回的是vector中的最大值的索引号
+
+tf.multiply() 两个矩阵中对应元素各自相乘
+
+tf.matmul() 将矩阵a乘以矩阵b，生成a * b。
+
+tf.equal
 ```
 
 ### 类型转换函数
@@ -135,10 +148,9 @@ tf.cast
 ```
 tf.train.Saver()
 save_path = saver.save(sess, model_path)
+saver.restore(sess, tf.train.latest_checkpoint(checkpoint_path)) # tf.train.latest_checkpoint自动获取最后一次保存的模型
 saver.restore(sess, model_path)
 ```
-
-
 
 
 ## 神经网络构建函数
@@ -150,6 +162,7 @@ tf.nn.relu
 tf.nn.sigmoid
 tf.nn.tanh
 tf.nn.dropout
+tf.nn.softmax
 ```
 
 ### 卷积函数
@@ -167,15 +180,13 @@ tf.nn.max_pool
 ```
 
 
-
-
 ## 模型训练函数
 
-### 代价函数
+### 损失函数
 
-交叉熵 softmax_cross_entropy_with_logits
+交叉熵损失函数 softmax_cross_entropy_with_logits
 
-softmax_cross_entropy_with_logits是用的最多的，此外还有mean_squared_error和sigmoid_cross_entropy。
+softmax_cross_entropy_with_logits 是用的最多的，此外还有mean_squared_error和sigmoid_cross_entropy。
 
 ```
 cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits_nn, labels=Y)
@@ -185,7 +196,6 @@ tf.reduce_mean(cross_entropy)
 
 ```
 
-
 ### 优化器函数
 
 ```
@@ -193,6 +203,8 @@ tf.train.AdamOptimizer
 
 tf.train.GradientDescentOptimizer
 ```
+
+
 
 
 
@@ -224,6 +236,7 @@ An embedding is a relatively low-dimensional space into which you can translate 
 
 ## Do embedding
 
+怎么把 raw format 的feature data转变为embedding format的data？
 
 ## Visualize your embeddings
 
