@@ -12,6 +12,51 @@ Online metrics是直接在线上环境做AB测试，比较两个实验组的核�
 Offline metrics是希望在模型上线之前，使用历史数据进行效果评估。离线指标有些是纯数学模型指标，有些是结合实际问题的量化指标。
 
 
+# 基础统计数据
+
+考虑一个二分问题，即将实例分成正类（positive）或负类（negative）。对一个二分问题来说，会出现四种情况。如果一个实例是正类并且也被预测成正类，即为真正类（True positive）,如果实例是负类被预测成正类，称之为假正类（False positive）。相应地，如果实例是负类被预测成负类，称之为真负类（True negative）,正类被预测成负类则为假负类（false negative）。
+
+
+                  预测1                     预测0
+      实际1        True Positive(TP)        False Negative(FN)
+      实际0        False Positive(FP)        True Negative(TN)
+
+
+TP：正确肯定的数目；
+FN：漏报，没有正确找到的匹配的数目；
+FP：误报，给出的匹配是不正确的；
+TN：正确拒绝的非匹配对数；
+
+
+## TPR、FPR&TNR
+
+从列联表引入两个新名词。其一是真正类率(true positive rate ,TPR), 计算公式为
+TPR = TP / (TP + FN).
+刻画的是分类器所识别出的正实例占所有正实例的比例。
+
+另外一个是负正类率(false positive rate, FPR),计算公式为
+FPR = FP / (FP + TN).
+计算的是分类器错认为正类的负实例占所有负实例的比例。
+
+还有一个真负类率（True Negative Rate，TNR），也称为specificity，计算公式为
+TNR = TN /(FP + TN) = 1 - FPR
+
+
+
+## 精确率Precision、召回率Recall
+
+准确率 Precision = 提取出的正确信息条数 /  提取出的信息条数    
+
+召回率 Recall = 提取出的正确信息条数 /  样本中的信息条数    
+
+
+## F1值
+
+为了能够评价不同算法的优劣，在Precision和Recall的基础上提出了F1值的概念，来对Precision和Recall进行整体评价。F1的定义如下：
+F1值  = 正确率 * 召回率 * 2 / (正确率 + 召回率)
+
+
+
 
 
 # Classification Metrics
@@ -30,6 +75,8 @@ Logarithmic loss (related to cross-entropy) measures the performance of a classi
 ## AUC Area under Curve
 
 AUC metric is only designed for binary classifiers
+
+
 
 ## Classification Report
 
