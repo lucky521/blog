@@ -196,6 +196,11 @@ tf.reduce_mean(cross_entropy)
 
 ```
 
+
+```
+tf.distributions.kl_divergence
+```
+
 ### 优化器函数
 
 ```

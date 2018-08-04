@@ -1,5 +1,5 @@
 ---
-title: "最优化方法"
+title: "机器学习的最优化方法"
 subtitle: "Optimization Method"
 categories: [design]
 layout: post
@@ -7,10 +7,18 @@ layout: post
 
 机器学习里模型训练的过程是在反复优化一个函数，使得其能做出理想的预测。而优化时又会设计一个Objective Function，用来衡量模型预测出来的值 h(θ) 与真实值 y 之间的差异。当然，差异越小且越稳定越好。我们所说的最优化方法，就是要优化这个Objective Function，使其取得一个极小值。
 
-# 如何保证和确定当前的Objective Function是可优化的？
+# 目标函数和目标模型
+
+这里需要考虑几个问题。
+
+## 如何确定满足最小化Objective Function就能训练出的好模型？
 
 
-# 如何确定当前的Objective Function已取得极小值？
+## 如何保证和确定当前的Objective Function是可优化的？
+
+
+## 如何确定当前的Objective Function已取得极小值？
+
 
 
 # Objective Function的设定
@@ -49,9 +57,40 @@ It deals with problems where we have to measure whether two inputs are similar o
 
 ## Regularization
 
+0. L0 Regularization
+
+L0范数是指向量中非0的元素的个数。
+
 1. L1 Regularization
 
+L1范数是指向量中各个元素绝对值之和，也叫“稀疏规则算子”（Lasso regularization）。
+
 2. L2 Regularization
+
+ L2范数是指向量各元素的平方和然后求平方根。
+
+
+
+# 约束优化问题
+
+## 无约束的优化问题
+
+无约束最优化问题是优化领域研究的基础性问题。
+
+常见的求解方法有梯度下降法、最速下降法、牛顿法、共轭梯度法（DFP法）和变尺度法（变度量法）。
+
+对于特殊的最小二乘问题，即把均方误差作为最小化目标，有最小二乘法。
+
+## 有等式约束的优化问题
+
+使用拉格朗日乘子法（Lagrange Multiplier) 求解。
+
+## 有不等式约束的优化问题
+
+使用KKT条件求解。
+
+[参考](https://zhuanlan.zhihu.com/p/26514613)
+
 
 
 # 最优化方法

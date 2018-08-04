@@ -6,7 +6,7 @@ layout: post
 
 这几年深度神经网络在解决模式识别问题上有很大突破，比如计算机视觉和语音识别领域。
 
-一般的回归预测问题常用标准神经网络模型(Standard NN)，图片分类问题常用卷积神经网络(CNN)，语音识别问题常用递归神经网络(RNN)。
+一般的回归预测问题常用标准神经网络模型(Standard NN，Feedforward NN)，图片分类问题常用卷积神经网络(CNN)，语音识别问题常用递归神经网络(RNN)。
 
 
 # 神经网络的基本构成
@@ -51,9 +51,14 @@ cost function 用于表示所训练出模型的好坏程度。它是构建一个
 ### 均方误差 Mean Square Error
 
 
+### K-L散度
+
+
 
 
 ## 模型的优化方法
+
+[最优化方法](https://lucky521.github.io/blog/design/2018/07/31/optimization-method.html)
 
 优化方法指的是不断更新网络的参数，使得它能显著地降低代价函数。优化器是编译网络模型必要的两个参数之一。
 
@@ -97,12 +102,7 @@ cost function 用于表示所训练出模型的好坏程度。它是构建一个
 
 激活函数可以通过设置单独的激活层实现，也可以在构造层对象时通过传递activation参数实现。
 
-下面有四种激活函数。
-
-### Linear function
-
-A = cx
-线性函数。
+常见的激活函数。
 
 ### Sigmoid Function
 
@@ -117,10 +117,16 @@ A = 2/(1+e^(-2x)) - 1 = 2sigmoid(2x) - 1
 输出范围是-1，1之间。
 
 
+### SoftMax
+
+![](https://wikimedia.org/api/rest_v1/media/math/render/svg/e348290cf48ddbb6e9a6ef4e39363568b67c09d3)
+
 ### ReLu function 线性整流函数
 
 通常意义下，线性整流函数代指代数学中的斜坡函数，即
 A = x if x>0 else 0
+
+其中ReLu应用的最多，可见 https://www.cnblogs.com/alexanderkun/p/6918029.html
 
 
 
@@ -128,7 +134,7 @@ A = x if x>0 else 0
 
 每次轮计算后评估模型的方法。需要一个指标。
 
-
+[机器学习模型的评价方法和指标](https://lucky521.github.io/blog/design/2017/01/01/metrics-to-evaluate-model.html)
 
 ## 训练迭代
 
@@ -177,7 +183,11 @@ Regularization 的目的是要避免过拟合。减少真实数据生成错误�
 ### Dropout layer
 
 加入一层Dropout layer，在训练的时候，该层随机断开一些节点。在真正预测的时候，还是使用全部的连接。
-这是正则化的一种形式，在训练神经网络方面非常有用。丢弃正则化的运作机制是，在神经网络层的一个梯度步长中移除随机选择的固定数量的单元。丢弃的单元越多，正则化效果就越强。这类似于训练神经网络以模拟较小网络的指数级规模集成学习。如需完整的详细信息，请参阅 Dropout: A Simple Way to Prevent Neural Networks from Overfitting。
+这是正则化的一种形式，在训练神经网络方面非常有用。丢弃正则化的运作机制是，在神经网络层的一个梯度步长中移除随机选择的固定数量的单元。丢弃的单元越多，正则化效果就越强。这类似于训练神经网络以模拟较小网络的指数级规模集成学习。
+
+[Dropout: A Simple Way to Prevent Neural Networks from Overfitting](https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf)
+
+[以贝叶斯估计来看待Dropout](http://mlg.eng.cam.ac.uk/yarin/PDFs/Dropout_as_a_Bayesian_approximation.pdf)
 
 ### 权值衰减 Weight penalty L1 and L2
 
@@ -226,6 +236,9 @@ Permute层将输入的维度按照给定模式进行重排，例如，当需要�
 ### Recurrent层
 
 
+
+
+# 前向传播FP与反向传播BP
 
 
 # 神经网络实现
