@@ -116,6 +116,8 @@ Dump一个模型到文件
     bst.dump_model('model.txt')  # 保存为文本形式的模型
     bst.save_model('model.bin')    # 保存为二进制形式的模型
 
+    注意dump_model输出的文本形式模型，特征名称是idx。这个类型的模型文件无法用load_model来载入。
+
 Load一个模型文件
 
     # load xgboost model
