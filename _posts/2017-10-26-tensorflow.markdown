@@ -87,28 +87,61 @@ https://www.tensorflow.org/serving/serving_basic
 
 # 重要的元素
 
-## tf.constant
+## tf.constant 常数
+
+## 图变量
 
 ## tf.Variable 参数
 
 Variable 代表着模型中的参数，算法的核心目的是在训练参数。
 
-## tf.placeholder 可变输入
+## tf.get_variable
+
+tf.Variable与tf.get_variable()的区别是：
+tf.get_variable() 会检查当前命名空间下是否存在同样name的变量，可以方便共享变量。而tf.Variable 每次都会新建一个变量。
+使用tf.Variable时，如果检测到命名冲突，系统会自己处理。使用tf.get_variable()时，系统不会处理冲突，而会报错。
+
+tf.contrib.layers.xavier_initializer
+Returns an initializer performing "Xavier" initialization for weights.
+
+推荐使用的初始化方法为
+
+```
+W = tf.get_variable("W", shape=[784, 256],
+       initializer=tf.contrib.layers.xavier_initializer())
+```
+
+### tf.global_variables_initializer
+
+An Op that initializes global variables in the graph.
+
+
+## 命名空间
+
+### tf.name_scope
+
+name_scope 作用于操作。
+
+### tf.variable_scope
+
+variable_scope 可以通过设置 reuse 标志以及初始化方式来影响域下的变量。
+
+
+## tf.placeholder 可变数据输入
 
 在构建模型的时候没必要先把数据写好，先用tf.placeholder把数据类型确定就行。在真正session执行的时候再用feed_dict把输入填进去就好。
 
-
-## tf.global_variables_initializer
 
 ## tf.Session 运行数据流
 
 在 tf.Session 之前的过程都是定义，tf.Session().run(...)才是真正执行前面定义好的操作。
 
+Run函数
+The value returned by run() has the same shape as the fetches argument, where the leaves are replaced by the corresponding values returned by TensorFlow.
+
 ## tf.summary 查看数据流图
 
-## tf.name_scope
 
-## tf.variable_scope
 
 
 
@@ -135,6 +168,9 @@ tf.multiply() 两个矩阵中对应元素各自相乘
 tf.matmul() 将矩阵a乘以矩阵b，生成a * b。
 
 tf.equal
+
+tf.where
+
 ```
 
 ### 类型转换函数
@@ -144,6 +180,8 @@ tf.cast
 ```
 
 ## 模型保存和加载
+
+们经常在训练完一个模型之后希望保存训练的结果，这些结果指的是模型的参数，以便下次迭代的训练或者用作测试。Tensorflow针对这一需求提供了Saver类。
 
 ```
 tf.train.Saver()
@@ -177,6 +215,16 @@ tf.nn.conv2d
 ```
 tf.nn.avg_pool
 tf.nn.max_pool
+```
+
+### 正则化函数
+
+```
+tf.contrib.layers.l1_regularizer(scale, scope=None)
+返回一个用来执行L1正则化的函数,函数的签名是func(weights).
+
+tf.contrib.layers.l2_regularizer(scale, scope=None)
+返回一个执行L2正则化的函数.
 ```
 
 
@@ -242,6 +290,9 @@ An embedding is a relatively low-dimensional space into which you can translate 
 ## Do embedding
 
 怎么把 raw format 的feature data转变为embedding format的data？
+
+tf.nn.embedding_lookup
+
 
 ## Visualize your embeddings
 

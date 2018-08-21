@@ -128,6 +128,10 @@ Load一个模型文件
     preds = bst_new.predict(dtest)
     print(preds)
 
+评估一个模型的量化指标
+
+    bst.eval(dtest)
+
 
 训练数据的文件格式
 
@@ -138,6 +142,11 @@ Load一个模型文件
 
     注意，这个格式的特征k:v是稀疏形式存储的，样本有特征才会存储k:v，如果一个k在某一行没有，就说明此行该特征是缺失的。不同的训练框架的处理可能不太一致，有些框架会把缺失的特征当做0，xgboost会把它作为缺失值missing。如果在文件里存储的v为0，那么框架也可能会认为这是一个缺失值。
     详见https://github.com/dmlc/xgboost/issues/21
+
+
+交叉验证
+
+    XGBoost允许在每一轮boosting迭代中使用交叉验证
 
 
 ## Pairwise Training
