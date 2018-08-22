@@ -236,6 +236,9 @@ Permute层将输入的维度按照给定模式进行重排，例如，当需要�
 ### Recurrent层
 
 
+### Embedding层
+
+
 
 
 # 前向传播FP与反向传播BP

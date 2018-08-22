@@ -21,14 +21,25 @@ layout: post
 
 
 
+
+
 # Objective Function的设定
 
 目标函数的设定中要包含loss function 和 regularization。前者是要使得我们的模型尽可能的学习训练样本的分布。后者是希望模型不用过拟合。
 
 Training Loss measures how well model fit on training data.
 
+常见的损失误差有五种：
+1. 铰链损失（Hinge Loss）：主要用于支持向量机（SVM） 中；
+2. 互熵损失 （Cross Entropy Loss，Softmax Loss ）：用于Logistic 回归与Softmax 分类中；
+3. 平方损失（Square Loss）：主要是最小二乘法（OLS）中；
+4. 指数损失（Exponential Loss） ：主要用于Adaboost 集成学习算法中；
+5. 其他损失（如0-1损失，绝对值损失）
+
 Regularization measures complexity of model.
 
+
+# Loss functions
 
 ## Regressive loss functions
 
@@ -55,7 +66,7 @@ It deals with problems where we have to measure whether two inputs are similar o
 2. Cosine Error- Cosine distance between two inputs.
 
 
-## Regularization
+# Regularization Function
 
 0. L0 Regularization
 

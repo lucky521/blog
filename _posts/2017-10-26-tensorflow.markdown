@@ -18,7 +18,6 @@ Running the computational graph in a session
 			tf.Session
 			tf.placeholder
 
-
 在TensorFlow中，数据以 tensor 为单元。tensor本质上是n维数组。
 数组的维度叫做tensor的rank。一个标量是rank为0的tensor。
 每个维度的数组长度组成的tuple元组叫做tensor的shape。
@@ -26,18 +25,50 @@ Running the computational graph in a session
 
 ## Tensorboard
 
-		tensorboard --logdir=/path/to/log-directory
+https://github.com/tensorflow/tensorboard/blob/master/README.md
 
+### tensorboard 命令
+
+		tensorboard --logdir=/path/to/log-directory
 
 tensorboard默认占用了6006端口
 
 		lsof -i:6006
 
+### tf.summary API
+
+tf.summary 提供了向文件写入模型内部的结构和数据信息的方法，以供 tensorboard 来展示。
+
+https://www.tensorflow.org/api_guides/python/summary
 
 一个例子：https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/4_Utils/tensorboard_basic.py
 
+### events.out.tfevents.XXX.local 文件
+
+Everytime when tf.summary.FileWriter is instantiated, a event file will be saved in the specified directory.
+
+
+### Data 可视化
+
+Scalar、images、audio、text各种类型的数据都能通过在代码里创建summary，然后在tensorboard的相应面板里查看。
+
+比如在代码里调用 tf.summary.scalar("loss", loss)，就能在scalars可视化面板里看到“loss”值的变化情况。
+
+Histogram、Distribution
+
+在代码里调用 tf.summary.histogram，就能在可视化面板里查看数据的分布。
+
+### Model graph 可视化
+
+https://www.tensorflow.org/guide/graph_viz
+
+展示了整个模型的结构图。
+
+### Embedding 可视化
 
 Embedding Projector是Tensorboard的一个功能，可以可视化的查看embeddings。
+
+
 
 
 ## TensorFlow Serving
@@ -82,6 +113,7 @@ https://www.tensorflow.org/serving/serving_basic
 
 ## TensorFlow Debugger
 
+https://www.tensorflow.org/api_guides/python/tfdbg
 
 
 
@@ -89,13 +121,17 @@ https://www.tensorflow.org/serving/serving_basic
 
 ## tf.constant 常数
 
+https://www.tensorflow.org/api_guides/python/constant_op
+
 ## 图变量
 
-## tf.Variable 参数
+https://www.tensorflow.org/api_guides/python/state_ops
+
+### tf.Variable 参数
 
 Variable 代表着模型中的参数，算法的核心目的是在训练参数。
 
-## tf.get_variable
+### tf.get_variable
 
 tf.Variable与tf.get_variable()的区别是：
 tf.get_variable() 会检查当前命名空间下是否存在同样name的变量，可以方便共享变量。而tf.Variable 每次都会新建一个变量。
@@ -115,8 +151,12 @@ W = tf.get_variable("W", shape=[784, 256],
 
 An Op that initializes global variables in the graph.
 
+### tf.variance_scaling_initializer
+
 
 ## 命名空间
+
+命名空间和给变量命名主要是有益于在tensorboard上可视化展示。
 
 ### tf.name_scope
 
@@ -139,9 +179,6 @@ variable_scope 可以通过设置 reuse 标志以及初始化方式来影响域�
 Run函数
 The value returned by run() has the same shape as the fetches argument, where the leaves are replaced by the corresponding values returned by TensorFlow.
 
-## tf.summary 查看数据流图
-
-
 
 
 
@@ -161,6 +198,10 @@ tf.random_uniform
 
 tf.reduce_mean
 
+tf.reduce_max
+
+tf.reduce_min
+
 tf.argmax(vector, dimention)：返回的是vector中的最大值的索引号
 
 tf.multiply() 两个矩阵中对应元素各自相乘
@@ -170,18 +211,26 @@ tf.matmul() 将矩阵a乘以矩阵b，生成a * b。
 tf.equal
 
 tf.where
+tf.where(condition, x = None, y = None, name = None)，根据condition判定返回。即condition是True，选择x；condition是False，选择y。
 
 ```
 
 ### 类型转换函数
 
+https://www.tensorflow.org/api_guides/python/array_ops
+
 ```
 tf.cast
+
+tf.expand_dims
+
+tf.reshape
+
 ```
 
 ## 模型保存和加载
 
-们经常在训练完一个模型之后希望保存训练的结果，这些结果指的是模型的参数，以便下次迭代的训练或者用作测试。Tensorflow针对这一需求提供了Saver类。
+我们经常在训练完一个模型之后希望保存训练的结果，这些结果指的是模型的参数，以便下次迭代的训练或者用作测试。Tensorflow针对这一需求提供了Saver类。
 
 ```
 tf.train.Saver()
