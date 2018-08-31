@@ -35,6 +35,10 @@ tensorboard默认占用了6006端口
 
 		lsof -i:6006
 
+如果想查找当前目录里面有多少文件可以被可视化出来，可以用inspect参数来扫描目录。
+
+		tensorboard --inspect  --logdir=./
+
 ### tf.summary API
 
 tf.summary 提供了向文件写入模型内部的结构和数据信息的方法，以供 tensorboard 来展示。
