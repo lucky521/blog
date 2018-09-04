@@ -28,17 +28,17 @@ FP：误报，给出的匹配是不正确的；
 TN：正确拒绝的非匹配对数；
 
 
-## TPR、FPR&TNR
+## TPR、FPR & TNR
 
-从列联表引入两个新名词。其一是真正类率(true positive rate ,TPR), 计算公式为
+真正类率(True Positive Rate, TPR), 也称为Sensitivity，计算公式为
 TPR = TP / (TP + FN).
-刻画的是分类器所识别出的正实例占所有正实例的比例。
+计算的是分类器所识别出的正实例占所有正实例的比例。
 
-另外一个是负正类率(false positive rate, FPR),计算公式为
+负正类率(False Positive Rate, FPR),，也成为1-Specificity，计算公式为
 FPR = FP / (FP + TN).
 计算的是分类器错认为正类的负实例占所有负实例的比例。
 
-还有一个真负类率（True Negative Rate，TNR），也称为specificity，计算公式为
+真负类率（True Negative Rate，TNR），也称为specificity，计算公式为
 TNR = TN /(FP + TN) = 1 - FPR
 
 
@@ -50,16 +50,24 @@ TNR = TN /(FP + TN) = 1 - FPR
 召回率 Recall = 提取出的正确信息条数 /  样本中的信息条数    
 
 
-## F1值
+
+# 分类模型评价指标 Classification Metrics
+
+## F1 Score
 
 为了能够评价不同算法的优劣，在Precision和Recall的基础上提出了F1值的概念，来对Precision和Recall进行整体评价。F1的定义如下：
 F1值  = 正确率 * 召回率 * 2 / (正确率 + 召回率)
 
+## AUC Area under Curve
 
+AUC metric is only designed for binary classifiers.
 
+机器学习实践中分类器常用的评价指标就是auc，不想搞懂，简单用的话，记住一句话就行。auc取值范围[0.5, 1]，越大表示越好，小于0.5的把结果取反就行。
+roc曲线下的面积就是auc，所以要先搞清楚roc。
 
+ROC曲线的横坐标为FPR，纵坐标为TPR。ROC曲线越靠拢(0,1)点，越偏离45度对角线越好，Sensitivity、Specificity越大效果越好。
 
-# Classification Metrics
+AUC(Area under Curve)：Roc曲线下的面积.
 
 ## Classification Accuracy
 
@@ -72,22 +80,16 @@ Logarithmic loss (related to cross-entropy) measures the performance of a classi
 ## Confusion Matrix
 
 
-## AUC Area under Curve
-
-AUC metric is only designed for binary classifiers
-
-
 
 ## Classification Report
 
-## F1 Score
 
 
 
 
 
 
-# Regression Metrics
+# 回归模型评价指标 Regression Metrics
 
 Mean Absolute Error
 Mean Squared Error
@@ -95,7 +97,7 @@ R^2 Metric
 
 
 
-# Clustering metrics
+# 聚类模型评价指标 Clustering metrics
 
 ‘adjusted_mutual_info_score’	metrics.adjusted_mutual_info_score	 
 ‘adjusted_rand_score’	metrics.adjusted_rand_score	 
@@ -111,7 +113,7 @@ R^2 Metric
 
 
 
-# Learning to Rank Metric
+# 排序模型评价指标 Learning to Rank Metric
 
 如何评价排序的好坏是一个非常重要的事情。否则我们无法知道怎么去优化自己的算法。评价这件事是我们在训练时进行的。这不是在评价样本数据的好坏，也不是为了评价某一次预测的结果，而是为了把模型对所有训练数据的表现整体来看。
 

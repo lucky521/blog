@@ -70,8 +70,6 @@ PythonAPI https://xgboost.readthedocs.io/en/latest/python/python_api.html
 模型参数 http://xgboost.readthedocs.io/en/latest/parameter.html
 Demo https://github.com/dmlc/xgboost/tree/master/demo
 
-lightGBM 也是一个实现gradient boosting的框架。
-https://github.com/Microsoft/LightGBM
 
 sciki-learn里面的例子
 http://scikit-learn.org/stable/auto_examples/ensemble/plot_gradient_boosting_regression.html
@@ -354,3 +352,13 @@ xgbfir.saveXgbFI(xgb_rmodel, feature_names=boston.feature_names, OutputXlsxFile=
 ```
 
 https://github.com/limexp/xgbfir
+
+
+
+## CatBoost
+
+
+## Light GBM
+
+lightGBM 也是一个实现gradient boosting的框架。
+https://github.com/Microsoft/LightGBM
