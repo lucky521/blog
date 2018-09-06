@@ -23,6 +23,7 @@ Running the computational graph in a session
 每个维度的数组长度组成的tuple元组叫做tensor的shape。
 
 
+
 ## Tensorboard
 
 https://github.com/tensorflow/tensorboard/blob/master/README.md
@@ -35,7 +36,7 @@ tensorboard默认占用了6006端口
 
 		lsof -i:6006
 
-如果想查找当前目录里面有多少文件可以被可视化出来，可以用inspect参数来扫描目录。
+如果想查找当前目录里面有多少文件可以被可视化出来，可以用inspect参数来扫描目录。路径可以是相对路径。
 
 		tensorboard --inspect  --logdir=./
 
@@ -47,14 +48,17 @@ https://www.tensorflow.org/api_guides/python/summary
 
 一个例子：https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/4_Utils/tensorboard_basic.py
 
+
 ### events.out.tfevents.XXX.local 文件
+
+event files, which contain information that TensorBoard uses to create visualizations.
 
 Everytime when tf.summary.FileWriter is instantiated, a event file will be saved in the specified directory.
 
 
 ### Data 可视化
 
-Scalar、images、audio、text各种类型的数据都能通过在代码里创建summary，然后在tensorboard的相应面板里查看。
+Scalar、custom_scalar、images、audio、text各种类型的数据都能通过在代码里创建summary，然后在tensorboard的相应面板里查看。
 
 比如在代码里调用 tf.summary.scalar("loss", loss)，就能在scalars可视化面板里看到“loss”值的变化情况。
 
@@ -68,10 +72,33 @@ https://www.tensorflow.org/guide/graph_viz
 
 展示了整个模型的结构图。
 
+
+### Precision-Recall Curve 可视化
+
+
+https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/pr_curve
+
 ### Embedding 可视化
 
 Embedding Projector是Tensorboard的一个功能，可以可视化的查看embeddings。
+把checkpoint文件、model.ckpt文件、metadata.tsv文件、projector_config.pbtxt文件都放在同一个目录下。
+到这个目录下然后运行 tensorbord --logdir=metadata_path，metadata_path是在config.embeddings的metadata_path路径。
 
+metadata.tsv按顺序存储了每一个embedding的label，可以是id也是可以name。
+
+### Beholder 可视化
+
+https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/beholder
+
+### Debugger 可视化
+
+https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/debugger
+
+### Profile 可视化
+
+用于监控TPU上的性能指标。
+
+https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/profile
 
 
 
@@ -118,6 +145,11 @@ https://www.tensorflow.org/serving/serving_basic
 ## TensorFlow Debugger
 
 https://www.tensorflow.org/api_guides/python/tfdbg
+
+
+
+
+
 
 
 
@@ -188,6 +220,7 @@ The value returned by run() has the same shape as the fetches argument, where th
 
 
 
+
 # 常用函数
 
 
@@ -243,6 +276,19 @@ saver.restore(sess, tf.train.latest_checkpoint(checkpoint_path)) # tf.train.late
 saver.restore(sess, model_path)
 ```
 
+### ckpt文件
+
+		meta file: describes the saved graph structure, includes GraphDef, SaverDef, and so on; then apply tf.train.import_meta_graph('/tmp/model.ckpt.meta'), will restore Saver and Graph.
+
+		index file: it is a string-string immutable table(tensorflow::table::Table). Each key is a name of a tensor and its value is a serialized BundleEntryProto. Each BundleEntryProto describes the metadata of a tensor: which of the "data" files contains the content of a tensor, the offset into that file, checksum, some auxiliary data, etc.
+
+		data file: it is TensorBundle collection, save the values of all variables.
+
+### checkpoint文件
+
+checkpoints, which are versions of the model created during training.
+
+https://www.tensorflow.org/guide/checkpoints
 
 ## 神经网络构建函数
 
@@ -328,6 +374,8 @@ https://github.com/aymericdamien/TensorFlow-Examples/tree/master/examples/2_Basi
 
 
 
+
+
 # 训练 Embeddings
 
 Embedding是一个行为，把离线形式的事物影响到为实数向量。Embedding这个词同时也是该行为所输出的东西，我们把输出的实数向量也称作是Embedding。
@@ -342,18 +390,25 @@ An embedding is a relatively low-dimensional space into which you can translate 
 
 ## Do embedding
 
-怎么把 raw format 的feature data转变为embedding format的data？
+怎么把 raw format 的 feature data 转变为 embedding format(vector<float>)的  data？
 
 tf.nn.embedding_lookup
 
 
 ## Visualize your embeddings
 
-把一个embedding在tensorboard上可视化出来，需要做三件事。
+把一个embedding在 tensorboard 上可视化出来，需要做三件事。
 
 1) Setup a 2D tensor that holds your embedding(s).
+
 2) Periodically save your model variables in a checkpoint in LOG_DIR.
+
 3) (Optional) Associate metadata with your embedding.
+
+参考https://stackoverflow.com/questions/40849116/how-to-use-tensorboard-embedding-projector
+
+
+
 
 
 
