@@ -16,6 +16,39 @@ layout: post
 
     An Introduction to Statistical Learning with Application in R
 
+    An Introduction to Computational Learning Theory
+
+
+# probability & statistics 概率vs统计
+
+Induction vs Deduction
+
+    statistics： 我们观察到一些observations，我们的目标是找到形成这些observations的underlying process。
+
+    probability：已知underlying process，其中有一些 random variables。
+
+
+PROBABILITY
+
+    General 一般 ---> Specific 特殊
+
+    Population 总体 ---> Sample 样本
+
+    Model 模型 ---> Data 数据
+
+STATISTICS
+
+    General <--- Specific
+
+    Population <--- Sample
+
+    Model <--- Data
+
+
+
+probabilistic method or model:
+
+
 
 
 # 贝叶斯估计
@@ -34,7 +67,29 @@ MAP优化的是一个后验概率，样本视为不变量时，分布参数视�
 
 生成模型的求解思路是：联合分布------->求解类别先验概率和类别条件概率
 
-# VC维
+
+
+
+# Probably Approximately Correct PAC-Learning
+
+PAC-learning在1984年由Leslie Valiant提出，由这个概念产生了计算学习理论。
+
+[Probably Approximately Correct — a Formal Theory of Learning](https://jeremykun.com/2014/01/02/probably-approximately-correct-a-formal-theory-of-learning/)
+
+
+什么叫做PAC-learning？
+
+    A problem is PAC-learnable if there is an algorithm A which for any distribution D and any concept/target c will, when given some independently drawn samples and with high probability, produce a hypothesis whose error is small.
+
+
+
+# 假设空间、版本空间
+
+
+
+# Vapnik-Chervonenkis Dimension VC维
+
+VC理论研究的是一种复杂度的衡量方法。
 
 VC维是一个很有趣的概念，它的主体是一类函数，描述的是这类函数能够把多少个样本的所有组合都划分开来。VC维的意义在哪里呢？它在于当你选定了一个模型以及它对应的特征之后，你是大概可以知道这组模型和特征的选择能够对多大的数据集进行分类的。此外，一类函数的VC维的大小，还可以反应出这类函数过拟合的可能性。
 

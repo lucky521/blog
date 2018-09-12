@@ -75,16 +75,17 @@ https://www.tensorflow.org/guide/graph_viz
 
 ### Precision-Recall Curve 可视化
 
-
 https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/pr_curve
 
-### Embedding 可视化
+### Embedding Projector 可视化
 
 Embedding Projector是Tensorboard的一个功能，可以可视化的查看embeddings。
 把checkpoint文件、model.ckpt文件、metadata.tsv文件、projector_config.pbtxt文件都放在同一个目录下。
-到这个目录下然后运行 tensorbord --logdir=metadata_path，metadata_path是在config.embeddings的metadata_path路径。
+到这个目录下然后运行 tensorbord --logdir=.
 
 metadata.tsv按顺序存储了每一个embedding的label，可以是id也是可以name。
+
+visualize的方式有T-SNE、PCA以及custom的方式。
 
 ### Beholder 可视化
 
@@ -140,6 +141,15 @@ https://www.tensorflow.org/serving/serving_basic
 在客户端把样本数据作为请求发送到TensorFlow ModelServer，
 
 		python tensorflow_serving/example/mnist_client.py --num_tests=1000 --server=localhost:9000
+
+
+### 数据交互格式
+
+TensorProto
+
+PredictRequest
+
+PredictResponse
 
 
 ## TensorFlow Debugger
