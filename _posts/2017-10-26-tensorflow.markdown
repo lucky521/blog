@@ -102,12 +102,16 @@ https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/debugg
 https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/profile
 
 
+## TensorFlow Debugger
+
+https://www.tensorflow.org/api_guides/python/tfdbg
+
+
 
 ## TensorFlow Serving
 
-TensorFlow Serving 是基于 gRPC 和 Protocol Buffers 开发的。https://github.com/tensorflow/serving
-
-
+TensorFlow Serving 是基于 gRPC 和 Protocol Buffers 开发的。
+https://github.com/tensorflow/serving
 
 ### 服务端 tensorflow-model-server
 
@@ -115,7 +119,7 @@ TensorFlow Serving 是基于 gRPC 和 Protocol Buffers 开发的。https://githu
 
 		tensorflow_model_server --help
 
-在服务端先要训练一个模型
+1. 在服务端先要训练一个模型
 
 可以用 models repo 中的例子：
 
@@ -128,12 +132,22 @@ TensorFlow Serving 是基于 gRPC 和 Protocol Buffers 开发的。https://githu
 		python mnist_saved_model.py ./tmp/mnist_model
 
 
-然后将这个模型载入到 TensorFlow ModelServer，注意输入的模型路径必须是绝对路径。
+2. 保存的模型是这样子的：
+
+```
+	|-- mnist_saved_model
+	|   `-- 1531711208
+	|       |-- saved_model.pb   保存了serialized tensorflow::SavedModel
+	|       `-- variables   保存了variables
+	|           |-- variables.data-00000-of-00001
+	|           `-- variables.index
+```
+
+3. 然后将这个模型载入到 TensorFlow ModelServer，注意输入的模型路径必须是绝对路径。
 
     tensorflow_model_server --port=9000 --model_name=mnist --model_base_path=/tmp/mnist_model/
 
 https://www.tensorflow.org/serving/serving_basic
-
 
 ### 客户端 tensorflow-serving-api
 
@@ -152,9 +166,7 @@ PredictRequest
 PredictResponse
 
 
-## TensorFlow Debugger
 
-https://www.tensorflow.org/api_guides/python/tfdbg
 
 
 
@@ -300,7 +312,9 @@ checkpoints, which are versions of the model created during training.
 
 https://www.tensorflow.org/guide/checkpoints
 
-## 神经网络构建函数
+
+
+## 神经网络构建函数 Build Graph
 
 ### 激活函数
 
@@ -337,7 +351,7 @@ tf.contrib.layers.l2_regularizer(scale, scope=None)
 ```
 
 
-## 模型训练函数
+## 模型训练函数 Set Train
 
 ### 损失函数
 
@@ -416,6 +430,9 @@ tf.nn.embedding_lookup
 3) (Optional) Associate metadata with your embedding.
 
 参考https://stackoverflow.com/questions/40849116/how-to-use-tensorboard-embedding-projector
+
+
+
 
 
 

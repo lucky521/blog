@@ -49,6 +49,13 @@ Most widely used regressive loss function is Mean Square Error. Other loss funct
 2. Smooth Absolute Error — a smooth version of Abs Criterion.
 
 
+均方误差/平方损失/L2 损失
+
+平均绝对误差/L1 损失
+
+平均偏差误差（mean bias error）
+
+
 ## Classification loss functions
 
 The output variable in classification problem is usually a probability value f(x), called the score for the input x. Generally, the magnitude of the score represents the confidence of our prediction. The target variable y, is a binary variable, 1 for true and -1 for false.
@@ -58,12 +65,21 @@ On an example (x,y), the margin is defined as yf(x). The margin is a measure of 
 3. Margin Classifier
 4. Soft Margin Classifier
 
+Hinge Loss/多分类 SVM 损失
+
+交叉熵损失/负对数似然
+
+
 
 ## Embedding loss functions
 
 It deals with problems where we have to measure whether two inputs are similar or dissimilar. Some examples are:
 1. L1 Hinge Error- Calculates the L1 distance between two inputs.
 2. Cosine Error- Cosine distance between two inputs.
+
+
+
+
 
 
 # Regularization Function
@@ -79,6 +95,8 @@ L1范数是指向量中各个元素绝对值之和，也叫“稀疏规则算子
 2. L2 Regularization
 
  L2范数是指向量各元素的平方和然后求平方根。
+
+
 
 
 
@@ -105,6 +123,8 @@ L1范数是指向量中各个元素绝对值之和，也叫“稀疏规则算子
 使用KKT条件求解。
 
 [参考](https://zhuanlan.zhihu.com/p/26514613)
+
+
 
 
 
