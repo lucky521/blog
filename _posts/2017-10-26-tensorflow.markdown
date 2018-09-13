@@ -298,7 +298,9 @@ saver.restore(sess, tf.train.latest_checkpoint(checkpoint_path)) # tf.train.late
 saver.restore(sess, model_path)
 ```
 
-### ckpt文件
+### checkpoint文件
+
+checkpoints, which are versions of the model created during training.
 
 		meta file: describes the saved graph structure, includes GraphDef, SaverDef, and so on; then apply tf.train.import_meta_graph('/tmp/model.ckpt.meta'), will restore Saver and Graph.
 
@@ -306,9 +308,6 @@ saver.restore(sess, model_path)
 
 		data file: it is TensorBundle collection, save the values of all variables.
 
-### checkpoint文件
-
-checkpoints, which are versions of the model created during training.
 
 https://www.tensorflow.org/guide/checkpoints
 
