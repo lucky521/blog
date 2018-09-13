@@ -230,12 +230,33 @@ variable_scope 可以通过设置 reuse 标志以及初始化方式来影响域�
 在构建模型的时候没必要先把数据写好，先用tf.placeholder把数据类型确定就行。在真正session执行的时候再用feed_dict把输入填进去就好。
 
 
+## tf.Operation
+
+
 ## tf.Session 运行数据流
 
 在 tf.Session 之前的过程都是定义，tf.Session().run(...)才是真正执行前面定义好的操作。
 
-Run函数
-The value returned by run() has the same shape as the fetches argument, where the leaves are replaced by the corresponding values returned by TensorFlow.
+Run函数 是整个tensorflow graph的核心过程。
+
+首先看 run函数的接口
+
+		run(
+		    fetches,
+		    feed_dict=None,
+		    options=None,
+		    run_metadata=None
+		)
+
+run函数的功能是：执行一轮图计算，执行fetches参数中的operation和计算fetches中的tensor。This method runs one "step" of TensorFlow computation, by running the necessary graph fragment to execute every Operation and evaluate every Tensor in fetches, substituting the values in feed_dict for the corresponding input values.
+
+所以fetches参数里可以写成一个list，里面可以是Operation(比如优化器的minimize)，也可以是Tensor，也可以是Tensor所对应的名字，
+
+这个函数的返回值含义和输入到fetches参数的名称保持一一对应。如果是Operation的话，对应返回的是None
+.The value returned by run() has the same shape as the fetches argument, where the leaves are replaced by the corresponding values returned by TensorFlow.
+
+https://www.tensorflow.org/api_docs/python/tf/Session#run
+
 
 
 
@@ -372,6 +393,8 @@ tf.distributions.kl_divergence
 ```
 
 ### 优化器函数
+
+优化器函数是怎么更新整个网络参数的？
 
 ```
 tf.train.AdamOptimizer
