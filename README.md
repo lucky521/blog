@@ -27,5 +27,6 @@ $ sudo gem install github-pages
 
 ### Run it in project folder
 ```
+$ cd blog
 $ jekyll serve --host=0.0.0.0
 ```

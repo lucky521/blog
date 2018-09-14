@@ -1,0 +1,133 @@
+---
+title: "用Scikit-Learn完成机器学习任务"
+categories: [MachineLearning]
+layout: post
+---
+
+Scikit-learn，简称sklearn，是一个非常完整的机器学习库。虽然当前的版本号还是0.1X，它所能提供的数据处理、机器学习的功能已经非常之丰富，几乎涵盖了做机器学习整个过程的一切流程。
+
+# sklearn中机器学习的基本要素
+
+## Sample, Data
+
+    feature
+
+    label, class, response
+
+## estimator
+
+estimator指的是算法模型，比如classifier、regression estimator、cluster estimator、transformer。
+其中transformer比较特殊，它不是监督或非监督学习算法，而是进行数据特征清洗、数据特征降维、数据扩展（核估计）、特征提取。
+
+### transformer
+
+    fit_transform 函数
+
+    transform函数
+
+### classifier
+
+
+
+
+## parameter
+
+
+
+
+### transform 操作
+
+
+### fit 操作
+
+fit(X, y)方法总是接受数据的feature向量和类别label。
+
+
+### predict 操作
+
+predict（T）方法总是接受一个新的feature向量。
+
+
+
+
+# 数据格式
+
+## svmlight / libsvm format
+
+This format is a text-based format, with one sample per line. It does not store zero valued features hence is suitable for sparse dataset.
+
+The first element of each line can be used to store a target variable to predict.
+
+```
+      1 101:1.2 102:0.03
+      0 1:2.1 10001:300 10002:400
+      0 0:1.3 1:0.3
+      1 0:0.01 1:0.3
+      0 0:0.2 1:0.3
+```
+
+详见https://www.csie.ntu.edu.tw/~cjlin/libsvm/faq.html#/Q3%3a_Data_preparation
+
+
+# sklearn做机器学习的一般流程
+
+引入feature和label集
+train_test_split拆分训练集和测试集
+fit方法
+predict方法
+accuracy_score评估测试结果
+将模型持久化保存 using Python’s built-in persistence model, namely pickle。
+
+# Pipeline
+
+pipeline可以用来把多个estimator串起来合成一个条流水线。这样，整个流程里我们只需要对数据调用一次fit和一次predict，GridSearchCV自动调参也是一次。
+
+pipe中的最后一个estimator可以是transformer, classifier。之前的estimator必须是transformer。
+
+
+
+
+
+
+
+
+
+# 机器学习问题
+
+## 回归预测问题 Regression
+
+线性回归
+LinearRegression这个名字已经说明了是X->y的1次函数，所以自然的X向量的纬度是多少，所求的参数个数也就是多少。
+
+```
+>>> from sklearn import linear_model   //导入库
+>>> regr = linear_model.LinearRegression()   //  指明算法模型，是一个对象。
+>>> regr.fit(X_train, y_train)   // 用训练数据进行模型训练。
+>>> regr.coef_   // 训练之后模型所计算出的方程参数。
+>>> regr.score(X_test, y_test))   // 用测试数据（已知X和y）进行测评。
+>>> regr.predict(X_unknown)  //  满意的话，以后就可以用这个模型进行“预测”了，给X让计算出y来。
+```
+
+## 分类预测问题 Classification
+
+SVM
+
+```
+>>> classifier = svm.SVC(gamma=0.001)
+>>> classifier.fit(train_X, train_y)
+>>> classifier.decision_function(np.c_[X1.ravel(), X2.ravel()])
+>>> classifier.predict(new_X)
+```
+
+## 聚类问题 Clustering
+
+Kmeans
+输入是若干个抽象空间的坐标点位置。输出是这些点的标签。
+
+```
+>>> import sklearn  #引入库
+>>> kmeans = sklearn.cluster.KMeans(n_clusters=cluster_num, n_init=10) #算法模型
+>>> kmeans.fit(train_data)  #训练
+>>> labels = kmeans.labels_   #输出聚类标签
+>>> cluster = kmeans.predict(new_data) #用这个模型进行聚类
+```

@@ -1,0 +1,168 @@
+---
+title: "Python 标准库"
+subtitle: ""
+categories: [Language]
+layout: post
+---
+所谓标准库，是要满足一些比通用计算和操作而设计的库。必须访问操作系统接口、文件读写、复杂数学计算、网络传输等。
+
+# Python内置函数
+
+http://www.runoob.com/python/python-built-in-functions.html
+
+
+## 数学运算内置函数
+
+abs返回输入的绝对值。divmod返回一个包含商和余数的元组。
+
+## IO函数
+
+input返回用户的交互输入。open返回被打开的文件对象。
+
+raw_input
+
+
+
+
+## 对象函数
+
+all()输入一个数组，如果所有元素不为0、''、False或者iterable为空，all(iterable)返回True，否则返回False
+
+any() 函数用于判断给定的可迭代参数 iterable 是否全部为空对象，如果都为空、0、false，则返回 False，如果不都为空、0、false，则返回 True。
+
+enumerate() 函数用于将一个可遍历的数据对象(如列表、元组或字符串)组合为一个索引序列，同时列出数据和数据下标，一般用在 for 循环当中。
+
+vars()输入一个对象，函数返回对象object的属性和属性值的字典对象。
+
+staticmethod
+
+classmethod
+
+map函数 会根据提供的函数对指定序列做映射。第一个参数 function 以参数序列中的每一个元素调用 function 函数，返回包含每次 function 函数返回值的新列表。
+
+# 操作系统接口访问
+
+## 操作系统命令库`import os`
+
+- os.system('some_commands') 执行操作系统的命令。用它可以直接去调用系统的命令。不过python还是提供了很多自有的命令来包装操作系统命令。
+- os.getcwd() 获取当前工作路径
+- os.chdir()  更改当前路径
+
+## 文件操作库`import shutil`
+python自己的文件操作模块。
+
+- shutil.copyfile('src_file', 'dst_file') 文件拷贝
+- shutil.move('src_file','dst_file') 文件移动
+
+## 文件名通配库`import glob`
+用于文件名通配查找。`glob.glob('path_name') `会返回当前目录下所有通配的文件名，path_name可以用正则表达式进行通配。
+
+
+
+
+
+# 多线程并发
+
+## 多线程库`import threading`
+
+在多CPU的架构下运行多线程程序是极好的，python提供了自己的`threading`库来让python程序使用多线程。
+
+{% highlight python %}
+import threading
+class worker(threading.Thread): # 设计线程类
+    def __init__(self):
+        set-something
+        return
+    def run(self):
+        do-something
+        return
+
+worker_thread = Worker() # 创建线程对象
+worker_thread.start() # 开始这个线程
+worker_thread.join()  # 让父线程挂起等待子线程运行完毕
+print 'Done'
+{% endhighlight %}
+
+多线程的程序中要面临的数据共享问题，因此为线程提供有锁、信号量、条件变量、事件、队列。使用的方法和操作系统中的这些东西很接近。
+
+- `threading.Event`  线程可以set或wait一个事件。
+- `threading.Lock`
+- `thrading.Condition`
+- `threading.Semaphore`
+- `import Queue` 这是一个同步的、线程安全的队列，用它作为线程之间的数据共享更方便。
+
+
+
+
+
+# 性能和质量测试
+
+## 时间测试`import timeit`
+
+	import timeit
+	timeit.timeit('some-commands/operations', number=100)
+
+可以通过timeit来测试一下一些简单操作的时间性能，number参数是测试的次数。
+
+## 单元测试`import unittest`
+用于单元测试的模块。可以单独写一个测试类，继承自`unittest.TestCase`。
+
+- setUp方法会最早运行，用于测试初始化的工作。
+- tearDown方法会最后运行，用于善后处理工作。
+- 其他自定义的测试方法名称都以test开头。
+
+
+## 文档测试`import doctest`
+该模块可以找出文档字符串中的测试用例来进行测试。大大省去为每个函数单独编写测试用例程序的成本。
+
+文档字符串是python源码中被“”“包围起来的文本。
+
+	import doctest
+	doctest.testmod()
+
+加上这个函数之后，python会去所有文档字符串中进行查找形如下面这样内容作为测试用例。
+
+	>>> function-name(function-input)
+	function-return-value
+
+找到之后，就会拿它作为函数function-name的测试用例进行测试，如果运行结果和function-return-value不同的话，则会输出这一次单元测试的错误内容。
+
+下面是个弱智例子。这是一个两个参数做加法后返回的函数，文档字符串中写出了函数运行结果1+1=3,很明显和运行结果不对，因此这里就会测试时报错了。
+
+{% highlight python %}
+"""
+>>> add_fun(5, 5)
+10
+"""
+def add_fun(n, m):
+    """
+    >>> add_fun(1,1)
+    3
+    """
+    return n + m
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+    print 'done'
+{% endhighlight %}
+
+
+
+<!--
+这里是注释区
+
+
+{% highlight python %}
+print "hello, Lucky!"
+{% endhighlight %}
+
+![My image]({{ site.baseurl }}/images/emule.png)
+
+My Github is [here][mygithub].
+
+[mygithub]: https://github.com/lucky521
+
+
+
+-->

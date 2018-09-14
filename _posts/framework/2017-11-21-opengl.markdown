@@ -1,0 +1,85 @@
+---
+title: "OpenGL开发指南"
+categories: [framework]
+layout: post
+---
+
+# OpenGL 概述
+
+OpenGL是一个硬件无关的接口。它是一套接口，实现部分可以由显卡硬件实现，也可以完全由软件实现，当然实现部分不是我们关心的。OpenGL使用Client-Server模式，应用程序是Client，调用OpenGL接口；显卡厂商是Server，实现OpenGL库然后被Client调用。
+
+## OpenGL不做的事情
+
+    OpenGL不提供窗口任务相关的函数，不提供处理用户输入相关的函数。
+    OpenGL没有用于表达3D物理模型的操作，没有关于读取图片文件的操作。
+
+
+## OpenGL 要做的事情
+
+    设置一系列的几何图元，包括点、线、三角形、Patch，通过几何图元来创建3D空间的物理。
+    着色器
+    光栅化
+    片元着色器
+
+
+## 渲染数据流
+
+几何数据源（顶点、几何图元），依次要经过定点着色器、细分控制着色器、细分计算着色器、几何着色器，接着光栅化单元对所有剪切区域内的图元生成片元数据，对每个片元执行片元着色器。
+
+创建缓存对象 glBufferData()
+绘制 glDrawArrays()
+
+
+
+# 词汇解释
+
+### Clipping Regions
+
+A clipping region is one of the graphic objects that an application can select into a device context (DC). It is typically rectangular.
+
+
+# FAQ
+
+## OpenGL是否开源？
+
+不开源。OpenGL根本就没有源代码。OpenGL就是一个规范，其实现是由其他组织完成的。
+OpenGL并没有官方统一的SDK。但是，许多显卡厂商有他们自己的SDK，但并不是你所想象的OpenGL的SDK。
+你只需要更新你的显卡驱动，就能获得最新的OpenGL动态链接库。而在MacOS X上，苹果已经实现了OpenGL的代码，在Xcode中可以直接使用。
+微软在每一个Windows操作系统上都有布置OpenGL的动态链接库：opengl32.dll，你可以在系统文件夹下找到它。Windows SDK自带OpenGL的导入库（opengl32.lib）和头文件（gl.h）。
+
+## 区分OpenGL接口和OpenGL库
+
+真正开发OpenGL库的人是显卡生产商，OpenGL库位于显卡驱动程序中。
+
+
+
+# 参考资料
+
+新手教程 https://learnopengl.com/
+
+OpenGL红宝书（OpenGL Programming Guide）
+
+OpenGL蓝宝书（OpenGL SuperBible）
+
+官方指南 https://www.khronos.org/registry/OpenGL/specs/gl/
+
+
+<!--
+这里是注释区
+
+```
+print "hello"
+```
+
+***Stronger***
+
+{% highlight python %}
+print "hello, Lucky!"
+{% endhighlight %}
+
+![My image]({{ site.baseurl }}/images/emule.png)
+
+My Github is [here][mygithub].
+[mygithub]: https://github.com/lucky521
+
+-->

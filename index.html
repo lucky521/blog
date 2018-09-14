@@ -2,10 +2,102 @@
 layout: page
 title: Share Some Fun
 subtitle: Lucky Blog
+date: 1970-01-01
 ---
-
+<!--
 <ul class="list-posts">
     {% for post in site.posts %}
+        <li class="post-teaser">
+            <a href="{{ post.url | prepend: site.baseurl }}">
+                <span class="post-teaser__title">{{ post.title }}</span>
+                <span class="post-teaser__date">{{ post.date | date: "%d %B %Y" }}</span>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+-->
+
+<h1>文章分类 -> 机器学习</h1>
+<ul class="list-posts">
+    {% for post in site.categories.MachineLearning %}
+        <li class="post-teaser">
+            <a href="{{ post.url | prepend: site.baseurl }}">
+                <span class="post-teaser__title">{{ post.title }}</span>
+                <span class="post-teaser__date">{{ post.date | date: "%d %B %Y" }}</span>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<br>
+<h1>文章分类 -> 开发框架</h1>
+<ul class="list-posts">
+    {% for post in site.categories.framework %}
+        <li class="post-teaser">
+            <a href="{{ post.url | prepend: site.baseurl }}">
+                <span class="post-teaser__title">{{ post.title }}</span>
+                <span class="post-teaser__date">{{ post.date | date: "%d %B %Y" }}</span>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<br>
+<h1>文章分类 -> 编程语言</h1>
+<ul class="list-posts">
+    {% for post in site.categories.Language %}
+        <li class="post-teaser">
+            <a href="{{ post.url | prepend: site.baseurl }}">
+                <span class="post-teaser__title">{{ post.title }}</span>
+                <span class="post-teaser__date">{{ post.date | date: "%d %B %Y" }}</span>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<br>
+<h1>文章分类 -> 效率工具</h1>
+<ul class="list-posts">
+    {% for post in site.categories.productivity %}
+        <li class="post-teaser">
+            <a href="{{ post.url | prepend: site.baseurl }}">
+                <span class="post-teaser__title">{{ post.title }}</span>
+                <span class="post-teaser__date">{{ post.date | date: "%d %B %Y" }}</span>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<br>
+<h1>文章分类 -> 技术调研</h1>
+<ul class="list-posts">
+    {% for post in site.categories.Tech %}
+        <li class="post-teaser">
+            <a href="{{ post.url | prepend: site.baseurl }}">
+                <span class="post-teaser__title">{{ post.title }}</span>
+                <span class="post-teaser__date">{{ post.date | date: "%d %B %Y" }}</span>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<br>
+<h1>文章分类 -> 有趣的项目</h1>
+<ul class="list-posts">
+    {% for post in site.categories.project %}
+        <li class="post-teaser">
+            <a href="{{ post.url | prepend: site.baseurl }}">
+                <span class="post-teaser__title">{{ post.title }}</span>
+                <span class="post-teaser__date">{{ post.date | date: "%d %B %Y" }}</span>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<br>
+<h1>文章分类 -> 其它</h1>
+<ul class="list-posts">
+    {% for post in site.categories.other %}
         <li class="post-teaser">
             <a href="{{ post.url | prepend: site.baseurl }}">
                 <span class="post-teaser__title">{{ post.title }}</span>

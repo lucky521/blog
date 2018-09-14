@@ -1,0 +1,143 @@
+---
+layout: post
+title: "使用Git工作"
+subtitle: "How to use git"
+categories: [productivity]
+---
+
+#准备工作
+
+## 配置用户名和邮箱
+
+{% highlight ruby %}
+$ git config --global user.name "yourname"
+$ git config --global user.email "youremail@email.com"
+{% endhighlight %}
+上面这样设置的是全局的用户角色，其配置文件写在~/.gitconfig里面。
+
+如果你既用github，又用公司的git，就不可以设置global的账户名和邮箱了,不加global，在repro之内配置，就可以把用户配置保存在repro的.ssh/config文件中。
+
+## 生成ssh key
+
+{% highlight ruby %}
+$ ssh-keygen -t rsa -b 4096  -f ~/.ssh/github  -C "youremail@email.com"
+$ eval `ssh-agent -s`
+$ ssh-add ~/.ssh/github
+$ ssh-add -l
+{% endhighlight %}
+
+然后将生成的~/.ssh/github.pub公钥添加到github主页的配置中去。
+
+如果要登录不同的git站点，自然需要配置多个key，这时需要添加~/.ssh/confi来保存不同的key对应不同的站点。
+{% highlight ruby %}
+Host oneid
+	HostName github.com
+	IdentityFile ~/.ssh/github
+{% endhighlight %}
+
+
+#在本地创建项目
+如果是一个自己创建一个新项目，在本地目录初始化
+{% highlight ruby %}
+$ git init
+{% endhighlight %}
+
+如果是将远程的项目下载到本地，
+{% highlight ruby %}
+$ git clone git@github.com:lucky521/reproname.git
+{% endhighlight %}
+
+#基本工作流程
+
+下面是一般的工作流程。
+
+## 切换分支
+{% highlight ruby %}
+$ git branch -a
+$ git checkout another-branch
+{% endhighlight %}
+
+## 写完或者修改完代码，把有变动的文件加入到临时提交区
+{% highlight ruby %}
+$ git add filename
+{% endhighlight %}
+
+## 将临时提交区的变动提交到本地仓库
+{% highlight ruby %}
+$ git commit -m "description"
+{% endhighlight %}
+
+## 拉取远程最新版本，和本地的最新改动merge
+{% highlight ruby %}
+$ git pull
+{% endhighlight %}
+
+## 将本地仓库提交到远程仓库去
+只有这一步才会对服务器仓库有所改动。
+{% highlight ruby %}
+$ git push origin remote-branch-name
+{% endhighlight %}
+
+
+#常用的需求
+
+## 显示commit的历史记录
+{% highlight ruby %}
+$ git log
+{% endhighlight %}
+
+## 显示某个commit的具体修改内容
+{% highlight ruby %}
+$ git show commit-hash-id
+{% endhighlight %}
+
+## 查看当前本地的状态
+{% highlight ruby %}
+$ git status
+{% endhighlight %}
+
+## 创建一个新分支
+{% highlight ruby %}
+$ git checkout -b new-branch-name
+{% endhighlight %}
+这时本地的文件不会有变化，只是本地文件所对应的分支名变了。修改完代码再push到远程新分支就可以在远程创建新的分支。
+{% highlight ruby %}
+$ git push -u origin new-branch-name
+{% endhighlight %}
+
+## 修改最近的commit的变动
+已经提交过一次本地的commit，还没push到远程，又有改动的地方，想更新这一次commit。
+{% highlight ruby %}
+$ git commit --amend
+{% endhighlight %}
+
+## 修改了代码，想恢复回去
+修改了代码，还没有commit，想恢复回之前的未修改版本
+{% highlight ruby %}
+$ git reset --hard
+{% endhighlight %}
+
+## 已经commit，想撤销回去
+已经commit到本地仓库，但还没有push到远程仓库，想撤销这一次本地的commit。
+{% highlight ruby %}
+$ git reset --soft HEAD~1
+{% endhighlight %}
+
+## 将本地代码同步到某一次commit时的版本
+{% highlight ruby %}
+$ git checkout commit-hash-id
+{% endhighlight %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

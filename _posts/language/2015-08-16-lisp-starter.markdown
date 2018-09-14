@@ -1,0 +1,270 @@
+---
+layout: post
+title: "Common Lisp 要点总结"
+subtitle: "Lisp 知识点汇总"
+categories: [Language]
+---
+
+# 编译器
+Common Lisp是Lisp的一种有名的方言，另外两种是Scheme和Clojure。此外还有一种是Emacs Lisp。
+
+## 终端开发环境
+- sbcl: Mac下安装编译环境sbcl，使用brew安装。编译源码花了很长时间。
+- clisp: 在ubuntu用clisp，貌似更舒服一点。
+
+## 交互式环境
+
+```
+进入：$sbcl 或者 $clisp
+退出：(exit) 或者 (quit)
+```
+
+## 非交互式环境
+
+```
+$ sbcl --non-interactive --load  源文件
+或者
+$ clisp 源文件
+```
+
+
+## 第三方GUI库
+CAPI and Lispworks 提供了GUI库，可以在多个平台上提供可视化程序。
+
+http://www.lispworks.com/products/capi.html
+
+https://lailalife.wordpress.com/2010/11/26/my-first-hello-world-program-using-lispworks/
+
+
+
+# 语言特性
+
+- 交互式语言，交互式的前端称作是`top level`。
+
+- 一切操作都用括号圈起来。大量的括号是给程序读的，而人是通过缩进来读代码的。
+
+- 一切都是列表，数据是列表、程序也是列表。
+
+- 操作符永远放在第一个位置`（操作符 参数1 参数2）`。
+
+- 函数式编程意味着撰写利用返回值而工作的程序，而不是修改东西（副作用）。函数式编程本质上意味着避免使用如 setf 的函数。
+
+- 数值是有类型的，变量是没有类型的。
+
+- 仅存在两种对象，cons对象和atom对象。所有不是 Cons 对象的东西，就是一个原子 (atom)。
+
+- 不区分大小写的语言。
+
+
+# 基本操作符
+
+## quote
+有quote就是数据，没quote就是程序。它的缩写是’。
+
+quote 操作符（又记作'）接受一个实参，并完封不动地返回它，而不求里面的值。而是将其当做符号。
+
+‘(+ 3 5) 得到的就是(+ 3 5)，而不是8。
+
+quote ‘将小写变为大写
+
+## atom
+(atom x)当x是一个atom或者空的list时返回原子t，否则返回NIL。
+
+## eq
+(eq x y)当x和y指向相同的对象的时候返回t，否则返回NIL。
+
+## car
+(car x)要求x是一个表，它返回x中的第一个元素。
+
+## cdr
+(cdr x)同样要求x是一个表，它返回x中除第一个元素之外的所有元素组成的表。
+
+## cons
+(cons x y)返回一个cons cell(x y)，如果y不是一个list，将会以dotted pair形式展现这个cons cell。
+
+## cond
+(cond (p1 e1) ...(pn en))的求值规则如下.对“条件表达式p”依次求值直到有一个返回t.
+
+如果能找到这样的p表达式，相应的“结果表达式e”的值作为整个cond表达式的返回值。
+
+## remove
+接受一个对象和一个列表，返回不含这个对象的新列表，而不是改变原来的表。
+
+## progn
+(progn () () () …) progn 接受任意数量的表达式，依序求值，并返回最后一个表达式的值。
+
+## apply
+apply 接受一个函数和实参列表，并返回把传入函数应用在实参列表的结果。
+
+## function
+把函数的名字传给 function ，它会返回相关联的对象。它的缩写是#’。
+
+## eql
+判断两个对象是否是同一个对象。
+
+## equal
+判断两个对象是否相等。
+
+## and/or
+逻辑运算，具有和其他语言一样的特点。或运算具有短路特性，左边开始只要有一个为真就不再继续判断。
+
+
+
+# 数据类型
+数值是有类型的，变量是没有类型的。或者说任何变量都是列表。
+
+## 内置类型
+fixnum 、 integer 、 rational 、 real 、 number 、 atom 和 t 类型。
+
+## 真和假
+用原子t表示真，而用空表 () 或NIL表示假。
+*  (listp nil)
+T
+* (consp nil)
+NIL
+* (atom nil)
+T
+上面看到，nil是list，也是atom，但不是cons。
+
+## 列表
+
+### list
+(list 1 2 3 )
+
+最常见形式的列表。
+
+- cons函数构造列表，如果传入的第二个实参是列表，则返回由两个实参所构成的新列表，新列表为第一个实参加上第二个实参。
+- car 返回列表第一个元素。
+- cdr返回列表第一个元素之后的所有元素。
+- cons 可以理解为一个对象，第一个元素和剩余元素两大部分。而list列表，可以理解为list的多个cons连接在一起的形式。
+- listp 判定是否是一个列表。
+- consp 判断是否是一个cons对象。
+- atom 判断是否是一个原子对象。
+- push
+
+### property list (plist)
+(list :a 1 :b 2 :c 3)
+
+有下标的list，像不像map呢？
+
+GETF, which takes a plist and a symbol and returns the value in the plist following the symbol
+
+
+
+# 变量
+
+## 创建局部变量
+
+### (let ((变量1赋值)(变量2赋值)...)  (作用域))
+变量只在整个let括号区域内有效，出来之后就失效了，因此这些都是局部变量。
+
+## 创建全局变量
+
+### (defparameter \*名称* 值)
+通常全局变量的名字都是以\*开头、以\*结尾的。
+
+另外使用下面的setf也可以创建全局变量。
+
+### (defvar \*名称* 值)
+它也可以创建全局变量，并且只是第一次管用。
+
+## 变量赋值
+
+### (setf 变量名 新值)
+如果变量名是以前没出现过的符号，那么就认为是定义了一个新的全局变量。setf 的第一个实参几乎可以是任何引用到特定位置的表达式。
+
+注意，赋值传递的是引用。变量名实际上是引用（指针指向真实数据）。也就是说通过setf复制得到的两个对象肯定是eql的。
+
+
+
+# 语句
+
+## 条件分支语句
+
+```
+(if ()
+     ()
+     ()      ;else可以缺省
+)
+```
+
+## 拷贝语句
+
+### copy-list
+接受一个列表，然后返回此列表的复本。返回的复本并不是原对象的引用了，而是创建了内容相同的新对象。
+
+## 迭代语句
+
+### do
+参数一是初始表达式  参数二是迭代结束表达式  参数三是循环
+
+```
+(do
+     ( (variable initial update) (variable initial update) )
+     ()
+     ()
+)
+```
+
+### dolist
+直接遍历列表的每个元素
+(dolist (临时变量 列表名) (主体) )
+迭代时临时变量会是列表中的每一个元素。
+
+
+
+# 函数
+
+## 函数体的定义
+defun
+
+```
+(defun 函数名 (参数)
+     (car (cdr (cdr x))))
+```
+     
+输入参数：括号括起来，即使没有参数也要有括号。
+
+返回值：可以是最后一个表达式的值。如果没有返回值的话，需要用return。
+
+## 函数的调用
+(函数名  参数)
+
+调用无参数的函数时不要有空括号了。
+
+## lambda
+((lambda (x) (+ x 100)) 1)
+
+## 输出函数
+
+### format
+(format t "~A plus ~A equals ~A. ~%" 2 3 (+ 2 3))
+
+参数1是输出位置、参数2是输出模板、参数3之后是输出对象。其中输出位置默认t时是标准输出，输出模板里~A 表示被填入的位置，而 ~% 表示一个换行。
+
+FORCE-OUTPUT is necessary in some implementations to ensure that Lisp doesn't wait for a newline before it prints the prompt.
+
+### print
+(print 1)
+
+## 输入函数
+
+### read
+没有参数时是标准输入。它解析它所读入的东西，并返回产生出来的 Lisp 对象。
+
+### read-line
+Reads from input-stream a line of text that is terminated by a newline or end of file.
+
+### y-or-n-p
+(y-or-n-p "Question[y/n]: ")
+
+输入y返回T，输入n返回nil
+
+## 功能函数
+(PARSE-INTEGER "字符串")
+
+这个函数会尝试把字符串转换为数字，如果转换不了，就会抛出异常signal an error.
+
+参数junk-allowed可以让这个函数在转换不了时不抛异常，而是返回0.
+
+(parse-integer (prompt-read "Rating") :junk-allowed t)

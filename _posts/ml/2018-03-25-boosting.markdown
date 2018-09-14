@@ -1,0 +1,364 @@
+---
+title: "Boosting 提升方法"
+categories: [MachineLearning]
+layout: post
+---
+
+# 集成学习
+
+Ensemble learning 是结合多个学习器、组合单一分类方法来完成学习任务。
+
+集成学习策略主要可以分为三大类，Boosting, Bagging, Stacking。
+
+      Bagging方法: Averaging methods, 训练好几个模型，最终预测结果用的是几个模型预测结果的平均值。
+      Boosting方法：训练好几个模型，模型之间是承接关系，后一个模型是在预测前一个模型的预测误差值。
+      Stacking：训练一个模型用于组合(combine)其他各个模型，称作为2-level model。
+
+
+三种集成学习测量的代表：
+
+      Boosting 的代表有AdaBoost, gbdt, xgboost。
+      Bagging 的代表则是随机森林 (Random Forest)。
+      Stacking 的话，好像还没有著名的代表，可以视其为一种集成的套路。
+
+
+
+# Ensemble tree based models
+
+      	* RandomForestClassifier
+      	* RandomForestRegressor
+      	* ExtraTreesClassifier
+      	* ExtraTreesRegressor
+      	* XGBClassifier
+      	* XGBRegressor
+
+
+
+
+
+
+# Gradient Boosting & GBDT
+
+        https://en.wikipedia.org/wiki/Gradient_boosting
+        https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3885826/
+
+
+Gradient boosting 主要的思想是，每一次建立模型是在之前建立模型损失函数的梯度下降方向
+
+GBDT（Gradient Boosting Decision Tree，梯度提升决策树）
+
+也叫 Multiple Additive Regression Tree（MART），也叫 Treelink。
+
+也叫 Gradient Boosting Machine（GBM）。
+
+
+## 多个决策树
+
+从XGBoost的默认dump出的模型文件可以看出，一个GBDT模型包含若干个booster，每个booster下是一棵决策树。
+
+不同booster之间的关系是什么呢？
+预测的时候可以并行的。训练的时候下一轮的目标值依赖上一轮的结果，需要iteratively fits，不能并行。而预测的时候每棵树都已经建好，输入是原始数据，输出是把每棵树的预测值加在一起，这也MART(muliple additive regression trees)得名的由来，预测过程树之间并没有依赖，不存在先算后算的问题，所以可以并行。
+
+
+
+# 训练 Gradient Boosting 模型的框架
+
+
+xgboost 是个实现gradient boosting的库, https://github.com/dmlc/xgboost
+PythonAPI https://xgboost.readthedocs.io/en/latest/python/python_api.html
+数据格式 http://xgboost.readthedocs.io/en/latest/input_format.html
+模型参数 http://xgboost.readthedocs.io/en/latest/parameter.html
+Demo https://github.com/dmlc/xgboost/tree/master/demo
+
+
+sciki-learn里面的例子
+http://scikit-learn.org/stable/auto_examples/ensemble/plot_gradient_boosting_regression.html
+
+
+陈天奇对BoostedTree的介绍
+https://homes.cs.washington.edu/~tqchen/pdf/BoostedTree.pdf
+
+
+## XGBoost
+
+XGBoost 是一个用来做 Gradient boosting 的开源库。
+
+下面是用法的一般用法：
+
+训练一个模型
+
+    dtrain = xgb.DMatrix('agaricus.txt.train')
+    param = {'max_depth':2, 'eta':1, 'silent':1, 'objective':'binary:logistic' }
+    num_round = 2
+    bst = xgb.train(param, dtrain, num_round)
+
+
+XGBoost在训练模型时有两类参数，Tree Booster Parameters和Task parameters。体现在API上就是train函数的第一个参数params就是Booster params，第二个参数dtrain是训练数据，从第三个参数开始就都是Task parameter，都有默认值。
+
+注意param这一项中的objective指明学习目标：
+    reg:linear  线性回归模型
+    binary:logistic    逻辑分类模型
+    rank:pairwise  do ranking task by minimizing the pairwise loss
+注意task参数：
+    注意 n_estimators 是scikit-learn版本接口的参数！
+    num_round, 控制booster的个数
+    tree_method, The tree construction algorithm used in XGBoost
+
+进行一次预测
+
+    dtest = xgb.DMatrix('agaricus.txt.test')
+    preds = bst.predict(dtest)
+
+Dump一个模型到文件
+
+    bst.dump_model('model.txt')  # 保存为文本形式的模型
+    bst.save_model('model.bin')    # 保存为二进制形式的模型
+
+    注意dump_model输出的文本形式模型，特征名称是idx。这个类型的模型文件无法用load_model来载入。
+
+Load一个模型文件
+
+    # load xgboost model
+    bst_new = xgb.Booster({'nthread':4})    #init model
+    bst_new.load_model("model.bin")        # load data  这个接口只能载入二进制形式的模型
+
+    # predict using loaded model
+    preds = bst_new.predict(dtest)
+    print(preds)
+
+评估一个模型的量化指标
+
+    bst.eval(dtest)
+
+
+训练数据的文件格式
+
+    Each line represent a single instance, and in the first line ‘1’ is the instance label,‘101’ and ‘102’ are feature indices, ‘1.2’ and ‘0.03’ are feature values.  
+    每行代表一个测试数据，格式为： 标签（分类）  特征k：特征v  特征k：特征v……
+
+    这种格式称作为libsvm format。https://www.csie.ntu.edu.tw/~cjlin/libsvm/faq.html#/Q3%3a_Data_preparation
+
+    注意，这个格式的特征k:v是稀疏形式存储的，样本有特征才会存储k:v，如果一个k在某一行没有，就说明此行该特征是缺失的。不同的训练框架的处理可能不太一致，有些框架会把缺失的特征当做0，xgboost会把它作为缺失值missing。如果在文件里存储的v为0，那么框架也可能会认为这是一个缺失值。
+    详见https://github.com/dmlc/xgboost/issues/21
+
+
+交叉验证
+
+    XGBoost允许在每一轮boosting迭代中使用交叉验证
+
+
+## Pairwise Training
+
+XGBoost支持pairwise方式的训练目标。我们来看一下pairwise方式的训练策略是怎么样进行的。
+
+我们先来看简单的使用例子。
+
+```
+import sys
+import xgboost as xgb
+import numpy as np
+
+def save_data(group_data,output_feature,output_group):
+    if len(group_data) == 0:
+        return
+
+    output_group.write(str(len(group_data))+"\n")
+    for data in group_data:
+        # only include nonzero features
+        feats = [ p for p in data[2:] if float(p.split(':')[1]) != 0.0 ]        
+        output_feature.write(data[0] + " " + " ".join(feats) + "\n")
+
+
+def trans_data(fi_name, output_feature_name, output_group_name):
+
+    fi =  open(fi_name)
+    output_feature = open(output_feature_name,"w")
+    output_group = open(output_group_name,"w")
+
+    group_data = []
+    group = ""
+    for line in fi:
+        if not line:
+            break
+        if "#" in line:
+            line = line[:line.index("#")]
+        splits = line.strip().split(" ")
+        if splits[1] != group:
+            save_data(group_data,output_feature,output_group)
+            group_data = []
+        group = splits[1]
+        group_data.append(splits)
+
+    save_data(group_data,output_feature,output_group)
+
+    fi.close()
+    output_feature.close()
+    output_group.close()
+
+
+if __name__ == "__main__":
+
+    # Convert normal label-features file to label-features + group file
+    trans_data("train.txt", "mq2008.train", "mq2008.train.group")
+
+    trans_data("test.txt", "mq2008.test", "mq2008.test.group")
+
+    trans_data("vali.txt", "mq2008.vali", "mq2008.vali.group")
+
+    param = {
+        "objective": "rank:pairwise", # learning objective
+        "eval_metric": ["logloss", "map", "error", "ndcg"],
+        "eta": 0.1, # learning_rate
+        "gama": 1.0, # min_split_loss
+        "min_child_weight": 0.1, # minimum sum of instance weight(hessian) needed in a child
+        "max_depth": 6 # maximum depth of a tree
+    }
+
+    dtrain = xgb.DMatrix('mq2008.train')
+    group_file = "mq2008.train.group"
+    group = np.loadtxt(group_file)
+    group = group.astype(int)
+    dtrain.set_group(group)
+
+    dvalid = xgb.DMatrix('mq2008.vali')
+    group_file = "mq2008.vali.group"
+    group = np.loadtxt(group_file)
+    group = group.astype(int)
+    dvalid.set_group(group)
+
+    dtest = xgb.DMatrix('mq2008.test')
+    group_file = "mq2008.test.group"
+    group = np.loadtxt(group_file)
+    group = group.astype(int)
+    dtest.set_group(group)
+
+
+    num_round = 15
+    evals_result = {}
+    bst_model = xgb.train(param, dtrain,
+         evals=[(dvalid, "Valid")],
+         num_boost_round=num_round,
+         evals_result=evals_result)
+
+    print(evals_result)
+
+
+    preds = bst_model.predict(dtest)
+
+    print(preds)
+
+```
+
+他在训练样本、训练方式、预测方式上和pointwise方式的模型有什么区别？
+
+通过最小化pairwise loss来求解模型，模型仍然是在预测一个文档的绝对得分。
+
+group input format - group文件的格式非常简单，一行一个数字，一个数字的意义是表名这多少个样本是一个group的。
+
+set_group - Set group size of DMatrix (used for ranking).对于搜索排序来讲，我们需要同一次Query下的样本放在一起，这就成了group。 该函数的输入就是group file。
+
+qid - 标识了一个query。它其实是一个特征。
+
+
+## 评估模型的效果
+
+eval_metric
+该参数是Booster参数，这一项可以自己指明评价指标，用来在验证集上进行评价。
+默认情况下是制定了训练目标objective，会有默认分配一个eval_metric。
+默认metric为：rmse for regression, and error for classification, mean average precision for ranking
+
+自己选metric的话，可以一次填写多个metric，以list的形式放在一起，
+
+“ndcg@n”,”map@n”: n can be assigned as an integer to cut off the top positions in the lists for evaluation.
+“ndcg-”,”map-”,”ndcg@n-”,”map@n-”: In XGBoost, NDCG and MAP will evaluate the score of a list without any positive samples as 1. By adding “-” in the evaluation metric XGBoost will evaluate these score as 0 to be consistent under some conditions. training repeatedly
+
+evals
+该参数是task参数，这一项是在train的时候就可以指明一个或多个验证集，然后在evals_result参数就会返回评估结果。
+
+evals_result
+该参数是task参数，用来输出metric计算结果。
+
+
+## Feature Importance
+
+XGBoost提供了plot_importance方法来计算和展示一个模型的feature importance，这个API返回的是一个 matplotlib Axes。
+
+我们先看怎么用XGBoost计算模型的Feature Importance。
+
+```
+import matplotlib.pyplot as plt
+
+# show feature importance plot
+fig, ax = plt.subplots(figsize=(12, 18))
+xgb.plot_importance(bst_model, height=0.8, ax=ax)
+#plt.show()
+fig.savefig('feature_importance.png')
+
+
+# show feature importance table
+fmap = bst_model.get_score(importance_type='cover')
+print(fmap)
+fmap = bst_model.get_score(importance_type='gain')
+print(fmap)
+fmap = bst_model.get_score(importance_type='weight')
+print(fmap)
+
+
+```
+
+
+下面是对feature importance中每个feature计算指标的解释。
+
+    ‘weight’/'frequency' - 指的是一个特征在GBDT模型文件中出现的次数，这是静态统计的，在模型文件里直接搜索就能计算。The number of times a feature is used to split the data across all trees.
+    The Frequence (frequency) is the percentage representing the relative number of times a particular feature occurs in the trees of the model. In the above example, if feature1 occurred in 2 splits, 1 split and 3 splits in each of tree1, tree2 and tree3; then the weightage for feature1 will be 2+1+3 = 6. The frequency for feature1 is calculated as its percentage weight over weights of all features.
+
+    ‘cover’ - 指的是一个特征在若干次预测中被用到的平均次数，这是动态统计的，需要拿测试样本集进行预测，然后来累计计算该值。the average coverage of the feature when it is used in trees
+    The Cover metric means the relative number of observations related to this feature. For example, if you have 100 observations, 4 features and 3 trees, and suppose feature1 is used to decide the leaf node for 10, 5, and 2 observations in tree1, tree2 and tree3 respectively; then the metric will count cover for this feature as 10+5+2 = 17 observations. This will be calculated for all the 4 features and the cover will be 17 expressed as a percentage for all features' cover metrics.
+
+    ‘gain’ - Gain值也是需要在若干次预测之后累计计算的。Gain值的计算方法见https://homes.cs.washington.edu/~tqchen/pdf/BoostedTree.pdf。the average gain of the feature when it is used in trees
+    The Gain implies the relative contribution of the corresponding feature to the model calculated by taking each feature's contribution for each tree in the model. A higher value of this metric when compared to another feature implies it is more important for generating a prediction.
+
+https://datascience.stackexchange.com/questions/12318/how-do-i-interpret-the-output-of-xgboost-importance?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+
+
+注意，get_score中的feature并不一定就是训练时所用的全部feature，因为有些feature在本次构建模型树时可能并没有起任何作用。
+https://stackoverflow.com/questions/43862499/xgboost-get-fscore-or-get-score-returning-less-number-of-columns
+
+
+
+## XGBFir
+
+这个工具建立子啊xgboost之上，帮我们分析多个特征之间的交叉关系。
+它会尝试把1到多个特征结合在一起，然后判断几项Metrics，将结果保存到一个excel文件里。
+
+当Interaction Depth为0的时候，其实就是在算每个Feature的Importance，和xgboost自带的get_score是一样的。但是我发现计算的结果不同。
+
+先看一个简单的例子。
+
+```
+from sklearn.datasets import load_iris, load_boston
+import xgboost as xgb
+import xgbfir
+
+# loading database
+boston = load_boston()
+
+# doing all the XGBoost magic
+xgb_rmodel = xgb.XGBRegressor().fit(boston['data'], boston['target'])
+
+# saving to file with proper feature names
+xgbfir.saveXgbFI(xgb_rmodel, feature_names=boston.feature_names, OutputXlsxFile='bostonFI.xlsx')
+
+```
+
+https://github.com/limexp/xgbfir
+
+
+
+## CatBoost
+
+
+## Light GBM
+
+lightGBM 也是一个实现gradient boosting的框架。
+https://github.com/Microsoft/LightGBM

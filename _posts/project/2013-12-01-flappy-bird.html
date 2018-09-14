@@ -1,0 +1,19 @@
+---
+layout: post
+title: 跳跳小飞鸟
+categories: [project]
+---
+
+这个游戏demo基于Phaser框架。基本的交互逻辑比较简单。
+空格键跳跃，焦点切出当前页面会自动暂停。
+
+<iframe id="ifr" src="https://lucky521.github.io/Flappy-Bird/" width="100%" height="600" frameBorder="0"> </iframe>
+<script language=javascript>
+// 让这个iframe获取焦点
+ifr = document.getElementById("ifr");
+ifr.addEventListener( "load", function(){
+      this.removeEventListener( "load", arguments.call, false);
+      //alert("focus!\n");
+      ifr.focus();
+}, false);
+</script>

@@ -1,0 +1,103 @@
+---
+layout: post
+title: "我的工具集"
+subtitle: "Tools I use that help my work and life"
+categories: [productivity]
+---
+# 工欲善其事，必先利其器
+
+对于技术人员来讲，工具对于工作和生活的影响特别明显。我们也喜欢去用各种工具来改善我们的工作方式，喜欢折腾、尝试新的，更高效的工具，就像折腾电子产品一样，有的工具是硬件设备，比如键盘，比如kindle，比如大显示屏；更多工具是软件，并且是在不同的操作系统之下。
+
+列一列我最经常用的工具。
+
+
+
+## 软件
+
+### 命令行工具
+
+Vim 附加有若干了Plugin来加强功能。我常用到的插件有。
+
+	vundle 一般尽量找能用他管理的plugin来加载。
+	ctags 主要用在goto definition
+	cscope 主要用在find all reference
+	youcompleteme 代码补全提示
+	powerline 状态栏。
+	syntastic 自动语法错误检查。
+	delimitmate 自动括号引号匹配。
+	nerdcommenter 增减注释助手。
+
+oh-my-zsh 命令比原生的bash要丰富很多。
+
+autojump 模糊目录名跳转。
+
+ag 比grep要好。
+
+tmux 用过一阵子。不过目前对他的需求还不是很高。
+
+### 可视化工具
+
+Sublime Text 在Windows和Mac上都用，快捷又好看。
+
+Chrome 经常用的插件有
+
+	vimium
+	evernote
+	switchyomega
+	adblock
+
+Evernote 全平台支持
+
+Wunderlist 全平台支持
+
+### Windows
+
+SecureCRT 用它访问ssh最舒服。
+
+FileZilla 用它进行远程文件传输。
+
+Listary 文件名加速搜索。
+
+Launchy 快捷跳转工具，相当于Alfred。
+
+Baregreppro 可视化的grep工具，查日志最需要。
+
+ProcessExplorer 查看进程线程运行库信息。
+
+Clover 以Tab方式的管理文件夹窗口。
+
+
+### Mac
+
+Alfred 快捷跳转工具。用它最多的是当做Web搜索引擎输入栏。
+
+Moom 键盘来控制窗口的布局。
+
+Brew 下载命令行工具，相当于apt-get。
+
+Karabiner 键盘超级自定义。我主要用它在HHKB连接时关闭内置键盘。
+
+### 数据同步和备份
+
+百度云，快盘，微云，邮箱附件，IFTTT，多看云存储，Github
+
+
+## 硬件
+
+办公电脑： PC + Server + 双显示器
+
+个人电脑： MacBook Air
+
+键盘： HHKB
+
+外出阅读：Kindle
+
+在家看视频：iPad
+
+
+---
+My ToolNotes have more details [here][mygithub].
+
+[mygithub]: https://github.com/lucky521/LuckyToolNotes
+
+

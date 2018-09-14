@@ -1,6 +1,7 @@
 ---
 title: Lucky's Github Blog Old version home
 layout: default
+date: 1970-01-01
 ---
 
 <p>Lucky List</p>
@@ -12,15 +13,6 @@ layout: default
 </li>
 {% endfor %}
 </ul>
-
-<ul>
-    {% for post in site.pages %}
-    <li>{{ post.date | date_to_string }} 
-    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-    </li>
-    {% endfor %}
-</ul>
-
 
 <!-- disqus Comment Plugin -->
     <div id="disqus_thread"></div>
