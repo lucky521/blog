@@ -49,7 +49,9 @@ https://www.tensorflow.org/api_guides/python/summary
 一个例子：https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/4_Utils/tensorboard_basic.py
 
 
-### events.out.tfevents.XXX.local 文件
+### tfevent 文件
+
+events.out.tfevents.XXX.local
 
 event files, which contain information that TensorBoard uses to create visualizations.
 
@@ -395,6 +397,7 @@ tf.distributions.kl_divergence
 ### 优化器函数
 
 优化器函数是怎么更新整个网络参数的？
+通过operation。
 
 ```
 tf.train.AdamOptimizer
@@ -452,6 +455,18 @@ tf.nn.embedding_lookup
 3) (Optional) Associate metadata with your embedding.
 
 参考https://stackoverflow.com/questions/40849116/how-to-use-tensorboard-embedding-projector
+
+
+
+
+
+# 高级用法
+
+## checkpoint文件 和 serving pb/variable文件之间的转换
+
+checkpoint文件 是用于本地加载模型然后进行本地预测的。
+serving variable文件是用来让tensorflow serving加载并进行远程预测的。
+
 
 
 
