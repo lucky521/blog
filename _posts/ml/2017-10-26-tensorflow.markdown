@@ -159,6 +159,24 @@ https://www.tensorflow.org/serving/serving_basic
 		python tensorflow_serving/example/mnist_client.py --num_tests=1000 --server=localhost:9000
 
 
+### 构建模型的输入输出以及调用方式
+
+
+三种调用方式：
+```
+分类问题对应客户端中的classify方法
+       CLASSIFY_METHOD_NAME
+回归问题对于客户端中的regress方法
+       REGRESS_METHOD_NAME
+预测问题对应客户端中的predict方法（基本与分类问题相同，分类问题可以多一个参数“classes”）
+       PREDICT_METHOD_NAME
+```
+
+SignatureDef结构：
+
+定义inputs TensorInfo、outputs TensorInfo、method_name
+
+
 ### 数据交互格式
 
 TensorProto
@@ -213,6 +231,10 @@ An Op that initializes global variables in the graph.
 
 ### tf.variance_scaling_initializer
 
+
+### tf.tables_initializer
+
+Returns an Op that initializes all tables of the default graph.
 
 ## 命名空间
 
@@ -323,13 +345,13 @@ saver.restore(sess, model_path)
 
 ### checkpoint文件
 
-checkpoints, which are versions of the model created during training.
+checkpoints, which are versions of the model created during training. 存储的为最近的几次迭代保存的模型名称以及路径：
 
-		meta file: describes the saved graph structure, includes GraphDef, SaverDef, and so on; then apply tf.train.import_meta_graph('/tmp/model.ckpt.meta'), will restore Saver and Graph.
+		meta file: 在meta文件中保存的为模型的图。describes the saved graph structure, includes GraphDef, SaverDef, and so on; then apply tf.train.import_meta_graph('/tmp/model.ckpt.meta'), will restore Saver and Graph.
 
-		index file: it is a string-string immutable table(tensorflow::table::Table). Each key is a name of a tensor and its value is a serialized BundleEntryProto. Each BundleEntryProto describes the metadata of a tensor: which of the "data" files contains the content of a tensor, the offset into that file, checksum, some auxiliary data, etc.
+		index file: 在index文件中保存的为模型参数的名称以及具体属性。it is a string-string immutable table(tensorflow::table::Table). Each key is a name of a tensor and its value is a serialized BundleEntryProto. Each BundleEntryProto describes the metadata of a tensor: which of the "data" files contains the content of a tensor, the offset into that file, checksum, some auxiliary data, etc.
 
-		data file: it is TensorBundle collection, save the values of all variables.
+		data file: 在data文件中保存的为模型参数的数值。it is TensorBundle collection, save the values of all variables.
 
 
 https://www.tensorflow.org/guide/checkpoints
@@ -460,14 +482,25 @@ tf.nn.embedding_lookup
 
 
 
-# 高级用法
+# Tensorflow 模型格式
 
 ## checkpoint文件 和 serving pb/variable文件之间的转换
 
 checkpoint文件 是用于本地加载模型然后进行本地预测的。
 serving variable文件是用来让tensorflow serving加载并进行远程预测的。
 
+SignatureDef 的主要作用是定义输出和输入接口协议。 他在构建 SaveModel 时，被封装到二进制文件中。
 
+```
+tf.saved_model.builder.SavedModelBuilder
+
+tf.saved_model.utils.build_tensor_info
+
+tf.saved_model.signature_def_utils.build_signature_def
+
+builder.add_meta_graph_and_variables
+
+```
 
 
 
@@ -503,6 +536,8 @@ https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3_Neur
 https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.py
 
 	05_convolutional_net.py 使用CNN训练。
+
+
 
 
 
