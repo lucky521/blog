@@ -159,45 +159,13 @@ https://www.tensorflow.org/serving/serving_basic
 		python tensorflow_serving/example/mnist_client.py --num_tests=1000 --server=localhost:9000
 
 
-### 构建模型的输入输出以及调用方式
-
-
-三种调用方式：
-```
-分类问题对应客户端中的classify方法
-       CLASSIFY_METHOD_NAME
-回归问题对于客户端中的regress方法
-       REGRESS_METHOD_NAME
-预测问题对应客户端中的predict方法（基本与分类问题相同，分类问题可以多一个参数“classes”）
-       PREDICT_METHOD_NAME
-```
-
-SignatureDef结构：
-
-定义inputs TensorInfo、outputs TensorInfo、method_name
-
-
-### 数据交互格式
-
-TensorProto
-
-PredictRequest
-
-PredictResponse
-
-
-
-
-
-
-
 
 
 
 
 # 重要的元素
 
-## tf.constant 常数
+## tf.constant 图常数
 
 https://www.tensorflow.org/api_guides/python/constant_op
 
@@ -290,6 +258,7 @@ https://www.tensorflow.org/api_docs/python/tf/Session#run
 
 # 常用函数
 
+用一下API完成日常工作。 包括基础操作方法、模型保存加载方法、模型流图构建方法、模型训练方法。
 
 ## 基础操作函数
 
@@ -334,27 +303,33 @@ tf.reshape
 
 ## 模型保存和加载
 
-我们经常在训练完一个模型之后希望保存训练的结果，这些结果指的是模型的参数，以便下次迭代的训练或者用作测试。Tensorflow针对这一需求提供了Saver类。
+
+我们经常在训练完一个模型之后希望保存训练的结果，这些结果指的是模型的参数，以便下次迭代的训练或者用作测试。
+
+一种是传统的Saver类save保存和restore恢复方法。Tensorflow针对这一需求提供了Saver类。
 
 ```
+# 保存
 tf.train.Saver()
 save_path = saver.save(sess, model_path)
+...
+# 加载
 saver.restore(sess, tf.train.latest_checkpoint(checkpoint_path)) # tf.train.latest_checkpoint自动获取最后一次保存的模型
 saver.restore(sess, model_path)
 ```
 
-### checkpoint文件
+还有一种是比较新颖的SavedModelBuilder类的builder保存和loader文件里的load恢复方法。
 
-checkpoints, which are versions of the model created during training. 存储的为最近的几次迭代保存的模型名称以及路径：
+```
+# 保存
+builder = tf.saved_model.builder.SavedModelBuilder(export_path)
+builder.add_meta_graph_and_variables(...)
+builder.save()
+...
+# 加载
+tf.saved_model.loader.load(sess, ["tag"], export_dir)
 
-		meta file: 在meta文件中保存的为模型的图。describes the saved graph structure, includes GraphDef, SaverDef, and so on; then apply tf.train.import_meta_graph('/tmp/model.ckpt.meta'), will restore Saver and Graph.
-
-		index file: 在index文件中保存的为模型参数的名称以及具体属性。it is a string-string immutable table(tensorflow::table::Table). Each key is a name of a tensor and its value is a serialized BundleEntryProto. Each BundleEntryProto describes the metadata of a tensor: which of the "data" files contains the content of a tensor, the offset into that file, checksum, some auxiliary data, etc.
-
-		data file: 在data文件中保存的为模型参数的数值。it is TensorBundle collection, save the values of all variables.
-
-
-https://www.tensorflow.org/guide/checkpoints
+```
 
 
 
@@ -436,6 +411,7 @@ tf.train.GradientDescentOptimizer
 
 https://github.com/aymericdamien/TensorFlow-Examples/tree/master/examples/2_BasicModels
 
+	SVM
 	kmeans
 	线性回归
 	逻辑回归
@@ -489,7 +465,40 @@ tf.nn.embedding_lookup
 checkpoint文件 是用于本地加载模型然后进行本地预测的。
 serving variable文件是用来让tensorflow serving加载并进行远程预测的。
 
-SignatureDef 的主要作用是定义输出和输入接口协议。 他在构建 SaveModel 时，被封装到二进制文件中。
+### checkpoint文件
+
+这是由 tf.train.Saver 类生成的模型文件。
+
+checkpoints, which are versions of the model created during training. 存储的为最近的几次迭代保存的模型名称以及路径：
+
+		meta file: 在meta文件中保存的为模型的图。describes the saved graph structure, includes GraphDef, SaverDef, and so on; then apply tf.train.import_meta_graph('/tmp/model.ckpt.meta'), will restore Saver and Graph.
+
+		index file: 在index文件中保存的为模型参数的名称以及具体属性。it is a string-string immutable table(tensorflow::table::Table). Each key is a name of a tensor and its value is a serialized BundleEntryProto. Each BundleEntryProto describes the metadata of a tensor: which of the "data" files contains the content of a tensor, the offset into that file, checksum, some auxiliary data, etc.
+
+		data file: 在data文件中保存的为模型参数的数值。it is TensorBundle collection, save the values of all variables.
+
+
+https://www.tensorflow.org/guide/checkpoints
+
+
+### serving pb/variable文件
+
+这是由 tf.saved_model.builder.SavedModelBuilder 类生成的模型文件。
+
+
+### 构建模型的输入输出以及调用方式
+
+三种调用方式：
+```
+分类问题对应客户端中的classify方法
+       CLASSIFY_METHOD_NAME
+回归问题对于客户端中的regress方法
+       REGRESS_METHOD_NAME
+预测问题对应客户端中的predict方法（基本与分类问题相同，分类问题可以多一个参数“classes”）
+       PREDICT_METHOD_NAME
+```
+
+
 
 ```
 tf.saved_model.builder.SavedModelBuilder
@@ -500,8 +509,32 @@ tf.saved_model.signature_def_utils.build_signature_def
 
 builder.add_meta_graph_and_variables
 
+builder.save()
 ```
 
+
+
+### 客户端-服务端数据交互格式
+
+TensorProto
+TensorInfo是一个pb message，定义在tensorflow/core/framework/tensor.proto，用来表示一个Tensor。
+
+
+SignatureDef
+由inputs TensorInfo、outputs TensorInfo、method_name三个成员构成。
+
+SignatureDefMap
+由name->SignatureDef 构成的map。
+
+MetaGraphDef
+表示一个模型的graph。
+
+
+PredictRequest
+由 map<string, TensorProto> 作为请求输入。
+
+PredictResponse
+由 map<string, TensorProto> 作为请求返回。
 
 
 
