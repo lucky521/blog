@@ -262,6 +262,8 @@ https://www.tensorflow.org/api_docs/python/tf/Session#run
 
 ## 基础操作函数
 
+先看一些基础的操作函数。
+
 ### 基本运算函数
 
 ```
@@ -330,6 +332,11 @@ builder.save()
 tf.saved_model.loader.load(sess, ["tag"], export_dir)
 
 ```
+
+### 高阶函数
+
+tf.map_fn 
+
 
 
 

@@ -69,6 +69,23 @@ MAP优化的是一个后验概率，样本视为不变量时，分布参数视�
 
 
 
+# 概率密度估计
+
+## 参数估计
+
+点估计
+
+区间估计
+
+## 非参数估计
+
+直方图
+
+核密度估计
+
+k邻近估计
+
+
 
 # Probably Approximately Correct PAC-Learning
 

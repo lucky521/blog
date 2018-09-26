@@ -25,7 +25,8 @@ layout: post
 
 # Objective Function的设定
 
-目标函数的设定中要包含loss function 和 regularization。前者是要使得我们的模型尽可能的学习训练样本的分布。后者是希望模型不用过拟合。
+目标函数的设定中要包含loss function 和 regularization。
+前者是要使得我们的模型尽可能的学习训练样本的分布。后者是希望模型不用过拟合。
 
 Training Loss measures how well model fit on training data.
 
