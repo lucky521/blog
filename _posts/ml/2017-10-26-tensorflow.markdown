@@ -310,6 +310,10 @@ tf.reshape
 
 一种是传统的Saver类save保存和restore恢复方法。Tensorflow针对这一需求提供了Saver类。
 
+
+tf.train.get_checkpoint_state   输入路径必须是绝对路径
+
+
 ```
 # 保存
 tf.train.Saver()
@@ -335,7 +339,7 @@ tf.saved_model.loader.load(sess, ["tag"], export_dir)
 
 ### 高阶函数
 
-tf.map_fn 
+tf.map_fn
 
 
 
@@ -507,6 +511,7 @@ https://www.tensorflow.org/guide/checkpoints
 
 
 
+下面是构建serving pb/variable文件的过程：
 ```
 tf.saved_model.builder.SavedModelBuilder
 
@@ -549,6 +554,11 @@ PredictResponse
 
 
 
+
+
+
+
+
 # MNIST手写字数据集模型训练
 
 MNIST数据集是一个手写阿拉伯数字0-9的图像素材库，它包含60000个训练样本集和10000个测试样本集。我们可以去官网下载素材库，也可以直接使用TensorFlow以package引用形式提供的MNIST。
@@ -576,8 +586,6 @@ https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3_Neur
 https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.py
 
 	05_convolutional_net.py 使用CNN训练。
-
-
 
 
 
