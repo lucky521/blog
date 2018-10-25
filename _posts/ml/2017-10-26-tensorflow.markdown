@@ -496,6 +496,15 @@ https://www.tensorflow.org/guide/checkpoints
 
 这是由 tf.saved_model.builder.SavedModelBuilder 类生成的模型文件。
 
+```
+	|-- mnist_saved_model
+	|   `-- 1531711208
+	|       |-- saved_model.pb   保存了serialized tensorflow::SavedModel
+	|       `-- variables   保存了variables
+	|           |-- variables.data-00000-of-00001
+	|           `-- variables.index
+```
+
 
 ### 构建模型的输入输出以及调用方式
 

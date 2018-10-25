@@ -95,6 +95,19 @@ k邻近估计
 
 
 
+# 常用的数学函数
+
+softplus
+
+ReLU
+
+sigmoid
+
+softmax
+
+
+
+
 # Probably Approximately Correct PAC-Learning
 
 PAC-learning在1984年由Leslie Valiant提出，由这个概念产生了计算学习理论。
