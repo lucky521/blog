@@ -147,8 +147,6 @@ PCA降维的大致思想是挑选特征明显的、显得比较重要的信息�
 
 
 
-
-
 ## 特征交叉 Feature Interaction / 特征组合 Feature Cross
 
 组合两个特征，我们可以进行加减乘除运算。
@@ -163,6 +161,50 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 除了组合两个特征，我们也可以组合多个特征。
 
+
+
+
+# 流形学习 Manifold Learning
+
+流形学习方法是模式识别中的基本方法，分为线性流形学习算法和非线性流形学习算法。
+
+非线性流形学习算法包括等距映射（Isomap） ，拉普拉斯特征映射（Laplacian eigenmaps，LE） ，局部线性嵌入(Locally-linear embedding，LLE) 等。
+而线性方法则是对非线性方法的线性扩展，如主成分分析（Principal component analysis，PCA），多维尺度变换（Multidimensional scaling，MDS）等。
+
+
+# 度量学习 Metric Learning
+
+学习样本之间的相似程度。
+
+
+
+# 稀疏表示 Sparse representation 和 字典学习 Dictionary learning
+
+字典学习（Dictionary Learning）和稀疏表示（Sparse Representation）在学术界的正式称谓应该是稀疏字典学习（Sparse Dictionary Learning）。该算法理论包含两个阶段：字典构建阶段（Dictionary Generate）和利用字典（稀疏的）表示样本阶段（Sparse coding with a precomputed dictionary）。
+
+稀疏表示的本质：用尽可能少的资源表示尽可能多的知识，这种表示还能带来一个附加的好处，即计算速度快。
+
+字典学习总是尝试学习蕴藏在样本背后最质朴的特征（假如样本最质朴的特征就是样本最好的特征）。
+
+
+
+
+# 处理数据倾斜/不平衡
+
+解决思路：
+
+    对较多的那个类别进行欠采样(under-sampling)，舍弃一部分数据，使其与较少类别的数据相当
+    对较少的类别进行过采样(over-sampling)，重复使用一部分数据，使其与较多类别的数据相当
+    分类阈值调整（threshold moving），将原本默认为0.5的阈值调整到 较少类别/（较少类别+较多类别）即可
+
+
+
+解决办法：
+
+    对数据进行采用的过程中通过相似性同时生成并插样“少数类别数据”，叫做SMOTE算法
+    对数据先进行聚类，再将大的簇进行随机欠采样或者小的簇进行数据生成
+    把监督学习变为无监督学习，舍弃掉标签把问题转化为一个无监督问题，如异常检测
+    先对多数类别进行随机的欠采样，并结合boosting算法进行集成学习
 
 
 

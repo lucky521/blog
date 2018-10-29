@@ -8,7 +8,7 @@ layout: post
 
 # 框架体系
 
-## TensorFlow Core
+## TensorFlow Core (Low-Level API)
 
 TensorFlow Core 指的是 low-level TensorFlow APIs。 https://www.tensorflow.org/guide/low_level_intro
 
@@ -21,6 +21,32 @@ Running the computational graph in a session
 在TensorFlow中，数据以 tensor 为单元。tensor本质上是n维数组。
 数组的维度叫做tensor的rank。一个标量是rank为0的tensor。
 每个维度的数组长度组成的tuple元组叫做tensor的shape。
+
+
+
+## TensorFlow Estimator (High-Level API)
+
+### tf.estimator.Estimator 类
+
+定义模型
+
+### tf.estimator.train_and_evaluate 函数
+
+### Spec
+
+ tf.estimator.EstimatorSpec 用来定义Estimator的操作。
+
+ tf.estimator.TrainSpec  用来定义输入的训练数据
+
+ tf.estimator.EvalSpec  用来定义eval部分的配置。
+
+### Config
+
+ tf.estimator.RunConfig
+
+ tf.estimator.ModeKeys  设定当前的工作模式（eval、predict、train）
+
+ tf.estimator.WarmStartSettings
 
 
 
@@ -157,6 +183,7 @@ https://www.tensorflow.org/serving/serving_basic
 在客户端把样本数据作为请求发送到TensorFlow ModelServer，
 
 		python tensorflow_serving/example/mnist_client.py --num_tests=1000 --server=localhost:9000
+
 
 
 
