@@ -229,6 +229,25 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 
 
+# 样本数据的存储格式
+
+## CSV格式
+
+Comma-separated values。
+其文件以纯文本形式存储表格数据（数字和文本），文件的每一行都是一个数据记录
+
+
+## TSV格式
+
+Tab-separated values。
+
+
+## svmlight格式
+
+
+## TFRecord格式
+
+
 
 # Reference
 

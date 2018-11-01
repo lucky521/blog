@@ -24,6 +24,7 @@ Running the computational graph in a session
 
 
 
+
 ## TensorFlow Estimator (High-Level API)
 
 ### tf.estimator.Estimator 类
@@ -47,6 +48,10 @@ Running the computational graph in a session
  tf.estimator.ModeKeys  设定当前的工作模式（eval、predict、train）
 
  tf.estimator.WarmStartSettings
+
+
+
+
 
 
 
@@ -130,9 +135,15 @@ https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/debugg
 https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/profile
 
 
+
+
+
 ## TensorFlow Debugger
 
 https://www.tensorflow.org/api_guides/python/tfdbg
+
+
+
 
 
 
@@ -183,6 +194,8 @@ https://www.tensorflow.org/serving/serving_basic
 在客户端把样本数据作为请求发送到TensorFlow ModelServer，
 
 		python tensorflow_serving/example/mnist_client.py --num_tests=1000 --server=localhost:9000
+
+
 
 
 
@@ -586,6 +599,40 @@ PredictResponse
 
 
 
+
+
+# Tensorflow 样本数据格式 - TFRecord
+
+TFRecord是Tensorflow特有的二进制数据存储格式。它的好处是性能，在加载和传输时代价较小。另一个好处是可以存储序列化数据。
+
+我们用Tensorflow API可以方便的构建和读写TFRecord数据。
+
+
+tf.train.Example
+
+TFRecord是文件形态，tf.train.Example就是内存对象形态
+
+
+tf.train.Feature
+
+
+tf.python_io.TFRecordWriter
+
+
+
+# 分布式TensorFlow集群 （Distributed TensorFlow）
+
+tf.train.Server.create_local_server 单进程集群，这主要是其演示作用吧。
+
+tf.train.ClusterSpec  创建cluster配置描述
+
+tf.train.Server 创建server实例
+
+在模型中指明在特定节点或设备进行某个操作
+
+		with tf.device("/job:ps/task:1"):
+		  weights_2 = tf.Variable(...)
+		  biases_2 = tf.Variable(...)
 
 
 
