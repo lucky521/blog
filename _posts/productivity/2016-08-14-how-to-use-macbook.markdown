@@ -24,15 +24,21 @@ layout: post
 其他的App比如浏览器、终端、文本编辑工具、IDE、Email工具、科学上网工具、播放器，想必大家都知道了。
 
 
+
+
 # 使用外接鼠标
 
 MacOS对于鼠标滚轮的设计和触摸板的滑屏设计一致，与WindowsOS的设计相反。
 对于触摸板来讲，Mac的滑屏设计是我更认同的，毕竟和触摸形式一致。而鼠标滚轴来讲，我更接受Windows的方向。
 在用鼠标滚轮滚动屏幕时总是不习惯，第一反应总是滚错方向。如果把鼠标设置的滚轮方向修改为非Natural的，那么触摸板的方向也会随之改变。解决办法是使用软件Karabiner，同时勾选"Don't remap Apple's pointing devices"和“Reverse Vertical Scrolling”。这样子触摸板还是Mac的模式，而鼠标采用Windows的模式。
 
+
+
 # 使用外接键盘
 
 Macbook内置的键盘其实挺好的，有时我也会连接HHKB寻求更高体验。把外置键盘直接搁在内置键盘上可能会不小心敲击到内置键盘的某个按键，所以最好是将内置键盘关掉。方法是使用软件Karabiner，勾选“Disable an internal keyboard while external keyboards are connected.”。
+
+
 
 # 使用外接显示器
 

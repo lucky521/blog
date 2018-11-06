@@ -5,11 +5,23 @@ categories: [MachineLearning]
 layout: post
 ---
 
-# Online metrics vs Offline metrics
+# 选择怎样的评估指标
+
+## Online metrics vs Offline metrics
 
 Online metrics是直接在线上环境做AB测试，比较两个实验组的核心指标，比如CTR、转化率等。
 
 Offline metrics是希望在模型上线之前，使用历史数据进行效果评估。离线指标有些是纯数学模型指标，有些是结合实际问题的量化指标。
+
+
+## 单值评估指标 vs 多值评估指标
+
+单值评估指标清晰明了，有利于最终的评估。如果有多个指标都是很重要的，可以将这多个值合并为一个值来表示。
+比如取平均值或者加权平均值是将多个指标合并为一个指标的最常用方法之一。
+
+
+
+
 
 
 # 基础统计数据

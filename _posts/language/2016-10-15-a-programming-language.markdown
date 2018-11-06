@@ -16,7 +16,7 @@ malloc | 分配内存
 calloc | 分配内存并初始化为0
 realloc | 扩展之前申请过的内存块
 free | 回收空间
-aligned_alloc | 分类对齐的内存块 
+aligned_alloc | 分类对齐的内存块
 
 # 输入输出支持
 
