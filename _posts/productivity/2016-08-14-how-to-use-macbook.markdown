@@ -52,6 +52,26 @@ Macbook内置的键盘其实挺好的，有时我也会连接HHKB寻求更高体
 
 
 
+
+# 清理系统空间
+
+Mac笔记本往往硬盘不够大。用着用着就不够用了。这时候就要想办法清理空间了。
+
+推荐使用开源工具OmniDiskSweeper扫描一下磁盘，看看每一个目录、文件的磁盘占用情况。
+
+
+值得清理的地方
+
+    time machine的文件
+    sudo tmutil listlocalsnapshots /
+    tmutil deletelocalsnapshots 2017-11-27-005359
+
+
+    anaconda的包文件
+    conda clean -p
+    conda clean -t
+
+
 <!--
 这里是注释区
 
