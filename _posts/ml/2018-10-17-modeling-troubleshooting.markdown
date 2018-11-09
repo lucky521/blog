@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "为什么模型表现不好"
+title:  "为什么模型表现不好？"
 subtitle: ""
 categories: [MachineLearning]
 ---
