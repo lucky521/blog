@@ -89,6 +89,7 @@ LSTM Networks
 Bi-LSTM
 
 self-attention mechanism
+http://www.jeyzhang.com/understand-attention-in-rnn.html
 
 
 ## 意图分类

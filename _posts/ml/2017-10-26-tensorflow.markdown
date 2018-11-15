@@ -642,7 +642,7 @@ tf.train.Server 创建server实例
 
 
 
-# MNIST手写字数据集模型训练
+# MNIST 手写字数据集模型训练
 
 MNIST数据集是一个手写阿拉伯数字0-9的图像素材库，它包含60000个训练样本集和10000个测试样本集。我们可以去官网下载素材库，也可以直接使用TensorFlow以package引用形式提供的MNIST。
 
@@ -672,9 +672,12 @@ https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.
 
 
 
+# Fashion-MNIST 数据集
+
+这是一个服饰类的图像数据集，包含了10个类别，分别是10种服饰类型。
 
 
-# ImageNet图像数据集模型训练
+# ImageNet 图像数据集模型训练
 
 ImageNet的图像分类数据集叫做ILSVRC。ILSVRC图像分类数据集包含了来自1000个类别的120万张图片，其中每张图片属于且只属于一个类别。
 
@@ -689,7 +692,7 @@ https://github.com/tensorflow/models/blob/master/tutorials/image/alexnet/alexnet
 
 
 
-# LFW人脸数据集模型训练
+# LFW 人脸数据集模型训练
 
 LFW 是人脸识别数据集，英文全称是Labeled Faces in the Wild，所有人脸样本都加了标签。
 

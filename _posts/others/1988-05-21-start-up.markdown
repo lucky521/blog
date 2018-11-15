@@ -25,8 +25,12 @@ print "hello"
 print "hello, Lucky!"
 {% endhighlight %}
 
+
+
 配上图片：先把图片命名放在images目录下。然后像下面引用图片111111
 ![My image]({{ site.baseurl }}/images/emule.png)
+
+
 
 配上链接
 My Github is [here][mygithub].
