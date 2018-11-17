@@ -50,6 +50,14 @@ probabilistic method or model:
 
 
 
+# Statistical learning theory 统计学习理论 vs Computational learning theory 计算学习理论
+
+[两个概念的差异和关联是什么？](https://www.quora.com/Whats-the-difference-between-statistical-learning-theory-and-computational-learning-theory)
+
+统计学习理论（LST）：研究一个模型的错误边界（error bound,  bound between generalization error and training error）。
+计算学习理论(CoLT)：研究一个问题是不是可学习的。
+
+
 
 # 贝叶斯估计
 
@@ -148,3 +156,10 @@ VC维是一个很有趣的概念，它的主体是一类函数，描述的是这
 
 
 # 不同机器学习模型之间的共性和联系
+
+
+
+
+# 参考资料
+
+http://blog.codinglabs.org/articles/statistical-learning-theory.html

@@ -4,10 +4,43 @@ subtitle: "Subtitle"
 categories: [other]
 layout: post
 ---
-# 序篇
+
+# 本页用于展示该站的文本编辑常用功能
+
+## 文本居中
+
+<center>你好</center>
+
+## 文本字体
+
+这是什么体
+
+*这是什么体*
+
+**这是什么体**
+
+***这是什么体***
+
+
+## TeX数学公式
+
+When $a \ne 0$, there are two solutions to $ax^2 + bx + c = 0$ and they are
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+
+## 配图
 
 ![My image]({{ site.baseurl }}/images/emule.png)
 
+
+## 代码高亮
+
+```
+print "hello"
+```
+
+## 超链接
+
+[我的主页](https://lucky521.github.io/)
 
 
 
@@ -26,14 +59,16 @@ print "hello, Lucky!"
 {% endhighlight %}
 
 
-
-配上图片：先把图片命名放在images目录下。然后像下面引用图片111111
+配上图片：先把图片命名放在images目录下。然后像下面引用图片
 ![My image]({{ site.baseurl }}/images/emule.png)
-
 
 
 配上链接
 My Github is [here][mygithub].
 [mygithub]: https://github.com/lucky521
+
+
+配上公式
+
 
 -->

@@ -30,3 +30,8 @@ $ sudo gem install github-pages
 $ cd blog
 $ jekyll serve --host=0.0.0.0
 ```
+
+
+### Feature Support
+
+Math formula Support : Mathjax
