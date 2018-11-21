@@ -7,6 +7,7 @@ categories: [MachineLearning]
 
 本篇是当我们的模型或者算法表现的不好的时候，应该如何去调试问题，优化算法。
 
+
 # 样本集有问题
 
 ## 数据集分布不同
@@ -20,6 +21,9 @@ categories: [MachineLearning]
 
 
 
+
+
+
 # 训练方法有问题
 
 ## 模型目标或评价指标选择的不好
@@ -29,6 +33,8 @@ categories: [MachineLearning]
 ## 没有做误差分析
 
 误差分析(Error Analysis) ​​指的是检查被算法误分类的开发集样本的过程，以便帮助你找到造成这些误差的原因。
+
+学习算法的预测误差, 或者说泛化误差(generalization error)可以分解为三个部分: 偏差(bias), 方差(variance) 和噪声(noise).
 
 偏差和方差是误差的两大来源。总误差=偏差+方差。
 

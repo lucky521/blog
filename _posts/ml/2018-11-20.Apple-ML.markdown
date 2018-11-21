@@ -1,0 +1,34 @@
+---
+layout: post
+title:  "Apple Machine Learning Journal"
+subtitle: ""
+categories: [MachineLearning]
+---
+
+这篇博客解读了Apple公司的机器学习博客里的文章。
+https://machinelearning.apple.com/
+
+# Improving the Realism of Synthetic Images
+
+图像识别领域里，模型训练的一个困难点在于缺少足够多的具备label的真实图像数据集。生成合成图像样本是一个方法，但是对合成图像的质量有较高要求，必须要足够接近真实样本的分布，否则将会误导模型训练的走向。这篇文章设计了一种方法来提高合成图像的质量，使得模型在真实应用时具有满意的泛化能力。
+
+# Improving Neural Network Acoustic Models by Cross-bandwidth and Cross-lingual Initialization
+
+语音识别领域里，同样缺乏特定语言下的标签样本数据。这篇文章设计了迁移学习方法，从训练好的另一种语言的Acoustic Model迁移数据。
+
+# Inverse Text Normalization as a Labeling Problem
+
+语音转文字领域里，inverse text normalization (ITN)是要把语音转文本时遇到的日期、时间、地点、价钱等内容以合理的形式显示出来。这篇文章把这一个问题当做Labeling Problem，用统计学模型来解决。
+
+# Deep Learning for Siri’s Voice: On-device Deep Mixture Density Networks for Hybrid Unit Selection Synthesis
+
+人声语音合成领域里，有两种技术，unit selection synthesis 和 parametric synthesis。unit selection synthesis在具备足够多的高质量素材的情况下能够提供高质量的输出。parametric synthesis在具备少量素材的情况下能够提供流畅易懂的输出。hybrid system指的就是两者的结合，使用parametric approach来进行unit selection，称作Hybrid unit selection methods。这篇文章介绍了使用深度学习技术为Siri实现更自然的语音合成。
+
+
+# Real-Time Recognition of Handwritten Chinese Characters Spanning a Large Inventory of 30,000 Characters
+
+在手写输入识别中，汉字等符号类文字的识别可以借助深度学习达到极高的准确率。
+
+# Hey Siri: An On-device DNN-powered Voice Trigger for Apple’s Personal Assistant
+
+语音识别领域里，Siri支持的hey siri功能需要一个小的speech detector来持续接收声音并处理。它的要求是要以最低的功耗监听和识别出hey siri这个词。
