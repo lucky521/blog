@@ -32,3 +32,23 @@ https://machinelearning.apple.com/
 # Hey Siri: An On-device DNN-powered Voice Trigger for Apple’s Personal Assistant
 
 语音识别领域里，Siri支持的hey siri功能需要一个小的speech detector来持续接收声音并处理。它的要求是要以最低的功耗监听和识别出hey siri这个词。
+
+# An On-device Deep Neural Network for Face Detection
+
+人脸识别技术，已经被应用到手机设备上，无需依赖网络服务器。在Apple的图像架构基础API中CIDetector提供了人脸识别功能，可以用所有APP调用。早期的版本使用的是Viola-Jones算法。这篇文章介绍了如何利用深度学习方法实现更好的效果。
+
+# Learning with Privacy at Scale
+
+移动设备为了提供更好的使用体验，需要收集用户的使用习惯数据。为了在数据收集和隐私保护之间平衡折中，这篇文章设计了一套学习系统。
+
+# Personalized Hey Siri
+
+人声识别时语音识别中的一个分支。speaker recognition的核心目标不是判断语音的内容是什么，而是要判断是不是目标人物的声音。
+
+# Finding Local Destinations with Siri’s Regionally Specific Language Models for Speech Recognition
+
+语音识别领域里，Siri借助地理位置信息来增强语音识别的效果，因为许多语音素材，比如地名，和地域范围有一定联系。
+
+# Can Global Semantic Context Improve Neural Language Models?
+
+输入预测是NLP的一个应用场景，苹果设备中的QuickType keyboard支持在多种App下进行输入预测。本篇文章介绍了其所使用global semantic context来训练word embedding和NLP model。
