@@ -19,7 +19,7 @@ layout: post
     An Introduction to Computational Learning Theory
 
 
-# probability & statistics 概率vs统计
+# Probability & Statistics 概率vs统计
 
 Induction vs Deduction
 
@@ -50,6 +50,9 @@ probabilistic method or model:
 
 
 
+
+
+
 # Statistical learning theory 统计学习理论 vs Computational learning theory 计算学习理论
 
 [两个概念的差异和关联是什么？](https://www.quora.com/Whats-the-difference-between-statistical-learning-theory-and-computational-learning-theory)
@@ -66,20 +69,37 @@ probabilistic method or model:
 
 
 
+# 贝叶斯统计
+
+总体分布、样本分布、先验分布。
+
+贝叶斯统计的特点是使用先验信息，
+
+把未知量当做随机变量。
+
+
 
 
 # 频率学派 vs 贝叶斯学派
+
+贝叶斯学派认为不存在真正意义的随机。我们所谓的随机，其实是对未知的估计，其中的发生概率是一个主观经验值。而频率学派认为随机是客观的随机，以客观的概率发生。
+
+最大似然估计是频率学派的学习方法；最大后验估计是贝叶斯学派的学习方法。
 
 ## 最大似然估计 Maximum likelihood estimation
 似然函数是指样本视为不变量，分布参数视为变量时的分布函数。
 最大似然估计会寻找关于 分布参数 的最可能的值（即，在所有可能的取值中，寻找一个值使当前样本的“可能性”最大化）。
 
 
-## 最大后验估计 Maximum a posteriori estimation
+## 最大后验估计 Maximum A Posteriori estimation
 MAP优化的是一个后验概率，样本视为不变量时，分布参数视为变量，寻找能使得后验概率值最大的分布参数。
 
-
+## 比较两种方法
 MLE只考虑样本集，样本集完全决定了参数估计结果。而贝叶斯学习通过先验分布，可以将一定的先验知识”编码“进去，从而在某些现实中更贴合。
+
+
+
+
 
 # 生成方法 vs 判别方法
 
