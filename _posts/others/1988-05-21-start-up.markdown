@@ -31,6 +31,8 @@ $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
 
 ![My image]({{ site.baseurl }}/images/emule.png)
 
+![]({{site.baseurl}}/images/rudolf.jpeg)
+
 
 ## 代码高亮
 
