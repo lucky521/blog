@@ -77,13 +77,29 @@ Feature Embedding
 
 ## 标准化 Standardization
 
-ompute its mean (u) and standard deviation (s) and do x = (x - u)/s.       
-放缩到均值为0，方差为1
+0均值标准化/z-score/均值-标准差缩放
+
+0均值归一化方法将原始数据集归一化为均值为0、方差1的数据集.
+
+z = (x-μ)/σ.
+μ、σ分别为原始数据集的均值和方差.
+该种归一化方式要求原始数据的分布可以近似为高斯分布，否则归一化的效果会变得很糟糕。
+
+在sklearn中对应的方法是preprocessing.scale
+
 
 ## 归一化 Normalization
 
+线性归一化(min-max标准化)
+
 x = (2x - max - min)/(max - min).    
 线性放缩到[-1,1]
+
+
+在sklearn中对应的方法是preprocessing.MinMaxScaler
+
+
+
 
 ‘l1’, ‘l2’, or ‘max’
 
@@ -102,12 +118,14 @@ x = (2x - max - min)/(max - min).
 
 我们的算法不能把离散型特征作为输入，需要先把离散型特征编码成为连续型特征。 OneHotEncoder是最常用的一种编码方式。
 
+preprocessing.OneHotEncoder
 
 ## 特征离散化
 
 将连续性特征转换为离散特征、或者二值特征。
 有些特征虽然也是数值型的，但是该特征的取值相加相减是没有实际意义的，那么该数值型特征也要看成离散特征，采用离散化的技术。
 
+在sklearn中对应的方法是preprocessing.KBinsDiscretizer
 
 ## 多项式特征扩展
 
@@ -229,15 +247,19 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 
 
+
+
+
+
 # 样本数据的存储格式
 
-## CSV格式
+## CSV格式 和 TSV格式
+
+其文件以纯文本形式存储表格数据（数字和文本），文件的每一行都是一个数据记录。
+一般需要一个首行来表明每一列的字段名称。
+列与列之间由逗号或者tab分割。
 
 Comma-separated values。
-其文件以纯文本形式存储表格数据（数字和文本），文件的每一行都是一个数据记录
-
-
-## TSV格式
 
 Tab-separated values。
 
@@ -245,7 +267,10 @@ Tab-separated values。
 ## svmlight格式
 
 
+
+
 ## TFRecord格式
+
 
 
 
