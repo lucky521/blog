@@ -20,6 +20,11 @@ Offline metrics是希望在模型上线之前，使用历史数据进行效果�
 比如取平均值或者加权平均值是将多个指标合并为一个指标的最常用方法之一。
 
 
+## 指标的作用
+
+一方面是让我们对当前的模型的好坏有一个量化的认知。
+另一方面是在训练过程中以某一个指标
+
 
 
 
@@ -34,39 +39,72 @@ Offline metrics是希望在模型上线之前，使用历史数据进行效果�
       实际0        False Positive(FP)        True Negative(TN)
 
 
-TP：正确肯定的数目；
-FN：漏报，没有正确找到的匹配的数目；
-FP：误报，给出的匹配是不正确的；
-TN：正确拒绝的非匹配对数；
+TP：正确肯定的数目（本质是正例）；
+FN：漏报，没有正确找到的匹配的数目（本质是正例）；
+FP：误报，给出的匹配是不正确的（本质是负例）；
+TN：正确拒绝的非匹配对数（本质是负例）；
 
 
-## TPR、FPR & TNR
+## TPR、FPR、TNR
 
 真正类率(True Positive Rate, TPR), 也称为Sensitivity，计算公式为
 TPR = TP / (TP + FN).
-计算的是分类器所识别出的正实例占所有正实例的比例。
+计算的是分类器所正确识别出的正实例占所有正实例的比例。意味着正例里有多少被合理召回了。
 
-负正类率(False Positive Rate, FPR),，也成为1-Specificity，计算公式为
+负正类率(False Positive Rate, FPR),，也称为1-Specificity，计算公式为
 FPR = FP / (FP + TN).
-计算的是分类器错认为正类的负实例占所有负实例的比例。
+计算的是分类器错认为正类的负实例占所有负实例的比例。意味着负例里有多少被失误召回了。
 
 真负类率（True Negative Rate，TNR），也称为specificity，计算公式为
-TNR = TN /(FP + TN) = 1 - FPR
+TNR = TN /(FP + TN) = 1 - FPR.
+计算的是分类器所正确识别出的负实例占所有负实例的比例。
+
+
+## 准确率Accuracy、精确率Precision、召回率Recall
+
+准确率是想要计算所有被分类器预测过的样本中，有多少比例是正确预测的。
+
+准确率 Accuracy = 预测对的 / 所有
+
+也可以计算为 Accuracy = (TP + TN) / (TP + TN + FP + FN).
 
 
 
-## 精确率Precision、召回率Recall
+我们认为分类器试图选出正例，那么准确率意味着其所选出的”正例“中有多少占比确实是对的？
 
-准确率 Precision = 提取出的正确信息条数 /  提取出的信息条数    
+精确率 Precision = 提取出的正确信息条数 / 提取出的”正例“信息条数    
 
-召回率 Recall = 提取出的正确信息条数 /  样本中的信息条数    
-
-
+精确率也可以计算为 Precision = TP / (TP + FP)
 
 
 
 
-# 方差分析
+召回率又叫查全率，经常在搜索中使用，这一类场景我们更关心分类器对正例的判断结果，那么召回率意味着样本中的所有正例有多少占比被分类器给选出来了？
+
+召回率 Recall = 提取出的正确信息条数 /  样本中的正确信息条数    
+
+召回率也可以计算为 Recall = TP / (TP + FN)
+
+这里可以看出，召回率Recall 和 真正例率Sensitivity（TPR） 是相同的。
+
+
+
+
+
+# 错误分析 Error Analysis
+
+偏差Bias，反映的是模型在样本上的输出与真实值之间的误差，即模型本身的精准度，即算法本身的拟合能力。
+
+方差Variance，反映的是模型每一次输出结果与模型输出期望之间的误差，即模型的稳定性，反应预测的波动情况。
+
+噪声Noise，是真实世界数据中的杂质，如果模型过度追求Low Bias会导致训练过度，对训练集判断表现优秀，导致噪声点也被拟合进去了。
+
+总的来讲，模型的错误原因可以看做是 Error = Bias^2 + Variance + Noise
+
+## 偏差分析
+
+
+## 方差分析 
 
 方差分析是机器学习中常用的来衡量模型对数据拟合好坏的度量方式。
 
@@ -83,23 +121,32 @@ TNR = TN /(FP + TN) = 1 - FPR
 
 
 
-# 分类模型评价指标 Classification Metrics
+# 分类模型评价指标 Classification Metric
 
 ## F1 Score
 
-为了能够评价不同算法的优劣，在Precision和Recall的基础上提出了F1值的概念，来对Precision和Recall进行整体评价。F1的定义如下：
+为了能够评价不同算法的优劣，在Precision和Recall的基础上提出了F1值的概念，来对Precision和Recall进行整体评价。
+
+F1的定义如下：
+
 F1值  = 正确率 * 召回率 * 2 / (正确率 + 召回率)
+
+简单来讲就是，精确率和召回率的调和均值（倒数平均数的倒数）。
+
+从评价来讲，精确率和准确率都高的情况下，F1 值也会高。
+
 
 ## AUC Area under Curve
 
 AUC metric is only designed for binary classifiers.
 
 机器学习实践中分类器常用的评价指标就是auc，不想搞懂，简单用的话，记住一句话就行。auc取值范围[0.5, 1]，越大表示越好，小于0.5的把结果取反就行。
-roc曲线下的面积就是auc，所以要先搞清楚roc。
 
-ROC曲线的横坐标为FPR，纵坐标为TPR。ROC曲线越靠拢(0,1)点，越偏离45度对角线越好，Sensitivity、Specificity越大效果越好。
+roc曲线下的面积就是auc，所以要先搞清楚roc - receiver operating characteristic curve。
+ROC曲线是以横坐标为FPR，以纵坐标为TPR，划出的一条曲线。
+ROC曲线越靠拢(0,1)点，越偏离45度对角线越好，Sensitivity、Specificity越大效果越好。
 
-AUC(Area under Curve)：Roc曲线下的面积.
+AUC(Area under Curve)：Roc曲线下的面积，显然这个面积的数值不会大于1。
 
 ## Classification Accuracy
 
@@ -121,15 +168,19 @@ Logarithmic loss (related to cross-entropy) measures the performance of a classi
 
 
 
-# 回归模型评价指标 Regression Metrics
+# 回归模型评价指标 Regression Metric
 
-Mean Absolute Error
-Mean Squared Error
+Mean Absolute Error - MAE
+
+Mean Squared Error - MSE
+
 R^2 Metric
 
 
 
-# 聚类模型评价指标 Clustering metrics
+
+
+# 聚类模型评价指标 Clustering Metric
 
 ‘adjusted_mutual_info_score’	metrics.adjusted_mutual_info_score	 
 ‘adjusted_rand_score’	metrics.adjusted_rand_score	 
@@ -164,6 +215,7 @@ Mean average precision for a set of queries is the mean of the average precision
 
 
 MRR
+
 
 
 
