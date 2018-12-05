@@ -23,7 +23,7 @@ Offline metrics是希望在模型上线之前，使用历史数据进行效果�
 ## 指标的作用
 
 一方面是让我们对当前的模型的好坏有一个量化的认知。
-另一方面是在训练过程中以某一个指标
+另一方面是在训练过程中以某一个指标作为训练算法的目标，通过优化目标来训练模型。
 
 
 
@@ -203,7 +203,7 @@ R^2 Metric
 Information Retrieval的评价指标包括：MRR，MAP，ERR，NDCG等
 
 
-## MAP Mean average precision
+## MAP - Mean Average Precision
 
 Mean average precision for a set of queries is the mean of the average precision scores for each query.
 
@@ -211,10 +211,16 @@ Mean average precision for a set of queries is the mean of the average precision
 
 
 
-## NDCG Normalized Discounted Cumulative Gain
+## NDCG - Normalized Discounted Cumulative Gain
+
+DCG - Discounted cumulative gain
+
+因为不同的搜索结果的数量很可能不相等，所以不同搜索的DCG值不能直接做对比。
 
 
-MRR
+# MRR - Mean Reciprocal Rank
+
+是一个国际上通用的对搜索算法进行评价的机制，即第一个结果匹配，分数为1，第二个匹配分数为0.5，第n个匹配分数为1/n，如果没有匹配的句子分数为0。最终的分数为所有得分之和。
 
 
 

@@ -158,8 +158,9 @@ PCA降维的大致思想是挑选特征明显的、显得比较重要的信息�
 
 
 
-## SVD 奇异值分解
+## SVD 奇异值分解 - singular value decomposition
 
+线性代数中一种重要的矩阵分解
 
 ## Sammon’s Mapping
 
