@@ -27,3 +27,29 @@ print sys.version
 暂时我还没有办法在github jekyll 直接解析ipynb文件。而需要事先使用命令将ipynb转换为markdown文件。
 
   $ jupyter nbconvert hello.ipynb --to markdown
+
+
+# JupyterLab 快捷技巧
+
+使用 jupyterLab 的目的是尽可能的把各种开发工具高效的结合在一个平台上。所以高效是一个重点。
+
+在工作场景下，JupyterLab 和 Docker结合起来，构成了方便而强大了工作平台。
+
+## 核心功能
+
+和本地的快速数据传递
+
+Python开发环境
+
+大数据集群环境
+
+分布式机器学习训练平台
+
+各种机器的快速跳板
+
+
+## 快捷键
+
+突然离线的时候
+
+持续的远端操作环境
