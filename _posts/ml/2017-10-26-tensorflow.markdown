@@ -55,7 +55,7 @@ Running the computational graph in a session
 
 
 
-## Tensorboard
+## 可视化模块 Tensorboard
 
 https://github.com/tensorflow/tensorboard/blob/master/README.md
 
@@ -80,9 +80,9 @@ https://www.tensorflow.org/api_guides/python/summary
 一个例子：https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/4_Utils/tensorboard_basic.py
 
 
-### tfevent 文件
+### 可视化中间文件 tfevent
 
-events.out.tfevents.XXX.local
+events.out.tfevents.XXX.local 文件是summary方法所生成的文件，其中包含了用于tensorboard进行可视化展示所需的信息。每创建一个tf.summary.FileWriter实例，就会对应的生成一个tfevent文件。
 
 event files, which contain information that TensorBoard uses to create visualizations.
 
@@ -138,62 +138,10 @@ https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/profil
 
 
 
-## TensorFlow Debugger
+## 调试模块 TensorFlow Debugger
 
 https://www.tensorflow.org/api_guides/python/tfdbg
 
-
-
-
-
-
-## TensorFlow Serving
-
-TensorFlow Serving 是基于 gRPC 和 Protocol Buffers 开发的。
-https://github.com/tensorflow/serving
-
-### 服务端 tensorflow-model-server
-
-在服务器端安装好之后，核心就是tensorflow_model_server这个binary。
-
-		tensorflow_model_server --help
-
-1. 在服务端先要训练一个模型
-
-可以用 models repo 中的例子：
-
-		cd models/official/mnist
-		python mnist.py --export_dir ./tmp/mnist_saved_model
-
-或者用 tensorflow_serving repo中的例子：
-
-		cd tensorflow_serving/example/
-		python mnist_saved_model.py ./tmp/mnist_model
-
-
-2. 保存的模型是这样子的：
-
-```
-	|-- mnist_saved_model
-	|   `-- 1531711208
-	|       |-- saved_model.pb   保存了serialized tensorflow::SavedModel
-	|       `-- variables   保存了variables
-	|           |-- variables.data-00000-of-00001
-	|           `-- variables.index
-```
-
-3. 然后将这个模型载入到 TensorFlow ModelServer，注意输入的模型路径必须是绝对路径。
-
-    tensorflow_model_server --port=9000 --model_name=mnist --model_base_path=/tmp/mnist_model/
-
-https://www.tensorflow.org/serving/serving_basic
-
-### 客户端 tensorflow-serving-api
-
-
-在客户端把样本数据作为请求发送到TensorFlow ModelServer，
-
-		python tensorflow_serving/example/mnist_client.py --num_tests=1000 --server=localhost:9000
 
 
 
@@ -300,7 +248,7 @@ https://www.tensorflow.org/api_docs/python/tf/Session#run
 
 用一下API完成日常工作。 包括基础操作方法、模型保存加载方法、模型流图构建方法、模型训练方法。
 
-## 基础操作函数
+## 基础操作函数 Common Function
 
 先看一些基础的操作函数。
 
@@ -343,16 +291,13 @@ tf.reshape
 
 ```
 
-## 模型保存和加载
-
+## 模型的保存和加载
 
 我们经常在训练完一个模型之后希望保存训练的结果，这些结果指的是模型的参数，以便下次迭代的训练或者用作测试。
 
 一种是传统的Saver类save保存和restore恢复方法。Tensorflow针对这一需求提供了Saver类。
 
-
 tf.train.get_checkpoint_state   输入路径必须是绝对路径
-
 
 ```
 # 保存
@@ -380,7 +325,6 @@ tf.saved_model.loader.load(sess, ["tag"], export_dir)
 ### 高阶函数
 
 tf.map_fn
-
 
 
 
@@ -433,8 +377,6 @@ softmax_cross_entropy_with_logits 是用的最多的，此外还有mean_squared_
 cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits_nn, labels=Y)
 
 tf.reduce_mean(cross_entropy)
-
-
 ```
 
 
@@ -511,6 +453,8 @@ tf.nn.embedding_lookup
 
 # Tensorflow 模型格式
 
+下面两种模型文件格式对应着tensorflow的两种模型保存方式。
+
 ## checkpoint文件 和 serving pb/variable文件之间的转换
 
 checkpoint文件 是用于本地加载模型然后进行本地预测的。
@@ -575,7 +519,89 @@ builder.save()
 
 
 
-### 客户端-服务端数据交互格式
+
+
+
+
+
+# Tensorflow 样本数据格式 - TFRecord
+
+TFRecord是Tensorflow特有的二进制数据存储格式。它的好处是性能，在加载和传输时代价较小。另一个好处是可以存储序列化数据。
+
+我们用Tensorflow API可以方便的构建和读写TFRecord数据。
+
+
+tf.train.Example
+
+TFRecord是文件形态，tf.train.Example就是内存对象形态
+
+
+tf.train.Feature
+
+
+tf.python_io.TFRecordWriter
+
+
+
+
+
+
+
+
+
+# TensorFlow Serving
+
+TensorFlow Serving 是基于 gRPC 和 Protocol Buffers 开发的。
+https://github.com/tensorflow/serving
+
+## 服务端 tensorflow-model-server
+
+在服务器端安装好之后，核心就是tensorflow_model_server这个binary。
+
+		tensorflow_model_server --help
+
+1. 在服务端先要训练一个模型
+
+可以用 models repo 中的例子：
+
+		cd models/official/mnist
+		python mnist.py --export_dir ./tmp/mnist_saved_model
+
+或者用 tensorflow_serving repo中的例子：
+
+		cd tensorflow_serving/example/
+		python mnist_saved_model.py ./tmp/mnist_model
+
+
+2. 保存的模型是这样子的：
+
+```
+	|-- mnist_saved_model
+	|   `-- 1531711208
+	|       |-- saved_model.pb   保存了serialized tensorflow::SavedModel
+	|       `-- variables   保存了variables
+	|           |-- variables.data-00000-of-00001
+	|           `-- variables.index
+```
+
+3. 然后将这个模型载入到 TensorFlow ModelServer，注意输入的模型路径必须是绝对路径。
+
+    tensorflow_model_server --port=9000 --model_name=mnist --model_base_path=/tmp/mnist_model/
+
+https://www.tensorflow.org/serving/serving_basic
+
+## 客户端 tensorflow-serving-api
+
+
+在客户端把样本数据作为请求发送到TensorFlow ModelServer，
+
+		python tensorflow_serving/example/mnist_client.py --num_tests=1000 --server=localhost:9000
+
+
+
+
+
+## TensorFlow Serving 客户端-服务端数据交互格式
 
 TensorProto
 TensorInfo是一个pb message，定义在tensorflow/core/framework/tensor.proto，用来表示一个Tensor。
@@ -601,26 +627,32 @@ PredictResponse
 
 
 
-# Tensorflow 样本数据格式 - TFRecord
-
-TFRecord是Tensorflow特有的二进制数据存储格式。它的好处是性能，在加载和传输时代价较小。另一个好处是可以存储序列化数据。
-
-我们用Tensorflow API可以方便的构建和读写TFRecord数据。
-
-
-tf.train.Example
-
-TFRecord是文件形态，tf.train.Example就是内存对象形态
-
-
-tf.train.Feature
-
-
-tf.python_io.TFRecordWriter
 
 
 
-# 分布式TensorFlow集群 （Distributed TensorFlow）
+
+
+
+
+
+
+
+# 分布式TensorFlow集群 - Distributed TensorFlow
+
+	TensorFlow server - tf.train.Server instance
+
+		Master service
+
+		Worker service
+
+	Client - 在单例环境中一个graph位于一个tensorflow::Session中。对于分布式环境中，Session位于一个Server中。
+
+	Cluster - tf.train.ClusterSpec object 用于在创建 tf.train.Server 时指明spec。
+
+	Job - 一个Cluster可能包含多个Job。
+
+	Task - 一个Job可能有多个Task。
+
 
 tf.train.Server.create_local_server 单进程集群，这主要是其演示作用吧。
 
@@ -642,7 +674,12 @@ tf.train.Server 创建server实例
 
 
 
-# MNIST 手写字数据集模型训练
+
+# Tensorflow 训练示例
+
+本节贴出了一些Tensorflow在常见训练集数据下的训练过程。
+
+## MNIST 手写字数据集模型训练
 
 MNIST数据集是一个手写阿拉伯数字0-9的图像素材库，它包含60000个训练样本集和10000个测试样本集。我们可以去官网下载素材库，也可以直接使用TensorFlow以package引用形式提供的MNIST。
 
@@ -672,33 +709,32 @@ https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.
 
 
 
-# Fashion-MNIST 数据集
+## Fashion-MNIST 数据集
 
 这是一个服饰类的图像数据集，包含了10个类别，分别是10种服饰类型。
 
 
-# ImageNet 图像数据集模型训练
+## ImageNet 图像数据集模型训练
 
 ImageNet的图像分类数据集叫做ILSVRC。ILSVRC图像分类数据集包含了来自1000个类别的120万张图片，其中每张图片属于且只属于一个类别。
 
-## GoogLeNet
+### GoogLeNet
 
 https://github.com/tensorflow/models/blob/master/tutorials/image/imagenet/classify_image.py
 
-## AlexNet
+### AlexNet
 
 https://github.com/tensorflow/models/blob/master/tutorials/image/alexnet/alexnet_benchmark.py
 
 
 
-
-# LFW 人脸数据集模型训练
+### LFW 人脸数据集模型训练
 
 LFW 是人脸识别数据集，英文全称是Labeled Faces in the Wild，所有人脸样本都加了标签。
 
 https://github.com/tensorflow/models/blob/master/tutorials/image/mnist/convolutional.py
 
-## FaceNet
+### FaceNet
 
 FaceNet启发于OpenFace项目，使用TensorFlow创建的人脸识别框架。
 
@@ -706,13 +742,12 @@ https://github.com/davidsandberg/facenet
 
 
 
+## 语音数据集训练模型
 
-# 语音数据集训练模型
-
-## spoken numbers pcm 数据集
+### spoken numbers pcm 数据集
 
 https://github.com/pannous/tensorflow-speech-recognition
 
-## WaveNet
+### WaveNet
 
 https://deepmind.com/blog/wavenet-generative-model-raw-audio/
