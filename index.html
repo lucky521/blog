@@ -95,6 +95,19 @@ date: 1970-01-01
 </ul>
 
 <br>
+<h1>文章分类 -> Debugging</h1>
+<ul class="list-posts">
+    {% for post in site.categories.debugging %}
+        <li class="post-teaser">
+            <a href="{{ post.url | prepend: site.baseurl }}">
+                <span class="post-teaser__title">{{ post.title }}</span>
+                <span class="post-teaser__date">{{ post.date | date: "%d %B %Y" }}</span>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<br>
 <h1>文章分类 -> 其它</h1>
 <ul class="list-posts">
     {% for post in site.categories.other %}

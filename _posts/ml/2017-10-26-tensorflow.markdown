@@ -149,8 +149,6 @@ https://www.tensorflow.org/api_guides/python/tfdbg
 
 
 
-
-
 # 重要的元素
 
 ## tf.constant 图常数
@@ -460,23 +458,23 @@ tf.nn.embedding_lookup
 checkpoint文件 是用于本地加载模型然后进行本地预测的。
 serving variable文件是用来让tensorflow serving加载并进行远程预测的。
 
-### checkpoint文件
+## checkpoint文件
 
 这是由 tf.train.Saver 类生成的模型文件。
 
 checkpoints, which are versions of the model created during training. 存储的为最近的几次迭代保存的模型名称以及路径：
 
 		meta file: 在meta文件中保存的为模型的图。describes the saved graph structure, includes GraphDef, SaverDef, and so on; then apply tf.train.import_meta_graph('/tmp/model.ckpt.meta'), will restore Saver and Graph.
-
+	
 		index file: 在index文件中保存的为模型参数的名称以及具体属性。it is a string-string immutable table(tensorflow::table::Table). Each key is a name of a tensor and its value is a serialized BundleEntryProto. Each BundleEntryProto describes the metadata of a tensor: which of the "data" files contains the content of a tensor, the offset into that file, checksum, some auxiliary data, etc.
-
+	
 		data file: 在data文件中保存的为模型参数的数值。it is TensorBundle collection, save the values of all variables.
 
 
 https://www.tensorflow.org/guide/checkpoints
 
 
-### serving pb/variable文件
+## serving pb/variable文件
 
 这是由 tf.saved_model.builder.SavedModelBuilder 类生成的模型文件。
 
@@ -552,11 +550,12 @@ tf.python_io.TFRecordWriter
 # TensorFlow Serving
 
 TensorFlow Serving 是基于 gRPC 和 Protocol Buffers 开发的。
-https://github.com/tensorflow/serving
+https://github.com/tensorflow/serving ,
+https://www.tensorflow.org/serving/serving_basic
 
 ## 服务端 tensorflow-model-server
 
-在服务器端安装好之后，核心就是tensorflow_model_server这个binary。
+在服务器端安装好之后，核心就是 tensorflow_model_server 这个binary。
 
 		tensorflow_model_server --help
 
@@ -571,7 +570,6 @@ https://github.com/tensorflow/serving
 
 		cd tensorflow_serving/example/
 		python mnist_saved_model.py ./tmp/mnist_model
-
 
 2. 保存的模型是这样子的：
 
@@ -588,10 +586,8 @@ https://github.com/tensorflow/serving
 
     tensorflow_model_server --port=9000 --model_name=mnist --model_base_path=/tmp/mnist_model/
 
-https://www.tensorflow.org/serving/serving_basic
 
 ## 客户端 tensorflow-serving-api
-
 
 在客户端把样本数据作为请求发送到TensorFlow ModelServer，
 
@@ -640,17 +636,17 @@ PredictResponse
 # 分布式TensorFlow集群 - Distributed TensorFlow
 
 	TensorFlow server - tf.train.Server instance
-
+	
 		Master service
-
+	
 		Worker service
-
+	
 	Client - 在单例环境中一个graph位于一个tensorflow::Session中。对于分布式环境中，Session位于一个Server中。
-
+	
 	Cluster - tf.train.ClusterSpec object 用于在创建 tf.train.Server 时指明spec。
-
+	
 	Job - 一个Cluster可能包含多个Job。
-
+	
 	Task - 一个Job可能有多个Task。
 
 
@@ -712,6 +708,8 @@ https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.
 ## Fashion-MNIST 数据集
 
 这是一个服饰类的图像数据集，包含了10个类别，分别是10种服饰类型。
+
+
 
 
 ## ImageNet 图像数据集模型训练

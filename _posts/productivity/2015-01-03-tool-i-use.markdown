@@ -43,7 +43,6 @@ VS Code & Sublime Text 文本编辑，全平台支持。
 Chrome 浏览器，全平台支持。经常用的插件有
 
 	vimium
-	evernote
 	switchyomega
 	adblock
 
@@ -55,7 +54,7 @@ Anaconda Python环境包。全平台支持
 
 
 
-### Windows
+### Windows Only
 
 SecureCRT 用它访问ssh最舒服。
 
@@ -72,7 +71,7 @@ ProcessExplorer 查看进程线程运行库信息。
 Clover 以Tab方式的管理文件夹窗口。
 
 
-### Mac
+### Mac Only
 
 Alfred 快捷跳转工具。用它最多的是当做Web搜索引擎输入栏。
 
@@ -92,7 +91,7 @@ OmniDiskSweeper 有助于系统空间清理。
 
 ## 硬件
 
-电脑： MacBook Pro
+电脑： MacBookPro
 
 键盘： HHKB
 
