@@ -218,14 +218,40 @@ DCG - Discounted cumulative gain
 因为不同的搜索结果的数量很可能不相等，所以不同搜索的DCG值不能直接做对比。
 
 
-# MRR - Mean Reciprocal Rank
+## MRR - Mean Reciprocal Rank
 
 是一个国际上通用的对搜索算法进行评价的机制，即第一个结果匹配，分数为1，第二个匹配分数为0.5，第n个匹配分数为1/n，如果没有匹配的句子分数为0。最终的分数为所有得分之和。
 
 
 
 
+# 关联规则模型评价指标 Targeting model (association rule) Metric
 
+关联规则希望推导一个 X -> Y 的规则，其中X、Y是itemset。集合T是所有已经发生的事件。
+
+## 支持度(SUPPORT)
+
+支持度表示项集{X,Y}在总项集里出现的频率。出现频率多的话，才能有足够多的样本来证明规则。
+
+## 置信度(CONFIDENCE)
+
+置信度表示在先决条件X发生的情况下，由关联规则”X→Y“推出Y的概率。指的是关联规则发生的频率。
+
+## 提升度(LIFT)
+
+提升度表示X->Y的关联是否是巧合。
+
+如果Lift(X→Y)>1，则规则“X→Y”是有效的强关联规则。意思是X的发生会引起Y的发生。
+如果Lift(X→Y) <=1，则规则“X→Y”是无效的强关联规则。意思是X的发生会引起Y的不发生。
+特别地，如果Lift(X→Y) =1，则表示X与Y相互独立。
+
+
+## 确信度(Conviction)
+
+计算X发生且Y不发生的频率。
+
+
+## 杠杆率(Leverage)
 
 
 
@@ -238,3 +264,5 @@ https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)
 https://www.analyticsvidhya.com/blog/2016/02/7-important-model-evaluation-error-metrics/
 
 https://towardsdatascience.com/metrics-to-evaluate-your-machine-learning-algorithm-f10ba6e38234
+
+https://en.wikipedia.org/wiki/Association_rule_learning#Useful_Concepts

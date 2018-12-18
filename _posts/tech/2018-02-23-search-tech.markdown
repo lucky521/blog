@@ -41,7 +41,7 @@ routing：
 
 
 
-# 搜索引擎
+# 搜索引擎的组成
 
 简单来讲，搜索引擎中的一个查询过程是：
 
@@ -67,8 +67,6 @@ Step4（排序）：基于上述运算得分对文档进行综合排序，最后
 错字纠正。
 
 搜索提示。
-
-
 
 
 ## 数据存储
@@ -219,6 +217,8 @@ http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.180.634&rep=rep1&type=p
 
 # 开源搜索引擎
 
+如果不是有极为特殊的业务需求，或者数据量极为庞大，通用的开源搜索引擎就可以满足一般场景的搜索需求。
+
 ## Lucene
 
 
@@ -260,6 +260,10 @@ Search
 
 
 ## RankLib
+
+RankLib 不是一个搜索框架，而是一个排序算法库，提供了常见的几种排序算法。
+
+MART, RANKBOOST, RANKNET, ADARANK, COOR_ASCENT, LAMBDARANK, LAMBDAMART, LISTNET, RANDOM_FOREST
 
 https://sourceforge.net/p/lemur/wiki/RankLib/
 

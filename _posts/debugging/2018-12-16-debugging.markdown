@@ -9,7 +9,7 @@ layout: post
 简单来讲，就是找问题，查问题。
 
 
-# Bug Debugging
+# 代码 Debugging
 
 ## Windows
 
