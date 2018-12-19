@@ -1,7 +1,7 @@
 ---
 title: "用户画像与个性化"
 subtitle: "User Profile & Personalization"
-categories: [MachineLearning]
+categories: [Tech]
 layout: post
 ---
 

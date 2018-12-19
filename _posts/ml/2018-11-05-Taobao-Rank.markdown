@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "淘宝京东搜索推荐论文赏析"
+title:  "搜索推荐论文赏析"
 subtitle: ""
 categories: [MachineLearning]
 ---
@@ -61,6 +61,23 @@ LSTM and GRU 是两种RNN模型，都具有避免梯度弥散的性质。两者�
 ## Deep Reinforcement Learning for List-wise Recommendations
 
 将推荐的过程看做一个Markov Decision process
+
+
+
+# Youtube
+
+## Deep Neural Networks for YouTube Recommendations
+
+推荐问题转换成多分类问题
+
+不采取类似RNN的Sequence model，而是摒弃了用户观看历史的时序特征，把用户最近的浏览历史等同看待
+
+在确定优化目标的时候，不采用经典的CTR，或者播放率（Play Rate），而是采用了每次曝光预期播放时间（expected watch time per impression）作为优化目标
+
+# Latent Cross: Making Use of Context in Recurrent Recommender Systems
+
+
+# Google
 
 
 

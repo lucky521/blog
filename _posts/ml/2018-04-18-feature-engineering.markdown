@@ -12,14 +12,13 @@ layout: post
 
 # 特征
 
-## 区分数据的特征 & 矩阵的特征
-
+## 区分 数据的特征 & 矩阵的特征
 
 ![](https://img-blog.csdn.net/20161018093106253?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
 [参考](https://zh.wikipedia.org/wiki/%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F)
 
-## 区分特征提取 & 特征处理 & 特征选择
+## 区分 特征提取 & 特征处理 & 特征选择
 
 模型简单来说是一个 特征向量X -> Y标签值 的函数。对于X，我们一般需要做三件事：
 一个是把现实世界原始的数据转换成数学抽象的值，这样才能被程序使用。
@@ -248,6 +247,12 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 
 
+# Candidate Sampling
+
+
+
+
+参考 https://www.tensorflow.org/extras/candidate_sampling.pdf
 
 
 
@@ -267,11 +272,12 @@ Tab-separated values。
 
 ## svmlight格式
 
-
+svmlight是一种简化的文本格式。最早源自于libsvm。
 
 
 ## TFRecord格式
 
+TFRecord是Tensorflow和TFLearn所特有的二进制形式的样本文件格式。
 
 
 
