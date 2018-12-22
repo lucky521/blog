@@ -5,8 +5,22 @@ subtitle: ""
 categories: [MachineLearning]
 ---
 
-最近在arxiv下载了几篇阿里巴巴淘宝、京东发表的，关于商品搜索排序的论文。
-这里通过学习论文内容来分析一下淘宝的搜索排序和推荐实践。
+最近在arxiv下载了几篇阿里巴巴淘宝、京东等工业界发表的，关于排序、推荐的论文。
+这里通过学习论文内容来分析一下淘宝等大公司的搜索排序和推荐实践。
+
+
+# Embedding 
+
+## Billion-scale Commodity Embedding for E-commerce Recommendation in Alibaba
+
+## Item2Vec - Neural Item Embedding for Collaborative Filtering
+
+## Real-time Personalization using Embeddings for Search Ranking at Airbnb
+
+
+
+
+
 
 # 淘宝
 
