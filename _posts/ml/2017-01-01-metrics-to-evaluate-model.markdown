@@ -174,6 +174,8 @@ Mean Absolute Error - MAE
 
 Mean Squared Error - MSE
 
+root-mean-square error (RMSE)
+
 R^2 Metric
 
 
