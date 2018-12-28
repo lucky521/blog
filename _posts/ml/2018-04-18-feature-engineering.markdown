@@ -250,6 +250,12 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 # Candidate Sampling
 
 
+Candidate Sampling 训练方法要对每一次训练任务构建训练集合，每一个集合都是总样本集的一个小子集。
+
+Context-Specific Sampling
+
+Generic Sampling
+
 
 
 参考 https://www.tensorflow.org/extras/candidate_sampling.pdf
