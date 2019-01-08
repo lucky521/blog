@@ -51,7 +51,9 @@ Running the computational graph in a session
 
 
 
+## Eager 模式 API
 
+https://www.tensorflow.org/guide/eager
 
 
 
@@ -182,6 +184,8 @@ W = tf.get_variable("W", shape=[784, 256],
 ### tf.global_variables_initializer
 
 An Op that initializes global variables in the graph.
+
+一般在图中所有tensor variables都定义好之后才初始化。
 
 ### tf.variance_scaling_initializer
 
@@ -409,7 +413,11 @@ https://github.com/aymericdamien/TensorFlow-Examples/tree/master/examples/2_Basi
 	KNN
 	随机森林
 
-
+例子教程:
+https://github.com/aymericdamien/TensorFlow-Examples
+https://github.com/nlintz/TensorFlow-Tutorials
+https://codelabs.developers.google.com/?cat=TensorFlow
+https://github.com/tensorflow/models
 
 
 
@@ -422,15 +430,20 @@ An embedding is a mapping from discrete objects, such as words, to vectors of re
 
 An embedding is a relatively low-dimensional space into which you can translate high-dimensional vectors. Embeddings make it easier to do machine learning on large inputs like sparse vectors representing words. Ideally, an embedding captures some of the semantics of the input by placing semantically similar inputs close together in the embedding space. An embedding can be learned and reused across models.
 
-这个链接讲了我们如何用TensorFlow做embedding https://www.tensorflow.org/guide/embedding，https://github.com/tensorflow/models/tree/master/tutorials/embedding
+这个链接讲了我们如何用TensorFlow做embedding 
+https://www.tensorflow.org/guide/embedding
+https://github.com/tensorflow/models/tree/master/tutorials/embedding
+https://www.tensorflow.org/tutorials/representation/word2vec
 
 比如我们要做word embeddings.
 
 ## Do embedding
 
-怎么把 raw format 的 feature data 转变为 embedding format(vector<float>)的  data？
+怎么把 raw format 的 feature data 转变为 embedding format(也就是浮点数向量vector<float>) 的 embedding data？
 
 tf.nn.embedding_lookup
+
+这个函数到底做了什么？https://stackoverflow.com/questions/34870614/what-does-tf-nn-embedding-lookup-function-do
 
 
 ## Visualize your embeddings
@@ -499,7 +512,6 @@ https://www.tensorflow.org/guide/checkpoints
 预测问题对应客户端中的predict方法（基本与分类问题相同，分类问题可以多一个参数“classes”）
        PREDICT_METHOD_NAME
 ```
-
 
 
 下面是构建serving pb/variable文件的过程：
@@ -592,8 +604,6 @@ https://www.tensorflow.org/serving/serving_basic
 在客户端把样本数据作为请求发送到TensorFlow ModelServer，
 
 		python tensorflow_serving/example/mnist_client.py --num_tests=1000 --server=localhost:9000
-
-
 
 
 
@@ -725,8 +735,7 @@ https://github.com/tensorflow/models/blob/master/tutorials/image/imagenet/classi
 https://github.com/tensorflow/models/blob/master/tutorials/image/alexnet/alexnet_benchmark.py
 
 
-
-### LFW 人脸数据集模型训练
+### LFW
 
 LFW 是人脸识别数据集，英文全称是Labeled Faces in the Wild，所有人脸样本都加了标签。
 

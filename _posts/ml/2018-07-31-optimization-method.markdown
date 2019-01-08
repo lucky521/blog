@@ -46,6 +46,8 @@ Regularization measures complexity of model.
 
 # Loss functions
 
+按任务的目标我们将损失函数分为回归损失函数、分类损失函数、Embedding损失函数。
+
 ## Regressive loss functions
 
 They are used in case of regressive problems, that is when the target variable is continuous.
@@ -83,11 +85,12 @@ It deals with problems where we have to measure whether two inputs are similar o
 2. Cosine Error- Cosine distance between two inputs.
 
 
+Noise Contrastive Estimation training loss
 
 
 
 
-# Regularization Function
+# Regularization Functions
 
 0. L0 Regularization
 
