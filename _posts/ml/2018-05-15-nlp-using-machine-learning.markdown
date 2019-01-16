@@ -54,6 +54,8 @@ word2vec is a group of related models that are used to produce word embeddings.
 
 ### Skip-Gram model
 
+https://www.kdnuggets.com/2018/04/implementing-deep-learning-methods-feature-engineering-text-data-skip-gram.html
+
 ### Bag of words model
 
 ### Continuous Bag of Words（CBOW）model

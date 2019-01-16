@@ -19,6 +19,17 @@ categories: [MachineLearning]
 
 
 
+# Image
+
+
+## Image Matters: Visually modeling user behaviors using Advanced Model Server
+
+https://github.com/alibaba/x-deeplearning/wiki/%E5%9B%BE%E5%83%8F%E8%81%94%E5%90%88%E8%AE%AD%E7%BB%83%E7%AE%97%E6%B3%95(CrossMedia)
+
+
+
+
+
 
 
 

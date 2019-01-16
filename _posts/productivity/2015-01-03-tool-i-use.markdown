@@ -38,7 +38,13 @@ tmux 终端窗口管理。用过一阵子。不过目前对他的需求还不是
 
 ### 可视化工具
 
-VS Code & Sublime Text 文本编辑，全平台支持。
+VS Code 文本编辑，全平台支持。经常用的插件有
+
+	Remote VSCode 结合远端rmate脚本使用。
+	Git History
+	Gitconfig Syntax
+	GitLens
+	Atom One Dark Theme
 
 Chrome 浏览器，全平台支持。经常用的插件有
 
