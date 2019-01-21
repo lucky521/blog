@@ -153,7 +153,9 @@ https://www.tensorflow.org/api_guides/python/tfdbg
 
 # 重要的元素
 
-## tf.constant 图常数
+## 图常数
+
+tf.constant
 
 https://www.tensorflow.org/api_guides/python/constant_op
 
@@ -194,6 +196,7 @@ An Op that initializes global variables in the graph.
 
 Returns an Op that initializes all tables of the default graph.
 
+
 ## 命名空间
 
 命名空间和给变量命名主要是有益于在tensorboard上可视化展示。
@@ -213,6 +216,10 @@ variable_scope 可以通过设置 reuse 标志以及初始化方式来影响域�
 
 
 ## tf.Operation
+
+运算节点。Operation节点的输入是tensor或0，输出是tensor或0.
+
+tf.load_op_library
 
 
 ## tf.Session 运行数据流

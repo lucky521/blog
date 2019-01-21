@@ -85,7 +85,7 @@ It deals with problems where we have to measure whether two inputs are similar o
 2. Cosine Error- Cosine distance between two inputs.
 
 
-Noise Contrastive Estimation training loss
+Noise Contrastive Estimation training loss (NCE)
 
 
 
@@ -141,6 +141,8 @@ L1范数是指向量中各个元素绝对值之和，也叫“稀疏规则算子
 
 
 # 最优化方法
+
+最优化方法在这里指的就是针对损失函数的优化方法。
 
 常见的有三种梯度下降方法，主要区别是在使用多少数据来计算objective function的梯度。
 

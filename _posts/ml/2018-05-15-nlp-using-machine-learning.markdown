@@ -29,7 +29,6 @@ layout: post
 https://web.stanford.edu/class/cs124/lec/postagging.pdf
 
 
-
 ## N-gram
 
 An n-gram is a contiguous sequence of n items from a given sample of text or speech.

@@ -193,8 +193,10 @@ EdgeRank用来给一个用户的新鲜事流进行排序。计算公式为
 
 ### RankNet
 
-RankNet算法是一种复杂度为 O(n) 但是属于pair-wise方法的算法。
-以错误pair最少为优化目标。
+RankNet算法是一种复杂度为 O(n) 但是属于pair-wise方法的算法。它是基于模型的算法，可以是网络模型也可以是其他模型。
+
+训练目标：以错误pair最少为优化目标，错误pair也被称作是inversion。
+优化方法：使用Stochastic Gradient Descent作为优化方法。
 
 http://x-algo.cn/index.php/2016/07/31/ranknet-algorithm-principle-and-realization/
 
@@ -202,6 +204,9 @@ https://blog.csdn.net/huagong_adu/article/details/40710305
 
 
 ### LambdaRank
+
+基于RankNet之上，我们发现其实不需要计算损失，只需损失的梯度即可对排序目标进行评价。
+LambdaRank使用了新的损失函数：
 
 LambdaRank是一个经验算法，它不是通过显示定义损失函数再求梯度的方式对排序问题进行求解，而是分析排序问题需要的梯度的物理意义，直接定义梯度，即Lambda梯度。
 
@@ -211,6 +216,12 @@ http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.180.634&rep=rep1&type=p
 
 
 
+### LambdaMART
+
+结合了LambdaRank 和 MART （Multiple Additive Regression Trees）。
+
+这篇论文是对以上三种排序模型的详细介绍。
+https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/MSR-TR-2010-82.pdf
 
 
 
