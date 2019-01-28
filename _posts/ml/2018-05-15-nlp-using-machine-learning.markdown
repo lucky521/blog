@@ -7,7 +7,7 @@ layout: post
 
 自然语言处理和信息检索有一定的关系，因为搜索的查询词本身是自然语言，对查询词有合适的理解和表达，能够帮助搜索系统更好的工作。
 
-# Terminology
+# NLP Terminology
 
 ## Tag
 
@@ -19,10 +19,9 @@ layout: post
 
 
 
-
 ## Named-entity recognition
 
-### Inside–outside–beginning tagging
+### Inside–Outside–beginning tagging
 
 
 ## 词性标注 Part-of-speech tagging
@@ -42,6 +41,8 @@ A bigram is an n-gram for n=1.
 A bigram is an n-gram for n=2.
 
 
+
+
 ## Word Embedding
 
 word2vec model 这不是一个特定的模型，而是一类模型。
@@ -51,23 +52,49 @@ word2vec is a group of related models that are used to produce word embeddings.
 
 具体到算法，我们这么把一个词变为一个浮点数向量？
 
+https://www.cnblogs.com/peghoty/p/3857839.html
+
+
+### Bag of Words model
+
+bow的表达形式为： bow map < word, number of occurrences > 
+
+不考虑word的顺序，只在意出现次数。
+
+
+### N-gram model
+
+bow map中的key是一个独立的单词，而N-gram model中，我们把N个单词作为一个key。
+
+
 ### Skip-Gram model
+
+skip-gram pair 是要在构造pair的时候把某个单词和其左侧单词pair一次，再和期右侧单词pair一次。
+
+比如"the quick brown fox"被构造成
+(quick, the), (quick, brown), (brown, quick), (brown, fox), ...
 
 https://www.kdnuggets.com/2018/04/implementing-deep-learning-methods-feature-engineering-text-data-skip-gram.html
 
-### Bag of words model
 
 ### Continuous Bag of Words（CBOW）model
 
+cbow pair 每个pair对应位于其中间位置的word。
+
+比如"the quick brown fox jumped over the lazy dog"被构造成
+([the, brown], quick), ([quick, fox], brown), ([brown, jumped], fox), ...
 
 
 
 
 
 
-# Problem
 
-## Sequence Tagging Problem
+
+
+# NLP Problem
+
+## Sequence Tagging / Sequence labelling Problem
 
 CRF, HMM, MEMM
 
@@ -76,6 +103,7 @@ CRF(条件随机场)，HMM(隐马模型)，MEMM(最大熵隐马模型)都常用�
 最大熵隐马模型则解决了隐马的问题，可以任意选择特征，但由于其在每一节点都要进行归一化，所以只能找到局部的最优值，同时也带来了标记偏见的问题，即凡是训练语料中未出现的情况全都忽略掉。
 条件随机场则很好的解决了这一问题，他并不在每一个节点进行归一化，而是所有特征进行全局归一化，因此可以求得全局的最优值。
 
+序列标注的传统算法总结：http://www.cs.cornell.edu/~nhnguyen/icml07structured.pdf
 
 
 ## Sequence Classification Problem
@@ -93,6 +121,9 @@ self-attention mechanism
 http://www.jeyzhang.com/understand-attention-in-rnn.html
 
 
+LSTM with attention 
+
+
 ## 意图分类
 
 输入为词序列，输出为一个意图。
@@ -102,7 +133,27 @@ http://www.jeyzhang.com/understand-attention-in-rnn.html
 
 
 
-# Framework
+# NLP Model
+
+
+# neural language model 
+
+
+# attention机制
+
+attention它是解决 sequence-to-sequence learning 中的一个限制：要求必须把原序列的全部内容压缩到固定长度的vector。
+
+Attention解决这一限制的方法就是：允许decoder回看原序列的hidden states，这一状态信息作为加权平均值作为decoder的附加输入。
+
+
+
+
+
+
+
+
+
+# NLP Framework
 
 以上讲的算法、理论、模型，都有成熟的开源项目来实现。
 

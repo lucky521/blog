@@ -22,8 +22,6 @@ input返回用户的交互输入。open返回被打开的文件对象。
 raw_input
 
 
-
-
 ## 对象函数
 
 all()输入一个数组，如果所有元素不为0、''、False或者iterable为空，all(iterable)返回True，否则返回False
@@ -39,6 +37,14 @@ staticmethod
 classmethod
 
 map函数 会根据提供的函数对指定序列做映射。第一个参数 function 以参数序列中的每一个元素调用 function 函数，返回包含每次 function 函数返回值的新列表。
+
+
+
+
+## locals 和 globals
+
+
+
 
 # 操作系统接口访问
 

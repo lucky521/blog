@@ -1,5 +1,6 @@
 ---
-title: "图像识别方法与应用"
+title: "使用机器学习做图像识别"
+subtitle: "图像识别方法与应用"
 categories: [MachineLearning]
 layout: post
 ---

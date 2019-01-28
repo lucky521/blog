@@ -229,7 +229,11 @@ sigmoid
 
 softmax
 
+## Softmax-based Approaches
 
+Hierarchical Softmax
+
+Differentiated Softmax
 
 
 

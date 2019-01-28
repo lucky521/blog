@@ -33,6 +33,8 @@ Running the computational graph in a session
 
 ### tf.estimator.train_and_evaluate 函数
 
+训练模型
+
 ### Spec
 
  tf.estimator.EstimatorSpec 用来定义Estimator的操作。
@@ -50,10 +52,21 @@ Running the computational graph in a session
  tf.estimator.WarmStartSettings
 
 
+### multi-objective learning
+
+tf.contrib.estimator.multi_head
+
+在input_fn中设定多个label作为多个目标。
+在model_fn中创建多种_head。
+
+
 
 ## Eager 模式 API
 
 https://www.tensorflow.org/guide/eager
+
+
+
 
 
 
@@ -437,10 +450,11 @@ An embedding is a mapping from discrete objects, such as words, to vectors of re
 
 An embedding is a relatively low-dimensional space into which you can translate high-dimensional vectors. Embeddings make it easier to do machine learning on large inputs like sparse vectors representing words. Ideally, an embedding captures some of the semantics of the input by placing semantically similar inputs close together in the embedding space. An embedding can be learned and reused across models.
 
-这个链接讲了我们如何用TensorFlow做embedding 
+下面几个链接讲了我们如何用TensorFlow做embedding 
 https://www.tensorflow.org/guide/embedding
 https://github.com/tensorflow/models/tree/master/tutorials/embedding
 https://www.tensorflow.org/tutorials/representation/word2vec
+https://github.com/tensorflow/models/tree/master/tutorials/embedding
 
 比如我们要做word embeddings.
 
