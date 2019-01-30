@@ -29,7 +29,7 @@ Running the computational graph in a session
 
 ### tf.estimator.Estimator 类
 
-定义模型
+定义模型，比如 DNNClassifier
 
 ### tf.estimator.train_and_evaluate 函数
 
@@ -420,6 +420,12 @@ tf.train.GradientDescentOptimizer
 
 
 
+# 特征处理
+
+参考 另一篇博客中的 Feature Columns 部分。
+
+
+
 
 
 # Tensorflow 机器学习模型
@@ -438,6 +444,18 @@ https://github.com/aymericdamien/TensorFlow-Examples
 https://github.com/nlintz/TensorFlow-Tutorials
 https://codelabs.developers.google.com/?cat=TensorFlow
 https://github.com/tensorflow/models
+
+
+
+# 训练方式
+
+## Multi-head / Multi-task DNN
+
+比如把点击率和下单率作为两个目标，分别计算各自的loss function。DNN的前几层作为共享层，两个目标共享这几层的表达，在BP阶段根据两个目标算出的梯度共同进行参数更新。网络的最后用一个全连接层进行拆分，单独学习对应loss的参数。
+
+
+## Warm-start
+
 
 
 
@@ -627,7 +645,6 @@ https://www.tensorflow.org/serving/serving_basic
 		python tensorflow_serving/example/mnist_client.py --num_tests=1000 --server=localhost:9000
 
 
-
 ## TensorFlow Serving 客户端-服务端数据交互格式
 
 TensorProto
@@ -651,6 +668,36 @@ PredictResponse
 由 map<string, TensorProto> 作为请求返回。
 
 
+## 服务多个模型
+
+https://www.tensorflow.org/serving/serving_config
+
+```
+model_config_list: {
+  config: {
+    name: "deep_ranking",
+    base_path: "/root/tensorflows/model/deep_ranking",
+    model_platform: "tensorflow"
+    model_version_policy: {
+      latest: {
+        num_versions: 8
+      }
+    }
+  },
+  config: {
+    name: "pdnn_model",
+    base_path: "/root/tensorflows/model/dnn_model",
+    model_platform: "tensorflow"
+    model_version_policy: {
+		specific {
+			versions: 42
+			versions: 43
+		}
+    }
+  }
+}
+
+```
 
 
 

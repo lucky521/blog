@@ -14,6 +14,8 @@ layout: post
 
 ## 区分 数据的特征 & 矩阵的特征
 
+Eigenvalue
+
 ![](https://img-blog.csdn.net/20161018093106253?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
 [参考](https://zh.wikipedia.org/wiki/%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F)
@@ -111,6 +113,10 @@ x = (2x - max - min)/(max - min).
 
 也称作是 Matrix Completion。
 来自真实世界经常是不完整的，有些特征在某一行可能为空。“空”本身是不能被模型所理解的，我们需要做一定的推测，给这些缺失位置赋予一个估计的数值，比如一个平均值或中位数值。
+
+XGBoost会通过loss的计算过程自适应地判断特征值缺失的样本被划分为左子树还是右子树更优。
+
+Missing value layer 美团机器学习实践中提到一种方法，用一个网络层来学习缺失值的权重。通过这一层，缺失的特征根据对应特征的分布来自适应的学习出一个合理的取值。
 
 
 ## 对定性特征/离线特征编码
@@ -226,6 +232,44 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 
 
+
+
+
+# Tensorflow的特征处理 Feature Columns
+
+Feature Columns是Tensorflow中 原始数据 和 Estimators 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns其实就是在做特征预处理。
+
+feature_columns 作为 Estimators的参数之一，它将输入数据 input_fn 和 模型 联系起来。
+
+
+可参考 https://www.tensorflow.org/guide/feature_columns
+
+## Numeric column
+
+## Bucketized column
+
+将数据按范围切分为bucket。
+
+tf.feature_column.bucketized_column
+
+## Categorical identity column
+
+## Categorical vocabulary column
+
+## Hashed Column
+
+## Crossed column
+
+
+
+
+
+
+
+
+
+
+
 # 从特征到训练集
 
 在训练一个模型时，不仅需要特征向量，还需要每个特征向量所对应的标签Y。
@@ -263,6 +307,13 @@ Generic Sampling
 
 
 
+
+
+
+
+
+
+
 # 样本数据的存储格式
 
 ## CSV格式 和 TSV格式
@@ -291,6 +342,19 @@ TFRecord是Tensorflow和TFLearn所特有的二进制形式的样本文件格式�
 
 Feather数据格式是为R、Python、Julia语言可以支持的数据文件格式，
 
+
+## libffm格式
+
+libffm格式是FM实现库libffm所支持的格式。
+
+The data format of LIBFFM is:
+
+<label> <field1>:<feature1>:<value1> <field2>:<feature2>:<value2> ...
+.
+.
+.
+
+`field' and `feature' should be non-negative integers
 
 
 # Reference

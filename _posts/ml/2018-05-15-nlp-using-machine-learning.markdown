@@ -46,9 +46,9 @@ A bigram is an n-gram for n=2.
 ## Word Embedding
 
 word2vec model 这不是一个特定的模型，而是一类模型。
-word2vec is a group of related models that are used to produce word embeddings.
+word2vec is a group of related models that are used to produce word embeddings. 
 
-模型的输入是一段语料，输出是词向量空间。
+模型的输入是一段语料，输出是词向量空间（real-valued word feature vector）。
 
 具体到算法，我们这么把一个词变为一个浮点数向量？
 
@@ -171,6 +171,13 @@ demo scripts: ./demo-word.sh and ./demo-phrases.sh
   word2phrase
   word2vec
   distance
+
+
+## GloVe
+
+斯坦福发布的开源实现 https://github.com/stanfordnlp/GloVe
+
+GloVe is essentially a log-bilinear model with a weighted least-squares objective.
 
 
 ## CRF++

@@ -23,7 +23,7 @@ layout: post
 
 
 
-# Objective Function的设定
+# 目标函数的设定 Objective Function
 
 其实目标函数和损失函数的概念比较接近，我的理解是，目标函数=损失函数+正则化方法。直接把损失函数作为目标函数的方法叫做”经验风险最小化“，结合损失函数和正则化方法的目标函数方法叫做”结果风险最小化“。
 
@@ -44,23 +44,39 @@ Training Loss measures how well model fit on training data.
 Regularization measures complexity of model.
 
 
-# Loss functions
+# 损失函数 Loss functions
 
 按任务的目标我们将损失函数分为回归损失函数、分类损失函数、Embedding损失函数。
 
-## Regressive loss functions
+## Regression loss functions
 
 They are used in case of regressive problems, that is when the target variable is continuous.
+
+0. Mean Square Error (MSE)
+均方误差/平方损失/L2 损失
+```
+def MSE(yHat, y):
+    return np.sum((yHat - y)**2) / y.size
+```
+
 Most widely used regressive loss function is Mean Square Error. Other loss functions are:
 1. Absolute error — measures the mean absolute value of the element-wise difference between input;
 2. Smooth Absolute Error — a smooth version of Abs Criterion.
 
+平均绝对误差(Mean Absolute Error) (MAE) /L1 损失
+```
+def L1(yHat, y):
+    return np.sum(np.absolute(yHat - y))
+```
 
-均方误差/平方损失/L2 损失
+平均偏差误差（mean bias error） (MSE)
 
-平均绝对误差/L1 损失
 
-平均偏差误差（mean bias error）
+Huber Loss
+```
+def Huber(yHat, y, delta=1.):
+    return np.where(np.abs(y-yHat) < delta,.5*(y-yHat)**2 , delta*(np.abs(y-yHat)-0.5*delta))
+```
 
 
 ## Classification loss functions
@@ -73,9 +89,27 @@ On an example (x,y), the margin is defined as yf(x). The margin is a measure of 
 4. Soft Margin Classifier
 
 Hinge Loss/多分类 SVM 损失
+```
+def Hinge(yHat, y):
+    return np.max(0, 1 - yHat * y)
+```
 
 交叉熵损失/负对数似然
+Cross-entropy loss, or log loss
+```
+def CrossEntropy(yHat, y):
+    if y == 1:
+      return -log(yHat)
+    else:
+      return -log(1 - yHat)
+```
 
+
+KL散度 KL-divergence Loss
+```
+def kl_divergence(p, q):  # q,p都是长度相同的浮点数向量，且向量元素值之和都为1
+    return tf.reduce_sum(p * tf.log(p/q)) 
+```
 
 
 ## Embedding loss functions
@@ -90,7 +124,11 @@ Noise Contrastive Estimation training loss (NCE)
 
 
 
-# Regularization Functions
+
+
+
+
+# 正则化方法 Regularization Functions
 
 0. L0 Regularization
 
@@ -103,6 +141,11 @@ L1范数是指向量中各个元素绝对值之和，也叫“稀疏规则算子
 2. L2 Regularization
 
  L2范数是指向量各元素的平方和然后求平方根。
+
+
+
+
+
 
 
 
