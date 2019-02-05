@@ -11,7 +11,7 @@ layout: post
 
 这里需要考虑几个问题。
 
-## 如何确定满足最小化Objective Function就能训练出的好模型？
+## 如何确定满足最小化Objective Function就能训练出好的模型？
 
 
 ## 如何保证和确定当前的Objective Function是可优化的？
@@ -223,6 +223,8 @@ for i in range(nb_epochs):
     params = params - learning_rate * params_grad
 ```
 
+## 牛顿方法
+
 ## Momentum
 
 ## Nesterov accelerated gradient
@@ -235,11 +237,19 @@ for i in range(nb_epochs):
 
 ## Adam
 
+Adaptive Moment Estimation (Adam) combines ideas from both RMSProp and Momentum.
+
 ## AdaMax
 
 ## AMSGrad
 
 ## Nadam
+
+# Conjugate Gradients
+
+# BFGS
+
+
 
 
 

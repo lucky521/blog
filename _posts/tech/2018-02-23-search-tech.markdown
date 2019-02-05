@@ -190,7 +190,6 @@ EdgeRank用来给一个用户的新鲜事流进行排序。计算公式为
 有些情况下，直接设计一个打分的公式算法不太现实。这时就可以借助机器学习方法来拟合一个从考虑因素到目标分数的函数。一般叫做Learn to Rank，通过训练数据来学出一个排序算法（排序模型）来。
 
 
-
 ### RankNet
 
 RankNet算法是一种复杂度为 O(n) 但是属于pair-wise方法的算法。它是基于模型的算法，可以是网络模型也可以是其他模型。
@@ -213,7 +212,6 @@ LambdaRank是一个经验算法，它不是通过显示定义损失函数再求�
 https://www.cnblogs.com/bentuwuying/p/6690836.html
 
 http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.180.634&rep=rep1&type=pdf
-
 
 
 ### LambdaMART
@@ -277,6 +275,10 @@ RankLib 不是一个搜索框架，而是一个排序算法库，提供了常见
 MART, RANKBOOST, RANKNET, ADARANK, COOR_ASCENT, LAMBDARANK, LAMBDAMART, LISTNET, RANDOM_FOREST
 
 https://sourceforge.net/p/lemur/wiki/RankLib/
+
+
+
+
 
 
 
