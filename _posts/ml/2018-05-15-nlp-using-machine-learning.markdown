@@ -7,7 +7,7 @@ layout: post
 
 自然语言处理和信息检索有一定的关系，因为搜索的查询词本身是自然语言，对查询词有合适的理解和表达，能够帮助搜索系统更好的工作。
 
-# NLP Terminology
+# NLP Terminology 术语
 
 ## Tag
 
@@ -17,6 +17,14 @@ layout: post
 ### BB2B3MES Tag
 
 
+
+## Latent Vector Space Models
+
+LDA
+
+LSI
+
+word2vec
 
 
 ## Named-entity recognition
@@ -92,7 +100,7 @@ cbow pair 每个pair对应位于其中间位置的word。
 
 
 
-# NLP Problem
+# NLP Problem 目标
 
 ## Sequence Tagging / Sequence labelling Problem
 
@@ -133,17 +141,17 @@ LSTM with attention
 
 
 
-# NLP Model
+# NLP Model 模型
 
 
-# neural language model 
+## neural language model 
 
 
-# attention机制
+## attention 机制
 
 attention它是解决 sequence-to-sequence learning 中的一个限制：要求必须把原序列的全部内容压缩到固定长度的vector。
 
-Attention解决这一限制的方法就是：允许decoder回看原序列的hidden states，这一状态信息作为加权平均值作为decoder的附加输入。
+Attention解决这一限制的方法就是：允许decoder回看原序列的 hidden states，这一状态信息作为加权平均值作为decoder的附加输入。
 
 
 
@@ -153,7 +161,7 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的hidd
 
 
 
-# NLP Framework
+# NLP Framework 框架
 
 以上讲的算法、理论、模型，都有成熟的开源项目来实现。
 
@@ -205,6 +213,11 @@ https://github.com/facebookresearch/fastText/blob/master/docs/crawl-vectors.md
 ## Tensorflow
 
 Tensorflow属于大而全的功能框架，我有另一篇[Blog文章](https://lucky521.github.io/blog/design/2017/10/26/tensorflow.html)里单独描述的。
+
+
+
+
+
 
 
 

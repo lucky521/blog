@@ -1,54 +1,157 @@
 ---
 layout: post
-title:  "Apple Machine Learning Journal"
+title:  "搜索推荐论文赏析"
 subtitle: ""
 categories: [MachineLearning]
 ---
 
-这篇博客解读了Apple公司的机器学习博客里的文章。
-https://machinelearning.apple.com/
-
-# Improving the Realism of Synthetic Images
-
-图像识别领域里，模型训练的一个困难点在于缺少足够多的具备label的真实图像数据集。生成合成图像样本是一个方法，但是对合成图像的质量有较高要求，必须要足够接近真实样本的分布，否则将会误导模型训练的走向。这篇文章设计了一种方法来提高合成图像的质量，使得模型在真实应用时具有满意的泛化能力。
-
-# Improving Neural Network Acoustic Models by Cross-bandwidth and Cross-lingual Initialization
-
-语音识别领域里，同样缺乏特定语言下的标签样本数据。这篇文章设计了迁移学习方法，从训练好的另一种语言的Acoustic Model迁移数据。
-
-# Inverse Text Normalization as a Labeling Problem
-
-语音转文字领域里，inverse text normalization (ITN)是要把语音转文本时遇到的日期、时间、地点、价钱等内容以合理的形式显示出来。这篇文章把这一个问题当做Labeling Problem，用统计学模型来解决。
-
-# Deep Learning for Siri’s Voice: On-device Deep Mixture Density Networks for Hybrid Unit Selection Synthesis
-
-人声语音合成领域里，有两种技术，unit selection synthesis 和 parametric synthesis。unit selection synthesis在具备足够多的高质量素材的情况下能够提供高质量的输出。parametric synthesis在具备少量素材的情况下能够提供流畅易懂的输出。hybrid system指的就是两者的结合，使用parametric approach来进行unit selection，称作Hybrid unit selection methods。这篇文章介绍了使用深度学习技术为Siri实现更自然的语音合成。
+最近在arxiv下载了几篇阿里巴巴淘宝、京东等工业界发表的，关于排序、推荐的论文。
+这里通过学习论文内容来分析一下淘宝等大公司的搜索排序和推荐实践。
+本Blog中的论文主要跟排序和推荐有关。
 
 
-# Real-Time Recognition of Handwritten Chinese Characters Spanning a Large Inventory of 30,000 Characters
+# Learning To Rank
 
-在手写输入识别中，汉字等符号类文字的识别可以借助深度学习达到极高的准确率。
+以下论文主要源自于： https://paperswithcode.com/task/learning-to-rank
 
-# Hey Siri: An On-device DNN-powered Voice Trigger for Apple’s Personal Assistant
+## End-to-End Neural Ad-hoc Ranking with Kernel Pooling
 
-语音识别领域里，Siri支持的hey siri功能需要一个小的speech detector来持续接收声音并处理。它的要求是要以最低的功耗监听和识别出hey siri这个词。
+Kernel Pooling
 
-# An On-device Deep Neural Network for Face Detection
+![模型结构](https://github.com/AdeDZY/K-NRM/raw/master/model_simplified-1.png)
 
-人脸识别技术，已经被应用到手机设备上，无需依赖网络服务器。在Apple的图像架构基础API中CIDetector提供了人脸识别功能，可以用所有APP调用。早期的版本使用的是Viola-Jones算法。这篇文章介绍了如何利用深度学习方法实现更好的效果。
 
-# Learning with Privacy at Scale
+## Learning Latent Vector Spaces for Product Search
 
-移动设备为了提供更好的使用体验，需要收集用户的使用习惯数据。为了在数据收集和隐私保护之间平衡折中，这篇文章设计了一套学习系统。
+Latent Vector Space model (latent representations of words, e-commerce products)
 
-# Personalized Hey Siri
 
-人声识别时语音识别中的一个分支。speaker recognition的核心目标不是判断语音的内容是什么，而是要判断是不是目标人物的声音。
+## Ranking for Relevance and Display Preferences in Complex Presentation Layouts
 
-# Finding Local Destinations with Siri’s Regionally Specific Language Models for Speech Recognition
+ranks both the documents and positions
 
-语音识别领域里，Siri借助地理位置信息来增强语音识别的效果，因为许多语音素材，比如地名，和地域范围有一定联系。
 
-# Can Global Semantic Context Improve Neural Language Models?
+# Recommendation
 
-输入预测是NLP的一个应用场景，苹果设备中的QuickType keyboard支持在多种App下进行输入预测。本篇文章介绍了其所使用global semantic context来训练word embedding和NLP model。
+以下论文主要源自于： https://paperswithcode.com/task/recommendation-systems
+
+## Wide & Deep Learning for Recommender Systems
+
+
+
+
+# Embedding 
+
+Embedding是一种方法，而它不是直接去解决目标问题的模型，但有了它作为模型或者输入的一部分，需要问题能够方便的求解。
+
+Word-embedding是基础: https://paperswithcode.com/task/word-embeddings
+
+Item-embedding:
+
+Query-embedding:
+
+User-embedding:
+
+
+## Billion-scale Commodity Embedding for E-commerce Recommendation in Alibaba
+
+## Item2Vec - Neural Item Embedding for Collaborative Filtering
+
+## Real-time Personalization using Embeddings for Search Ranking at Airbnb
+
+
+
+# Image
+
+这里聊的image不为做图像识别，是为了排序目标贡献图像类型的特征。
+
+## Image Matters: Visually modeling user behaviors using Advanced Model Server
+
+https://github.com/alibaba/x-deeplearning/wiki/%E5%9B%BE%E5%83%8F%E8%81%94%E5%90%88%E8%AE%AD%E7%BB%83%E7%AE%97%E6%B3%95(CrossMedia)
+
+
+
+
+
+
+
+
+# 淘宝
+
+## Perceive Your Users in Depth: Learning Universal User Representations from Multiple E-commerce Tasks
+
+用户画像的通用表示学习
+
+
+## Virtual-Taobao: Virtualizing Real-world Online Retail Environment for Reinforcement Learning
+
+淘宝搜索的增强学习
+
+构建模拟器，让算法从买家的历史行为中学习，规划最佳商品搜索显示策略。
+
+GAN-SD（GAN-for-Simulating-Distribution）算法模仿虚拟买家的操作和搜索请求。
+
+MAIL方法（Multi-agent Adversarial Imitation Learning）同时学习买家规则和平台的规则，训练买家和平台产生更加真实的交互。
+
+
+## Reinforcement Learning to Rank in E-Commerce Search Engine: Formalization, Analysis, and Application
+
+使用增强学习模型来优化排序策略
+
+定义 search session 的 Markov decision process 来形式化搜索过程。然后使用梯度算法来优化决策过程中的排序策略。
+
+引入状态的概念，用马尔可夫决策过程对商品搜索排序问题进行建模，并尝试用深度强化学习的方法来对搜索引擎的排序策略进行实时调控。
+
+把搜索引擎看作智能体（Agent）、把用户看做环境（Environment），则商品的搜索问题可以被视为典型的顺序决策问题。Agent每一次排序策略的选择可以看成一次试错（Trial-and-Error），把用户的反馈，点击成交等作为从环境获得的奖赏。在这种反复不断地试错过程中，Agent将逐步学习到最优的排序策略，最大化累计奖赏。而这种在与环境交互的过程中进行试错的学习，正是强化学习（Reinforcement Learning，RL）的根本思想。
+
+
+## A Brand-level Ranking System with the Customized Attention-GRU Model
+
+Attention-GRU 品牌排序模型。要解决的需求是预测用户对品牌的偏好程度。
+
+LSTM and GRU 是两种RNN模型，都具有避免梯度弥散的性质。两者相比之下，GRU参数较少，训练过程较快。我们在模型中引入了 attention 机制。
+
+
+
+## Multi-Level Deep Cascade Trees for Conversion Rate Prediction
+
+提出一个瀑布结构的决策树集成学习模型
+
+
+## Deep Interest Network for Click-Through Rate Prediction
+
+构建用户兴趣网络模型来预测商品的点击率
+
+
+
+# 京东
+
+## Deep Reinforcement Learning for List-wise Recommendations
+
+将推荐的过程看做一个Markov Decision process
+
+
+
+# Google/Youtube
+
+## Deep Neural Networks for YouTube Recommendations
+
+推荐问题转换成多分类问题
+
+不采取类似RNN的Sequence model，而是摒弃了用户观看历史的时序特征，把用户最近的浏览历史等同看待
+
+在确定优化目标的时候，不采用经典的CTR，或者播放率（Play Rate），而是采用了每次曝光预期播放时间（expected watch time per impression）作为优化目标
+
+## Latent Cross: Making Use of Context in Recurrent Recommender Systems
+
+
+
+
+
+
+
+# 参考链接
+
+https://medium.com/@yaoyaowd/%E9%98%BF%E9%87%8C%E5%92%8C%E4%BA%AC%E4%B8%9C%E7%9A%84%E5%A2%9E%E5%BC%BA%E5%AD%A6%E4%B9%A0-%E8%83%BD%E6%AF%94learning-to-rank%E5%A5%BD%E4%B8%80%E5%80%8D-a779e3a4cd65
+
+https://yq.aliyun.com/articles/108481

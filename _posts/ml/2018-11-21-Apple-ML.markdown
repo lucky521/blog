@@ -5,8 +5,8 @@ subtitle: ""
 categories: [MachineLearning]
 ---
 
-这篇博客解读了Apple公司的机器学习博客里的文章。
-https://machinelearning.apple.com/
+这篇博客解读了Apple公司的机器学习博客里的文章。https://machinelearning.apple.com/
+本Blog中的论文主要跟语音、语义、图像识别有关。
 
 # Improving the Realism of Synthetic Images
 

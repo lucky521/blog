@@ -123,7 +123,22 @@ Missing value layer 美团机器学习实践中提到一种方法，用一个网
 
 我们的算法不能把离散型特征作为输入，需要先把离散型特征编码成为连续型特征。 OneHotEncoder是最常用的一种编码方式。
 
-preprocessing.OneHotEncoder
+一种方法叫 Label Encoder： 将文本形式的类别特征转换为数值型。相当于给文本形式的类别编号（数字编号1,2,3,4...）。
+这个方法的缺点是编号之后，默认可能会误认为这些类别之间具有偏序关系（其实并没有）。
+
+```
+from sklearn.preprocessing import LabelEncoder
+labelencoder = LabelEncoder()
+x[:, 0] = labelencoder.fit_transform(x[:, 0])
+```
+
+另一种方法叫 One Hot Encoder：为了不加入类别编号的偏序关系，对每一个类别都加一列，是这个类别则为1，非这个类别则为0.
+
+```
+from sklearn.preprocessing import OneHotEncoder
+onehotencoder = OneHotEncoder(categorical_features = [0])
+x = onehotencoder.fit_transform(x).toarray()
+```
 
 ## 特征离散化
 
@@ -135,6 +150,7 @@ preprocessing.OneHotEncoder
 ## 多项式特征扩展
 
 PolynomialFeatures 以多项式运算的方式将2个以上的特征以多项式形式组合，产生新的扩展特征。
+
 
 
 
@@ -167,7 +183,7 @@ PCA降维的大致思想是挑选特征明显的、显得比较重要的信息�
 
 线性代数中一种重要的矩阵分解
 
-## Sammon’s Mapping
+## Sammon’s Mapping 方法
 
 
 
@@ -355,6 +371,10 @@ The data format of LIBFFM is:
 .
 
 `field' and `feature' should be non-negative integers
+
+
+
+
 
 
 # Reference
