@@ -8,15 +8,17 @@ categories: [other]
 
 # 论文
 
-https://arxiv.org/
+[论文](https://arxiv.org/)
 
-https://ai.google/research/pubs/?year=2018
+[Google 论文](https://ai.google/research/pubs/?year=2018)
 
 # 开源项目
 
-https://github.com/
+[代码](https://github.com/)
 
-http://www.gitxiv.com/
+[Collaborative Open Computer Science](http://www.gitxiv.com/)
+
+[Machine Learning papers, code and evaluation tables](https://paperswithcode.com/sota)
 
 # 公开课
 
@@ -27,6 +29,7 @@ Coursera
 
 # 电子版图书
 
+pdf, epub, mobi
 
 # 官网文档、博客
 
