@@ -132,6 +132,8 @@ LSTM and GRU 是两种RNN模型，都具有避免梯度弥散的性质。两者�
 
 
 
+
+
 # Google/Youtube
 
 ## Deep Neural Networks for YouTube Recommendations
@@ -144,6 +146,7 @@ LSTM and GRU 是两种RNN模型，都具有避免梯度弥散的性质。两者�
 
 ## Latent Cross: Making Use of Context in Recurrent Recommender Systems
 
+YouTube发表在WSDM2018上基于RNN的视频推荐模型，考虑了时序信息。
 
 
 

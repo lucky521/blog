@@ -149,9 +149,13 @@ LSTM with attention
 
 ## attention 机制
 
-attention它是解决 sequence-to-sequence learning 中的一个限制：要求必须把原序列的全部内容压缩到固定长度的vector。
+在Encoder-Decoder结构中，Encoder把所有的输入序列都编码成一个统一的语义特征c再解码，因此c中必须包含原始序列中的所有信息，它的长度就成了限制模型性能的瓶颈。
+
+attention它是解决 sequence-to-sequence learning 中的这个限制：要求必须把原序列的全部内容压缩到固定长度的vector。
 
 Attention解决这一限制的方法就是：允许decoder回看原序列的 hidden states，这一状态信息作为加权平均值作为decoder的附加输入。
+
+具体计算c_i的方法有很多，比如：我们用 a_{ij} 衡量Encoder中第j阶段的h_j和解码时第i阶段的相关性，最终Decoder中第i阶段的输入的上下文信息 c_i 就来自于所有 h_j 对 a_{ij} 的加权和。
 
 
 

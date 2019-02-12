@@ -106,6 +106,7 @@ def CrossEntropy(yHat, y):
 
 
 KL散度 KL-divergence Loss
+我们可以把最大似然看作是使模型分布尽可能地和经验分布相匹配的尝试。最小化训练集上的经验分布和模型分布之间的差异。
 ```
 def kl_divergence(p, q):  # q,p都是长度相同的浮点数向量，且向量元素值之和都为1
     return tf.reduce_sum(p * tf.log(p/q)) 

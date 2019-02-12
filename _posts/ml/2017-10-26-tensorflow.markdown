@@ -298,6 +298,9 @@ tf.equal
 tf.where
 tf.where(condition, x = None, y = None, name = None)，根据condition判定返回。即condition是True，选择x；condition是False，选择y。
 
+tf.concat
+在某个维度把两个tensor串联起来。
+
 ```
 
 ### 类型转换函数

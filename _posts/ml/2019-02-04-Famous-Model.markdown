@@ -12,6 +12,13 @@ categories: [MachineLearning]
 https://github.com/shenweichen/DeepCTR
 
 
+## Wide and Deep learning 模型
+
+wide model (logistic regression with sparse features and transformations)
+deep model (feed-forward neural network with an embedding layer and several hidden layers)
+
+
+## DeepFM 模型
 
 
 
