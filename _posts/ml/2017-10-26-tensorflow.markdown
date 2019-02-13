@@ -463,57 +463,6 @@ https://github.com/tensorflow/models
 
 
 
-# 训练 Embeddings
-
-Embedding是一个行为，把离线形式的事物影响为实数向量。Embedding这个词同时也是该行为所输出的东西，我们把输出的实数向量也称作是Embedding。
-
-An embedding is a mapping from discrete objects, such as words, to vectors of real numbers.
-
-An embedding is a relatively low-dimensional space into which you can translate high-dimensional vectors. Embeddings make it easier to do machine learning on large inputs like sparse vectors representing words. Ideally, an embedding captures some of the semantics of the input by placing semantically similar inputs close together in the embedding space. 
-An embedding can be learned and reused across models.
-
-下面链接讲了我们如何用TensorFlow做embedding 
-https://www.tensorflow.org/guide/embedding  
-下面两个链接讲的典型的word embedding，即word2vec。
-https://github.com/tensorflow/models/tree/master/tutorials/embedding  
-https://www.tensorflow.org/tutorials/representation/word2vec
-
-
-## Do/Train Embedding
-
-怎么把 raw format 的 feature data 转变为 embedding format(也就是浮点数向量vector<float>) 的 embedding data？
-
-首先要有语料库，把它切分为word，每个word赋予一个int作为id。
-比如语料“I have a cat.”，
-[“I”, “have”, “a”, “cat”, “.”]
-vocabulary_size = 5
-embedding_size = len(embedding-vector)
-word_ids = [1,2,3,4,5]
-embedded_word_ids = [[1, xxx], [2, yyy]...,[5, zzz]]
-```
-word_embeddings = tf.get_variable(“word_embeddings”, [vocabulary_size, embedding_size])
-embedded_word_ids = tf.nn.embedding_lookup(word_embeddings, word_ids)
-```
-
-
-tf.nn.embedding_lookup 这个函数到底做了什么？https://stackoverflow.com/questions/34870614/what-does-tf-nn-embedding-lookup-function-do
-
-
-
-
-## Visualize your embeddings
-
-把一个embedding在 tensorboard 上可视化出来，需要做三件事。
-
-1) Setup a 2D tensor that holds your embedding(s).
-
-2) Periodically save your model variables in a checkpoint in LOG_DIR.
-
-3) (Optional) Associate metadata with your embedding.
-
-参考https://stackoverflow.com/questions/40849116/how-to-use-tensorboard-embedding-projector
-
-
 
 
 

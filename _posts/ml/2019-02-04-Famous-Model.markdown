@@ -22,6 +22,13 @@ deep model (feed-forward neural network with an embedding layer and several hidd
 
 
 
+## Deep&Cross DCN模型
+
+https://zhuanlan.zhihu.com/p/43364598
+
+
+
+
 # References
 
 wide&deep: https://arxiv.org/pdf/1606.07792.pdf

@@ -118,9 +118,19 @@ LSTM and GRU 是两种RNN模型，都具有避免梯度弥散的性质。两者�
 提出一个瀑布结构的决策树集成学习模型
 
 
-## Deep Interest Network for Click-Through Rate Prediction
+## DIN - Deep Interest Network for Click-Through Rate Prediction
 
-构建用户兴趣网络模型来预测商品的点击率
+构建深度用户兴趣网络模型来预测商品的点击率
+
+https://github.com/alibaba/x-deeplearning/wiki/%E6%B7%B1%E5%BA%A6%E5%85%B4%E8%B6%A3%E7%BD%91%E7%BB%9C(DIN)
+
+
+## DIEN - Deep Interest Evolution Network for Click-Through Rate Prediction
+
+深度兴趣网络DIN的升级版
+
+https://github.com/alibaba/x-deeplearning/wiki/%E7%94%A8%E6%88%B7%E5%85%B4%E8%B6%A3%E6%BC%94%E5%8C%96%E6%A8%A1%E5%9E%8B(DIEN)
+
 
 
 

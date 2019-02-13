@@ -89,3 +89,31 @@ UpSampling 是要插入一些样本，以加强一些信号。
 ## 试试梯度检验
 
 梯度检验是在编写机器学习算法时必备的技术，可以检验所编写的cost函数是否正确。
+
+
+
+## 梯度消失问题（gradient vanishing problem）
+
+现象：梯度消失问题发生时，接近于输出层的hidden layer 3的权值更新相对正常，但前面的hidden layer 1的权值更新会变得很慢，导致前面的层权值几乎不变，仍接近于初始化的权值，这就导致hidden layer 1相当于只是一个映射层，对所有的输入做了一个同一映射，这是此深层网络的学习就等价于只有后几层的浅层网络的学习了。
+
+原因：当链式求导，层数越多的时候，求导结果会越小。
+
+解决方法：考虑用ReLU激活函数取代sigmoid激活函数。
+
+
+## 梯度爆炸问题（gradient exploding problem）
+
+现象：由于初始化权值过大，前面层会比后面层变化的更快，就会导致权值越来越大，梯度爆炸的现象就发生了。梯度更新将以指数形式增加。
+
+原因：
+
+解决办法：考虑用ReLU激活函数取代sigmoid激活函数。
+
+
+
+
+# 参考
+
+https://www.mlyearning.org/
+
+NN参数调优 https://yangxudong.github.io/deep-learning/

@@ -1,10 +1,10 @@
 ---
-title: "深度学习与神经网络"
+title: "深度学习"
 categories: [MachineLearning]
 layout: post
 ---
 
-这几年深度神经网络在解决模式识别问题上有很大突破，比如计算机视觉和语音识别领域。
+这几年深度神经网络在解决模式识别问题上有很大突破，比如计算机视觉、语音识别领域、语言翻译领域。
 
 一般的回归预测问题常用标准神经网络模型(Standard NN，Feedforward NN)，图片分类问题常用卷积神经网络(CNN)，语音识别问题常用递归神经网络(RNN)。
 
@@ -28,14 +28,13 @@ Neuron是神经网络的一个单元。它是一个函数，一个回归模型�
 
 
 
-## 代价函数 Cost Function / 损失函数 Loss / 误差函数 Error / Objective 目标函数
+## NN模型的代价函数 Cost Function / 损失函数 Loss / 误差函数 Error / Objective 目标函数
 
 cost function 用于表示所训练出模型的好坏程度。它是构建一个网络模型必须的两个参数之一。
 
 任何能够衡量模型预测出来的值 h(θ) 与真实值 y 之间的差异的函数都可以叫做代价函数 C(θ)。
 
 比如cost function返回一个非负数，这个数会表示神经网络将训练样本映射到正确输出的准确率。cost返回值越小表明训练结果越好，那么模型训练的过程就是在使得cost尽可能小的过程。
-
 
 
 一个好的代价函数需要满足两个最基本的要求：能够评价模型的准确性，对参数θ可微。
@@ -58,7 +57,7 @@ cost function 用于表示所训练出模型的好坏程度。它是构建一个
 
 
 
-## 模型的优化方法
+## NN模型的优化方法
 
 [最优化方法](https://lucky521.github.io/blog/design/2018/07/31/optimization-method.html)
 
@@ -73,9 +72,11 @@ cost function 用于表示所训练出模型的好坏程度。它是构建一个
 
 
 
-## 数据和特征 Features of data
+## NN模型的数据和特征 Features of data
 
 把真实世界的对象抽象出矩阵形式的数据，尤其是要把对结果有影响的数据以一定的数学表达抽象出来。比如图像、比如声音、比如语言。
+
+相对于其他类型的模型，NN模型对输入的要求更加宽容。
 
 
 
@@ -138,12 +139,12 @@ A = x if x>0 else 0
 
 [机器学习模型的评价方法和指标](https://lucky521.github.io/blog/design/2017/01/01/metrics-to-evaluate-model.html)
 
+
 ## 训练迭代
 
 每一个pass（正向 + 反向）使用 Batch size 个样本。
 
-
-### 前向传播forward pass、后向传播backward pass
+### 前向传播forward pass(FP)、后向传播backward pass(BP)
 
 正向传播比较直观，就是把一个测试数据放入当前的模型（可能还没训练完成，参数也许还是随机值），经过模型的计算，得到一个输出。这就是一次正向传播。
 
@@ -207,29 +208,39 @@ L2 正规化是附加权重的平方之和，L1是附加权重的绝对值之和
 
 ### 全连接层 Fully Connected layer
 
-也叫做 Dense 层。
+也叫做 Dense 层。这是最普通的一种网络层。
 
 所实现的运算是output = activation(dot(input, kernel)+bias)。其中activation是逐元素计算的激活函数，kernel是本层的权值矩阵，bias为偏置向量.
-
-### Dropout层
-
-为输入数据施加Dropout。Dropout将在训练过程中每次更新参数时按一定概率（rate）随机断开输入神经元，Dropout层用于防止过拟合。
 
 ### Activation层
 
 激活层对一个层的输出施加激活函数。
 
+### Dropout层
+
+为输入数据施加Dropout。Dropout将在训练过程中每次更新参数时按一定概率（rate）随机断开输入神经元，Dropout层用于防止过拟合。
+
 ### Flatten层
 
 Flatten层用来将输入“压平”，即把多维的输入一维化，常用在从卷积层到全连接层的过渡。Flatten不影响batch的大小。
 
+### Reshape层
+
+Reshape层用来将输入调整数据维度转变为目标维度。
 
 ### Permute层
 
 Permute层将输入的维度按照给定模式进行重排，例如，当需要将RNN和CNN网络连接时，可能会用到该层。
 
+### Masking层
+
+使用给定的值对输入的序列信号进行“屏蔽”，用以定位需要跳过的时间步
 
 ### 卷积层 Convolution layer
+
+### 局部连接层 Locally-connected Layers
+
+卷积层其实只是局部权重共享的local connect
 
 
 ### 池化层 Pooling Layer
@@ -242,10 +253,22 @@ Permute层将输入的维度按照给定模式进行重排，例如，当需要�
 
 ### Embedding层
 
+我再另外一篇blog中单独介绍了Embedding的构建。
+
+
+### Normalization层
+
+
+### Noise层
+
+
+### Merge Layers
+
+将两条或者多条网络流合并。
 
 
 
-# 前向传播FP与反向传播BP
+
 
 
 # 神经网络实现
@@ -397,8 +420,3 @@ print l2
 ```
 
 
-# 有意思的东西
-
-https://github.com/google/deepdream
-
-https://github.com/jcjohnson/neural-style

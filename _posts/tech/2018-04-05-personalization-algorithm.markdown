@@ -47,7 +47,7 @@ layout: post
 
 
 
-## Restricted Boltzmann Machines
+# Restricted Boltzmann Machines
 
 https://www.cs.toronto.edu/~rsalakhu/papers/rbmcf.pdf
 
@@ -68,6 +68,10 @@ Matrix Factorization
 
 simplified version of reinforcement learning
 
+https://zhuanlan.zhihu.com/p/32441807
+
+https://zhuanlan.zhihu.com/p/35753281
+
 
 # 聚类
 
@@ -75,6 +79,8 @@ simplified version of reinforcement learning
 
 
 # 神经网络
+
+
 
 
 # 知识图谱
