@@ -18,10 +18,13 @@ An embedding is a relatively low-dimensional space into which you can translate 
 An embedding can be learned and reused across models.
 
 
-
-它可以单独使用来学习一个单词嵌入，以后可以保存并在另一个模型中使用。
+它可以单独使用来学习一个单词嵌入，以后可以保存并在另一个模型中使用，比如作为特征。
 它可以用作深度学习模型的一部分，其中嵌入与模型本身一起学习。
 它可以用来加载预先训练的词嵌入模型，这是一种迁移学习。
+它可以用来做相似召回，在某种空间计算embedding的相似度。
+
+
+广告、推荐、搜索等领域用户数据的稀疏性几乎必然要求在构建DNN之前对user和item进行embedding后才能进行有效的训练。
 
 
 # 神经网络中的Embedding layer
@@ -83,6 +86,8 @@ embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
 
 # 训练 Embeddings
 
+怎么把 raw format 的 feature data 转变为 embedding format(也就是浮点数向量vector<float>) 的 embedding data？
+
 下面链接讲了我们如何用TensorFlow做embedding 
 https://www.tensorflow.org/guide/embedding  
 下面两个链接讲的典型的word embedding，即word2vec。
@@ -92,9 +97,7 @@ https://www.tensorflow.org/tutorials/representation/word2vec
 
 嵌入层用随机权重进行初始化，并将学习训练数据集中所有单词的嵌入。
 
-## Do/Train Embedding
 
-怎么把 raw format 的 feature data 转变为 embedding format(也就是浮点数向量vector<float>) 的 embedding data？
 
 首先要有语料库，把它切分为word，每个word赋予一个int作为id。
 比如语料“I have a cat.”， [“I”, “have”, “a”, “cat”, “.”]
@@ -110,6 +113,9 @@ embedded_word_ids = tf.nn.embedding_lookup(word_embeddings, word_ids)
 
 
 tf.nn.embedding_lookup 这个函数到底做了什么？https://stackoverflow.com/questions/34870614/what-does-tf-nn-embedding-lookup-function-do
+
+
+
 
 
 
@@ -132,6 +138,10 @@ tf.nn.embedding_lookup 这个函数到底做了什么？https://stackoverflow.co
 
 
 
+
+
+
+
 # Embedding在推荐和排序中的应用
 
 word2vec(query2vec)
@@ -141,17 +151,71 @@ item2vec(doc2vec)
 user2vec
 
 
-item和user的量可以认为是无限的，所以不能直接使用它们的index来构建。我们可以用其某些有限的属性来表达它们。
+## 怎么训练和生成query的Embedding？
+
+
+
+## 怎么训练和生成item的Embedding？
 
 
 
 
-# 相关论文
+## 怎么训练和生成user的Embedding？
+
+item和user的量可以认为是无限的，所以不能直接使用它们的index来构建。我们可以用其某些有限的属性来表达它们。比如，说user，其实聊的是user喜欢什么item，接触过什么item，那么其中的核心其实还是item，这样理解的话，user的Embedding其实就源自于若干个与之相关的item的Embedding。
+
+
+
+## 怎么把word、item、user的Embedding训练到同一个维度？
+
+
+
+
+
+
+
+# Embedding 论文
+
+Embedding是一种方法，而它不是直接去解决目标问题的模型，但有了它作为模型或者输入的一部分，需要问题能够方便的求解。
+
+Word-embedding是基础: https://paperswithcode.com/task/word-embeddings
+
+Item-embedding:
+
+Query-embedding:
+
+User-embedding:
+
+
+## Billion-scale Commodity Embedding for E-commerce Recommendation in Alibaba
+
+## Item2Vec - Neural Item Embedding for Collaborative Filtering
+
+## Real-time Personalization using Embeddings for Search Ranking at Airbnb
+
+## Learning Item-Interaction Embeddings for User Recommendations
+
+
+
+
+## Youtube - Deep Neural Networks for YouTube Recommendations
+
+user embedding就是网络的最后一个隐层，video embedding是softmax的权重
+
+将最后softmax层的输出矩阵的列向量当作item embedding vector，而将softmax之前一层的值当作user embedding vector。
+
+## Youtube - Latent Cross Making Use of Context in Recurrent Recommender Systems
+
+
+
+
+
+
+
+
+# 相关资料
 
 https://gist.github.com/nzw0301/333afc00bd508501268fa7bf40cafe4e
 
-Item2Vec - Neural Item Embedding for Collaborative Filtering
 
-Real-time Personalization using Embeddings for Search Ranking at Airbnb
 
-Learning Item-Interaction Embeddings for User Recommendations

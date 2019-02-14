@@ -31,6 +31,12 @@ Latent Vector Space model (latent representations of words, e-commerce products)
 ranks both the documents and positions
 
 
+
+
+
+
+
+
 # Recommendation
 
 以下论文主要源自于： https://paperswithcode.com/task/recommendation-systems
@@ -40,24 +46,7 @@ ranks both the documents and positions
 
 
 
-# Embedding 
 
-Embedding是一种方法，而它不是直接去解决目标问题的模型，但有了它作为模型或者输入的一部分，需要问题能够方便的求解。
-
-Word-embedding是基础: https://paperswithcode.com/task/word-embeddings
-
-Item-embedding:
-
-Query-embedding:
-
-User-embedding:
-
-
-## Billion-scale Commodity Embedding for E-commerce Recommendation in Alibaba
-
-## Item2Vec - Neural Item Embedding for Collaborative Filtering
-
-## Real-time Personalization using Embeddings for Search Ranking at Airbnb
 
 
 
@@ -134,11 +123,16 @@ https://github.com/alibaba/x-deeplearning/wiki/%E7%94%A8%E6%88%B7%E5%85%B4%E8%B6
 
 
 
+
+
 # 京东
 
 ## Deep Reinforcement Learning for List-wise Recommendations
 
 将推荐的过程看做一个Markov Decision process
+
+
+
 
 
 

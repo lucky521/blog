@@ -8,10 +8,6 @@ layout: post
 计算广告的核心问题是，在一定的上下文场景下，找到和一个人最合适的广告。这本质上就是推荐系统，也可以认为是排序。
 
 
-
-
-
-
 # Terminology
 
     sponsored search
@@ -45,9 +41,14 @@ layout: post
 　　eCPM（effective Cost Per Mille）：指的就是每一千次展示可以获得的广告收入，展示的单位可以是网页，广告单元，甚至是单个广告，经常被用来衡量一个网站的盈利能力。
 
 
-# 广告CTR预估
+# CTR预估技术
 
 https://zhuanlan.zhihu.com/p/35465875
+
+
+
+
+
 
 # 参考
 
