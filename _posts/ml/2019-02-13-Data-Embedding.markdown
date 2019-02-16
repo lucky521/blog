@@ -29,6 +29,8 @@ An embedding can be learned and reused across models.
 
 # 神经网络中的Embedding layer
 
+深度学习中设计离散特征的话一般都处理成Embedding的形式，作为网络的底部（第一层），一般对整体网络效果有着重要的作用。
+
 在Keras中有专门的Embedding层，其作用是：Turns positive integers (indexes) into dense vectors of fixed size. 
 eg. [[4], [20]] -> [[0.25, 0.1], [0.6, -0.2]]
 This layer can only be used as the first layer in a model.
@@ -82,9 +84,13 @@ embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
 
 
 
+# 从哪里学习Embedding？
+
+word2vec中，学习的目标是一个word的Embedding表达，文本语料是学习的来源，我们通过一个word的context来学习这个word的表达，context指的是一段语料中某word相邻的words。在广告推荐等领域，如果要做item Embedding，那么context可以是一个用户点击行为中某被点击item相邻的被点击items。
 
 
-# 训练 Embeddings
+
+# 如何让Embedding向量学到东西 （训练 Embeddings）
 
 怎么把 raw format 的 feature data 转变为 embedding format(也就是浮点数向量vector<float>) 的 embedding data？
 
@@ -113,16 +119,19 @@ embedded_word_ids = tf.nn.embedding_lookup(word_embeddings, word_ids)
 
 
 tf.nn.embedding_lookup 这个函数到底做了什么？https://stackoverflow.com/questions/34870614/what-does-tf-nn-embedding-lookup-function-do
+embedding_lookup不是简单的查表，id对应的向量是可以训练的，训练参数个数应该是 category num*embedding size，也就是说lookup是一种全连接层。
 
 
 
 
+# 语料中数据量较少的word，能否学到合适的Embedding值？
+
+方法一：对稀疏的id做聚类处理
 
 
 
 
-
-# Visualize your embeddings
+# 评估Embedding向量的效果 （Visualize your embeddings）
 
 把一个embedding在 tensorboard 上可视化出来，需要做三件事。
 
@@ -142,7 +151,7 @@ tf.nn.embedding_lookup 这个函数到底做了什么？https://stackoverflow.co
 
 
 
-# Embedding在推荐和排序中的应用
+# Embedding在推荐、排序、广告中的应用
 
 word2vec(query2vec)
 
@@ -151,22 +160,31 @@ item2vec(doc2vec)
 user2vec
 
 
-## 怎么训练和生成query的Embedding？
-
-
-
 ## 怎么训练和生成item的Embedding？
 
 
+
+## 怎么训练和生成query的Embedding？
+
+query中每一个词蕴含的信息可以通过训练数据中由其召回的item所表达。
+
+query的Embedding是由其切词后各个分词的Embedding所结合而成的。
 
 
 ## 怎么训练和生成user的Embedding？
 
 item和user的量可以认为是无限的，所以不能直接使用它们的index来构建。我们可以用其某些有限的属性来表达它们。比如，说user，其实聊的是user喜欢什么item，接触过什么item，那么其中的核心其实还是item，这样理解的话，user的Embedding其实就源自于若干个与之相关的item的Embedding。
 
+这里的核心就在于，如何结合用户有过行为的若干个item的Embedding，合成一个User Embedding。
 
 
-## 怎么把word、item、user的Embedding训练到同一个维度？
+
+## 多实体embedding向量空间一致性问题： 怎么把query、item、user的Embedding训练到同一个维度？
+
+将word embedding和item embedding放到同一个网络里训练。也就意味着使用同一个语料进行训练。
+
+
+
 
 
 
@@ -187,7 +205,21 @@ Query-embedding:
 User-embedding:
 
 
-## Billion-scale Commodity Embedding for E-commerce Recommendation in Alibaba
+## Alibaba - Billion-scale Commodity Embedding for E-commerce Recommendation in Alibaba
+
+## Alibaba - Learning and Transferring IDs Representation in E-commerce
+
+解读：https://zhuanlan.zhihu.com/p/56119617
+
+
+## Youtube - Deep Neural Networks for YouTube Recommendations
+
+user embedding就是网络的最后一个隐层，video embedding是softmax的权重
+
+将最后softmax层的输出矩阵的列向量当作item embedding vector，而将softmax之前一层的值当作user embedding vector。
+
+## Youtube - Latent Cross Making Use of Context in Recurrent Recommender Systems
+
 
 ## Item2Vec - Neural Item Embedding for Collaborative Filtering
 
@@ -198,13 +230,16 @@ User-embedding:
 
 
 
-## Youtube - Deep Neural Networks for YouTube Recommendations
 
-user embedding就是网络的最后一个隐层，video embedding是softmax的权重
+# 开源框架
 
-将最后softmax层的输出矩阵的列向量当作item embedding vector，而将softmax之前一层的值当作user embedding vector。
+## Facebook - starspace
 
-## Youtube - Latent Cross Making Use of Context in Recurrent Recommender Systems
+https://github.com/facebookresearch/starspace
+
+这个命令行工具用起来很简单：input.txt中每一行是一个session中的item序列。
+
+./starspace train -trainFile input.txt -model pagespace -label 'page' -trainMode 1
 
 
 

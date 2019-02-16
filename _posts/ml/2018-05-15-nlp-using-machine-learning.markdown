@@ -77,6 +77,8 @@ bow map中的key是一个独立的单词，而N-gram model中，我们把N个单
 
 ### Skip-Gram model
 
+当前词预测上下文：以一个word为输入，试图预测出context word。
+
 skip-gram pair 是要在构造pair的时候把某个单词和其左侧单词pair一次，再和期右侧单词pair一次。
 
 比如"the quick brown fox"被构造成
@@ -86,6 +88,8 @@ https://www.kdnuggets.com/2018/04/implementing-deep-learning-methods-feature-eng
 
 
 ### Continuous Bag of Words（CBOW）model
+
+上下文来预测当前词：以一个word的context（周围的word）为输入，试图根据context预测出该word。
 
 cbow pair 每个pair对应位于其中间位置的word。
 
