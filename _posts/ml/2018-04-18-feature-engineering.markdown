@@ -278,6 +278,15 @@ tf.feature_column.bucketized_column
 
 
 
+## Indicator column
+对类型特征进行one-hot编码后的特征。
+
+## embedding column
+对类型特征进行Embedding编码后的特征。
+
+以上这两种colunm是以Categorical column为输入基础的，
+
+
 
 
 

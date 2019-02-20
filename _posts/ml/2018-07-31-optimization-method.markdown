@@ -121,6 +121,8 @@ It deals with problems where we have to measure whether two inputs are similar o
 
 
 Noise Contrastive Estimation training loss (NCE)
+为什么NCE常作为word2vec的loss函数？
+word2vec用二分类目标来区分真实目标和噪音目标。训练的目标就是增大真实目标的输出结果，减小噪音目标的输出结果。
 
 
 

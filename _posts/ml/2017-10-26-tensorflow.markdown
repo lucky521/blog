@@ -23,8 +23,6 @@ Running the computational graph in a session
 每个维度的数组长度组成的tuple元组叫做tensor的shape。
 
 
-
-
 ## TensorFlow Estimator (High-Level API)
 
 ### tf.estimator.Estimator 类
@@ -423,10 +421,25 @@ tf.train.GradientDescentOptimizer
 
 
 
-# 特征处理
+## 特征处理
 
 参考 另一篇博客中的 Feature Columns 部分。
 
+tensorflow的example包含的是基于key-value对的存储方法，其中key是一个字符串，其映射到的是feature信息，feature包含三种类型：
+		BytesList：字符串列表
+		FloatList：浮点数列表
+		Int64List：64位整数列表
+
+### tf.train.example
+
+### tf.train.SequenceExample
+
+
+### tf.parse_example
+
+VarlenFeature： 是按照键值把example的value映射到SpareTensor对象
+FixedLenFeature：是按照键值对将features映射到大小为[serilized.size(),df.shape]的矩阵
+SparseFeature：
 
 
 
@@ -458,6 +471,11 @@ https://github.com/tensorflow/models
 
 
 ## Warm-start
+
+
+
+
+
 
 
 

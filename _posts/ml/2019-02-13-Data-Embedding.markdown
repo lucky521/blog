@@ -9,7 +9,6 @@ categories: [MachineLearning]
 Embedding的概念来自于word embeddings。
 Embedding is a transformation from discrete values/scalars to dense real value vectors. 有的地方把embedding翻译为嵌套，有的地方把它翻译为向量。
 
-
 Embedding是一个行为，把离线形式的事物影响为实数向量。Embedding这个词同时也是该行为所输出的东西，我们把输出的实数向量也称作是Embedding。
 
 An embedding is a mapping from discrete objects, such as words, to vectors of real numbers.
@@ -31,6 +30,7 @@ An embedding can be learned and reused across models.
 
 深度学习中设计离散特征的话一般都处理成Embedding的形式，作为网络的底部（第一层），一般对整体网络效果有着重要的作用。
 
+## Embedding layer in Keras
 在Keras中有专门的Embedding层，其作用是：Turns positive integers (indexes) into dense vectors of fixed size. 
 eg. [[4], [20]] -> [[0.25, 0.1], [0.6, -0.2]]
 This layer can only be used as the first layer in a model.
@@ -45,7 +45,7 @@ keras.layers.Embedding(input_dim,
         input_length=None)
 
 ```
-
+## Embedding layer in TFlearn
 对应的TFlearn中的Embedding层:
 ```
 tflearn.layers.embedding_ops.embedding(incoming,
@@ -59,13 +59,12 @@ tflearn.layers.embedding_ops.embedding(incoming,
         scope=None, 
         name='Embedding')
 ```
-
+## Embedding layer in Tensorflow
 在Tensorflow中也可以在网络结构中加入Embedding层：
 ```
 embeddings = tf.Variable(tf.random_uniform([voc_size, embedding_size], -1.0, 1.0))
 embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
 ```
-
 
 ## Embedding层的输入：
 
@@ -77,7 +76,6 @@ embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
 
 被Embedding的对象（比如word）必须是有限个数的。embedding层要求输入数据是整数编码的，所以每个word都用一个唯一的整数表示。这个数据准备步骤可以使用Keras提供的Tokenizer API来执行。
 
-
 ## Embedding层的输出：
 
 嵌入层的输出是一个二维向量，每个word在输入文本（输入文档）序列中嵌入一个。
@@ -86,7 +84,8 @@ embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
 
 # 从哪里学习Embedding？
 
-word2vec中，学习的目标是一个word的Embedding表达，文本语料是学习的来源，我们通过一个word的context来学习这个word的表达，context指的是一段语料中某word相邻的words。在广告推荐等领域，如果要做item Embedding，那么context可以是一个用户点击行为中某被点击item相邻的被点击items。
+word2vec中，学习的目标是一个word的Embedding表达，文本语料是学习的来源，我们通过一个word的context来学习这个word的表达，context指的是一段语料中某word相邻的words。
+在广告推荐等领域，如果要做item Embedding，那么context可以是一个用户点击行为中某被点击item相邻的被点击items。
 
 
 
@@ -102,8 +101,6 @@ https://www.tensorflow.org/tutorials/representation/word2vec
 
 
 嵌入层用随机权重进行初始化，并将学习训练数据集中所有单词的嵌入。
-
-
 
 首先要有语料库，把它切分为word，每个word赋予一个int作为id。
 比如语料“I have a cat.”， [“I”, “have”, “a”, “cat”, “.”]
@@ -121,6 +118,34 @@ embedded_word_ids = tf.nn.embedding_lookup(word_embeddings, word_ids)
 tf.nn.embedding_lookup 这个函数到底做了什么？https://stackoverflow.com/questions/34870614/what-does-tf-nn-embedding-lookup-function-do
 embedding_lookup不是简单的查表，id对应的向量是可以训练的，训练参数个数应该是 category num*embedding size，也就是说lookup是一种全连接层。
 
+
+## 构建怎么样的网络结构，才能让Embedding layer学到输入数据的 Representation？
+
+
+下面是word2vec实现的最简单的版本，这里只展示网络结构的部分。
+```
+train_inputs = tf.placeholder(tf.int32, shape=[batch_size])
+# need to shape [batch_size, 1] for nn.nce_loss
+train_labels = tf.placeholder(tf.int32, shape=[batch_size, 1])
+
+# Ops and variables pinned to the CPU because of missing GPU implementation
+with tf.device('/cpu:0'):
+    # Look up embeddings for inputs.
+    embeddings = tf.Variable(tf.random_uniform([voc_size, embedding_size], -1.0, 1.0))
+    embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
+
+# Construct the variables for the NCE loss
+nce_weights = tf.Variable(tf.random_uniform([voc_size, embedding_size],-1.0, 1.0))
+nce_biases = tf.Variable(tf.zeros([voc_size]))
+
+# Compute the average NCE loss for the batch.
+# This does the magic:
+#   tf.nn.nce_loss(weights, biases, inputs, labels, num_sampled, num_classes ...)
+# It automatically draws negative samples when we evaluate the loss.
+loss = tf.reduce_mean(tf.nn.nce_loss(nce_weights, nce_biases, train_labels, embed, num_sampled, voc_size))
+# Use the adam optimizer
+train_op = tf.train.AdamOptimizer(1e-1).minimize(loss)
+```
 
 
 
@@ -143,8 +168,9 @@ embedding_lookup不是简单的查表，id对应的向量是可以训练的，�
 
 参考https://stackoverflow.com/questions/40849116/how-to-use-tensorboard-embedding-projector
 
+## t-SNE dimensionality reduction technique
 
-
+## Analogical Reasoning
 
 
 
@@ -214,7 +240,7 @@ User-embedding:
 
 ## Youtube - Deep Neural Networks for YouTube Recommendations
 
-user embedding就是网络的最后一个隐层，video embedding是softmax的权重
+user embedding就是网络的最后一个隐层，video embedding是softmax的权重.
 
 将最后softmax层的输出矩阵的列向量当作item embedding vector，而将softmax之前一层的值当作user embedding vector。
 
@@ -222,6 +248,10 @@ user embedding就是网络的最后一个隐层，video embedding是softmax的�
 
 
 ## Item2Vec - Neural Item Embedding for Collaborative Filtering
+
+主要做法是把item视为word，用户的行为序列视为一个集合，item间的共现为正样本，并按照item的频率分布进行负样本采样，缺点是相似度的计算还只是利用到了item共现信息，1).忽略了user行为序列信息; 2).没有建模用户对不同item的喜欢程度高低。
+
+Item2vec中把用户浏览的商品集合等价于word2vec中的word的序列.
 
 ## Real-time Personalization using Embeddings for Search Ranking at Airbnb
 
@@ -231,7 +261,7 @@ user embedding就是网络的最后一个隐层，video embedding是softmax的�
 
 
 
-# 开源框架
+# 构建Embedding的开源框架
 
 ## Facebook - starspace
 
@@ -242,6 +272,9 @@ https://github.com/facebookresearch/starspace
 ./starspace train -trainFile input.txt -model pagespace -label 'page' -trainMode 1
 
 
+## Flair
+https://github.com/zalandoresearch/flair
+A text embedding library
 
 
 

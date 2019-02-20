@@ -224,6 +224,8 @@ Tensorflow属于大而全的功能框架，我有另一篇[Blog文章](https://l
 
 
 
+## Flair
+https://github.com/zalandoresearch/flair
 
 
 
