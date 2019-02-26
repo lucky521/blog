@@ -251,46 +251,6 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 
 
-# Tensorflow的特征处理 Feature Columns
-
-Feature Columns是Tensorflow中 原始数据 和 Estimators 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns其实就是在做特征预处理。
-
-feature_columns 作为 Estimators的参数之一，它将输入数据 input_fn 和 模型 联系起来。
-
-
-可参考 https://www.tensorflow.org/guide/feature_columns
-
-## Numeric column
-
-## Bucketized column
-
-将数据按范围切分为bucket。
-
-tf.feature_column.bucketized_column
-
-## Categorical identity column
-
-## Categorical vocabulary column
-
-## Hashed Column
-
-## Crossed column
-
-
-
-## Indicator column
-对类型特征进行one-hot编码后的特征。
-
-## embedding column
-对类型特征进行Embedding编码后的特征。
-
-以上这两种colunm是以Categorical column为输入基础的，
-
-
-
-
-
-
 
 
 

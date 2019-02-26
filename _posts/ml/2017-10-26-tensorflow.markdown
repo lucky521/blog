@@ -6,6 +6,8 @@ layout: post
 
 本篇所涉及的TensorFlow API都在官方文档有所涉及，https://www.tensorflow.org/api_docs/
 
+首先要注意，tensorflow版本之间差异比较大，一些API会发生增减或者位置迁移。
+
 # 框架体系
 
 ## TensorFlow Core (Low-Level API)
@@ -230,7 +232,54 @@ variable_scope 可以通过设置 reuse 标志以及初始化方式来影响域�
 
 运算节点。Operation节点的输入是tensor或0，输出是tensor或0.
 
-tf.load_op_library
+在graph.pbtxt文件中能看到每一个node里，都有一个key名为op的字段，它指明了对tensor对象的操作。
+
+
+
+The `local_init_op` is an `Operation` that is run always after a new session was created.
+
+
+## custom_ops
+
+custom op指的是使用C++来实现自己的tensor操作。
+
+### 定义自定义op的接口
+```
+#include "tensorflow/core/framework/op.h"
+#include "tensorflow/core/framework/op_kernel.h"
+#include "tensorflow/core/framework/shape_inference.h"
+using namespace tensorflow;
+REGISTER_OP("接口名称")
+    .Input("输入名称: int32")
+    .Output("输出名称: int32")
+    .SetShapeFn([](::tensorflow::shape_inference::InferenceContext* c) {
+      c->set_output(0, c->input(0));
+      return Status::OK();
+    });
+
+```
+
+### 编写自定义op的内部实现
+
+
+### 直接用g++编译自定义op
+```
+TF_CFLAGS=( $(python -c 'import tensorflow as tf; print(" ".join(tf.sysconfig.get_compile_flags()))') )
+TF_LFLAGS=( $(python -c 'import tensorflow as tf; print(" ".join(tf.sysconfig.get_link_flags()))') )
+g++ -std=c++11 -shared zero_out.cc -o zero_out.so -fPIC ${TF_CFLAGS[@]} ${TF_LFLAGS[@]} -O2
+```
+
+### 使用bazel编译自定义op
+
+tf_custom_op_library(
+    name = "想编译的.so",
+    srcs = ["想编译的.cc"],
+)
+
+### tf.load_op_library 加载自定义op
+
+加载自己编译的so
+
 
 
 ## tf.Session 运行数据流
@@ -345,6 +394,10 @@ tf.saved_model.loader.load(sess, ["tag"], export_dir)
 
 ```
 
+
+tf.estimator.Estimator.export_savedmodel
+
+
 ### 高阶函数
 
 tf.map_fn
@@ -421,9 +474,45 @@ tf.train.GradientDescentOptimizer
 
 
 
-## 特征处理
+# Tensorflow特征处理 Feature Columns
 
-参考 另一篇博客中的 Feature Columns 部分。
+Feature Columns是Tensorflow中 原始数据 和 Estimators 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns其实就是在做特征预处理。
+
+feature_columns 作为 Estimators的参数之一，它将输入数据 input_fn 和 模型 联系起来。
+可参考 https://www.tensorflow.org/guide/feature_columns
+可以看到tf.feature_column有很多种。其中的tf.feature_column.input_layer比较特殊，它作为输入层。
+
+## Numeric column
+
+## Bucketized column
+
+将数据按范围切分为bucket。
+
+tf.feature_column.bucketized_column
+
+## Categorical identity column
+
+## Categorical vocabulary column
+
+## Hashed Column
+
+## Crossed column
+
+## Indicator column
+对类型特征进行one-hot编码后的特征。
+
+## embedding column
+对类型特征进行Embedding编码后的特征。
+
+以上这两种colunm是以Categorical column为输入基础的，
+
+
+## tf.feature_column.shared_embedding_columns
+若干个embedding column共享一模一样的权重数值。
+
+## tf.feature_column.weighted_categorical_column
+Applies weight values to a CategoricalColumn
+
 
 tensorflow的example包含的是基于key-value对的存储方法，其中key是一个字符串，其映射到的是feature信息，feature包含三种类型：
 		BytesList：字符串列表
@@ -433,7 +522,6 @@ tensorflow的example包含的是基于key-value对的存储方法，其中key是
 ### tf.train.example
 
 ### tf.train.SequenceExample
-
 
 ### tf.parse_example
 
