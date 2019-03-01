@@ -160,8 +160,9 @@ PolynomialFeatures 以多项式运算的方式将2个以上的特征以多项式
 
 # 特征选择 Feature Selection
 
-为什么会有维度灾难？
+为什么会有维度灾难（curse of dimensionality）？
 特征维度越高，所需要的样本点数据越多。
+聚类会变得困难。
 
 
 ## 分析特征值的分布

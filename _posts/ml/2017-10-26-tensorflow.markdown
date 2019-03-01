@@ -241,7 +241,7 @@ The `local_init_op` is an `Operation` that is run always after a new session was
 
 ## custom_ops
 
-custom op指的是使用C++来实现自己的tensor操作。
+custom op指的是使用C++来实现自己的tensor操作。https://www.tensorflow.org/guide/extend/op
 
 ### 定义自定义op的接口
 ```
@@ -478,25 +478,32 @@ tf.train.GradientDescentOptimizer
 
 Feature Columns是Tensorflow中 原始数据 和 Estimators 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns其实就是在做特征预处理。
 
-feature_columns 作为 Estimators的参数之一，它将输入数据 input_fn 和 模型 联系起来。
+feature_columns 作为 Estimators的params参数之一，它将输入数据 input_fn 和 模型 联系起来。
+我们输入到input_fn中的训练数据也是依据feature_columns的格式生成的。
+
 可参考 https://www.tensorflow.org/guide/feature_columns
 可以看到tf.feature_column有很多种。其中的tf.feature_column.input_layer比较特殊，它作为输入层。
 
 ## Numeric column
+tf.feature_column.numeric_column
 
 ## Bucketized column
+tf.feature_column.bucketized_column
 
 将数据按范围切分为bucket。
 
-tf.feature_column.bucketized_column
-
 ## Categorical identity column
+tf.feature_column.categorical_column_with_identity
 
 ## Categorical vocabulary column
+tf.feature_column.categorical_column_with_vocabulary_list
+tf.feature_column.categorical_column_with_vocabulary_file
 
 ## Hashed Column
+tf.feature_column.categorical_column_with_hash_bucket
 
 ## Crossed column
+tf.feature_column.crossed_column
 
 ## Indicator column
 对类型特征进行one-hot编码后的特征。
@@ -526,7 +533,7 @@ tensorflow的example包含的是基于key-value对的存储方法，其中key是
 ### tf.parse_example
 
 VarlenFeature： 是按照键值把example的value映射到SpareTensor对象
-FixedLenFeature：是按照键值对将features映射到大小为[serilized.size(),df.shape]的矩阵
+FixedLenFeature：是按照键值对将features映射到大小为[serilized.size(), df.shape]的矩阵
 SparseFeature：
 
 
