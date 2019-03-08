@@ -161,8 +161,15 @@ Epoch 是对所有训练数据的一次 forward pass 和一次 backward pass过�
 
 ### Batch size
 
-Batch size 是要一次通过神经网络的样本个数。
+Batch size 是要一次通过神经网络的样本个数。 指每个小批量的样本数
 
+
+### num_step
+
+该参数常见于时序数据，比如NLP语料。
+
+num_steps为每个样本所包含的时间步数。
+表示一起训练多少时间步.
 
 
 

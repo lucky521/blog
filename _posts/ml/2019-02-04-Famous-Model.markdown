@@ -29,6 +29,19 @@ https://zhuanlan.zhihu.com/p/43364598
 
 
 
+
+
+
+# deep-learning based NLP models
+
+## BERT 模型
+
+BERT的全称是Bidirectional Encoder Representation from Transformers，即双向Transformer的Encoder，因为decoder是不能获要预测的信息的。模型的主要创新点都在pre-train方法上，即用了Masked LM和Next Sentence Prediction两种方法分别捕捉词语和句子级别的representation。
+
+
+
+
+
 # References
 
 wide&deep: https://arxiv.org/pdf/1606.07792.pdf

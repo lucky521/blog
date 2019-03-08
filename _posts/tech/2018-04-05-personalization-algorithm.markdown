@@ -42,6 +42,7 @@ layout: post
 
 
 
+
 # 协同过滤
 
 
@@ -61,7 +62,7 @@ Latent-factor models
 Matrix Factorization
 
 
-
+# 关联规则
 
 
 # Contextual Bandits
@@ -71,6 +72,13 @@ simplified version of reinforcement learning
 https://zhuanlan.zhihu.com/p/32441807
 
 https://zhuanlan.zhihu.com/p/35753281
+
+
+
+# 分类方法
+
+训练一个分类器，在需要的时候给一个item分类。比如直接分类为good和bad，然后把good作为推荐对象。
+
 
 
 # 聚类
