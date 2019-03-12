@@ -38,20 +38,41 @@ https://web.stanford.edu/class/cs124/lec/postagging.pdf
 
 ## N-gram
 
+将文章以单词级别的划分有时候并不是最好的方法，因为单词的含义与其所处的前后单词关系很大。我们可以将连续出现的N个单词组成一个词组（N-gram），把词组作为特征。
+
 An n-gram is a contiguous sequence of n items from a given sample of text or speech.
 
 ### Unigram
 
-A bigram is an n-gram for n=1.
+A Unigram is an n-gram for n=1.
 
 ### Bigram
 
 A bigram is an n-gram for n=2.
 
 
+## 文本表示模型
+
+一个word的表示。
+
+一段文本的表示。
 
 
-## Word Embedding
+### 主题模型
+
+主题模型是一种特殊的概率图模型。
+把文章表示为K维的主题向量，其中向量的每一维代表一个主题，权重表示这个文章属于该主题的概率。
+
+文章
+单词
+主题
+
+* pLSA Model
+频率派思想。
+* LDA Model
+贝叶斯派思想
+
+### Word Embedding
 
 word2vec model 这不是一个特定的模型，而是一类模型。
 word2vec is a group of related models that are used to produce word embeddings. 
@@ -63,16 +84,18 @@ word2vec is a group of related models that are used to produce word embeddings.
 https://www.cnblogs.com/peghoty/p/3857839.html
 
 
-### Bag of Words model
+### Bag of Words model 词袋模型
 
 bow的表达形式为： bow map < word, number of occurrences > 
 
 不考虑word的顺序，只在意出现次数。
 
+每篇文章可以表示成一个长向量，向量的每一维代表一个单词，每一维的权重反应这个词在文章中的重要程度（TF-IDF）。
+
 
 ### N-gram model
 
-bow map中的key是一个独立的单词，而N-gram model中，我们把N个单词作为一个key。
+BOW map中的key是一个独立的单词，而N-gram model中，我们把N个单词作为一个key。
 
 
 ### Skip-Gram model
@@ -228,6 +251,9 @@ Tensorflow属于大而全的功能框架，我有另一篇[Blog文章](https://l
 https://github.com/zalandoresearch/flair
 
 
+
+## Familia
+Familia 开源项目包含文档主题推断工具、语义匹配计算工具以及基于工业级语料
 
 
 
