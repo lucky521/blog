@@ -83,6 +83,9 @@ https://zhuanlan.zhihu.com/p/35753281
 
 # 聚类
 
+* K Means Clustering
+* Hierarchical Clustering
+* Gaussian Mixture Models
 
 
 

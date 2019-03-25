@@ -716,6 +716,20 @@ https://www.tensorflow.org/serving/serving_basic
     tensorflow_model_server --port=9000 --model_name=mnist --model_base_path=/tmp/mnist_model/
 
 
+4. gRPC方式提供服务
+
+默认使用 --port方式就是以gPRC方式提供服务。
+
+
+5. RESTful方式提供服务
+
+用参数指明要使用rest方式提供服务。
+```
+$ tensorflow_model_server --rest_api_port=8501 \
+   --model_name=half_plus_three \
+   --model_base_path=$(pwd)/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_half_plus_three/
+```
+
 ## 客户端 tensorflow-serving-api
 
 在客户端把样本数据作为请求发送到TensorFlow ModelServer，
