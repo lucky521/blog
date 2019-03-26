@@ -63,3 +63,10 @@ AdaptiveRevision
 DistBelief
 
 AlexNet
+
+
+# 知名框架
+
+## Distributed Tensorflow - 基于数据流的分布式机器学习
+
+https://www.tensorflow.org/guide/distribute_strategy

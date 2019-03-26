@@ -158,9 +158,48 @@ Logarithmic loss (related to cross-entropy) measures the performance of a classi
 
 ## Confusion Matrix
 
+可以画出一张二维矩阵， 横坐标为预测类别，纵坐标为真实类别，把所有样本的预测结果都填进矩阵里。
+通过Confusion Matrix可以有个直观的感知。并且可以通过它计算出很多其他指标。
+https://en.wikipedia.org/wiki/Confusion_matrix
+
+![]({{site.baseurl}}/images/confusion_matrix.png)
+
+```
+from sklearn.metrics import confusion_matrix
+import pandas as pd
+
+confusion_df = pd.DataFrame(confusion_matrix(y_true,y_pred),
+             columns=["Predicted Class " + str(class_name) for class_name in [0,1]],
+             index = ["Class " + str(class_name) for class_name in [0,1]])
+
+print(confusion_df)
+```
+
+```
+         Predicted Class 0  Predicted Class 1
+Class 0                 14                  1
+Class 1                  2                 13
+
+```
 
 
 ## Classification Report
+
+```
+from sklearn.metrics import classification_report
+print(classification_report(y_true,y_pred))
+```
+
+```
+             precision    recall  f1-score   support
+
+          0       0.88      0.93      0.90        15
+          1       0.93      0.87      0.90        15
+
+avg / total       0.90      0.90      0.90        30
+```
+
+
 
 
 
@@ -182,6 +221,12 @@ R^2 Metric
 
 
 
+
+
+
+
+
+
 # 聚类模型评价指标 Clustering Metric
 
 ‘adjusted_mutual_info_score’	metrics.adjusted_mutual_info_score	 
@@ -192,6 +237,9 @@ R^2 Metric
 ‘mutual_info_score’	metrics.mutual_info_score	 
 ‘normalized_mutual_info_score’	metrics.normalized_mutual_info_score	 
 ‘v_measure_score’	metrics.v_measure_score
+
+
+
 
 
 
@@ -227,6 +275,13 @@ DCG - Discounted cumulative gain
 
 
 
+
+
+
+
+
+
+
 # 关联规则模型评价指标 Targeting model (association rule) Metric
 
 关联规则希望推导一个 X -> Y 的规则，其中X、Y是itemset。集合T是所有已经发生的事件。
@@ -257,6 +312,13 @@ DCG - Discounted cumulative gain
 
 
 
+
+
+
+
+
+
+
 # References
 
 scikit-learn中的metric http://scikit-learn.org/stable/modules/model_evaluation.html
@@ -268,3 +330,5 @@ https://www.analyticsvidhya.com/blog/2016/02/7-important-model-evaluation-error-
 https://towardsdatascience.com/metrics-to-evaluate-your-machine-learning-algorithm-f10ba6e38234
 
 https://en.wikipedia.org/wiki/Association_rule_learning#Useful_Concepts
+
+http://joshlawman.com/metrics-classification-report-breakdown-precision-recall-f1/

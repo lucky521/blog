@@ -65,7 +65,6 @@ GBDT（Gradient Boosting Decision Tree，梯度提升决策树）
 
 # 训练 Gradient Boosting 模型的框架
 
-
 xgboost 是个实现gradient boosting的库, https://github.com/dmlc/xgboost
 PythonAPI https://xgboost.readthedocs.io/en/latest/python/python_api.html
 数据格式 http://xgboost.readthedocs.io/en/latest/input_format.html
@@ -304,8 +303,6 @@ fmap = bst_model.get_score(importance_type='gain')
 print(fmap)
 fmap = bst_model.get_score(importance_type='weight')
 print(fmap)
-
-
 ```
 
 
@@ -350,7 +347,6 @@ xgb_rmodel = xgb.XGBRegressor().fit(boston['data'], boston['target'])
 
 # saving to file with proper feature names
 xgbfir.saveXgbFI(xgb_rmodel, feature_names=boston.feature_names, OutputXlsxFile='bostonFI.xlsx')
-
 ```
 
 https://github.com/limexp/xgbfir
@@ -358,6 +354,7 @@ https://github.com/limexp/xgbfir
 
 
 ## CatBoost
+
 
 
 ## Light GBM

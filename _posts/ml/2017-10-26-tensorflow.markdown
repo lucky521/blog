@@ -720,6 +720,9 @@ https://www.tensorflow.org/serving/serving_basic
 
 默认使用 --port方式就是以gPRC方式提供服务。
 
+```
+$ tensorflow_model_server --port=9000 --model_name=mnist --model_base_path=/tmp/mnist_model/
+```
 
 5. RESTful方式提供服务
 
@@ -831,6 +834,9 @@ tf.train.Server 创建server实例
 		with tf.device("/job:ps/task:1"):
 		  weights_2 = tf.Variable(...)
 		  biases_2 = tf.Variable(...)
+
+
+
 
 
 
