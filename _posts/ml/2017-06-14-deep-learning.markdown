@@ -8,6 +8,26 @@ layout: post
 
 一般的回归预测问题常用标准神经网络模型(Standard NN，Feedforward NN)，图片分类问题常用卷积神经网络(CNN)，语音识别问题常用递归神经网络(RNN)。
 
+深度学习的三位创始人Geoffrey Hinton, Yoshua Bengio, Yann LeCun, 因其在深度学习理论及工程领域上的重大贡献，获得了2018年的图灵奖。
+
+
+
+## 多层感知机、玻尔兹曼机、受限玻尔兹曼机
+
+多层感知机器，是一种前向结构的人工神经网络，映射一组输入向量到一组输出向量。
+![](https://qph.fs.quoracdn.net/main-qimg-7f4840d91eb9da1b6673511a0eb806f2.webp)
+
+玻尔兹曼机的图像表示：每条无向边都表示一对依赖关系. 
+如图，在这个例子中有三个隐藏节点和四个可见节点。
+![](https://upload.wikimedia.org/wikipedia/commons/7/7a/Boltzmannexamplev1.png)
+
+受限玻尔兹曼机的图像表示:只有两层，没有输出层作为label。
+
+如图，这个例子包含三个可见单元和四个隐单元。
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Restricted_Boltzmann_machine.svg/440px-Restricted_Boltzmann_machine.svg.png)
+
+
+
 
 # 神经网络的基本构成
 

@@ -166,6 +166,47 @@ https://www.tensorflow.org/api_guides/python/tfdbg
 
 # 重要的元素
 
+## Tensor
+
+Tensor是Tensorflow中承载多维数据的容器。
+
+把原始数据转变为tensor
+```
+def read_tensor_from_image_file(file_name, input_height=299, input_width=299,
+				input_mean=0, input_std=255):
+  input_name = "file_reader"
+  file_reader = tf.read_file(file_name, input_name)
+  image_reader = tf.image.decode_jpeg(file_reader, channels = 3, name='jpeg_reader')
+  float_caster = tf.cast(image_reader, tf.float32)
+  dims_expander = tf.expand_dims(float_caster, 0);
+  resized = tf.image.resize_bilinear(dims_expander, [input_height, input_width])
+  normalized = tf.divide(tf.subtract(resized, [input_mean]), [input_std])
+  sess = tf.Session()
+  result = sess.run(normalized)
+```
+
+
+## Graph 图
+
+三种形态的“图”：
+
+1 - tf.Graph： 运行状态的 Graph 被定义为“一些 Operation 和 Tensor 的集合”
+2 - tf.GraphDef： 序列化状态的GraphDef，它可以被存储到pb文件中，然后在需要时从pb文件加载。
+3 - tf.MetaGraphDef: 
+
+三种“图”对应的API：
+
+1 - tf.train.Saver() / saver.restore()
+tf.train.saver.save() 在保存check-point的同时也会保存Meta Graph。但是在恢复图时，tf.train.saver.restore() 只恢复 Variable.
+如果要从MetaGraph恢复图，需要使用 import_meta_graph。
+
+Meta Graph中虽然包含Variable的信息，却没有 Variable 的实际值。所以从Meta Graph中恢复的图，其训练是从随机初始化的值开始的。训练中Variable的实际值都保存在check-point中，如果要从之前训练的状态继续恢复训练，就要从check-point中restore。
+
+2 - tf.train.write_graph() / tf.import_graph_def()
+3 - tf.train.export_meta_graph / tf.train.import_meta_graph
+
+
+
 ## 图常数
 
 tf.constant
@@ -238,6 +279,9 @@ variable_scope 可以通过设置 reuse 标志以及初始化方式来影响域�
 
 The `local_init_op` is an `Operation` that is run always after a new session was created.
 
+### get_operation_by_name 从graph中由名字获取到op
+graph.get_operation_by_name(op_name)
+
 
 ## custom_ops
 
@@ -308,6 +352,28 @@ https://www.tensorflow.org/api_docs/python/tf/Session#run
 
 
 
+## tf.app.run
+
+tf.app.run是TensorFlow程序的入口。
+
+```
+import tensorflow as tf
+#导入命令行解析模块
+import argparse
+import sys
+ 
+FLAGS=None
+def main(_):
+    print(sys.argv[0])
+ 
+if __name__=="__main__": #用这种方式保证了，如果此文件被其他文件import的时候，不会执行main中的代码
+    #创建对象
+    parse=argparse.ArgumentParser()
+    #增加命令行
+    parse.add_argument('--dataDir',type=str,default='\\tmp\\tensorflow\\mnist\\inputData',
+                    help='Directory for string input data')
+    FLAGS, unparsed=parse.parse_known_args()
+```
 
 
 
@@ -367,7 +433,7 @@ tf.reshape
 
 我们经常在训练完一个模型之后希望保存训练的结果，这些结果指的是模型的参数，以便下次迭代的训练或者用作测试。
 
-一种是传统的Saver类save保存和restore恢复方法。Tensorflow针对这一需求提供了Saver类。
+一种：是传统的Saver类save保存和restore恢复方法。Tensorflow针对这一需求提供了Saver类。
 
 tf.train.get_checkpoint_state   输入路径必须是绝对路径
 
@@ -381,7 +447,7 @@ saver.restore(sess, tf.train.latest_checkpoint(checkpoint_path)) # tf.train.late
 saver.restore(sess, model_path)
 ```
 
-还有一种是比较新颖的SavedModelBuilder类的builder保存和loader文件里的load恢复方法。
+另一种：是比较新颖的SavedModelBuilder类的builder保存和loader文件里的load恢复方法。
 
 ```
 # 保存
@@ -394,11 +460,24 @@ tf.saved_model.loader.load(sess, ["tag"], export_dir)
 
 ```
 
-
+还有：高阶API版的方法
 tf.estimator.Estimator.export_savedmodel
 
 
-### 高阶函数
+### 从pb文件加载tf.Graph
+
+```
+def load_graph(model_file):
+  graph = tf.Graph()
+  graph_def = tf.GraphDef()
+  with open(model_file, "rb") as f:
+    graph_def.ParseFromString(f.read())
+  with graph.as_default():
+    tf.import_graph_def(graph_def)
+  return graph
+```
+
+## 高阶函数
 
 tf.map_fn
 
@@ -474,6 +553,9 @@ tf.train.GradientDescentOptimizer
 
 
 
+
+
+
 # Tensorflow特征处理 Feature Columns
 
 Feature Columns是Tensorflow中 原始数据 和 Estimators 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns其实就是在做特征预处理。
@@ -539,6 +621,13 @@ SparseFeature：
 
 
 
+
+
+
+
+
+
+
 # Tensorflow 机器学习模型
 
 https://github.com/aymericdamien/TensorFlow-Examples/tree/master/examples/2_BasicModels
@@ -555,6 +644,13 @@ https://github.com/aymericdamien/TensorFlow-Examples
 https://github.com/nlintz/TensorFlow-Tutorials
 https://codelabs.developers.google.com/?cat=TensorFlow
 https://github.com/tensorflow/models
+
+
+
+
+
+
+
 
 
 
@@ -592,6 +688,9 @@ serving variable文件是用来让tensorflow serving加载并进行远程预测�
 
 这是由 tf.train.Saver 类生成的模型文件。
 
+check_point文件，包含三个主要文件，meta, index, data。
+meta主要有各种def，一个很重要的就是graph_def，而data保存真正的weight。
+
 checkpoints, which are versions of the model created during training. 存储的为最近的几次迭代保存的模型名称以及路径：
 
 		meta file: 在meta文件中保存的为模型的图。describes the saved graph structure, includes GraphDef, SaverDef, and so on; then apply tf.train.import_meta_graph('/tmp/model.ckpt.meta'), will restore Saver and Graph.
@@ -605,6 +704,8 @@ https://www.tensorflow.org/guide/checkpoints
 
 
 ## serving pb/variable文件
+
+pb文件，其实就是graph_def，但是指的一般是做了constant化，这样可以直接加载做inference，安装部署用。
 
 这是由 tf.saved_model.builder.SavedModelBuilder 类生成的模型文件。
 
@@ -667,6 +768,48 @@ tf.train.Feature
 
 
 tf.python_io.TFRecordWriter
+
+
+
+
+
+
+
+
+
+# Retrained Model
+
+
+bottleneck指的是网络最后输出层之前的一层。这一层中原始的特征已经经过了前面若干层而被压缩到了新的表示空间。
+
+
+
+retrain一个model
+
+```
+python -m scripts.retrain \
+  --bottleneck_dir=tf_files/bottlenecks \
+  --how_many_training_steps=500 \
+  --model_dir=tf_files/models/ \
+  --summaries_dir=tf_files/training_summaries/mobilenet_0.50_224 \
+  --output_graph=tf_files/retrained_graph.pb \
+  --output_labels=tf_files/retrained_labels.txt \
+  --architecture=mobilenet_0.50_224 \
+  --image_dir=tf_files/flower_photos
+```
+
+
+
+使用retrained model进行预测：
+
+```
+python -m scripts.label_image \
+    --graph=tf_files/retrained_graph.pb  \
+    --labels=tf_files/retrained_labels.txt  \
+    --image=tf_files/flower_photos/roses/2414954629_3708a1a04d.jpg 
+```
+
+
 
 
 

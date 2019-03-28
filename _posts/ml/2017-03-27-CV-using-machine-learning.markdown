@@ -141,7 +141,7 @@ http://yann.lecun.com/exdb/lenet/
 
 http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks
 
-## VggNet
+## VGGNet
 
 ## GoogLeNet,  Inception V3 model
 
@@ -154,6 +154,8 @@ http://arxiv.org/abs/1409.4842
 ## MobileNet
 
 https://arxiv.org/abs/1704.04861
+
+https://ai.googleblog.com/2017/06/mobilenets-open-source-models-for.html
 
 
 

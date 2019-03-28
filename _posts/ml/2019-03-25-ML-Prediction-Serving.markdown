@@ -36,12 +36,13 @@ Moving models from training to serving in production at scale
  Google称它的处理能力可以达到100000 requests per second per core。
  
 
-
 ## Clipper
  https://github.com/ucbrise/clipper
 
+
 ## Model Server for Apache MXNet
  https://github.com/awslabs/mxnet-model-server
+
 
 ## DeepDetect
  https://github.com/jolibrain/deepdetect
@@ -49,7 +50,8 @@ Moving models from training to serving in production at scale
 
 ## Microsoft Contextual Decision Service
  Microsoft Contextual Decision Service (and accompanying paper provides a cloud-based service for optimizing decisions using multi-armed bandit algorithms and reinforcement learning, using the same kinds of explore/exploit algorithms as the Thompson sampling of LASER or the selection policies of Clipper.
- 
+
+
 ## TensorRT
  https://github.com/NVIDIA/gpu-rest-engine
  Nvidia’s TensorRT is a deep learning optimizer and runtime for accelerating deep learning inference on Nvidia GPUs.
@@ -64,3 +66,5 @@ https://rise.cs.berkeley.edu/blog/a-short-history-of-prediction-serving-systems/
 https://medium.com/@vikati/the-rise-of-the-model-servers-9395522b6c58
 
 https://medium.freecodecamp.org/what-we-learned-by-serving-machine-learning-models-using-aws-lambda-c70b303404a1
+
+https://zhuanlan.zhihu.com/p/43267451
