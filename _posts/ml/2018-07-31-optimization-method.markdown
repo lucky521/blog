@@ -282,9 +282,19 @@ Adaptive Moment Estimation (Adam) combines ideas from both RMSProp and Momentum.
 
 ## Nadam
 
-# Conjugate Gradients
+## Conjugate Gradients
 
-# BFGS
+## BFGS
+
+
+
+## 多种优化方法的结合使用
+
+
+比如通过切换从Adam到SGD。
+Adam在一开始表现更好，而SGD最终达到更好的全局最小值。
+
+
 
 
 

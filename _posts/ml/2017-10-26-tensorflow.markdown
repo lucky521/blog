@@ -777,14 +777,20 @@ tf.python_io.TFRecordWriter
 
 
 
-# Retrained Model
+# Transfer Learning - Retrained Model
+
+通过迁移学习，我们不需要太多的数据！这个想法是从一个以前在数百万图像上训练过的网络开始的，比如在ImageNet上预训练的ResNet。然后，我们将通过仅重新训练最后几个层并使其他层独立来微调ResNet模型。
 
 
-bottleneck指的是网络最后输出层之前的一层。这一层中原始的特征已经经过了前面若干层而被压缩到了新的表示空间。
+bottleneck指的是网络最后输出层之前的一层（倒数第二层）。这一层中原始的特征已经经过了前面若干层而被压缩到了新的表示空间。对于图像分类网络来讲，它就是image feature vector。
+
+## bottleneck layer - penultimate layer
 
 
+## final layer retraining
 
-retrain一个model
+
+## retrain一个model
 
 ```
 python -m scripts.retrain \
@@ -800,7 +806,7 @@ python -m scripts.retrain \
 
 
 
-使用retrained model进行预测：
+## 使用retrained model进行预测
 
 ```
 python -m scripts.label_image \

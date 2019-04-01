@@ -160,7 +160,9 @@ A = x if x>0 else 0
 [机器学习模型的评价方法和指标](https://lucky521.github.io/blog/design/2017/01/01/metrics-to-evaluate-model.html)
 
 
-## 训练迭代
+## 训练迭代 Iteration
+
+iteration表示1次迭代（也叫training step），每次迭代更新1次网络结构的参数.
 
 每一个pass（正向 + 反向）使用 Batch size 个样本。
 
@@ -179,9 +181,17 @@ Learning rate 用于表示更新参数的快慢程度。
 
 Epoch 是对所有训练数据的一次 forward pass 和一次 backward pass过程。
 
+The number of epochs is the number of complete passes through the training dataset.
+
+An epoch is comprised of one or more batches.
+
+可根据实际问题来定义epoch，例如定义10000次迭代为1个epoch，若每次迭代的batch-size设为256，那么1个epoch相当于过了2560000个训练样本。
+
 ### Batch size
 
 Batch size 是要一次通过神经网络的样本个数。 指每个小批量的样本数
+
+The batch size is a number of samples processed before the model is updated.
 
 
 ### num_step
