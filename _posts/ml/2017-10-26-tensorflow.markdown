@@ -241,7 +241,12 @@ W = tf.get_variable("W", shape=[784, 256],
 
 An Op that initializes global variables in the graph.
 
-一般在图中所有tensor variables都定义好之后才初始化。
+一般在图中所有tensor variables(tf.Variable)都定义好之后才初始化。这个函数返回的是初始化全局变量的OP。
+一般使用session.run来初始化这个op。
+```
+init = tf.global_variables_initializer()
+sess.run(init)
+```
 
 ### tf.variance_scaling_initializer
 
@@ -249,6 +254,10 @@ An Op that initializes global variables in the graph.
 ### tf.tables_initializer
 
 Returns an Op that initializes all tables of the default graph.
+
+
+### tf.reset_default_graph
+
 
 
 ## 命名空间
@@ -328,7 +337,7 @@ tf_custom_op_library(
 
 ## tf.Session 运行数据流
 
-在 tf.Session 之前的过程都是定义，tf.Session().run(...)才是真正执行前面定义好的操作。
+在 tf.Session 之前的过程都是定义，tf.Session().run(...)才是真正执行前面定义好的操作。如果只声明tensor而运行session.run，是不会运行计算逻辑的。
 
 Run函数 是整个tensorflow graph的核心过程。
 
@@ -341,12 +350,20 @@ Run函数 是整个tensorflow graph的核心过程。
 		    run_metadata=None
 		)
 
-run函数的功能是：执行一轮图计算，执行fetches参数中的operation和计算fetches中的tensor。This method runs one "step" of TensorFlow computation, by running the necessary graph fragment to execute every Operation and evaluate every Tensor in fetches, substituting the values in feed_dict for the corresponding input values.
+run函数的功能是：执行一轮图计算，执行fetches参数中的operation和计算fetches中的tensor。This method runs one "step" of TensorFlow computation, by running the necessary graph fragment to execute every Operation and evaluate every Tensor in fetches, substituting the values in feed_dict for the corresponding input values. 
 
-所以fetches参数里可以写成一个list，里面可以是Operation(比如优化器的minimize)，也可以是Tensor，也可以是Tensor所对应的名字，
+所以fetches参数里可以写成一个list，里面可以是Operation(比如优化器的minimize)，也可以是Tensor，也可以是Tensor所对应的名字.
 
-这个函数的返回值含义和输入到fetches参数的名称保持一一对应。如果是Operation的话，对应返回的是None
-.The value returned by run() has the same shape as the fetches argument, where the leaves are replaced by the corresponding values returned by TensorFlow.
+这个函数的返回值含义和输入到fetches参数的名称保持一一对应。
+如果是Operation的话，对应返回的是None.
+The value returned by run() has the same shape as the fetches argument, where the leaves are replaced by the corresponding values returned by TensorFlow.
+
+如果是global_variables_initializer（这也是一个op）的返回值的话，就是在图中初始化所有变量。
+
+如果fetches是优化器的话，就会更新网络权值。
+
+feed_dict中添加真实数据用来填充tf.placeholder，这样才能更新网络权值。
+
 
 https://www.tensorflow.org/api_docs/python/tf/Session#run
 
@@ -524,6 +541,10 @@ tf.contrib.layers.l2_regularizer(scale, scope=None)
 
 ### 损失函数
 
+tf.nn.sigmoid_cross_entropy_with_logits
+tf.nn.sparse_softmax_cross_entropy_with_logits
+
+
 交叉熵损失函数 softmax_cross_entropy_with_logits
 
 softmax_cross_entropy_with_logits 是用的最多的，此外还有mean_squared_error和sigmoid_cross_entropy。
@@ -541,14 +562,23 @@ tf.distributions.kl_divergence
 
 ### 优化器函数
 
-优化器函数是怎么更新整个网络参数的？
-通过operation。
-
+优化器有哪些？
 ```
 tf.train.AdamOptimizer
-
 tf.train.GradientDescentOptimizer
 ```
+
+优化器怎么用？
+```
+my_opt = tf.train.GradientDescentOptimizer(0.02)
+train_step = my_opt.minimize(loss) # 其中的loss是自己经过网络之后又构建好的损失值tensor
+```
+
+
+优化器函数是怎么更新整个网络参数的？
+通过operation。 my_opt.minimize(loss)得到的就是一个op，把这个op传入到session.run(train_step)里面去，就会更新网络的权值。
+
+
 
 
 
@@ -803,6 +833,9 @@ python -m scripts.retrain \
   --architecture=mobilenet_0.50_224 \
   --image_dir=tf_files/flower_photos
 ```
+
+
+jpeg_data_tensor -> decoded_image_tensor -> resized_input_tensor
 
 
 

@@ -49,6 +49,12 @@ Regularization measures complexity of model.
 
 # 损失函数 Loss functions
 
+## logits是什么？
+
+the vector of raw (non-normalized) predictions that a classification model generates, which is ordinarily then passed to a normalization function. If the model is solving a multi-class classification problem, logits typically become an input to the softmax function. The softmax function then generates a vector of (normalized) probabilities with one value for each possible class.
+
+
+
 按任务的目标我们将损失函数分为回归损失函数、分类损失函数、Embedding损失函数。
 
 ## Regression loss functions
