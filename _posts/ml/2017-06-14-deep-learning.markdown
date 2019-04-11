@@ -193,6 +193,10 @@ Batch size 是要一次通过神经网络的样本个数。 指每个小批量�
 
 The batch size is a number of samples processed before the model is updated.
 
+下面是一个不使用和使用Batch来训练的例子对比
+![]({{site.baseurl}}/images/batch.png)
+
+
 
 ### num_step
 

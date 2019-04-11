@@ -219,7 +219,7 @@ https://www.tensorflow.org/api_guides/python/state_ops
 
 ### tf.Variable 参数
 
-Variable 代表着模型中的参数，算法的核心目的是在训练参数。
+Variable 代表着模型中的参数，算法的核心目的是在训练参数，也就是不断的修正所有的tf.Variable。
 
 ### tf.get_variable
 
@@ -419,9 +419,11 @@ tf.reduce_min
 
 tf.argmax(vector, dimention)：返回的是vector中的最大值的索引号
 
-tf.multiply() 两个矩阵中对应元素各自相乘
+tf.multiply(x, y) 两个矩阵中对应元素各自相乘。要求x和y的形状必须一致。
 
-tf.matmul() 将矩阵a乘以矩阵b，生成a * b。
+tf.matmul(x, y) 将矩阵a乘以矩阵b，生成a * b。要求x的行数必须和y的列数相等。
+
+注意以上两种乘法运算的区别。
 
 tf.equal
 
@@ -541,11 +543,14 @@ tf.contrib.layers.l2_regularizer(scale, scope=None)
 
 ### 损失函数
 
-tf.nn.sigmoid_cross_entropy_with_logits
-tf.nn.sparse_softmax_cross_entropy_with_logits
-
-
 交叉熵损失函数 softmax_cross_entropy_with_logits
+
+交叉熵损失函数 tf.nn.sparse_softmax_cross_entropy_with_logits
+
+上面两种交叉熵损失函数的区别：https://stackoverflow.com/questions/37312421/whats-the-difference-between-sparse-softmax-cross-entropy-with-logits-and-softm
+
+- For sparse_softmax_cross_entropy_with_logits, labels must have the shape [batch_size] and the dtype int32 or int64. Each label is an int in range [0, num_classes-1].
+- For softmax_cross_entropy_with_logits, labels must have the shape [batch_size, num_classes] and dtype float32 or float64.
 
 softmax_cross_entropy_with_logits 是用的最多的，此外还有mean_squared_error和sigmoid_cross_entropy。
 
@@ -570,7 +575,7 @@ tf.train.GradientDescentOptimizer
 
 优化器怎么用？
 ```
-my_opt = tf.train.GradientDescentOptimizer(0.02)
+my_opt = tf.train.GradientDescentOptimizer(0.02) # 参数时学习率
 train_step = my_opt.minimize(loss) # 其中的loss是自己经过网络之后又构建好的损失值tensor
 ```
 

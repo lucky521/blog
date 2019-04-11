@@ -202,6 +202,8 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
 https://code.google.com/archive/p/word2vec/
 这个工具把一个文本语录集合作为输入，输出word vector。
 
+word2vec提出两种加快训练速度的方式，一种是Hierarchical softmax，另一种是Negative Sampling
+
 demo scripts: ./demo-word.sh and ./demo-phrases.sh
 
 可以试试中文预料，当然要先分词。http://www.cnblogs.com/hebin/p/3507609.html
