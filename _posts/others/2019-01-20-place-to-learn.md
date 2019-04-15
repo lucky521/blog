@@ -44,4 +44,9 @@ pdf, epub, mobi
 
 Kaggle
 
+比赛获奖的解决方案：
+http://ndres.me/kaggle-past-solutions/
+https://github.com/geekinglcq/CDCS
+
+
 

@@ -39,7 +39,7 @@ Training Loss measures how well model fit on training data.
 
 常见的损失误差有五种：
 1. 铰链损失（Hinge Loss）：主要用于支持向量机（SVM） 中；
-2. 互熵损失 （Cross Entropy Loss，Softmax Loss ）：用于Logistic 回归与Softmax 分类中；
+2. 互熵损失 (Cross Entropy Loss，Softmax Loss)：用于Logistic 回归与Softmax 分类中；
 3. 平方损失（Square Loss）：主要是最小二乘法（OLS）中；
 4. 指数损失（Exponential Loss） ：主要用于Adaboost 集成学习算法中；
 5. 其他损失（如0-1损失，绝对值损失）
@@ -63,25 +63,33 @@ They are used in case of regressive problems, that is when the target variable i
 
 0. Mean Square Error (MSE)
 均方误差/平方损失/L2 损失
+Loss2 = (pred - actual)^2
 ```
 def MSE(yHat, y):
     return np.sum((yHat - y)**2) / y.size
 ```
 
 Most widely used regressive loss function is Mean Square Error. Other loss functions are:
-1. Absolute error — measures the mean absolute value of the element-wise difference between input;
-2. Smooth Absolute Error — a smooth version of Abs Criterion.
+1. Absolute error
+measures the mean absolute value of the element-wise difference between input;
 
-平均绝对误差(Mean Absolute Error) (MAE) /L1 损失
+2. Smooth Absolute Error 
+a smooth version of Abs Criterion.
+
+3. 平均绝对误差(Mean Absolute Error) (MAE) /L1 损失
+Loss1 = abs(pred - actual)
 ```
 def L1(yHat, y):
     return np.sum(np.absolute(yHat - y))
 ```
 
-平均偏差误差（mean bias error） (MSE)
+4. 平均偏差误差（mean bias error） (MBE)
+```
+MBE=1n∑i=1n(y~i−yi)
+```
 
-
-Huber Loss
+5. Huber Loss
+Loss = delta^2 * (sqrt(1 + ((pred - actual)/delta)^2) - 1)
 ```
 def Huber(yHat, y, delta=1.):
     return np.where(np.abs(y-yHat) < delta,.5*(y-yHat)**2 , delta*(np.abs(y-yHat)-0.5*delta))
@@ -97,14 +105,16 @@ On an example (x,y), the margin is defined as yf(x). The margin is a measure of 
 3. Margin Classifier
 4. Soft Margin Classifier
 
-Hinge Loss/多分类 SVM 损失
+5. Hinge Loss/多分类 SVM 损失
+Loss = max(0, 1 - (pred * actual))
 ```
 def Hinge(yHat, y):
     return np.max(0, 1 - yHat * y)
 ```
 
-交叉熵损失/负对数似然
+6. 交叉熵损失/负对数似然
 Cross-entropy loss, or log loss
+Loss = -actual * (log(pred)) - (1-actual)(log(1-pred))
 ```
 def CrossEntropy(yHat, y):
     if y == 1:
@@ -113,13 +123,45 @@ def CrossEntropy(yHat, y):
       return -log(1 - yHat)
 ```
 
+7. Sigmoid entropy loss
+Loss = -actual * (log(sigmoid(pred))) - (1-actual)(log(1-sigmoid(pred)))
+或者
+Loss = max(actual, 0) - actual * pred + log(1 + exp(-abs(actual)))
+```
+xentropy_sigmoid_y_vals = tf.nn.sigmoid_cross_entropy_with_logits(labels=x_vals, logits=targets)
+xentropy_sigmoid_y_out = sess.run(xentropy_sigmoid_y_vals)
+```
 
-KL散度 KL-divergence Loss
+8. Weighted (softmax) cross entropy loss
+Loss = -actual * (log(pred)) * weights - (1-actual)(log(1-pred))
+或者
+Loss = (1 - pred) * actual + (1 + (weights - 1) * pred) * log(1 + exp(-actual))
+```
+xentropy_weighted_y_vals = tf.nn.weighted_cross_entropy_with_logits(x_vals, targets, weight)
+xentropy_weighted_y_out = sess.run(xentropy_weighted_y_vals)
+```
+
+
+9. KL散度 KL-divergence Loss
 我们可以把最大似然看作是使模型分布尽可能地和经验分布相匹配的尝试。最小化训练集上的经验分布和模型分布之间的差异。
 ```
 def kl_divergence(p, q):  # q,p都是长度相同的浮点数向量，且向量元素值之和都为1
     return tf.reduce_sum(p * tf.log(p/q)) 
 ```
+
+10. Softmax entropy loss
+Loss = -actual * (log(softmax(pred))) - (1-actual)(log(1-softmax(pred)))
+```
+softmax_xentropy = tf.nn.softmax_cross_entropy_with_logits(unscaled_logits, target_dist)
+```
+
+11. Sparse entropy loss
+Loss = sum( -actual * log(pred) )
+```
+sparse_xentropy = tf.nn.sparse_softmax_cross_entropy_with_logits(unscaled_logits, sparse_target_dist)
+```
+
+
 
 
 ## Embedding loss functions
@@ -129,7 +171,7 @@ It deals with problems where we have to measure whether two inputs are similar o
 2. Cosine Error- Cosine distance between two inputs.
 
 
-Noise Contrastive Estimation training loss (NCE)
+3. Noise Contrastive Estimation training loss (NCE)
 为什么NCE常作为word2vec的loss函数？
 word2vec用二分类目标来区分真实目标和噪音目标。训练的目标就是增大真实目标的输出结果，减小噪音目标的输出结果。
 
