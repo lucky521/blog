@@ -51,6 +51,8 @@ Running the computational graph in a session
 
  tf.estimator.WarmStartSettings
 
+ tf.estimator.VocabInfo  表示WarmStartSettings 的词汇信息
+
 
 ### multi-objective learning
 
@@ -61,7 +63,9 @@ tf.contrib.estimator.multi_head
 
 
 
-## Eager 模式 API
+## Tensorflow Eager 模式 API
+
+无需构建图：操作会返回具体的值，而不是构建以后再运行的计算图
 
 https://www.tensorflow.org/guide/eager
 
@@ -89,6 +93,10 @@ tensorboard默认占用了6006端口
 ### tf.summary API
 
 tf.summary 提供了向文件写入模型内部的结构和数据信息的方法，以供 tensorboard 来展示。
+
+tf.summary.merge_all()  可以将所有summary全部保存到磁盘，以便tensorboard显示.
+
+tf.summary.FileWriter('xxx', sess.graph)
 
 https://www.tensorflow.org/api_guides/python/summary
 
@@ -203,6 +211,7 @@ tf.train.saver.save() 在保存check-point的同时也会保存Meta Graph。但�
 Meta Graph中虽然包含Variable的信息，却没有 Variable 的实际值。所以从Meta Graph中恢复的图，其训练是从随机初始化的值开始的。训练中Variable的实际值都保存在check-point中，如果要从之前训练的状态继续恢复训练，就要从check-point中restore。
 
 2 - tf.train.write_graph() / tf.import_graph_def()
+
 3 - tf.train.export_meta_graph / tf.train.import_meta_graph
 
 
@@ -356,7 +365,8 @@ run函数的功能是：执行一轮图计算，执行fetches参数中的operati
 
 这个函数的返回值含义和输入到fetches参数的名称保持一一对应。
 如果是Operation的话，对应返回的是None.
-The value returned by run() has the same shape as the fetches argument, where the leaves are replaced by the corresponding values returned by TensorFlow.
+The value returned by run() has the same shape as the fetches argument, where the leaves are replaced by the corresponding values returned by TensorFlow. 
+返回的值是由tensor组成的数组。
 
 如果是global_variables_initializer（这也是一个op）的返回值的话，就是在图中初始化所有变量。
 
@@ -417,13 +427,19 @@ tf.reduce_max
 
 tf.reduce_min
 
+tf.reduce_sum：对某一个维度内求和 https://stackoverflow.com/questions/47157692/how-does-reduce-sum-work-in-tensorflow
+
 tf.argmax(vector, dimention)：返回的是vector中的最大值的索引号
+
+tf.tensordot : https://stackoverflow.com/questions/41870228/understanding-tensordot
 
 tf.multiply(x, y) 两个矩阵中对应元素各自相乘。要求x和y的形状必须一致。
 
 tf.matmul(x, y) 将矩阵a乘以矩阵b，生成a * b。要求x的行数必须和y的列数相等。
 
 注意以上两种乘法运算的区别。
+
+tf.truediv 按元素除法x / y
 
 tf.equal
 
@@ -445,6 +461,8 @@ tf.cast
 tf.expand_dims
 
 tf.reshape
+
+tf.squeeze 将原始input中所有维度为1的那些维都删掉
 
 ```
 
@@ -682,6 +700,16 @@ https://github.com/tensorflow/models
 
 
 
+## 神经网络模型
+
+tf.nn.bidirectional_dynamic_rnn
+dynamic version of bidirectional recurrent neural network. 
+
+
+tf.nn.rnn_cell.GRUCell
+Gated Recurrent Unit cell (cf. http://arxiv.org/abs/1406.1078).
+
+
 
 
 
@@ -696,12 +724,35 @@ https://github.com/tensorflow/models
 比如把点击率和下单率作为两个目标，分别计算各自的loss function。DNN的前几层作为共享层，两个目标共享这几层的表达，在BP阶段根据两个目标算出的梯度共同进行参数更新。网络的最后用一个全连接层进行拆分，单独学习对应loss的参数。
 
 
-## Warm-start
+## Warm start
+
+Tensorflow 中有一个方法tf.estimator.WarmStartSettings。
+tf.estimator.DNNClassifier 方法中有一个参数叫 warm_start_from。
+https://www.tensorflow.org/api_docs/python/tf/estimator/WarmStartSettings
+
+这个参数的作用是：Optional string filepath to a checkpoint or SavedModel to warm-start from, or a tf.estimator.WarmStartSettings object to fully configure warm-starting. If the string filepath is provided instead of a tf.estimator.WarmStartSettings, then all variables are warm-started, and it is assumed that vocabularies and tf.Tensor names are unchanged.
 
 
+```
+emb_vocab_file = tf.feature_column.embedding_column(
+    tf.feature_column.categorical_column_with_vocabulary_file(
+        "sc_vocab_file", "new_vocab.txt", vocab_size=100),
+    dimension=8)
+emb_vocab_list = tf.feature_column.embedding_column(
+    tf.feature_column.categorical_column_with_vocabulary_list(
+        "sc_vocab_list", vocabulary_list=["a", "b"]),
+    dimension=8)
+estimator = tf.estimator.DNNClassifier(
+  hidden_units=[128, 64], feature_columns=[emb_vocab_file, emb_vocab_list],
+  warm_start_from=ws)
+```
+ws这个参数可以由tf.estimator.WarmStartSettings生成的。
+ws也可以是指定的路径，用于加载checkpoint或者savedmodel文件。
 
-
-
+tf.estimator.WarmStartSettings的参数：
+		ckpt_to_initialize_from=warm_start_checkpoint_path, 指定checkpoint文件的位置
+		var_name_to_vocab_info=var_infos,  表示WarmStartSettings 的词汇信息
+		var_name_to_prev_var_name=config.var_name_to_prev_var_name
 
 
 

@@ -259,6 +259,7 @@ L2 正规化是附加权重的平方之和，L1是附加权重的绝对值之和
 
 ### Dropout层
 
+这是为实现正则化而存在的层。上一节有介绍。
 为输入数据施加Dropout。Dropout将在训练过程中每次更新参数时按一定概率（rate）随机断开输入神经元，Dropout层用于防止过拟合。
 
 ### Flatten层
@@ -279,10 +280,11 @@ Permute层将输入的维度按照给定模式进行重排，例如，当需要�
 
 ### 卷积层 Convolution layer
 
+shared weights 
+
 ### 局部连接层 Locally-connected Layers
 
-卷积层其实只是局部权重共享的local connect
-
+卷积层其实只是局部权重共享的local connect.
 
 ### 池化层 Pooling Layer
 
@@ -306,6 +308,10 @@ Permute层将输入的维度按照给定模式进行重排，例如，当需要�
 ### Merge Layers
 
 将两条或者多条网络流合并。
+
+
+### Attention layer
+
 
 
 

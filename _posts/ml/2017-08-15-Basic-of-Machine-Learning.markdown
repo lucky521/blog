@@ -258,6 +258,9 @@ Differentiated Softmax
 
 
 
+
+
+
 # 参考资料
 
 http://blog.codinglabs.org/articles/statistical-learning-theory.html
