@@ -76,7 +76,7 @@ https://www.tensorflow.org/guide/eager
 
 ## 可视化模块 Tensorboard
 
-https://github.com/tensorflow/tensorboard/blob/master/README.md
+官方文档：https://github.com/tensorflow/tensorboard/blob/master/README.md
 
 ### tensorboard 命令
 
@@ -105,9 +105,10 @@ https://www.tensorflow.org/api_guides/python/summary
 
 ### 可视化中间文件 tfevent
 
-events.out.tfevents.XXX.local 文件是summary方法所生成的文件，其中包含了用于tensorboard进行可视化展示所需的信息。每创建一个tf.summary.FileWriter实例，就会对应的生成一个tfevent文件。
+events.out.tfevents.XXX.local 文件是summary方法所生成的文件，其中包含了用于tensorboard进行可视化展示所需的信息。
+每创建一个tf.summary.FileWriter实例，就会对应的生成一个tfevent文件。
 
-event files, which contain information that TensorBoard uses to create visualizations.
+Event files, which contain information that TensorBoard uses to create visualizations.
 
 Everytime when tf.summary.FileWriter is instantiated, a event file will be saved in the specified directory.
 
@@ -198,7 +199,7 @@ def read_tensor_from_image_file(file_name, input_height=299, input_width=299,
 
 三种形态的“图”：
 
-1 - tf.Graph： 运行状态的 Graph 被定义为“一些 Operation 和 Tensor 的集合”
+1 - tf.Graph： 运行状态的 Graph 被定义为“一些 Operation 和 Tensor 的集合”。
 2 - tf.GraphDef： 序列化状态的GraphDef，它可以被存储到pb文件中，然后在需要时从pb文件加载。
 3 - tf.MetaGraphDef: 
 
@@ -212,6 +213,20 @@ Meta Graph中虽然包含Variable的信息，却没有 Variable 的实际值。�
 
 2 - tf.train.write_graph() / tf.import_graph_def()
 
+
+下面是从pb文件加载tf.Graph的例子
+
+```
+def load_graph(model_file):
+  graph = tf.Graph()
+  graph_def = tf.GraphDef()
+  with open(model_file, "rb") as f:
+    graph_def.ParseFromString(f.read())
+  with graph.as_default():
+    tf.import_graph_def(graph_def)
+  return graph
+```
+
 3 - tf.train.export_meta_graph / tf.train.import_meta_graph
 
 
@@ -219,6 +234,7 @@ Meta Graph中虽然包含Variable的信息，却没有 Variable 的实际值。�
 ## 图常数
 
 tf.constant
+constant()是个常量构造函数，它可以用在assign/initilizer中为Variable生成数据,也可以用在feed_dict{}中为placeholder生成数据。
 
 https://www.tensorflow.org/api_guides/python/constant_op
 
@@ -408,7 +424,7 @@ if __name__=="__main__": #用这种方式保证了，如果此文件被其他文
 
 # 常用函数
 
-用一下API完成日常工作。 包括基础操作方法、模型保存加载方法、模型流图构建方法、模型训练方法。
+用以下API完成日常工作。 包括基础操作方法、模型保存加载方法、模型流图构建方法、模型训练方法。
 
 ## 基础操作函数 Common Function
 
@@ -428,6 +444,8 @@ tf.reduce_max
 tf.reduce_min
 
 tf.reduce_sum：对某一个维度内求和 https://stackoverflow.com/questions/47157692/how-does-reduce-sum-work-in-tensorflow
+
+tf.add
 
 tf.argmax(vector, dimention)：返回的是vector中的最大值的索引号
 
@@ -458,9 +476,9 @@ https://www.tensorflow.org/api_guides/python/array_ops
 ```
 tf.cast
 
-tf.expand_dims
+tf.expand_dims 增加一个维度，被增加的维度的数据长度就是1.
 
-tf.reshape
+tf.reshape 
 
 tf.squeeze 将原始input中所有维度为1的那些维都删掉
 
@@ -470,21 +488,23 @@ tf.squeeze 将原始input中所有维度为1的那些维都删掉
 
 我们经常在训练完一个模型之后希望保存训练的结果，这些结果指的是模型的参数，以便下次迭代的训练或者用作测试。
 
-一种：是传统的Saver类save保存和restore恢复方法。Tensorflow针对这一需求提供了Saver类。
+第一种：是传统的 tf.train.Saver 类save保存和restore恢复方法。Tensorflow针对这一需求提供了Saver类。
+这种方法将模型保存为ckpt格式。
 
 tf.train.get_checkpoint_state   输入路径必须是绝对路径
 
 ```
 # 保存
 tf.train.Saver()
-save_path = saver.save(sess, model_path)
+save_path = saver.save(sess, model_path) 
+
 ...
 # 加载
 saver.restore(sess, tf.train.latest_checkpoint(checkpoint_path)) # tf.train.latest_checkpoint自动获取最后一次保存的模型
 saver.restore(sess, model_path)
 ```
 
-另一种：是比较新颖的SavedModelBuilder类的builder保存和loader文件里的load恢复方法。
+第二种：是比较新颖的 tf.saved_model.builder.SavedModelBuilder 类的builder保存和loader文件里的load恢复方法。
 
 ```
 # 保存
@@ -497,22 +517,11 @@ tf.saved_model.loader.load(sess, ["tag"], export_dir)
 
 ```
 
-还有：高阶API版的方法
+第三种：高阶API版的方法
 tf.estimator.Estimator.export_savedmodel
 
 
-### 从pb文件加载tf.Graph
 
-```
-def load_graph(model_file):
-  graph = tf.Graph()
-  graph_def = tf.GraphDef()
-  with open(model_file, "rb") as f:
-    graph_def.ParseFromString(f.read())
-  with graph.as_default():
-    tf.import_graph_def(graph_def)
-  return graph
-```
 
 ## 高阶函数
 
@@ -624,7 +633,6 @@ tf.feature_column.numeric_column
 
 ## Bucketized column
 tf.feature_column.bucketized_column
-
 将数据按范围切分为bucket。
 
 ## Categorical identity column
@@ -717,14 +725,14 @@ Gated Recurrent Unit cell (cf. http://arxiv.org/abs/1406.1078).
 
 
 
-# 训练方式
+# 模型训练方式
 
 ## Multi-head / Multi-task DNN
 
 比如把点击率和下单率作为两个目标，分别计算各自的loss function。DNN的前几层作为共享层，两个目标共享这几层的表达，在BP阶段根据两个目标算出的梯度共同进行参数更新。网络的最后用一个全连接层进行拆分，单独学习对应loss的参数。
 
 
-## Warm start
+## Warm Start
 
 Tensorflow 中有一个方法tf.estimator.WarmStartSettings。
 tf.estimator.DNNClassifier 方法中有一个参数叫 warm_start_from。
@@ -765,10 +773,10 @@ tf.estimator.WarmStartSettings的参数：
 
 下面两种模型文件格式对应着tensorflow的两种模型保存方式。
 
-## checkpoint文件 和 serving pb/variable文件之间的转换
-
 checkpoint文件 是用于本地加载模型然后进行本地预测的。
-serving variable文件是用来让tensorflow serving加载并进行远程预测的。
+pb-variable文件是用来让tensorflow serving加载并进行远程预测的。
+
+谷歌推荐的保存模型的方式是保存模型为 PB 文件，它具有语言独立性，可独立运行，封闭的序列化格式，任何语言都可以解析它，它允许其他语言和深度学习框架读取、继续训练和迁移 TensorFlow 的模型。
 
 ## checkpoint文件
 
@@ -789,9 +797,11 @@ checkpoints, which are versions of the model created during training. 存储的�
 https://www.tensorflow.org/guide/checkpoints
 
 
-## serving pb/variable文件
+## pb-variable文件
 
+variables保存所有变量，saved_model.pb用于保存模型结构等信息。
 pb文件，其实就是graph_def，但是指的一般是做了constant化，这样可以直接加载做inference，安装部署用。
+PB是表示 MetaGraph 的 protocol buffer格式的文件，MetaGraph 包括计算图，数据流，以及相关的变量和输入输出signature以及 asserts 指创建计算图时额外的文件。
 
 这是由 tf.saved_model.builder.SavedModelBuilder 类生成的模型文件。
 
@@ -803,7 +813,6 @@ pb文件，其实就是graph_def，但是指的一般是做了constant化，这�
 	|           |-- variables.data-00000-of-00001
 	|           `-- variables.index
 ```
-
 
 ### 构建模型的输入输出以及调用方式
 
@@ -817,7 +826,6 @@ pb文件，其实就是graph_def，但是指的一般是做了constant化，这�
        PREDICT_METHOD_NAME
 ```
 
-
 下面是构建serving pb/variable文件的过程：
 ```
 tf.saved_model.builder.SavedModelBuilder
@@ -830,6 +838,10 @@ builder.add_meta_graph_and_variables
 
 builder.save()
 ```
+
+
+## checkpoint文件 和 pb-variable文件之间的转换
+
 
 
 
