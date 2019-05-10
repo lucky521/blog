@@ -25,7 +25,12 @@ LLDB Debugger
 
 
 
-# Lint
+
+# Static Code Analysis
+
+Lint
+
+静态程序分析工具
 
 
 
@@ -37,6 +42,8 @@ http://www.brendangregg.com/linuxperf.html
 
 
 # 性能 Debugging
+
+如何高效的衡量程序性能？
 
 http://www.brendangregg.com/linuxperf.html
 
