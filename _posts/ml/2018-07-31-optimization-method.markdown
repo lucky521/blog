@@ -101,8 +101,11 @@ def Huber(yHat, y, delta=1.):
 The output variable in classification problem is usually a probability value f(x), called the score for the input x. Generally, the magnitude of the score represents the confidence of our prediction. The target variable y, is a binary variable, 1 for true and -1 for false.
 On an example (x,y), the margin is defined as yf(x). The margin is a measure of how correct we are. Most classification losses mainly aim to maximize the margin. Some classification algorithms are:
 1. Binary Cross Entropy
+
 2. Negative Log Likelihood
+
 3. Margin Classifier
+
 4. Soft Margin Classifier
 
 5. Hinge Loss/多分类 SVM 损失
@@ -168,12 +171,16 @@ sparse_xentropy = tf.nn.sparse_softmax_cross_entropy_with_logits(unscaled_logits
 
 It deals with problems where we have to measure whether two inputs are similar or dissimilar. Some examples are:
 1. L1 Hinge Error- Calculates the L1 distance between two inputs.
+
 2. Cosine Error- Cosine distance between two inputs.
 
 
-3. Noise Contrastive Estimation training loss (NCE)
+3. Noise Contrastive Estimation training loss (NCE loss)
 为什么NCE常作为word2vec的loss函数？
 word2vec用二分类目标来区分真实目标和噪音目标。训练的目标就是增大真实目标的输出结果，减小噪音目标的输出结果。
+num_sampled refers to the number of negative sampling in nce algorithm.
+
+https://stackoverflow.com/questions/41475180/understanding-tf-nn-nce-loss-in-tensorflow
 
 
 

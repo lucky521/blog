@@ -437,9 +437,9 @@ tf.random_normal
 
 tf.random_uniform
 
-tf.reduce_mean
+tf.reduce_mean: 函数用于计算张量tensor沿着指定的数轴（tensor的某一维度）上的的平均值，主要用作降维或者计算tensor（图像）的平均值。
 
-tf.reduce_max
+tf.reduce_max: 计算tensor指定轴方向上的各个元素的最大值;
 
 tf.reduce_min
 

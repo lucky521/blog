@@ -84,8 +84,8 @@ embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
 
 # 从哪里学习Embedding？
 
-word2vec中，学习的目标是一个word的Embedding表达，文本语料是学习的来源，我们通过一个word的context来学习这个word的表达，context指的是一段语料中某word相邻的words。
-在广告推荐等领域，如果要做item Embedding，那么context可以是一个用户点击行为中某被点击item相邻的被点击items。
+在word2vec中，学习的目标是一个word的Embedding表达，文本语料是学习的来源，我们通过一个word的context来学习这个word的表达，context指的是一段语料中某word相邻的words。
+在广告推荐等领域中，如果要做item Embedding，那么context可以是一个用户点击行为中某被点击item相邻的被点击items。
 
 
 
@@ -114,9 +114,13 @@ word_embeddings = tf.get_variable(“word_embeddings”, [vocabulary_size, embed
 embedded_word_ids = tf.nn.embedding_lookup(word_embeddings, word_ids)
 ```
 
+embeddings is a matrix where each row represents a word vector.
+
+embedding_lookup is a quick way to get vectors corresponding to train_inputs.
+
 
 tf.nn.embedding_lookup 这个函数到底做了什么？https://stackoverflow.com/questions/34870614/what-does-tf-nn-embedding-lookup-function-do
-embedding_lookup不是简单的查表，id对应的向量是可以训练的，训练参数个数应该是 category num*embedding size，也就是说lookup是一种全连接层。
+embedding_lookup不是简单的查表，id对应的向量是可以训练的，训练参数个数应该是 category num * embedding size，也就是说lookup是一种全连接层。
 
 
 ## 构建怎么样的网络结构，才能让Embedding layer学到输入数据的 Representation？
@@ -135,7 +139,7 @@ with tf.device('/cpu:0'):
     embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
 
 # Construct the variables for the NCE loss
-nce_weights = tf.Variable(tf.random_uniform([voc_size, embedding_size],-1.0, 1.0))
+nce_weights = tf.Variable(tf.random_uniform([voc_size, embedding_size], -1.0, 1.0))
 nce_biases = tf.Variable(tf.zeros([voc_size]))
 
 # Compute the average NCE loss for the batch.
@@ -277,6 +281,12 @@ https://github.com/zalandoresearch/flair
 A text embedding library
 
 
+
+## fasttext
+
+
+## PyTorch-BigGraph (PBG)
+https://github.com/facebookresearch/PyTorch-BigGraph
 
 
 

@@ -11,8 +11,7 @@ layout: post
 深度学习的三位创始人Geoffrey Hinton, Yoshua Bengio, Yann LeCun, 因其在深度学习理论及工程领域上的重大贡献，获得了2018年的图灵奖。
 
 
-
-## 多层感知机、玻尔兹曼机、受限玻尔兹曼机
+# 多层感知机、玻尔兹曼机、受限玻尔兹曼机
 
 多层感知机器，是一种前向结构的人工神经网络，映射一组输入向量到一组输出向量。
 ![](https://qph.fs.quoracdn.net/main-qimg-7f4840d91eb9da1b6673511a0eb806f2.webp)
@@ -153,58 +152,67 @@ A = x if x>0 else 0
 
 
 
-## 模型评估
+## 模型评估 Evaluation
 
 每次轮计算后评估模型的方法。需要一个指标。
 
 [机器学习模型的评价方法和指标](https://lucky521.github.io/blog/design/2017/01/01/metrics-to-evaluate-model.html)
 
 
-## 训练迭代 Iteration
 
-iteration表示1次迭代（也叫training step），每次迭代更新1次网络结构的参数.
 
-每一个pass（正向 + 反向）使用 Batch size 个样本。
-
-### 前向传播forward pass(FP)、后向传播backward pass(BP)
+## 前向传播forward pass(FP)、后向传播backward pass(BP)
 
 正向传播比较直观，就是把一个测试数据放入当前的模型（可能还没训练完成，参数也许还是随机值），经过模型的计算，得到一个输出。这就是一次正向传播。
 
 反向传播的目的是要用这一次正向传播的结果来更新参数。首先列出误差（正常传播结果与样本结果的误差），计算误差对某个参数的偏导函数。那么该参数的新值就更新为原值 - 更新速率 * 偏导数。
 
 
-### Learning rate
+## 训练迭代
 
-Learning rate 用于表示更新参数的快慢程度。
+### Iteration
+
+iteration表示1次迭代（也叫training step），每次迭代更新1次网络结构的参数.
+
+Iterations is the number of batches needed to complete one epoch.
+
+每一个pass（正向 + 反向）使用 Batch size 个样本。
 
 ### Epoch
 
-Epoch 是对所有训练数据的一次 forward pass 和一次 backward pass过程。
+Epoch 是对所有训练数据（注意这里指的是all train data）的一轮 forward pass 和 backward pass过程。
 
 The number of epochs is the number of complete passes through the training dataset.
+
+One Epoch is when an ENTIRE dataset is passed forward and backward through the neural network only ONCE.
 
 An epoch is comprised of one or more batches.
 
 可根据实际问题来定义epoch，例如定义10000次迭代为1个epoch，若每次迭代的batch-size设为256，那么1个epoch相当于过了2560000个训练样本。
 
-### Batch size
+我觉得epoch可以理解为generation.
 
-Batch size 是要一次通过神经网络的样本个数。 指每个小批量的样本数
+### Batch
+
+Batch size 是要一次通过神经网络的样本个数。 指每个小批量的样本数。
+
+计算一次loss，利用这次loss更新网络权值，这就是度过了一次batch。
 
 The batch size is a number of samples processed before the model is updated.
 
 下面是一个不使用和使用Batch来训练的例子对比
 ![]({{site.baseurl}}/images/batch.png)
 
-
-
-### num_step
-
-该参数常见于时序数据，比如NLP语料。
+### Num Step
 
 num_steps为每个样本所包含的时间步数。
-表示一起训练多少时间步.
+表示一起训练多少时间步，又叫做seq_len.
 
+该参数常见于时序数据，比如NLP语料。num_step是每个切片的 token 数，即序列的长度 seq_len。
+
+### Learning Rate
+
+Learning rate 用于控制每次更新参数时参数变化的程度。表示更新参数的快慢程度。
 
 
 
@@ -389,7 +397,7 @@ print syn0
 
 
 
-# 具有隐藏层的简单神经网络实现
+## 具有隐藏层的简单神经网络实现
 
 很多场景下，直接输入数据和输出结果是没有直观联系的，联系或者是局部的、或者是间接的，这时候我们可以加入隐藏层来发现和记录这些间接规律。
 
