@@ -199,20 +199,22 @@ def read_tensor_from_image_file(file_name, input_height=299, input_width=299,
 
 三种形态的“图”：
 
-1 - tf.Graph： 运行状态的 Graph 被定义为“一些 Operation 和 Tensor 的集合”。
-2 - tf.GraphDef： 序列化状态的GraphDef，它可以被存储到pb文件中，然后在需要时从pb文件加载。
-3 - tf.MetaGraphDef: 
+1. - tf.Graph： 运行状态的Graph， 被定义为“一些 Operation 和 Tensor 的集合”。
+
+2. - tf.GraphDef： 序列化状态的GraphDef，它可以被存储到pb文件中，然后在需要时从pb文件加载。
+
+3. - tf.MetaGraphDef: “MetaGraph is a dataflow graph, plus its associated variables, assets, and signatures. A MetaGraphDef is the protocol buffer representation of a MetaGraph.”
+
 
 三种“图”对应的API：
 
-1 - tf.train.Saver() / saver.restore()
+1. - tf.train.Saver() / saver.restore()
 tf.train.saver.save() 在保存check-point的同时也会保存Meta Graph。但是在恢复图时，tf.train.saver.restore() 只恢复 Variable.
 如果要从MetaGraph恢复图，需要使用 import_meta_graph。
 
 Meta Graph中虽然包含Variable的信息，却没有 Variable 的实际值。所以从Meta Graph中恢复的图，其训练是从随机初始化的值开始的。训练中Variable的实际值都保存在check-point中，如果要从之前训练的状态继续恢复训练，就要从check-point中restore。
 
-2 - tf.train.write_graph() / tf.import_graph_def()
-
+2. - tf.train.write_graph() / tf.import_graph_def()
 
 下面是从pb文件加载tf.Graph的例子
 
@@ -227,7 +229,7 @@ def load_graph(model_file):
   return graph
 ```
 
-3 - tf.train.export_meta_graph / tf.train.import_meta_graph
+3. - tf.train.export_meta_graph() / tf.train.import_meta_graph()
 
 
 
@@ -319,7 +321,11 @@ graph.get_operation_by_name(op_name)
 
 ## custom_ops
 
-custom op指的是使用C++来实现自己的tensor操作。https://www.tensorflow.org/guide/extend/op
+custom op指的是使用C++来实现自己的tensor操作。
+
+https://www.tensorflow.org/guide/extend/op
+
+https://github.com/tensorflow/custom-op
 
 ### 定义自定义op的接口
 ```
@@ -484,27 +490,31 @@ tf.squeeze 将原始input中所有维度为1的那些维都删掉
 
 ```
 
-## 模型的保存和加载
+## 模型的保存和加载函数
 
 我们经常在训练完一个模型之后希望保存训练的结果，这些结果指的是模型的参数，以便下次迭代的训练或者用作测试。
 
-第一种：是传统的 tf.train.Saver 类save保存和restore恢复方法。Tensorflow针对这一需求提供了Saver类。
+1. 第一种：是传统的 tf.train.Saver 类save保存和restore恢复方法。Tensorflow针对这一需求提供了Saver类。
 这种方法将模型保存为ckpt格式。
 
 tf.train.get_checkpoint_state   输入路径必须是绝对路径
 
 ```
 # 保存
-tf.train.Saver()
+saver = tf.train.Saver() #什么参数都不输入，则保存all saveable objects，存储形式为ckpt
 save_path = saver.save(sess, model_path) 
-
 ...
+saver = tf.train.Saver({"embeddings": embeddings}) #输入包含variable的字典，存储形式为variables
+saver.save(sess, "./lu_vari")
+...
+
 # 加载
-saver.restore(sess, tf.train.latest_checkpoint(checkpoint_path)) # tf.train.latest_checkpoint自动获取最后一次保存的模型
+saver.restore(sess, tf.train.latest_checkpoint(checkpoint_path))
+# tf.train.latest_checkpoint自动获取最后一次保存的模型
 saver.restore(sess, model_path)
 ```
 
-第二种：是比较新颖的 tf.saved_model.builder.SavedModelBuilder 类的builder保存和loader文件里的load恢复方法。
+2. 第二种：是比较新颖的 tf.saved_model.builder.SavedModelBuilder 类的builder保存和loader文件里的load恢复方法。
 
 ```
 # 保存
@@ -517,7 +527,7 @@ tf.saved_model.loader.load(sess, ["tag"], export_dir)
 
 ```
 
-第三种：高阶API版的方法
+3. 第三种：高阶API版的方法
 tf.estimator.Estimator.export_savedmodel
 
 
@@ -776,11 +786,18 @@ tf.estimator.WarmStartSettings的参数：
 checkpoint文件 是用于本地加载模型然后进行本地预测的。
 pb-variable文件是用来让tensorflow serving加载并进行远程预测的。
 
+在模型文件中，我们想保存的信息有两种：
+1. a graph (various operations).
+2. weights/variables in a graph.
+
 谷歌推荐的保存模型的方式是保存模型为 PB 文件，它具有语言独立性，可独立运行，封闭的序列化格式，任何语言都可以解析它，它允许其他语言和深度学习框架读取、继续训练和迁移 TensorFlow 的模型。
 
 ## checkpoint文件
 
 这是由 tf.train.Saver 类生成的模型文件。
+
+The .ckpt is the model given by tensorflow which includes all the 
+weights/parameters in the model.
 
 check_point文件，包含三个主要文件，meta, index, data。
 meta主要有各种def，一个很重要的就是graph_def，而data保存真正的weight。
@@ -793,26 +810,36 @@ checkpoints, which are versions of the model created during training. 存储的�
 	
 		data file: 在data文件中保存的为模型参数的数值。it is TensorBundle collection, save the values of all variables.
 
-
 https://www.tensorflow.org/guide/checkpoints
 
 
 ## pb-variable文件
 
-variables保存所有变量，saved_model.pb用于保存模型结构等信息。
+这是由 tf.saved_model.builder.SavedModelBuilder 类生成的模型文件。
+
+variables保存所有变量; saved_model.pb用于保存模型结构等信息。
+
 pb文件，其实就是graph_def，但是指的一般是做了constant化，这样可以直接加载做inference，安装部署用。
+The .pb file stores the computational graph. Includes the graph definitions as `MetaGraphDef` protocol buffers.
 PB是表示 MetaGraph 的 protocol buffer格式的文件，MetaGraph 包括计算图，数据流，以及相关的变量和输入输出signature以及 asserts 指创建计算图时额外的文件。
 
-这是由 tf.saved_model.builder.SavedModelBuilder 类生成的模型文件。
+assets目录文件：assets is a subfolder containing auxiliary (external) files, such as vocabularies. Assets are copied to the SavedModel location and can be read when loading a specific MetaGraphDef.
 
 ```
 	|-- mnist_saved_model
 	|   `-- 1531711208
 	|       |-- saved_model.pb   保存了serialized tensorflow::SavedModel
+  |       |-- assets 
 	|       `-- variables   保存了variables
 	|           |-- variables.data-00000-of-00001
 	|           `-- variables.index
 ```
+
+tf.train.Saver也能导出variables文件。
+
+### pb 和 pbtxt
+
+There are actually two different formats that a ProtoBuf can be saved in. 
 
 ### 构建模型的输入输出以及调用方式
 
@@ -826,7 +853,7 @@ PB是表示 MetaGraph 的 protocol buffer格式的文件，MetaGraph 包括计�
        PREDICT_METHOD_NAME
 ```
 
-下面是构建serving pb/variable文件的过程：
+下面是构建serving pb-variable文件的过程：
 ```
 tf.saved_model.builder.SavedModelBuilder
 
@@ -955,8 +982,8 @@ https://www.tensorflow.org/serving/serving_basic
 ```
 	|-- mnist_saved_model
 	|   `-- 1531711208
-	|       |-- saved_model.pb   保存了serialized tensorflow::SavedModel
-	|       `-- variables   保存了variables
+	|       |-- saved_model.pb   保存了serialized tensorflow::SavedModel.
+	|       `-- variables   保存了variables.
 	|           |-- variables.data-00000-of-00001
 	|           `-- variables.index
 ```
@@ -965,20 +992,28 @@ https://www.tensorflow.org/serving/serving_basic
 
     tensorflow_model_server --port=9000 --model_name=mnist --model_base_path=/tmp/mnist_model/
 
+或者使用配置文件加载模型
 
-4. gRPC方式提供服务
+    tensorflow_model_server --port=9000 --model_config_file=/serving/models.conf
+
+
+4. gRPC方式对外提供服务
 
 默认使用 --port方式就是以gPRC方式提供服务。
 
 ```
-$ tensorflow_model_server --port=9000 --model_name=mnist --model_base_path=/tmp/mnist_model/
+$ tensorflow_model_server \
+      --port=9000 \
+      --model_name=mnist \
+      --model_base_path=/tmp/mnist_model/
 ```
 
-5. RESTful方式提供服务
+5. RESTful方式对外提供服务
 
 用参数指明要使用rest方式提供服务。
 ```
-$ tensorflow_model_server --rest_api_port=8501 \
+$ tensorflow_model_server \
+   --rest_api_port=8501 \
    --model_name=half_plus_three \
    --model_base_path=$(pwd)/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_half_plus_three/
 ```
@@ -1015,6 +1050,8 @@ PredictResponse
 
 ## 服务多个模型
 
+使用配置文件的形式加载模型。
+
 https://www.tensorflow.org/serving/serving_config
 
 ```
@@ -1034,10 +1071,10 @@ model_config_list: {
     base_path: "/root/tensorflows/model/dnn_model",
     model_platform: "tensorflow"
     model_version_policy: {
-		specific {
-			versions: 42
-			versions: 43
-		}
+      specific {
+        versions: 42
+        versions: 43
+      }
     }
   }
 }
@@ -1045,12 +1082,15 @@ model_config_list: {
 ```
 
 
+## tensorflow serving with custom_op
+
+https://github.com/tensorflow/custom-op/issues/3
 
 
 
+## 模型热加载 Runtime Reload Model
 
-
-
+https://github.com/tensorflow/serving/issues/380
 
 
 
