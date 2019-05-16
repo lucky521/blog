@@ -477,6 +477,7 @@ tf.concat
 
 ### 类型转换函数
 
+
 https://www.tensorflow.org/api_guides/python/array_ops
 
 ```
@@ -489,6 +490,11 @@ tf.reshape
 tf.squeeze 将原始input中所有维度为1的那些维都删掉
 
 ```
+
+### tensorflow::Flag
+
+用于解析和处理命令行参数
+
 
 ## 模型的保存和加载函数
 
@@ -1028,24 +1034,35 @@ $ tensorflow_model_server \
 ## TensorFlow Serving 客户端-服务端数据交互格式
 
 TensorProto
-TensorInfo是一个pb message，定义在tensorflow/core/framework/tensor.proto，用来表示一个Tensor。
+TensorProto是一个pb message，定义在tensorflow/core/framework/tensor.proto，用来表示一个Tensor。
+
+TensorInfo
 
 
 SignatureDef
 由inputs TensorInfo、outputs TensorInfo、method_name三个成员构成。
+SignatureDef的主要作用是定义输出和输入接口协议
+A SignatureDef defines the signature of a computation supported in a TensorFlow graph. SignatureDefs aim to provide generic support to identify inputs and outputs of a function and can be specified when building a SavedModel.
+```
+message SignatureDef {
+  map<string, TensorInfo> inputs = 1;
+  map<string, TensorInfo> outputs = 2;
+  string method_name = 3;
+}
+```
 
 SignatureDefMap
-由name->SignatureDef 构成的map。
+由 name->SignatureDef 构成的map。
 
 MetaGraphDef
-表示一个模型的graph。
+由一个计算图GraphDef和其相关的元数据（SignatureDef、CollectionDef、SaverDef）构成。其包含了用于继续训练，实施评估和（在已训练好的的图上）做前向推断的信息。
 
 
 PredictRequest
-由 map<string, TensorProto> 作为请求输入。
+由 map<string, TensorProto> 作为请求输入。要预测的样本就放在其中。
 
 PredictResponse
-由 map<string, TensorProto> 作为请求返回。
+由 map<string, TensorProto> 作为请求返回。预测的结果就放在其中。
 
 
 ## 服务多个模型
