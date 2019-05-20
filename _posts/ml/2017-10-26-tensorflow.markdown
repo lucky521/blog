@@ -202,6 +202,8 @@ def read_tensor_from_image_file(file_name, input_height=299, input_width=299,
 1. - tf.Graph： 运行状态的Graph， 被定义为“一些 Operation 和 Tensor 的集合”。
 
 2. - tf.GraphDef： 序列化状态的GraphDef，它可以被存储到pb文件中，然后在需要时从pb文件加载。
+The GraphDef format is a version of the ProtoBuf serialization protocol, in either text or binary, that encodes the definition of a TensorFlow graph.
+A GraphDef can also include the weights of a trained model as we will see later, but it doesn’t have to — the weights can be stored as separate checkpoint files.
 
 3. - tf.MetaGraphDef: “MetaGraph is a dataflow graph, plus its associated variables, assets, and signatures. A MetaGraphDef is the protocol buffer representation of a MetaGraph.”
 
@@ -787,7 +789,11 @@ tf.estimator.WarmStartSettings的参数：
 
 # Tensorflow 模型格式
 
-下面两种模型文件格式对应着tensorflow的两种模型保存方式。
+1. GraphDef
+2. SavedModels
+
+
+下面两种模型文件格式对应着tensorflow的两种模型文件保存方式。
 
 checkpoint文件 是用于本地加载模型然后进行本地预测的。
 pb-variable文件是用来让tensorflow serving加载并进行远程预测的。
@@ -1110,7 +1116,11 @@ https://github.com/tensorflow/custom-op/issues/3
 https://github.com/tensorflow/serving/issues/380
 
 
+## Optimizing the model for Serving
 
+1. “freeze the weights” of the model
+
+2.
 
 
 # 分布式TensorFlow集群 - Distributed TensorFlow
