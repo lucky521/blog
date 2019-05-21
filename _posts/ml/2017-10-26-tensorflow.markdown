@@ -343,6 +343,8 @@ REGISTER_OP("接口名称")
       return Status::OK();
     });
 
+REGISTER_KERNEL_BUILDER(Name("接口名称").Device(DEVICE_CPU), 类名);
+
 ```
 
 ### 编写自定义op的内部实现
@@ -364,7 +366,7 @@ tf_custom_op_library(
 
 ### tf.load_op_library 加载自定义op
 
-加载自己编译的so
+加载自己编译的so.
 
 
 
@@ -889,7 +891,9 @@ builder.save()
 
 
 
-# Tensorflow 样本数据格式 - TFRecord
+# Tensorflow 样本数据格式处理
+
+## TFRecord
 
 TFRecord是Tensorflow特有的二进制数据存储格式。它的好处是性能，在加载和传输时代价较小。另一个好处是可以存储序列化数据。
 
@@ -898,7 +902,7 @@ TFRecord是Tensorflow特有的二进制数据存储格式。它的好处是性�
 
 tf.train.Example
 
-TFRecord是文件形态，tf.train.Example就是内存对象形态
+TFRecord是文件形态，tf.train.Example就是内存对象形态.
 
 
 tf.train.Feature
@@ -906,6 +910,38 @@ tf.train.Feature
 
 tf.python_io.TFRecordWriter
 
+
+## 自定义文件格式
+
+设计自定义文件格式和自己的方法构建tensor，需要自己实现两个任务：
+1. 文件格式：使用 tf.data.Dataset 阅读器来从文件中读取原始记录（通常以零阶字符串张量（scalar string tensors）表示，也可能有其他结构）。
+2. 记录格式：使用解码器或者解析操作将一个字符串记录转换成 TensorFlow 可用的张量（tensor）。
+
+- DatasetOpKernel
+
+要自己实现一个 tensorflow::DatasetOpKernel 的子类，这个类的 MakeDataset() 方法要告诉 TensorFlow 怎样根据一个操作的输入和属性生成一个数据集的对象。
+
+- MakeDataset 方法要返回一个 DatasetBase 的子类
+
+要自己实现 DataSetBase 的子类，这个类的 MakeIteratorInternal() 方法 要构建迭代器。
+
+- DatasetIterator
+
+一个 tensorflow::DatasetIterator<Dataset> 的子类，表示特定数据集上的迭代器的可变性，这个类的 GetNextInternal() 方法告诉 TensorFlow 怎样获取迭代器的下一个元素。
+
+GetNextInternal 定义了怎样从文件中实际读取记录，并用一个或多个 Tensor 对象来表示它们.
+
+GetNextInternal 可能会被并发调用，所以推荐用一个互斥量来保护迭代器的状态。
+
+    EnsureRunnerThreadStarted
+
+      RunnerThread  通过StartThread开启的线程函数
+        CallFunction
+          map_func
+
+      ProcessResult
+
+    CallCompleted 释放锁
 
 
 
@@ -1036,8 +1072,64 @@ $ tensorflow_model_server \
 
 		python tensorflow_serving/example/mnist_client.py --num_tests=1000 --server=localhost:9000
 
+## Client-Server 交互过程
+
+
+具体的交互流程一般是这样：
+
+```
+// TFS request 伪代码
+tensorflow::Example example;
+tensorflow::Features* features = example.mutable_features(); // tensorflow::Features内部是一个map
+google::protobuf::Map<std::string, tensorflow::Feature >& feature_map = *features->mutable_feature();
+for (auto y: DOC_LIST) { // 待预测的样本条数
+    for (auto x: FEATUTES_LIST) { // 特征个数
+        float value = 3.1415926; // get feature_value
+        std::string fname = "a_feature_name"; // get feature_name
+        tensorflow::Feature _feature; // create a Feature
+        tensorflow::FloatList* fl = _feature.mutable_float_list(); //支持bytes_list、float_list、int64_list
+        fl->add_value(value);
+        feature_map[fname] = _feature;
+    }
+    std::string example_str = "";
+    example.SerializeToString(&example_str); // 把整个tensorflow::Example序列化成string
+    tensorflow::TensorProto example_proto;
+    example_proto.set_dtype(tensorflow::DataType::DT_STRING);
+    example_proto.add_string_val(example_str); // 把序列化string放入tensorflow::TensorProto
+}
+example_proto.mutable_tensor_shape()->add_dim()->set_size(PREDICT_CNT);
+tensorflow::serving::PredictRequest* request_pb = static_cast<tensorflow::serving::PredictRequest*>(request);
+request_pb->mutable_model_spec()->set_name("model-name");
+request_pb->mutable_model_spec()->set_version_label("model-version");
+google::protobuf::Map<std::string, tensorflow::TensorProto>& inputs = *request_pb->mutable_inputs();
+inputs["examples"] = example_proto; // 这个例子中只在tensorflow::serving::PredictRequest中放入了一个k-v
+```
+
+```
+// TFS response 伪代码
+tensorflow::serving::PredictResponse* response_pb = static_cast<tensorflow::serving::PredictResponse*>(response);
+const google::protobuf::Map<std::string, tensorflow::TensorProto>& map_outputs = response_pb->outputs();
+std::vector<float> scores;
+for (auto x: map_outputs) {
+    // x.first
+    // x.second
+    tensorflow::TensorProto& result_tensor_proto = x.second;
+    for (int i = 0; i < result_tensor_proto.float_val_size(); i++) {
+        scores.push_back(result_tensor_proto.float_val(i));
+    }
+}
+```
+
+
+
+
+
 
 ## TensorFlow Serving 客户端-服务端数据交互格式
+
+Feature.proto 和 example.proto
+定义在tensorflow/core/example/feature.proto和tensorflow/core/example/example.proto
+
 
 TensorProto
 TensorProto是一个pb message，定义在tensorflow/core/framework/tensor.proto，用来表示一个Tensor。
@@ -1107,20 +1199,55 @@ model_config_list: {
 
 ## tensorflow serving with custom_op
 
+使用一个模型进行预测，除了需要模型文件，需要特定形式的预测特征输入，还需要什么吗？还需要custom ops。
+
 https://github.com/tensorflow/custom-op/issues/3
 
+You can add your op/kernel BUILD targets to the list of SUPPORTED_TENSORFLOW_OPS and recompile the ModelServer.
+
+1. adding my custom op in tensorflow_serving/model_servers/BUILD
+```
+SUPPORTED_TENSORFLOW_OPS = [
+    "@org_tensorflow//tensorflow/contrib:contrib_kernels",
+    "@org_tensorflow//tensorflow/contrib:contrib_ops_op_lib",
+    "//tensorflow_serving/myop:myOp.so" #Added this line
+]
+```
+
+2. add cc_library & tf_custom_op_library in tensorflow/core/custom_ops/BUILD
 
 
 ## 模型热加载 Runtime Reload Model
 
+模型管理和模型热加载是由TensorFlow Serving Manager 负责。
+
+SavedModelBundle是核心模块，它要将来自指定文件的模型表示回graph，提供像训练时那样的Session::Run方法来做预测。
+
+ServerCore::Create做了几件重要的事情：
+
+- Instantiates a FileSystemStoragePathSource that monitors model export paths declared in model_config_list.
+- Instantiates a SourceAdapter using the PlatformConfigMap with the model platform declared in model_config_list and connects the FileSystemStoragePathSource to it. This way, whenever a new model version is discovered under the export path, the SavedModelBundleSourceAdapter adapts it to a Loader<SavedModelBundle>.
+- Instantiates a specific implementation of Manager called AspiredVersionsManager that manages all such Loader instances created by the SavedModelBundleSourceAdapter. ServerCore exports the Manager interface by delegating the calls to AspiredVersionsManager.
+
+
 https://github.com/tensorflow/serving/issues/380
+
+https://github.com/tensorflow/serving/issues/678
 
 
 ## Optimizing the model for Serving
 
+0. Batching 并发预测同一个请求中的多条样本
+
 1. “freeze the weights” of the model
 
-2.
+2. Custom DataSet OP 多线程数据预处理
+
+3. 并发处理多个请求
+
+4. GPU预测
+
+
 
 
 # 分布式TensorFlow集群 - Distributed TensorFlow
