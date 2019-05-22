@@ -12,7 +12,8 @@ layout: post
 
 ## TensorFlow Core (Low-Level API)
 
-TensorFlow Core 指的是 low-level TensorFlow APIs。 https://www.tensorflow.org/guide/low_level_intro
+TensorFlow Core 指的是 low-level TensorFlow APIs。 
+https://www.tensorflow.org/guide/low_level_intro
 
 Running the computational graph in a session
 
@@ -27,31 +28,63 @@ Running the computational graph in a session
 
 ## TensorFlow Estimator (High-Level API)
 
+最适合用于模型实践的API就是tf.estimator这一套方法。
+
 ### tf.estimator.Estimator 类
 
-定义模型，比如 DNNClassifier
+tf.estimator是一个基类。
+
+可以使用原生预设的模型子类，比如 DNNClassifier、 DNNRegressor等
+
+也可以基于基类自己实现子类。
+
+```
+predictor = tf.estimator.Estimator(
+        model_fn=model.model_fn,
+        params={
+            'feature_columns': columns,
+            'config': config,
+            'args': args,
+        },
+        model_dir=config.model_path,
+        log_dir =config.tensorboard_dir,
+        config=run_config,
+        warm_start_from=ws)
+```
 
 ### tf.estimator.train_and_evaluate 函数
 
-训练模型
+这个方法是真正去训练模型。它的输入是 Estimator对象 + TrainSpec对象 + EvalSpec对象。
 
-### Spec
+### model_fn Spec
 
- tf.estimator.EstimatorSpec 用来定义Estimator的操作。
+ tf.estimator.EstimatorSpec 用来定义Estimator的操作。它定义了一个具体的模型对象。该对象会作为 model_fn 参数来构建 Estimator.
 
- tf.estimator.TrainSpec  用来定义输入的训练数据
+### input_fn Spec 
 
- tf.estimator.EvalSpec  用来定义eval部分的配置。
+ tf.estimator.TrainSpec  用来定义输入的训练数据，需要传入 input_fn=train_input_fn
+
+ tf.estimator.EvalSpec  用来定义eval部分的配置，需要传入 input_fn=eval_input_fn.
+
+ input_fn 作为TrainSpec/EvalSpec最重要的输入参数，它是一个方法，该方法最终应该返回是数据。可以支持的类型有两种：
+
+ 1. A tuple (features, labels):
+
+ 2. A 'tf.data.Dataset' object: 该Dataset的返回值要是 tuple (features, labels) 
+
 
 ### Config
 
- tf.estimator.RunConfig
+ tf.estimator.RunConfig 各种配置都填在这个类对象中。它会被作为conf参数用于构建 Estimator。
 
  tf.estimator.ModeKeys  设定当前的工作模式（eval、predict、train）
 
- tf.estimator.WarmStartSettings
+ tf.estimator.WarmStartSettings 它被作为warm_start_from参数用于构建 Estimator。
 
- tf.estimator.VocabInfo  表示WarmStartSettings 的词汇信息
+ tf.estimator.VocabInfo  表示 WarmStartSettings 的词汇信息。它被用于构建WarmStartSettings.
+
+
+
 
 
 ### multi-objective learning
@@ -129,7 +162,6 @@ https://www.tensorflow.org/guide/graph_viz
 
 展示了整个模型的结构图。
 
-
 ### Precision-Recall Curve 可视化
 
 https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/pr_curve
@@ -177,7 +209,9 @@ https://www.tensorflow.org/api_guides/python/tfdbg
 
 ## Tensor
 
-Tensor是Tensorflow中承载多维数据的容器。
+1. Tensor 是Tensorflow中承载多维数据的容器。
+
+这里的tensor在形式上就是 dense tensor
 
 把原始数据转变为tensor
 ```
@@ -194,18 +228,27 @@ def read_tensor_from_image_file(file_name, input_height=299, input_width=299,
   result = sess.run(normalized)
 ```
 
+2. SparseTensor 是稀疏形式表示的向量容器。
+
+它由三个tensor组成，  `indices`, `values`, and `dense_shape`.
+
+定义在tensorflow/python/framework/sparse_tensor.py
+
 
 ## Graph 图
 
 三种形态的“图”：
 
 1. - tf.Graph： 运行状态的Graph， 被定义为“一些 Operation 和 Tensor 的集合”。
+真正加载到内存处于可运行状态(训练、预测)时的graph。
 
 2. - tf.GraphDef： 序列化状态的GraphDef，它可以被存储到pb文件中，然后在需要时从pb文件加载。
 The GraphDef format is a version of the ProtoBuf serialization protocol, in either text or binary, that encodes the definition of a TensorFlow graph.
 A GraphDef can also include the weights of a trained model as we will see later, but it doesn’t have to — the weights can be stored as separate checkpoint files.
 
-3. - tf.MetaGraphDef: “MetaGraph is a dataflow graph, plus its associated variables, assets, and signatures. A MetaGraphDef is the protocol buffer representation of a MetaGraph.”
+3. - tf.MetaGraphDef: PB形式表示的GraphDef,其中包含了图结构、权值、assets 和 SignatureDef。
+MetaGraph is a dataflow graph, plus its associated variables, assets, and signatures. A MetaGraphDef is the protocol buffer representation of a MetaGraph.
+定义在 tensorflow/core/protobuf/meta_graph.proto
 
 
 三种“图”对应的API：
@@ -367,6 +410,11 @@ tf_custom_op_library(
 ### tf.load_op_library 加载自定义op
 
 加载自己编译的so.
+
+
+### Dataset ops
+
+实现一个 from tensorflow.python.data.ops import dataset_ops 的子类，然后将该类对象传入到 input_fn .
 
 
 
@@ -534,13 +582,21 @@ builder.save()
 ...
 # 加载
 tf.saved_model.loader.load(sess, ["tag"], export_dir)
-
 ```
 
 3. 第三种：高阶API版的方法
 tf.estimator.Estimator.export_savedmodel
 
-
+```
+export_savedmodel(
+    export_dir_base,
+    serving_input_receiver_fn,
+    assets_extra=None,
+    as_text=False,
+    checkpoint_path=None,
+    strip_default_attrs=False
+)
+```
 
 
 ## 高阶函数
@@ -588,7 +644,7 @@ tf.contrib.layers.l2_regularizer(scale, scope=None)
 
 ## 模型训练函数 Set Train
 
-### 损失函数
+### 损失函数 Set Loss
 
 交叉熵损失函数 softmax_cross_entropy_with_logits
 
@@ -612,7 +668,7 @@ tf.reduce_mean(cross_entropy)
 tf.distributions.kl_divergence
 ```
 
-### 优化器函数
+### 优化器函数 Set Optimizer
 
 优化器有哪些？
 ```
@@ -638,15 +694,16 @@ train_step = my_opt.minimize(loss) # 其中的loss是自己经过网络之后又
 
 
 
-# Tensorflow特征处理 Feature Columns
+# Tensorflow 特征处理 Feature Columns
 
-Feature Columns是Tensorflow中 原始数据 和 Estimators 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns其实就是在做特征预处理。
+Feature Columns是Tensorflow中 原始数据 和 Estimator 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns其实就是在做特征预处理。
 
 feature_columns 作为 Estimators的params参数之一，它将输入数据 input_fn 和 模型 联系起来。
 我们输入到input_fn中的训练数据也是依据feature_columns的格式生成的。
 
 可参考 https://www.tensorflow.org/guide/feature_columns
-可以看到tf.feature_column有很多种。其中的tf.feature_column.input_layer比较特殊，它作为输入层。
+
+可以看到 tf.feature_column 有很多种。其中的tf.feature_column.input_layer比较特殊，它作为输入层。
 
 ## Numeric column
 tf.feature_column.numeric_column
@@ -669,9 +726,11 @@ tf.feature_column.categorical_column_with_hash_bucket
 tf.feature_column.crossed_column
 
 ## Indicator column
+tf.feature_column.indicator_column
 对类型特征进行one-hot编码后的特征。
 
 ## embedding column
+tf.feature_column.embedding_column
 对类型特征进行Embedding编码后的特征。
 
 以上这两种colunm是以Categorical column为输入基础的，
@@ -682,6 +741,9 @@ tf.feature_column.crossed_column
 
 ## tf.feature_column.weighted_categorical_column
 Applies weight values to a CategoricalColumn
+
+
+
 
 
 tensorflow的example包含的是基于key-value对的存储方法，其中key是一个字符串，其映射到的是feature信息，feature包含三种类型：
@@ -704,53 +766,11 @@ SparseFeature：
 
 
 
-
-
-
-
-
-# Tensorflow 机器学习模型
-
-https://github.com/aymericdamien/TensorFlow-Examples/tree/master/examples/2_BasicModels
-
-	SVM
-	kmeans
-	线性回归
-	逻辑回归
-	KNN
-	随机森林
-
-例子教程:
-https://github.com/aymericdamien/TensorFlow-Examples
-https://github.com/nlintz/TensorFlow-Tutorials
-https://codelabs.developers.google.com/?cat=TensorFlow
-https://github.com/tensorflow/models
-
-
-
-## 神经网络模型
-
-tf.nn.bidirectional_dynamic_rnn
-dynamic version of bidirectional recurrent neural network. 
-
-
-tf.nn.rnn_cell.GRUCell
-Gated Recurrent Unit cell (cf. http://arxiv.org/abs/1406.1078).
-
-
-
-
-
-
-
-
-
 # 模型训练方式
 
 ## Multi-head / Multi-task DNN
 
 比如把点击率和下单率作为两个目标，分别计算各自的loss function。DNN的前几层作为共享层，两个目标共享这几层的表达，在BP阶段根据两个目标算出的梯度共同进行参数更新。网络的最后用一个全连接层进行拆分，单独学习对应loss的参数。
-
 
 ## Warm Start
 
@@ -893,6 +913,14 @@ builder.save()
 
 # Tensorflow 样本数据格式处理
 
+tf.Example messages to and from tfrecord files
+
+## tf.Example
+
+tensorflow/python/ops/parsing_ops.py 中的 parse_example 方法
+
+tf.Example is a {"string": tf.train.Feature} mapping.
+
 ## TFRecord
 
 TFRecord是Tensorflow特有的二进制数据存储格式。它的好处是性能，在加载和传输时代价较小。另一个好处是可以存储序列化数据。
@@ -954,6 +982,7 @@ GetNextInternal 可能会被并发调用，所以推荐用一个互斥量来保�
 
 通过迁移学习，我们不需要太多的数据！这个想法是从一个以前在数百万图像上训练过的网络开始的，比如在ImageNet上预训练的ResNet。然后，我们将通过仅重新训练最后几个层并使其他层独立来微调ResNet模型。
 
+通常我们会把已有模型中前面的几层直接拿过来用，重新设计后面几层的结构，重新训练后面几层的权值，注意新训练的时候要把前面几层的权值固定。
 
 bottleneck指的是网络最后输出层之前的一层（倒数第二层）。这一层中原始的特征已经经过了前面若干层而被压缩到了新的表示空间。对于图像分类网络来讲，它就是image feature vector。
 
@@ -1074,7 +1103,6 @@ $ tensorflow_model_server \
 
 ## Client-Server 交互过程
 
-
 具体的交互流程一般是这样：
 
 ```
@@ -1121,10 +1149,6 @@ for (auto x: map_outputs) {
 ```
 
 
-
-
-
-
 ## TensorFlow Serving 客户端-服务端数据交互格式
 
 Feature.proto 和 example.proto
@@ -1154,6 +1178,7 @@ SignatureDefMap
 
 MetaGraphDef
 由一个计算图GraphDef和其相关的元数据（SignatureDef、CollectionDef、SaverDef）构成。其包含了用于继续训练，实施评估和（在已训练好的的图上）做前向推断的信息。
+定义在tensorflow/core/framework/graph.proto
 
 
 PredictRequest
@@ -1161,6 +1186,23 @@ PredictRequest
 
 PredictResponse
 由 map<string, TensorProto> 作为请求返回。预测的结果就放在其中。
+
+
+## input receiver 解析输入
+
+serving_input_receiver_fn 方法在serving阶段，相当于训练阶段的input_fn方法。它返回了一个ServingInputReceiver 对象。 这个对象创建时传入了两个参数：
+  一个是 parsing_ops.parse_example的返回值，
+  一个是 {receiver_key: serialized_tf_example}.
+它是要把 tf.Example 解析为 tensor. 
+
+在导出模型的时候，会将 serving_input_receiver_fn 方法传入到 export_savedmodel 方法中。
+
+
+tf.estimator.export.ServingInputReceiver 和 tf.estimator.export.TensorServingInputReceiver 有一点点差异：
+`tf.estimator.export.TensorServingInputReceiver` allows `tf.estimator.Estimator.export_savedmodel` to pass raw tensors to model functions.
+
+## Serving 内部是怎么做预测的？
+
 
 
 ## 服务多个模型
@@ -1238,6 +1280,10 @@ https://github.com/tensorflow/serving/issues/678
 ## Optimizing the model for Serving
 
 0. Batching 并发预测同一个请求中的多条样本
+max_batch_size { value: 128 }
+batch_timeout_micros { value: 0 }
+max_enqueued_batches { value: 1000000 }
+num_batch_threads { value: 8 }
 
 1. “freeze the weights” of the model
 
@@ -1278,6 +1324,41 @@ tf.train.Server 创建server实例
 		with tf.device("/job:ps/task:1"):
 		  weights_2 = tf.Variable(...)
 		  biases_2 = tf.Variable(...)
+
+
+
+
+
+
+
+# Tensorflow 机器学习模型
+
+https://github.com/aymericdamien/TensorFlow-Examples/tree/master/examples/2_BasicModels
+
+	SVM
+	kmeans
+	线性回归
+	逻辑回归
+	KNN
+	随机森林
+
+例子教程:
+https://github.com/aymericdamien/TensorFlow-Examples
+https://github.com/nlintz/TensorFlow-Tutorials
+https://codelabs.developers.google.com/?cat=TensorFlow
+https://github.com/tensorflow/models
+
+
+
+## 神经网络模型
+
+tf.nn.bidirectional_dynamic_rnn
+dynamic version of bidirectional recurrent neural network. 
+
+
+tf.nn.rnn_cell.GRUCell
+Gated Recurrent Unit cell (cf. http://arxiv.org/abs/1406.1078).
+
 
 
 
