@@ -60,6 +60,14 @@ predictor = tf.estimator.Estimator(
 
  tf.estimator.EstimatorSpec 用来定义Estimator的操作。它定义了一个具体的模型对象。该对象会作为 model_fn 参数来构建 Estimator.
 
+1. 如果是train任务，需要输入loss和train_op来构建 EstimatorSpec
+train_op指的就是优化器进行最优化求解所对应的op。
+2. 如果是eval任务，需要输入loss和eval_metric_ops
+eval_metric_ops由若干tf.metrics指标模块所组成的字典，比如tf.metrics.accuracy,tf.metrics.precision,tf.metrics.recall,tf.metrics.auc.
+3. 如果是predict任务，需要输入predictions
+
+
+
 ### input_fn Spec 
 
  tf.estimator.TrainSpec  用来定义输入的训练数据，需要传入 input_fn=train_input_fn
@@ -82,9 +90,6 @@ predictor = tf.estimator.Estimator(
  tf.estimator.WarmStartSettings 它被作为warm_start_from参数用于构建 Estimator。
 
  tf.estimator.VocabInfo  表示 WarmStartSettings 的词汇信息。它被用于构建WarmStartSettings.
-
-
-
 
 
 ### multi-objective learning
@@ -296,7 +301,7 @@ Variable 代表着模型中的参数，算法的核心目的是在训练参数�
 ### tf.get_variable
 
 tf.Variable与tf.get_variable()的区别是：
-tf.get_variable() 会检查当前命名空间下是否存在同样name的变量，可以方便共享变量。而tf.Variable 每次都会新建一个变量。
+tf.get_variable() 会检查当前命名空间下是否存在同样name的变量，可以方便共享变量。而 tf.Variable 每次都会新建一个变量。
 使用tf.Variable时，如果检测到命名冲突，系统会自己处理。使用tf.get_variable()时，系统不会处理冲突，而会报错。
 
 tf.contrib.layers.xavier_initializer
@@ -527,7 +532,7 @@ tf.concat
 
 ```
 
-### 类型转换函数
+### 类型形式转换函数
 
 
 https://www.tensorflow.org/api_guides/python/array_ops
@@ -541,6 +546,10 @@ tf.reshape
 
 tf.squeeze 将原始input中所有维度为1的那些维都删掉
 
+tf.tile 对当前张量内的数据进行一定规则的复制。最终的输出张量维度不变。
+
+
+
 ```
 
 ### tensorflow::Flag
@@ -548,7 +557,7 @@ tf.squeeze 将原始input中所有维度为1的那些维都删掉
 用于解析和处理命令行参数
 
 
-## 模型的保存和加载函数
+## 模型保存和加载函数
 
 我们经常在训练完一个模型之后希望保存训练的结果，这些结果指的是模型的参数，以便下次迭代的训练或者用作测试。
 
@@ -698,8 +707,8 @@ train_step = my_opt.minimize(loss) # 其中的loss是自己经过网络之后又
 
 Feature Columns是Tensorflow中 原始数据 和 Estimator 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns其实就是在做特征预处理。
 
-feature_columns 作为 Estimators的params参数之一，它将输入数据 input_fn 和 模型 联系起来。
-我们输入到input_fn中的训练数据也是依据feature_columns的格式生成的。
+feature_columns 作为 `Estimators的params参数`之一，它将输入数据 input_fn 和 模型 联系起来。
+我们输入到`input_fn`中的训练数据也是依据feature_columns的格式生成的。
 
 可参考 https://www.tensorflow.org/guide/feature_columns
 
@@ -838,7 +847,7 @@ meta主要有各种def，一个很重要的就是graph_def，而data保存真正
 
 checkpoints, which are versions of the model created during training. 存储的为最近的几次迭代保存的模型名称以及路径：
 
-		meta file: 在meta文件中保存的为模型的图。describes the saved graph structure, includes GraphDef, SaverDef, and so on; then apply tf.train.import_meta_graph('/tmp/model.ckpt.meta'), will restore Saver and Graph.
+		meta file: 在meta文件中保存的是模型的图。describes the saved graph structure, includes GraphDef, SaverDef, and so on; then apply tf.train.import_meta_graph('/tmp/model.ckpt.meta'), will restore Saver and Graph.
 	
 		index file: 在index文件中保存的为模型参数的名称以及具体属性。it is a string-string immutable table(tensorflow::table::Table). Each key is a name of a tensor and its value is a serialized BundleEntryProto. Each BundleEntryProto describes the metadata of a tensor: which of the "data" files contains the content of a tensor, the offset into that file, checksum, some auxiliary data, etc.
 	
@@ -917,7 +926,14 @@ tf.Example messages to and from tfrecord files
 
 ## tf.Example
 
-tensorflow/python/ops/parsing_ops.py 中的 parse_example 方法
+tensorflow/python/ops/parsing_ops.py 中的 parse_example 方法把序列化的特征解析为字典类型。
+parse_example的输入：
+    serialized: A vector (1-D Tensor) of strings, a batch of binary
+      serialized `Example` protos.
+    features: A mapping dict from keys to `VarLenFeature`, `SparseFeature`, and `FixedLenFeature` objects.
+
+parse_example的输出：
+    return: A `dict` mapping feature keys to `Tensor` and `SparseTensor` values.
 
 tf.Example is a {"string": tf.train.Feature} mapping.
 
@@ -945,7 +961,7 @@ tf.python_io.TFRecordWriter
 1. 文件格式：使用 tf.data.Dataset 阅读器来从文件中读取原始记录（通常以零阶字符串张量（scalar string tensors）表示，也可能有其他结构）。
 2. 记录格式：使用解码器或者解析操作将一个字符串记录转换成 TensorFlow 可用的张量（tensor）。
 
-- DatasetOpKernel
+- DatasetOpKernel 的子类
 
 要自己实现一个 tensorflow::DatasetOpKernel 的子类，这个类的 MakeDataset() 方法要告诉 TensorFlow 怎样根据一个操作的输入和属性生成一个数据集的对象。
 
@@ -953,7 +969,7 @@ tf.python_io.TFRecordWriter
 
 要自己实现 DataSetBase 的子类，这个类的 MakeIteratorInternal() 方法 要构建迭代器。
 
-- DatasetIterator
+- DatasetIterator 的子类
 
 一个 tensorflow::DatasetIterator<Dataset> 的子类，表示特定数据集上的迭代器的可变性，这个类的 GetNextInternal() 方法告诉 TensorFlow 怎样获取迭代器的下一个元素。
 
@@ -1190,19 +1206,27 @@ PredictResponse
 
 ## input receiver 解析输入
 
-serving_input_receiver_fn 方法在serving阶段，相当于训练阶段的input_fn方法。它返回了一个ServingInputReceiver 对象。 这个对象创建时传入了两个参数：
-  一个是 parsing_ops.parse_example的返回值，
+serving_input_receiver_fn 方法在serving阶段，相当于训练阶段的 input_fn 方法。它返回了一个 ServingInputReceiver 对象。 这个对象创建时传入了两个参数：
+  一个是 parsing_ops.parse_example 的返回值，它定义了传给模型的features.
   一个是 {receiver_key: serialized_tf_example}.
 它是要把 tf.Example 解析为 tensor. 
 
+serving_input_receiver_fn 是在导出模型时被使用的。
 在导出模型的时候，会将 serving_input_receiver_fn 方法传入到 export_savedmodel 方法中。
 
 
 tf.estimator.export.ServingInputReceiver 和 tf.estimator.export.TensorServingInputReceiver 有一点点差异：
 `tf.estimator.export.TensorServingInputReceiver` allows `tf.estimator.Estimator.export_savedmodel` to pass raw tensors to model functions.
 
-## Serving 内部是怎么做预测的？
 
+## Serving 内部是 怎么加载模型 和 怎么做预测的？
+
+`Servables` 是一个抽象对象，它是serving对一个模型的表示，它指的是提供给客户端的一种计算。
+一个典型的`Servables`包含一个TensorFlow SavedModelBundle (`tensorflow::Session`)和一个lookup table（查embedding或者vocabulary）。
+
+Serve request with TensorFlow Serving `ServerCore`.
+
+SavedModelBundle是核心模块，它要将来自指定文件的模型表示回graph，提供像训练时那样的Session::Run方法来做预测。
 
 
 ## 服务多个模型
@@ -1261,9 +1285,11 @@ SUPPORTED_TENSORFLOW_OPS = [
 
 ## 模型热加载 Runtime Reload Model
 
-模型管理和模型热加载是由TensorFlow Serving Manager 负责。
+https://github.com/tensorflow/serving/issues/380
 
-SavedModelBundle是核心模块，它要将来自指定文件的模型表示回graph，提供像训练时那样的Session::Run方法来做预测。
+https://github.com/tensorflow/serving/issues/678
+
+模型管理和模型热加载是由 TensorFlow Serving Manager 负责。
 
 ServerCore::Create做了几件重要的事情：
 
@@ -1272,9 +1298,6 @@ ServerCore::Create做了几件重要的事情：
 - Instantiates a specific implementation of Manager called AspiredVersionsManager that manages all such Loader instances created by the SavedModelBundleSourceAdapter. ServerCore exports the Manager interface by delegating the calls to AspiredVersionsManager.
 
 
-https://github.com/tensorflow/serving/issues/380
-
-https://github.com/tensorflow/serving/issues/678
 
 
 ## Optimizing the model for Serving
