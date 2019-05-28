@@ -216,7 +216,7 @@ https://www.tensorflow.org/api_guides/python/tfdbg
 
 1. Tensor 是Tensorflow中承载多维数据的容器。
 
-这里的tensor在形式上就是 dense tensor
+这里的tensor在形式上就是 dense tensor.
 
 把原始数据转变为tensor
 ```
@@ -708,12 +708,33 @@ train_step = my_opt.minimize(loss) # 其中的loss是自己经过网络之后又
 
 Feature Columns是Tensorflow中 原始数据 和 Estimator 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns其实就是在做特征预处理。
 
+## 如何使用 Feature Columns？
+
 feature_columns 作为 `Estimators的params参数`之一，它将输入数据 input_fn 和 模型 联系起来。
-我们输入到`input_fn`中的训练数据也是依据feature_columns的格式生成的。
+我们输入到`input_fn`中的训练数据也是依据feature_columns的格式生成的。可以看到 tf.feature_column 有很多种。
 
 可参考 https://www.tensorflow.org/guide/feature_columns
 
-可以看到 tf.feature_column 有很多种。其中的tf.feature_column.input_layer比较特殊，它作为输入层。
+- tf.feature_column.input_layer() 比较特殊，它作为输入层。
+- tf.feature_column.make_parse_example_spec 方法将若干个feature_colunms转换为key-value字典形式（key是feature name， value是FixedLenFeature 或 VarLenFeature）
+
+```
+# Define features and transformations
+feature_a = categorical_column_with_vocabulary_file(...)
+feature_b = numeric_column(...)
+feature_c_bucketized = bucketized_column(numeric_column("feature_c"), ...)
+feature_a_x_feature_c = crossed_column(
+    columns=["feature_a", feature_c_bucketized], ...)
+
+feature_columns = set(
+    [feature_b, feature_c_bucketized, feature_a_x_feature_c])
+features = tf.parse_example(
+    serialized=serialized_examples,
+    features=make_parse_example_spec(feature_columns))
+
+dense_tensor = tf.feature_column.input_layer(features, feature_columns)
+```
+
 
 ## Numeric column
 tf.feature_column.numeric_column
@@ -756,62 +777,144 @@ Applies weight values to a CategoricalColumn
 
 
 
-tensorflow的example包含的是基于key-value对的存储方法，其中key是一个字符串，其映射到的是feature信息，feature包含三种类型：
+
+
+# 样本数据格式处理
+
+tf.Example messages to and from tfrecord files
+
+## 数据输入流
+样本输入的过程称作是ETL过程，这一过程由Extract、Transform、Load三个步骤组成。
+- Extract是从硬盘or网络磁盘到内存的过程。
+- Transform是在内存中进行格式转换，比如从 protobuf 到 tf.data.Dataset.
+- Load是将batch规模的样本加载到GPU加速设备上.
+
+
+## tf.Example / tf.train.example
+
+TFRecord是文件形态，tf.train.Example就是内存对象形态.
+
+tf.Example is a {"string": tf.train.Feature} mapping.
+
+tensorflow的 example 包含的是基于key-value对的存储方法，其中key是一个字符串，其映射到的是feature信息，feature包含三种类型：
 		BytesList：字符串列表
 		FloatList：浮点数列表
 		Int64List：64位整数列表
 
-### tf.train.example
 
 ### tf.train.SequenceExample
 
 ### tf.parse_example
 
-VarlenFeature： 是按照键值把example的value映射到SpareTensor对象
-FixedLenFeature：是按照键值对将features映射到大小为[serilized.size(), df.shape]的矩阵
-SparseFeature：
+parse_example 方法把序列化的特征解析为字典类型(tensor)。
+参考 tensorflow/python/ops/parsing_ops.py.
+parse_example的输入：
+    serialized: A vector (1-D Tensor) of strings, a batch of binary
+      serialized `Example` protos.
+    features: A mapping dict from keys to `VarLenFeature`, `SparseFeature`, and `FixedLenFeature` objects.
+
+VarlenFeature： 是按照键值把example的value映射到SpareTensor对象.
+FixedLenFeature：是按照键值对将features映射到大小为[serilized.size(), df.shape]的Tensor矩阵.
+SparseFeature：稀疏表示方式的feature，不推荐使用。
+
+parse_example的输出：
+    return: A `dict` mapping feature keys to `Tensor` and `SparseTensor` values.
+
+
+tf.train.Feature
+
+
+## TFRecord
+
+TFRecord是Tensorflow特有的二进制数据存储格式。它的好处是性能，在加载和传输时代价较小。另一个好处是可以存储序列化数据。
+
+我们用Tensorflow API可以方便的构建和读写TFRecord数据。
+
+
+tf.python_io.TFRecordWriter
 
 
 
+## tf.data.Dataset
 
+tf.data.Dataset协助我们完成数据从文件形式到灌入Tensor的处理过程。
+在训练模型的时候，tf.data.Dataset 可以作为 input_fn方法的返回值数据.
+在进行预测的时候，tf.data.Dataset 
 
-
-# 模型训练方式
-
-## Multi-head / Multi-task DNN
-
-比如把点击率和下单率作为两个目标，分别计算各自的loss function。DNN的前几层作为共享层，两个目标共享这几层的表达，在BP阶段根据两个目标算出的梯度共同进行参数更新。网络的最后用一个全连接层进行拆分，单独学习对应loss的参数。
-
-## Warm Start
-
-Tensorflow 中有一个方法tf.estimator.WarmStartSettings。
-tf.estimator.DNNClassifier 方法中有一个参数叫 warm_start_from。
-https://www.tensorflow.org/api_docs/python/tf/estimator/WarmStartSettings
-
-这个参数的作用是：Optional string filepath to a checkpoint or SavedModel to warm-start from, or a tf.estimator.WarmStartSettings object to fully configure warm-starting. If the string filepath is provided instead of a tf.estimator.WarmStartSettings, then all variables are warm-started, and it is assumed that vocabularies and tf.Tensor names are unchanged.
-
-
+下面的七行代码，我们使用tf.data.Dataset来完成ETL三个过程。
 ```
-emb_vocab_file = tf.feature_column.embedding_column(
-    tf.feature_column.categorical_column_with_vocabulary_file(
-        "sc_vocab_file", "new_vocab.txt", vocab_size=100),
-    dimension=8)
-emb_vocab_list = tf.feature_column.embedding_column(
-    tf.feature_column.categorical_column_with_vocabulary_list(
-        "sc_vocab_list", vocabulary_list=["a", "b"]),
-    dimension=8)
-estimator = tf.estimator.DNNClassifier(
-  hidden_units=[128, 64], feature_columns=[emb_vocab_file, emb_vocab_list],
-  warm_start_from=ws)
+with tf.name_scope("tf_record_reader"):
+            # 1.Extract
+            # generate file list
+            files = tf.data.Dataset.list_files(glob_pattern, shuffle=training)
+
+            # parallel fetch tfrecords dataset using the file list in parallel
+            dataset = files.apply(tf.contrib.data.parallel_interleave(
+                lambda filename: tf.data.TFRecordDataset(filename), cycle_length=threads))
+
+            # shuffle and repeat examples for better randomness and allow training beyond one epoch
+            dataset = dataset.apply(tf.contrib.data.shuffle_and_repeat(32*self.batch_size))
+
+            # 2.Transform
+            # map the parse function to each example individually in threads*2 parallel calls
+            dataset = dataset.map(map_func=lambda example: _parse_function(example, self.image_size, self.num_classes,training=training),
+                                  num_parallel_calls=threads)
+
+            # batch the examples
+            dataset = dataset.batch(batch_size=self.batch_size)
+
+            # 3.Load
+            #prefetch batch
+            dataset = dataset.prefetch(buffer_size=self.batch_size)
+
+            return dataset.make_one_shot_iterator()
 ```
-ws这个参数可以由tf.estimator.WarmStartSettings生成的。
-ws也可以是指定的路径，用于加载checkpoint或者savedmodel文件。
 
-tf.estimator.WarmStartSettings的参数：
-		ckpt_to_initialize_from=warm_start_checkpoint_path, 指定checkpoint文件的位置
-		var_name_to_vocab_info=var_infos,  表示WarmStartSettings 的词汇信息
-		var_name_to_prev_var_name=config.var_name_to_prev_var_name
+1. Dataset的map方法
+This transformation applies map_func to each element of this dataset, and returns a new dataset containing the transformed elements, in the same order as they appeared in the input. 其中的 num_parallel_calls 参数可以指定并行处理的并发数。
+```
+map(
+    map_func,
+    num_parallel_calls=None
+)
+```
+2. Dataset的apply方法
+apply方法和map方法是什么区别？https://stackoverflow.com/questions/47091726/difference-between-tf-data-dataset-map-and-tf-data-dataset-apply
 
+3. Dataset的interleave方法
+
+
+## 自定义文件格式
+
+设计自定义文件格式和自己的方法构建tensor，需要自己实现两个任务：
+1. 文件格式：使用 tf.data.Dataset 阅读器来从文件中读取原始记录（通常以零阶字符串张量（scalar string tensors）表示，也可能有其他结构）。
+2. 记录格式：使用解码器或者解析操作将一个字符串记录转换成 TensorFlow 可用的张量（tensor）。
+
+- DatasetOpKernel 的子类
+
+要自己实现一个 tensorflow::DatasetOpKernel 的子类，这个类的 MakeDataset() 方法要告诉 TensorFlow 怎样根据一个操作的输入和属性生成一个数据集的对象。
+
+- MakeDataset 方法要返回一个 DatasetBase 的子类
+
+要自己实现 DataSetBase 的子类，这个类的 MakeIteratorInternal() 方法 要构建迭代器。
+
+- DatasetIterator 的子类
+
+一个 tensorflow::DatasetIterator<Dataset> 的子类，表示特定数据集上的迭代器的可变性，这个类的 GetNextInternal() 方法告诉 TensorFlow 怎样获取迭代器的下一个元素。
+
+GetNextInternal 定义了怎样从文件中实际读取记录，并用一个或多个 Tensor 对象来表示它们.
+
+GetNextInternal 可能会被并发调用，所以推荐用一个互斥量来保护迭代器的状态。
+
+    EnsureRunnerThreadStarted
+
+      RunnerThread  通过StartThread开启的线程函数
+        CallFunction
+          map_func
+
+      ProcessResult
+
+    CallCompleted 释放锁
 
 
 
@@ -918,98 +1021,41 @@ builder.save()
 
 
 
+# 模型训练方式
+
+## Multi-head / Multi-task DNN
+
+比如把点击率和下单率作为两个目标，分别计算各自的loss function。DNN的前几层作为共享层，两个目标共享这几层的表达，在BP阶段根据两个目标算出的梯度共同进行参数更新。网络的最后用一个全连接层进行拆分，单独学习对应loss的参数。
+
+## Warm Start
+
+Tensorflow 中有一个方法tf.estimator.WarmStartSettings。
+tf.estimator.DNNClassifier 方法中有一个参数叫 warm_start_from。
+https://www.tensorflow.org/api_docs/python/tf/estimator/WarmStartSettings
+
+这个参数的作用是：Optional string filepath to a checkpoint or SavedModel to warm-start from, or a tf.estimator.WarmStartSettings object to fully configure warm-starting. If the string filepath is provided instead of a tf.estimator.WarmStartSettings, then all variables are warm-started, and it is assumed that vocabularies and tf.Tensor names are unchanged.
 
 
-
-# 样本数据格式处理
-
-## 数据输入流
-样本输入的过程称作是ETL过程，这一过程由Extract、Transform、Load三个步骤组成。
-- Extract是从硬盘or网络磁盘到内存的过程。
-- Transform是在内存中进行格式转换，比如从 protobuf 到 tf.data.Dataset
-
-## tf.data.Dataset
-
-1. Dataset的map方法
-This transformation applies map_func to each element of this dataset, and returns a new dataset containing the transformed elements, in the same order as they appeared in the input. 其中的 num_parallel_calls 参数可以指定并行处理的并发数。
 ```
-map(
-    map_func,
-    num_parallel_calls=None
-)
+emb_vocab_file = tf.feature_column.embedding_column(
+    tf.feature_column.categorical_column_with_vocabulary_file(
+        "sc_vocab_file", "new_vocab.txt", vocab_size=100),
+    dimension=8)
+emb_vocab_list = tf.feature_column.embedding_column(
+    tf.feature_column.categorical_column_with_vocabulary_list(
+        "sc_vocab_list", vocabulary_list=["a", "b"]),
+    dimension=8)
+estimator = tf.estimator.DNNClassifier(
+  hidden_units=[128, 64], feature_columns=[emb_vocab_file, emb_vocab_list],
+  warm_start_from=ws)
 ```
-2. Dataset的apply方法
-apply方法和map方法是什么区别？https://stackoverflow.com/questions/47091726/difference-between-tf-data-dataset-map-and-tf-data-dataset-apply
+ws这个参数可以由tf.estimator.WarmStartSettings生成的。
+ws也可以是指定的路径，用于加载checkpoint或者savedmodel文件。
 
-3. Dataset的interleave方法
-
-
-
-tf.Example messages to and from tfrecord files
-
-## tf.Example
-
-tensorflow/python/ops/parsing_ops.py 中的 parse_example 方法把序列化的特征解析为字典类型。
-parse_example的输入：
-    serialized: A vector (1-D Tensor) of strings, a batch of binary
-      serialized `Example` protos.
-    features: A mapping dict from keys to `VarLenFeature`, `SparseFeature`, and `FixedLenFeature` objects.
-
-parse_example的输出：
-    return: A `dict` mapping feature keys to `Tensor` and `SparseTensor` values.
-
-tf.Example is a {"string": tf.train.Feature} mapping.
-
-## TFRecord
-
-TFRecord是Tensorflow特有的二进制数据存储格式。它的好处是性能，在加载和传输时代价较小。另一个好处是可以存储序列化数据。
-
-我们用Tensorflow API可以方便的构建和读写TFRecord数据。
-
-
-tf.train.Example
-
-TFRecord是文件形态，tf.train.Example就是内存对象形态.
-
-
-tf.train.Feature
-
-
-tf.python_io.TFRecordWriter
-
-
-## 自定义文件格式
-
-设计自定义文件格式和自己的方法构建tensor，需要自己实现两个任务：
-1. 文件格式：使用 tf.data.Dataset 阅读器来从文件中读取原始记录（通常以零阶字符串张量（scalar string tensors）表示，也可能有其他结构）。
-2. 记录格式：使用解码器或者解析操作将一个字符串记录转换成 TensorFlow 可用的张量（tensor）。
-
-- DatasetOpKernel 的子类
-
-要自己实现一个 tensorflow::DatasetOpKernel 的子类，这个类的 MakeDataset() 方法要告诉 TensorFlow 怎样根据一个操作的输入和属性生成一个数据集的对象。
-
-- MakeDataset 方法要返回一个 DatasetBase 的子类
-
-要自己实现 DataSetBase 的子类，这个类的 MakeIteratorInternal() 方法 要构建迭代器。
-
-- DatasetIterator 的子类
-
-一个 tensorflow::DatasetIterator<Dataset> 的子类，表示特定数据集上的迭代器的可变性，这个类的 GetNextInternal() 方法告诉 TensorFlow 怎样获取迭代器的下一个元素。
-
-GetNextInternal 定义了怎样从文件中实际读取记录，并用一个或多个 Tensor 对象来表示它们.
-
-GetNextInternal 可能会被并发调用，所以推荐用一个互斥量来保护迭代器的状态。
-
-    EnsureRunnerThreadStarted
-
-      RunnerThread  通过StartThread开启的线程函数
-        CallFunction
-          map_func
-
-      ProcessResult
-
-    CallCompleted 释放锁
-
+tf.estimator.WarmStartSettings的参数：
+		ckpt_to_initialize_from=warm_start_checkpoint_path, 指定checkpoint文件的位置
+		var_name_to_vocab_info=var_infos,  表示WarmStartSettings 的词汇信息
+		var_name_to_prev_var_name=config.var_name_to_prev_var_name
 
 
 
@@ -1235,6 +1281,8 @@ PredictResponse
 
 ## input receiver 解析输入
 
+对于Serving来说，预测时的输入data就是 tf.example 形式的.
+
 serving_input_receiver_fn 方法在serving阶段，相当于训练阶段的 input_fn 方法。它返回了一个 ServingInputReceiver 对象。 这个对象创建时传入了两个参数：
   一个是 parsing_ops.parse_example 的返回值，它定义了传给模型的features.
   一个是 {receiver_key: serialized_tf_example}.
@@ -1257,7 +1305,7 @@ tf.estimator.export.ServingInputReceiver 和 tf.estimator.export.TensorServingIn
 
 
 SavedModelBundle 是核心模块，它要将来自指定文件的模型表示回graph，提供像训练时那样的Session::Run方法来做预测。
-SavedModelBundle 结构中保存了 Session 指针和 MetaGraphDef
+SavedModelBundle 结构中保存了 Session 指针和 MetaGraphDef。
 
 
 
@@ -1325,6 +1373,9 @@ SUPPORTED_TENSORFLOW_OPS = [
 1.1 实现 XX_source_adapter.h XX_source_adapter.cc
 这个类要继承 SimpleLoaderSourceAdapter
 1.2 定义 XX_source_adapter.proto
+
+1.2 注册 source adapter
+REGISTER_STORAGE_PATH_SOURCE_ADAPTER
 
 2. 创建 Loader 子类
 
