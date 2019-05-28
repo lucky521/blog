@@ -281,6 +281,7 @@ def load_graph(model_file):
 
 3. - tf.train.export_meta_graph() / tf.train.import_meta_graph()
 
+参考 tensorflow/python/framework/meta_graph.py
 
 
 ## 图常数
@@ -703,7 +704,7 @@ train_step = my_opt.minimize(loss) # 其中的loss是自己经过网络之后又
 
 
 
-# Tensorflow 特征处理 Feature Columns
+# 特征处理 Feature Columns
 
 Feature Columns是Tensorflow中 原始数据 和 Estimator 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns其实就是在做特征预处理。
 
@@ -818,7 +819,7 @@ tf.estimator.WarmStartSettings的参数：
 
 
 
-# Tensorflow 模型格式
+# 模型文件格式
 
 1. GraphDef
 2. SavedModels
@@ -920,7 +921,29 @@ builder.save()
 
 
 
-# Tensorflow 样本数据格式处理
+# 样本数据格式处理
+
+## 数据输入流
+样本输入的过程称作是ETL过程，这一过程由Extract、Transform、Load三个步骤组成。
+- Extract是从硬盘or网络磁盘到内存的过程。
+- Transform是在内存中进行格式转换，比如从 protobuf 到 tf.data.Dataset
+
+## tf.data.Dataset
+
+1. Dataset的map方法
+This transformation applies map_func to each element of this dataset, and returns a new dataset containing the transformed elements, in the same order as they appeared in the input. 其中的 num_parallel_calls 参数可以指定并行处理的并发数。
+```
+map(
+    map_func,
+    num_parallel_calls=None
+)
+```
+2. Dataset的apply方法
+apply方法和map方法是什么区别？https://stackoverflow.com/questions/47091726/difference-between-tf-data-dataset-map-and-tf-data-dataset-apply
+
+3. Dataset的interleave方法
+
+
 
 tf.Example messages to and from tfrecord files
 
@@ -1058,6 +1081,12 @@ https://www.tensorflow.org/serving/serving_basic
 
 		tensorflow_model_server --help
 
+可以通过apt-get直接安装官方版本的tensorflow_model_server。当然也可以自己通过bazel编译出 tensorflow_model_server
+
+    CC=gcc-4.9 CXX=g++-4.9  bazel build -c opt //tensorflow_serving/model_servers:tensorflow_model_server --jobs 2 --local_resources 2048,3.0,1.0
+
+如果编译环境的内存不够大或者gcc版本过高，编译时就容易遇到编译系统错误。所以我编译的时候主动用的较低的gcc版本4.9来编译。
+
 1. 在服务端先要训练一个模型
 
 可以用 models repo 中的例子：
@@ -1193,7 +1222,7 @@ SignatureDefMap
 由 name->SignatureDef 构成的map。
 
 MetaGraphDef
-由一个计算图GraphDef和其相关的元数据（SignatureDef、CollectionDef、SaverDef）构成。其包含了用于继续训练，实施评估和（在已训练好的的图上）做前向推断的信息。
+由一个计算图 GraphDef 和其相关的元数据（SignatureDef、CollectionDef、SaverDef）构成。其包含了用于继续训练，实施评估和（在已训练好的的图上）做前向推断的信息。
 定义在tensorflow/core/framework/graph.proto
 
 
@@ -1222,17 +1251,21 @@ tf.estimator.export.ServingInputReceiver 和 tf.estimator.export.TensorServingIn
 ## Serving 内部是 怎么加载模型 和 怎么做预测的？
 
 `Servables` 是一个抽象对象，它是serving对一个模型的表示，它指的是提供给客户端的一种计算。
-一个典型的`Servables`包含一个TensorFlow SavedModelBundle (`tensorflow::Session`)和一个lookup table（查embedding或者vocabulary）。
+一个典型的 `Servables` 包含：
+  一个TensorFlow SavedModelBundle (`tensorflow::Session`)
+  一个lookup table（查embedding或者vocabulary）。
+
+
+SavedModelBundle 是核心模块，它要将来自指定文件的模型表示回graph，提供像训练时那样的Session::Run方法来做预测。
+SavedModelBundle 结构中保存了 Session 指针和 MetaGraphDef
+
+
 
 Serve request with TensorFlow Serving `ServerCore`.
-
-SavedModelBundle是核心模块，它要将来自指定文件的模型表示回graph，提供像训练时那样的Session::Run方法来做预测。
-
 
 ## 服务多个模型
 
 使用配置文件的形式加载模型。
-
 https://www.tensorflow.org/serving/serving_config
 
 ```
@@ -1259,7 +1292,6 @@ model_config_list: {
     }
   }
 }
-
 ```
 
 
@@ -1281,6 +1313,21 @@ SUPPORTED_TENSORFLOW_OPS = [
 ```
 
 2. add cc_library & tf_custom_op_library in tensorflow/core/custom_ops/BUILD
+
+
+## Custom Servable
+
+前面说了 Servable 是提供给client的一个计算。最典型的servable是 SavedModelBundle.
+
+如何实现一个自己的 servable？ 官方提供了一种规范。
+
+1. 创建 SourceAdapter 子类
+1.1 实现 XX_source_adapter.h XX_source_adapter.cc
+这个类要继承 SimpleLoaderSourceAdapter
+1.2 定义 XX_source_adapter.proto
+
+2. 创建 Loader 子类
+
 
 
 ## 模型热加载 Runtime Reload Model
@@ -1307,6 +1354,15 @@ max_batch_size { value: 128 }
 batch_timeout_micros { value: 0 }
 max_enqueued_batches { value: 1000000 }
 num_batch_threads { value: 8 }
+
+Parallelize Data Transformation
+
+Parallelize Data Extraction
+
+
+0. Batching 并发预测不同请求的样本
+inter-request batching support
+
 
 1. “freeze the weights” of the model
 
