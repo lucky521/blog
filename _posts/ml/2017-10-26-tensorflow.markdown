@@ -750,7 +750,7 @@ tf.feature_column.categorical_column_with_identity
 tf.feature_column.categorical_column_with_vocabulary_list
 tf.feature_column.categorical_column_with_vocabulary_file
 
-## Hashed Column
+## Hashed column
 tf.feature_column.categorical_column_with_hash_bucket
 
 ## Crossed column
@@ -830,15 +830,21 @@ TFRecord是Tensorflow特有的二进制数据存储格式。它的好处是性�
 
 我们用Tensorflow API可以方便的构建和读写TFRecord数据。
 
-
 tf.python_io.TFRecordWriter
 
+使用tf_record_iterator方法可以从tfrecord文件中解析出json(k-v)形式的特征数据。
+```
+import tensorflow as tf
+target_file = "tf_record_file_000"
+for example in tf.python_io.tf_record_iterator(target_file):
+    result = tf.train.Example.FromString(example)
+```
 
 
 ## tf.data.Dataset
 
 tf.data.Dataset协助我们完成数据从文件形式到灌入Tensor的处理过程。
-在训练模型的时候，tf.data.Dataset 可以作为 input_fn方法的返回值数据.
+在训练模型的时候，tf.data.Dataset 可以作为 input_fn 方法的返回值数据.
 在进行预测的时候，tf.data.Dataset 
 
 下面的七行代码，我们使用tf.data.Dataset来完成ETL三个过程。
@@ -1131,6 +1137,8 @@ https://www.tensorflow.org/serving/serving_basic
 
     CC=gcc-4.9 CXX=g++-4.9  bazel build -c opt //tensorflow_serving/model_servers:tensorflow_model_server --jobs 2 --local_resources 2048,3.0,1.0
 
+    CC=gcc-4.9 CXX=g++-4.9  bazel build -c opt tensorflow_serving/... --jobs 2 --local_resources 2048,3.0,1.0
+
 如果编译环境的内存不够大或者gcc版本过高，编译时就容易遇到编译系统错误。所以我编译的时候主动用的较低的gcc版本4.9来编译。
 
 1. 在服务端先要训练一个模型
@@ -1281,11 +1289,12 @@ PredictResponse
 
 ## input receiver 解析输入
 
-对于Serving来说，预测时的输入data就是 tf.example 形式的.
+对于Serving来说，预测时的输入data就是 `tf.example` 形式的.
 
-serving_input_receiver_fn 方法在serving阶段，相当于训练阶段的 input_fn 方法。它返回了一个 ServingInputReceiver 对象。 这个对象创建时传入了两个参数：
-  一个是 parsing_ops.parse_example 的返回值，它定义了传给模型的features.
-  一个是 {receiver_key: serialized_tf_example}.
+serving_input_receiver_fn 方法在serving阶段，相当于训练阶段的 input_fn 方法。
+它返回了一个 ServingInputReceiver 对象。 这个对象创建时传入了两个参数：
+  一个是 features=parsing_ops.parse_example 的返回值，它定义了传给模型的features.
+  一个是 receiver_tensors={receiver_key: serialized_tf_example}.
 它是要把 tf.Example 解析为 tensor. 
 
 serving_input_receiver_fn 是在导出模型时被使用的。
@@ -1308,8 +1317,25 @@ SavedModelBundle 是核心模块，它要将来自指定文件的模型表示回
 SavedModelBundle 结构中保存了 Session 指针和 MetaGraphDef。
 
 
-
 Serve request with TensorFlow Serving `ServerCore`.
+
+
+## 模型热加载 Runtime Reload Model
+
+https://github.com/tensorflow/serving/issues/380
+
+https://github.com/tensorflow/serving/issues/678
+
+模型管理和模型热加载是由 TensorFlow Serving Manager 负责。
+
+ServerCore::Create做了几件重要的事情：
+
+- Instantiates a FileSystemStoragePathSource that monitors model export paths declared in model_config_list.
+- Instantiates a SourceAdapter using the PlatformConfigMap with the model platform declared in model_config_list and connects the FileSystemStoragePathSource to it. This way, whenever a new model version is discovered under the export path, the SavedModelBundleSourceAdapter adapts it to a Loader<SavedModelBundle>.
+- Instantiates a specific implementation of Manager called AspiredVersionsManager that manages all such Loader instances created by the SavedModelBundleSourceAdapter. ServerCore exports the Manager interface by delegating the calls to AspiredVersionsManager.
+
+
+
 
 ## 服务多个模型
 
@@ -1380,20 +1406,6 @@ REGISTER_STORAGE_PATH_SOURCE_ADAPTER
 2. 创建 Loader 子类
 
 
-
-## 模型热加载 Runtime Reload Model
-
-https://github.com/tensorflow/serving/issues/380
-
-https://github.com/tensorflow/serving/issues/678
-
-模型管理和模型热加载是由 TensorFlow Serving Manager 负责。
-
-ServerCore::Create做了几件重要的事情：
-
-- Instantiates a FileSystemStoragePathSource that monitors model export paths declared in model_config_list.
-- Instantiates a SourceAdapter using the PlatformConfigMap with the model platform declared in model_config_list and connects the FileSystemStoragePathSource to it. This way, whenever a new model version is discovered under the export path, the SavedModelBundleSourceAdapter adapts it to a Loader<SavedModelBundle>.
-- Instantiates a specific implementation of Manager called AspiredVersionsManager that manages all such Loader instances created by the SavedModelBundleSourceAdapter. ServerCore exports the Manager interface by delegating the calls to AspiredVersionsManager.
 
 
 
