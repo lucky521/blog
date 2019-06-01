@@ -56,6 +56,13 @@ predictor = tf.estimator.Estimator(
 
 这个方法是真正去训练模型。它的输入是 Estimator对象 + TrainSpec对象 + EvalSpec对象。
 
+```
+# 上一节代码里创建有 estimator
+train_spec = tf.estimator.TrainSpec(input_fn=train_input_fn, max_steps=1000)
+eval_spec = tf.estimator.EvalSpec(input_fn=eval_input_fn)
+tf.estimator.train_and_evaluate(estimator, train_spec, eval_spec)
+```
+
 ### model_fn Spec
 
  tf.estimator.EstimatorSpec 用来定义Estimator的操作。它定义了一个具体的模型对象。该对象会作为 model_fn 参数来构建 Estimator.
@@ -211,6 +218,37 @@ https://www.tensorflow.org/api_guides/python/tfdbg
 
 
 # 重要的元素
+
+tensorflow::GraphDef是图，模型的载体。
+tensorflow::Session是训练或预测过程的会话载体。
+tensorflow::Tensor是模型输入、输出的载体。
+
+```
+  // Construct your graph.
+  tensorflow::GraphDef graph = ...;
+
+  // Create a Session running TensorFlow locally in process.
+  std::unique_ptr<tensorflow::Session> session(tensorflow::NewSession({}));
+
+  // Initialize the session with the graph.
+  tensorflow::Status s = session->Create(graph);
+  if (!s.ok()) { ... }
+
+  // Specify the 'feeds' of your network if needed.
+  std::vector<std::pair<string, tensorflow::Tensor>> inputs;
+
+  // Run the session, asking for the first output of "my_output".
+  std::vector<tensorflow::Tensor> outputs;
+  s = session->Run(inputs, {"my_output:0"}, {}, &outputs);
+  if (!s.ok()) { ... }
+
+  // Do something with your outputs
+  auto output_vector = outputs[0].vec<float>();
+  if (output_vector(0) > 0.5) { ... }
+
+  // Close the session.
+  session->Close();
+```
 
 ## Tensor
 
@@ -393,11 +431,43 @@ REGISTER_OP("接口名称")
     });
 
 REGISTER_KERNEL_BUILDER(Name("接口名称").Device(DEVICE_CPU), 类名);
-
 ```
+- 其中input和output都是在定义输入输出tensor的名称和类型
+- 其中还实现了一个Shape functions: infers the shape of outputs given that of inputs.
 
 ### 编写自定义op的内部实现
 
+After you define the interface, provide one or more implementations of the op. To create one of these kernels, create a class that extends OpKernel and overrides the Compute method. The Compute method provides one context argument of type OpKernelContext*, from which you can access useful things like the input and output tensors.
+
+需要实现一个compute方法
+
+```
+class ZeroOutOp : public OpKernel {
+ public:
+  explicit ZeroOutOp(OpKernelConstruction* context) : OpKernel(context) {}
+
+  void Compute(OpKernelContext* context) override {
+    // Grab the input tensor
+    const Tensor& input_tensor = context->input(0);
+    auto input = input_tensor.flat<int32>();
+
+    // Create an output tensor
+    Tensor* output_tensor = NULL;
+    OP_REQUIRES_OK(context, context->allocate_output(0, input_tensor.shape(),
+                                                     &output_tensor));
+    auto output_flat = output_tensor->flat<int32>();
+
+    // Set all but the first element of the output tensor to 0.
+    const int N = input.size();
+    for (int i = 1; i < N; i++) {
+      output_flat(i) = 0;
+    }
+
+    // Preserve the first input value if possible.
+    if (N > 0) output_flat(0) = input(0);
+  }
+};
+```
 
 ### 直接用g++编译自定义op
 ```
@@ -415,8 +485,31 @@ tf_custom_op_library(
 
 ### tf.load_op_library 加载自定义op
 
-加载自己编译的so.
+使用 tf.load_op_library 加载自己编译的so.
 
+### 使用自定义op
+
+```
+def testShuffle(self):
+        shuffle_module = tf.load_op_library('shuffle_op.so')
+        shuffle = shuffle_module.shuffle
+
+        input_tensor = np.arange(12).reshape((3, 4))
+        desired_shape = np.array([6, -1])
+        output_tensor = input_tensor.reshape((6, 2))
+        with self.test_session():
+            result = shuffle(input_tensor, desired_shape)
+            self.assertAllEqual(result.eval(), output_tensor)
+
+        input_tensor = np.arange(12).reshape((3, 4))
+        desired_shape = np.array([5, -1])
+        output_tensor = input_tensor.reshape((6, 2))[:-1]
+        with self.test_session():
+            result = shuffle(input_tensor, desired_shape)
+            self.assertAllEqual(result.eval(), output_tensor) 
+```
+
+更多例子：https://www.programcreek.com/python/example/90369/tensorflow.load_op_library
 
 ### Dataset ops
 
@@ -822,6 +915,10 @@ parse_example的输出：
 
 
 tf.train.Feature
+
+### tf.parse_single_example
+
+区别于tf.parse_example，tf.parse_single_example只是少了一个batch而已，其余的都是一样的
 
 
 ## TFRecord
