@@ -242,9 +242,6 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 类不平衡（class-imbalance）是指在训练分类器中所使用的训练集的类别分布不均。比如说一个二分类问题，1000个训练样本，比较理想的情况是正类、负类样本的数量相差不多；而如果正类样本有995个、负类样本仅5个，就意味着存在类不平衡。
 
 
-
-
-
 解决思路：
 
     1. 对较多的那个类别进行欠采样(under-sampling)，舍弃一部分数据，使其与较少类别的数据相当

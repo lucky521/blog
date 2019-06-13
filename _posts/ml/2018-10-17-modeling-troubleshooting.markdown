@@ -22,6 +22,18 @@ categories: [MachineLearning]
 我们假设上面这个阶段的问题的解决方法是互不影响的，也就是正交的。
 Orthogonalization 正交的意思是，我们希望每种调整方式只会影响一个阶段，而不会对其他阶段产生影响，以免把问题复杂化。
 
+# 诊断手段
+
+## 数据集检查
+
+## Tensorboard观察loss变化
+
+## 试试梯度检验
+
+梯度检验是在编写机器学习算法时必备的技术，可以检验所编写的cost函数是否正确。
+
+
+
 # 样本集有问题
 
 ## 数据集分布不同
@@ -48,8 +60,13 @@ UpSampling 是要插入一些样本，以加强一些信号。
 怎么判断训练出的模型是否拟合的比较理想？
 数据集下的预测结果
 
-## 模型目标或评价指标选择的不好
+## 模型结构有问题
 
+
+## 训练目标选的不好
+
+
+## 评价指标选择的不好
 
 
 ## 没有做误差分析
@@ -103,9 +120,6 @@ UpSampling 是要插入一些样本，以加强一些信号。
 
 
 
-## 试试梯度检验
-
-梯度检验是在编写机器学习算法时必备的技术，可以检验所编写的cost函数是否正确。
 
 
 
@@ -129,8 +143,16 @@ UpSampling 是要插入一些样本，以加强一些信号。
 
 
 
+
+
+
+
 # 参考
 
 https://www.mlyearning.org/
 
 NN参数调优 https://yangxudong.github.io/deep-learning/
+
+https://medium.com/@jonathan_hui/debug-a-deep-learning-network-part-5-1123c20f960d
+
+https://towardsdatascience.com/checklist-for-debugging-neural-networks-d8b2a9434f21
