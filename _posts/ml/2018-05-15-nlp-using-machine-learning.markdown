@@ -72,6 +72,8 @@ A bigram is an n-gram for n=2.
 * LDA Model
 贝叶斯派思想
 
+
+
 ### Word Embedding
 
 word2vec model 这不是一个特定的模型，而是一类模型。
@@ -108,6 +110,8 @@ skip-gram pair 是要在构造pair的时候把某个单词和其左侧单词pair
 (quick, the), (quick, brown), (brown, quick), (brown, fox), ...
 
 https://www.kdnuggets.com/2018/04/implementing-deep-learning-methods-feature-engineering-text-data-skip-gram.html
+
+Skip-Gram对低频词更友好，更容易学到低频词的embedding。
 
 
 ### Continuous Bag of Words（CBOW）model

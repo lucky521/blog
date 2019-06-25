@@ -13,7 +13,7 @@ layout: post
 
 # 多层感知机、玻尔兹曼机、受限玻尔兹曼机
 
-多层感知机器，是一种前向结构的人工神经网络，映射一组输入向量到一组输出向量。
+多层感知机器(MLP)，是一种前向结构的人工神经网络，映射一组输入向量到一组输出向量。
 ![](https://qph.fs.quoracdn.net/main-qimg-7f4840d91eb9da1b6673511a0eb806f2.webp)
 
 玻尔兹曼机的图像表示：每条无向边都表示一对依赖关系. 
@@ -26,6 +26,9 @@ layout: post
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Restricted_Boltzmann_machine.svg/440px-Restricted_Boltzmann_machine.svg.png)
 
 
+## 为什么神经网络可以拟合任意的函数？
+
+Universal approximation theorem(Hornik et al., 1989;Cybenko, 1989)定理表明：前馈神经网络，只需具备单层隐含层和有限个神经单元，就能以任意精度拟合任意复杂度的函数.
 
 
 # 神经网络的基本构成
@@ -64,6 +67,8 @@ cost function 用于表示所训练出模型的好坏程度。它是构建一个
 
 交叉熵损失函数简单来说就是样本的预测概率和真实概率的乘积。
 
+Loss = -actual * (log(pred)) - (1-actual)(log(1-pred))
+
 对数损失函数向多类别分类问题进行的一种泛化。交叉熵可以量化两种概率分布之间的差异。
 
 交叉熵损失(Cross-entropy Loss)，也叫对数损失（Log Loss），其本质就是最大似然估计（最小化对数似然的负数，相当于最大化似然函数）。
@@ -79,6 +84,8 @@ cost function 用于表示所训练出模型的好坏程度。它是构建一个
 ## NN模型的优化方法
 
 [最优化方法](https://lucky521.github.io/blog/design/2018/07/31/optimization-method.html)
+
+训练神经网络的目标是找到使最小化 损失函数 的神经元权重组合。
 
 优化方法指的是不断更新网络的参数，使得它能显著地降低代价函数。优化器是编译网络模型必要的两个参数之一。
 
@@ -128,6 +135,8 @@ cost function 用于表示所训练出模型的好坏程度。它是构建一个
 
 ### Sigmoid Function
 
+Sigmoid函数也称为logistic函数, 它是连续的, 也容易计算导数。它将所有的实数压缩到范围 0到1之间。
+
 A = 1/(1+e^(-x)
 
 输出范围0-1之间。
@@ -138,18 +147,20 @@ A = 2/(1+e^(-2x)) - 1 = 2sigmoid(2x) - 1
 
 输出范围是-1，1之间。
 
-
 ### SoftMax
+
+Softmax 是一个泛化的Sigmoid函数，,当我们要处理多个类。所有输出值都在范围 (0, 1) ，其总和为 1, 因此可以将输出解释为概率。
 
 ![](https://wikimedia.org/api/rest_v1/media/math/render/svg/e348290cf48ddbb6e9a6ef4e39363568b67c09d3)
 
 ### ReLu function 线性整流函数
 
+ReLU 函数如果输入小于或等于 0,则输出0 否则输出输入的值, 我们可以把它们看成开关。 它可以免受梯度消失的问题, 它计算非常快。在卷积网络中的应用时比应用Sigmoid函数更有效。
+
 通常意义下，线性整流函数代指代数学中的斜坡函数，即
 A = x if x>0 else 0
 
 其中ReLu应用的最多，可见 https://www.cnblogs.com/alexanderkun/p/6918029.html
-
 
 
 ## 模型评估 Evaluation
@@ -168,7 +179,9 @@ A = x if x>0 else 0
 反向传播的目的是要用这一次正向传播的结果来更新参数。首先列出误差（正常传播结果与样本结果的误差），计算误差对某个参数的偏导函数。那么该参数的新值就更新为原值 - 更新速率 * 偏导数。
 
 
-## 训练迭代
+## 训练迭代超参数
+
+超参数相对于模型参数不能从数据中学习, 它们是在训练阶段之前设置的。
 
 ### Iteration
 

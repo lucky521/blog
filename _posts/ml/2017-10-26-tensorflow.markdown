@@ -589,19 +589,43 @@ if __name__=="__main__": #用这种方式保证了，如果此文件被其他文
 
 ### 基本运算函数
 
+- tensor向量随机生成
 ```
 tf.random_normal
 
 tf.random_uniform
 
+```
+
+- 沿tensor向量某一个维度的计算
+```
 tf.reduce_mean: 函数用于计算张量tensor沿着指定的数轴（tensor的某一维度）上的的平均值，主要用作降维或者计算tensor（图像）的平均值。
 
 tf.reduce_max: 计算tensor指定轴方向上的各个元素的最大值;
 
-tf.reduce_min
+tf.reduce_min: 计算向量的最小值，加各种参数按各种方式计算最小值.
 
-tf.reduce_sum：对某一个维度内求和 https://stackoverflow.com/questions/47157692/how-does-reduce-sum-work-in-tensorflow
+tf.reduce_sum：对某一个维度内求和.  https://stackoverflow.com/questions/47157692/how-does-reduce-sum-work-in-tensorflow
 
+tf.reduce_prod #沿维度相乘
+
+tf.reduce_min #沿维度找最小
+
+tf.reduce_max #沿维度找最大
+
+tf.reduce_mean #沿维度求平均
+
+tf.reduce_all  #沿维度与操作
+
+tf.reduce_any  #沿维度或操作
+
+tf.boolean_mask
+
+```
+
+
+- 两个tensor向量的加减乘除运算
+```
 tf.add
 
 tf.argmax(vector, dimention)：返回的是vector中的最大值的索引号
@@ -616,18 +640,31 @@ tf.matmul(x, y) 将矩阵a乘以矩阵b，生成a * b。要求x的行数必须�
 
 tf.truediv 按元素除法x / y
 
+```
+
+
+- 两个tensor向量的concat操作
+```
+tf.concat
+在某个维度把两个tensor串联起来。
+
+tf.sparse_concat
+在某个维度把两个 sparse_concat 串联起来。
+```
+
+- 关于tensor向量的判断
+```
 tf.equal
 
 tf.where
 tf.where(condition, x = None, y = None, name = None)，根据condition判定返回。即condition是True，选择x；condition是False，选择y。
-
-tf.concat
-在某个维度把两个tensor串联起来。
-
 ```
 
-### 类型形式转换函数
+### 向量标准化
 
+tf.nn.l2_normalize
+
+### 类型形式转换函数
 
 https://www.tensorflow.org/api_guides/python/array_ops
 
@@ -641,9 +678,6 @@ tf.reshape
 tf.squeeze 将原始input中所有维度为1的那些维都删掉
 
 tf.tile 对当前张量内的数据进行一定规则的复制。最终的输出张量维度不变。
-
-
-
 ```
 
 ### tensorflow::Flag
@@ -749,9 +783,9 @@ tf.contrib.layers.l2_regularizer(scale, scope=None)
 
 ### 损失函数 Set Loss
 
-交叉熵损失函数 softmax_cross_entropy_with_logits
+- 交叉熵损失函数 softmax_cross_entropy_with_logits
 
-交叉熵损失函数 tf.nn.sparse_softmax_cross_entropy_with_logits
+- 交叉熵损失函数 tf.nn.sparse_softmax_cross_entropy_with_logits
 
 上面两种交叉熵损失函数的区别：https://stackoverflow.com/questions/37312421/whats-the-difference-between-sparse-softmax-cross-entropy-with-logits-and-softm
 
@@ -766,7 +800,7 @@ cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits_nn, labels
 tf.reduce_mean(cross_entropy)
 ```
 
-
+- KL散度，也就是两个分布的相对熵，体现的是两个分布的相似程度，熵越小越相似
 ```
 tf.distributions.kl_divergence
 ```
@@ -785,11 +819,14 @@ my_opt = tf.train.GradientDescentOptimizer(0.02) # 参数时学习率
 train_step = my_opt.minimize(loss) # 其中的loss是自己经过网络之后又构建好的损失值tensor
 ```
 
-
 优化器函数是怎么更新整个网络参数的？
 通过operation。 my_opt.minimize(loss)得到的就是一个op，把这个op传入到session.run(train_step)里面去，就会更新网络的权值。
 
-
+```
+train_op = optim.minimize(loss, global_step=self.global_step, var_list=train_vars)
+```
+var_list 参数指明了本次优化中可以被更新的权值。
+global_step 参数是训练迭代的计数器，比如说在Tensorboard画loss和 accuracy的横坐标即是global_step。优化器op每执行一次，该值就会自增1.
 
 
 
@@ -821,6 +858,7 @@ feature_a_x_feature_c = crossed_column(
 
 feature_columns = set(
     [feature_b, feature_c_bucketized, feature_a_x_feature_c])
+
 features = tf.parse_example(
     serialized=serialized_examples,
     features=make_parse_example_spec(feature_columns))
@@ -853,7 +891,7 @@ tf.feature_column.crossed_column
 tf.feature_column.indicator_column
 对类型特征进行one-hot编码后的特征。
 
-## embedding column
+## Embedding column
 tf.feature_column.embedding_column
 对类型特征进行Embedding编码后的特征。
 
@@ -872,7 +910,7 @@ Applies weight values to a CategoricalColumn
 
 
 
-# 样本数据格式处理
+# 样本文件/数据格式处理
 
 tf.Example messages to and from tfrecord files
 
@@ -1178,6 +1216,16 @@ bottleneck指的是网络最后输出层之前的一层（倒数第二层）。�
 
 
 ## final layer retraining
+
+
+## Fine Tune
+Fine Tune通常指的就是冻结网络前面的层，然后训练最后一层。
+
+在调用优化器的 minimize 方法生成训练op的时候，可以传入一个参数var_list来指定可以被优化的参数。
+```
+output_vars = tf.get_collection(tf.GraphKyes.TRAINABLE_VARIABLES, scope='outpt')
+train_step = optimizer.minimize(loss_score,var_list = output_vars)
+```
 
 
 ## retrain一个model
@@ -1526,11 +1574,15 @@ inter-request batching support
 
 1. “freeze the weights” of the model
 
+tf.graph_util.convert_variables_to_constants函数
+
 2. Custom DataSet OP 多线程数据预处理
 
 3. 并发处理多个请求
 
 4. GPU预测
+
+
 
 
 

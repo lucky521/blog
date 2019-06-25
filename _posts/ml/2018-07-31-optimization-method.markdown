@@ -283,6 +283,8 @@ L1范数是指向量中各个元素绝对值之和，也叫“稀疏规则算子
 
 ## Batch gradient descent
 
+计算整个数据集的渐变, 并在每次迭代中只执行一个更新。
+
 θ=θ−η⋅∇θJ(θ)
 
 ```
@@ -292,6 +294,8 @@ for i in range(nb_epochs):
 ```
 
 ## Stochastic gradient descent
+
+仅使用单个训练示例来计算渐变和更新参数。
 
 θ=θ−η⋅∇θJ(θ;x(i);y(i))
 
@@ -304,6 +308,8 @@ for i in range(nb_epochs):
 ```
 
 ## Mini-batch gradient descent
+
+将数据集拆分为小批, 并对每个 mini-batch 执行参数更新。
 
 θ=θ−η⋅∇θJ(θ;x(i:i+n);y(i:i+n))
 
