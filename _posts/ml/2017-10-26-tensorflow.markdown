@@ -41,16 +41,45 @@ tf.estimator是一个基类。
 ```
 predictor = tf.estimator.Estimator(
         model_fn=model.model_fn,
-        params={
+        params={  # dict of hyper parameters that will be passed into model_fn
             'feature_columns': columns,
             'config': config,
             'args': args,
         },
         model_dir=config.model_path,
         log_dir =config.tensorboard_dir,
-        config=run_config,
-        warm_start_from=ws)
+        config=run_config,  # tf.estimator.RunConfig
+        warm_start_from=ws  # tf.estimator.WarmStartSettings
+      )
 ```
+其中的 params["feature_columns"]是在模型中的所有FeatureColumns组成的列表或字典。后面会有一章单独讲Feature Columns。
+
+### model_fn Spec
+
+我们需要实现 model_fn 方法来创建EstimatorSpec并返回。模型网络的结构体现在该函数中。
+在训练时，以下参数将传递给该函数。
+
+    features: 这是来自于input_fn的特征数据。This is the first item returned from the input_fn passed to train, evaluate, and predict. This should be a single tf.Tensor or dict of same.
+
+    labels: 这是来自于input_fn的labels数据。This is the second item returned from the input_fn passed to train, evaluate, and predict. This should be a single tf.Tensor or dict of same (for multi-head models). If mode is tf.estimator.ModeKeys.PREDICT, labels=None will be passed. If the model_fn's signature does not accept mode, the model_fn must still be able to handle labels=None.
+
+    mode: Optional. Specifies if this training, evaluation or prediction. See tf.estimator.ModeKeys.
+
+    params: 这个参数是我们在构建Estimator的时候传给params的内容。Optional dict of hyperparameters. Will receive what is passed to Estimator in params parameter. This allows to configure Estimators from hyper parameter tuning.
+
+    config: Optional estimator.RunConfig object. Will receive what is passed to Estimator as its config parameter, or a default value. Allows setting up things in your model_fn based on configuration such as num_ps_replicas, or model_dir.
+
+    Returns: tf.estimator.EstimatorSpec
+
+tf.estimator.EstimatorSpec 用来定义Estimator的操作。该对象会作为 model_fn 参数来构建 Estimator.
+它定义了一个具体的模型对象。
+
+1. 如果是train任务，需要输入loss和train_op来构建 EstimatorSpec
+train_op指的就是优化器进行最优化求解所对应的op。
+2. 如果是eval任务，需要输入loss和eval_metric_ops 来构建 EstimatorSpec
+eval_metric_ops由若干tf.metrics指标模块所组成的字典，比如tf.metrics.accuracy,tf.metrics.precision,tf.metrics.recall,tf.metrics.auc.
+3. 如果是predict任务，需要输入predictions 来构建 EstimatorSpec
+
 
 ### tf.estimator.train_and_evaluate 函数
 
@@ -63,25 +92,15 @@ eval_spec = tf.estimator.EvalSpec(input_fn=eval_input_fn)
 tf.estimator.train_and_evaluate(estimator, train_spec, eval_spec)
 ```
 
-### model_fn Spec
-
- tf.estimator.EstimatorSpec 用来定义Estimator的操作。它定义了一个具体的模型对象。该对象会作为 model_fn 参数来构建 Estimator.
-
-1. 如果是train任务，需要输入loss和train_op来构建 EstimatorSpec
-train_op指的就是优化器进行最优化求解所对应的op。
-2. 如果是eval任务，需要输入loss和eval_metric_ops
-eval_metric_ops由若干tf.metrics指标模块所组成的字典，比如tf.metrics.accuracy,tf.metrics.precision,tf.metrics.recall,tf.metrics.auc.
-3. 如果是predict任务，需要输入predictions
-
-
-
 ### input_fn Spec 
 
- tf.estimator.TrainSpec  用来定义输入的训练数据，需要传入 input_fn=train_input_fn
+我们需要实现 input_fn 方法来创建TrainSpec和EvalSpec并返回，用于tf.estimator.train_and_evaluate.
 
- tf.estimator.EvalSpec  用来定义eval部分的配置，需要传入 input_fn=eval_input_fn.
+tf.estimator.TrainSpec  用来定义输入的训练数据，需要传入 input_fn=train_input_fn.
 
- input_fn 作为TrainSpec/EvalSpec最重要的输入参数，它是一个方法，该方法最终应该返回是数据。可以支持的类型有两种：
+tf.estimator.EvalSpec  用来定义eval部分的配置，需要传入 input_fn=eval_input_fn.
+
+input_fn 作为TrainSpec/EvalSpec最重要的输入参数，它是一个方法，该方法最终应该返回是数据。可以支持的类型有两种：
 
  1. A tuple (features, labels):
 
@@ -90,21 +109,13 @@ eval_metric_ops由若干tf.metrics指标模块所组成的字典，比如tf.metr
 
 ### Config
 
- tf.estimator.RunConfig 各种配置都填在这个类对象中。它会被作为conf参数用于构建 Estimator。
+tf.estimator.RunConfig 各种配置都填在这个类对象中。它会被作为conf参数用于构建 Estimator。
 
- tf.estimator.ModeKeys  设定当前的工作模式（eval、predict、train）
+tf.estimator.ModeKeys  设定当前的工作模式（eval、predict、train）
 
- tf.estimator.WarmStartSettings 它被作为warm_start_from参数用于构建 Estimator。
+tf.estimator.WarmStartSettings 它被作为warm_start_from参数用于构建 Estimator。
 
- tf.estimator.VocabInfo  表示 WarmStartSettings 的词汇信息。它被用于构建WarmStartSettings.
-
-
-### multi-objective learning
-
-tf.contrib.estimator.multi_head
-
-在input_fn中设定多个label作为多个目标。
-在model_fn中创建多种_head。
+tf.estimator.VocabInfo  表示 WarmStartSettings 的词汇信息。它被用于构建WarmStartSettings.
 
 
 
@@ -744,14 +755,31 @@ tf.map_fn
 
 ## 神经网络构建函数 Build Graph
 
+### 网络层
+
+tf.layers.dense / tf.layers.Dense
+
+    inputs：输入该网络层的数据
+    units：该层输出的维度大小，改变inputs的最后一维
+    activation：激活函数，即神经网络的非线性变化
+    use_bias：使用bias为True（默认使用），不用bias改成False即可，是否使用偏置项
+    trainable=True:表明该层的参数是否参与训练。如果为真则变量加入到图集合中
+
+
+
+tf.layers.batch_normalization
+
+tf.layers.dropout
+
 ### 激活函数
 
 ```
 tf.nn.relu
 tf.nn.sigmoid
 tf.nn.tanh
-tf.nn.dropout
 tf.nn.softmax
+
+tf.nn.dropout
 ```
 
 ### 卷积函数
@@ -846,6 +874,7 @@ feature_columns 作为 `Estimators的params参数`之一，它将输入数据 in
 可参考 https://www.tensorflow.org/guide/feature_columns
 
 - tf.feature_column.input_layer() 比较特殊，它作为输入层。
+
 - tf.feature_column.make_parse_example_spec 方法将若干个feature_colunms转换为key-value字典形式（key是feature name， value是FixedLenFeature 或 VarLenFeature）
 
 ```
@@ -1167,6 +1196,13 @@ builder.save()
 ## Multi-head / Multi-task DNN
 
 比如把点击率和下单率作为两个目标，分别计算各自的loss function。DNN的前几层作为共享层，两个目标共享这几层的表达，在BP阶段根据两个目标算出的梯度共同进行参数更新。网络的最后用一个全连接层进行拆分，单独学习对应loss的参数。
+
+### Multi-objective learning
+
+tf.contrib.estimator.multi_head
+
+在input_fn中设定多个label作为多个目标。
+在model_fn中创建多种_head。
 
 ## Warm Start
 
