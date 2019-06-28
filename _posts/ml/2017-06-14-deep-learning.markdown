@@ -38,8 +38,6 @@ Universal approximation theorem(Hornik et al., 1989;Cybenko, 1989)定理表明�
 ![NN-playground]({{ site.baseurl }}/images/nn-playground.png)
 
 
-
-
 ## 神经元 Neuron
 
 Neuron是神经网络的一个单元。它是一个函数，一个回归模型。
@@ -47,7 +45,9 @@ Neuron是神经网络的一个单元。它是一个函数，一个回归模型�
 那么机器学习的关键就在于，怎么根据数据来训练模型，也就是怎么根据样本数据来找到最合适的模型参数。
 
 
+## 网络参数的初始化
 
+Xavier初始化
 
 
 ## NN模型的代价函数 Cost Function / 损失函数 Loss / 误差函数 Error / Objective 目标函数
@@ -83,7 +83,7 @@ Loss = -actual * (log(pred)) - (1-actual)(log(1-pred))
 
 ## NN模型的优化方法
 
-[最优化方法](https://lucky521.github.io/blog/design/2018/07/31/optimization-method.html)
+另一篇文章有单独去介绍 [最优化方法](https://lucky521.github.io/blog/design/2018/07/31/optimization-method.html)
 
 训练神经网络的目标是找到使最小化 损失函数 的神经元权重组合。
 
@@ -102,7 +102,7 @@ Loss = -actual * (log(pred)) - (1-actual)(log(1-pred))
 
 把真实世界的对象抽象出矩阵形式的数据，尤其是要把对结果有影响的数据以一定的数学表达抽象出来。比如图像、比如声音、比如语言。
 
-相对于其他类型的模型，NN模型对输入的要求更加宽容。
+相对于其他类型的模型，NN模型对输入的要求更加宽容。但依然免不了特征工程中从“raw data” 到 向量 的处理过程。
 
 
 
@@ -113,13 +113,9 @@ Loss = -actual * (log(pred)) - (1-actual)(log(1-pred))
 通常一个神经网络，其隐含层层数、每层的Neuron个数，都是不一定的。对于最最简单的神经网络，可以没有隐含层，那么就只有输入层和输出层，输出层有唯一一个神经元。
 
 
-
-
-## 输入数据、输出数据
+## 输出数据
 
 如果是分类问题，那么数据就是离散的值。如果是回归问题，那么数据就是连续的值。
-
-
 
 
 
@@ -179,7 +175,7 @@ A = x if x>0 else 0
 反向传播的目的是要用这一次正向传播的结果来更新参数。首先列出误差（正常传播结果与样本结果的误差），计算误差对某个参数的偏导函数。那么该参数的新值就更新为原值 - 更新速率 * 偏导数。
 
 
-## 训练迭代超参数
+## 训练迭代的超参数
 
 超参数相对于模型参数不能从数据中学习, 它们是在训练阶段之前设置的。
 
@@ -254,6 +250,7 @@ Regularization 的目的是要避免过拟合。减少真实数据生成错误�
 
 [以贝叶斯估计来看待Dropout](http://mlg.eng.cam.ac.uk/yarin/PDFs/Dropout_as_a_Bayesian_approximation.pdf)
 
+
 ### 权值衰减 Weight penalty L1 and L2
 
 Weight penalty基于一个假设：模型的权重越小，模型越简单，要尽量使得权重的绝对值小。
@@ -313,17 +310,19 @@ shared weights
 
 池化层的操作是在从上一层传过来的参数矩阵中取一部分区域，然后继续传往下一层。常用的Pooling方法Max Pooling是取一小块区域中的最大值。
 
-
 ### Recurrent层
 
 
 ### Embedding层
 
-我再另外一篇blog中单独介绍了Embedding的构建。
-
+我再另外一篇blog中单独介绍了Embedding的构建。 [Embedding](https://lucky521.github.io/blog/machinelearning/2019/02/13/Data-Embedding.html)
 
 ### Normalization层
 
+BN(Batch Normalization) 
+https://keras.io/zh/layers/normalization/
+https://zhuanlan.zhihu.com/p/56225304
+https://zhuanlan.zhihu.com/p/34879333
 
 ### Noise层
 

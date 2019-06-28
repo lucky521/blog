@@ -956,6 +956,8 @@ TFRecord是文件形态，tf.train.Example就是内存对象形态.
 
 tf.Example is a {"string": tf.train.Feature} mapping.
 
+- tf.train.Feature
+
 tensorflow的 example 包含的是基于key-value对的存储方法，其中key是一个字符串，其映射到的是feature信息，feature包含三种类型：
 		BytesList：字符串列表
 		FloatList：浮点数列表
@@ -964,9 +966,9 @@ tensorflow的 example 包含的是基于key-value对的存储方法，其中key�
 
 ### tf.train.SequenceExample
 
-### tf.parse_example
+### tf.parse_example 方法
 
-parse_example 方法把序列化的特征解析为字典类型(tensor)。
+parse_example 方法把 序列化的特征(tf.Example) 解析为 字典类型(tensor)。
 参考 tensorflow/python/ops/parsing_ops.py.
 parse_example的输入：
     serialized: A vector (1-D Tensor) of strings, a batch of binary
@@ -981,9 +983,7 @@ parse_example的输出：
     return: A `dict` mapping feature keys to `Tensor` and `SparseTensor` values.
 
 
-tf.train.Feature
-
-### tf.parse_single_example
+### tf.parse_single_example 方法
 
 区别于tf.parse_example，tf.parse_single_example只是少了一个batch而已，其余的都是一样的
 
@@ -1384,6 +1384,7 @@ $ tensorflow_model_server \
 ## Client-Server 交互过程
 
 具体的交互流程一般是这样：
+下面的代码中每次请求可能传入多条样本（多条预测请求）。
 
 ```
 // TFS request 伪代码
@@ -1413,6 +1414,7 @@ google::protobuf::Map<std::string, tensorflow::TensorProto>& inputs = *request_p
 inputs["examples"] = example_proto; // 这个例子中只在tensorflow::serving::PredictRequest中放入了一个k-v
 ```
 
+下面的代码中一次读取请求时传入的多条样本所对应的结果。
 ```
 // TFS response 伪代码
 tensorflow::serving::PredictResponse* response_pb = static_cast<tensorflow::serving::PredictResponse*>(response);
@@ -1431,17 +1433,17 @@ for (auto x: map_outputs) {
 
 ## TensorFlow Serving 客户端-服务端数据交互格式
 
-Feature.proto 和 example.proto
-定义在tensorflow/core/example/feature.proto和tensorflow/core/example/example.proto
+- Feature.proto 和 example.proto
+定义在tensorflow/core/example/feature.proto 和 tensorflow/core/example/example.proto
 
 
-TensorProto
+- TensorProto
 TensorProto是一个pb message，定义在tensorflow/core/framework/tensor.proto，用来表示一个Tensor。
 
-TensorInfo
+- TensorInfo
 
 
-SignatureDef
+- SignatureDef
 由inputs TensorInfo、outputs TensorInfo、method_name三个成员构成。
 SignatureDef的主要作用是定义输出和输入接口协议
 A SignatureDef defines the signature of a computation supported in a TensorFlow graph. SignatureDefs aim to provide generic support to identify inputs and outputs of a function and can be specified when building a SavedModel.
@@ -1453,18 +1455,18 @@ message SignatureDef {
 }
 ```
 
-SignatureDefMap
+- SignatureDefMap
 由 name->SignatureDef 构成的map。
 
-MetaGraphDef
+- MetaGraphDef
 由一个计算图 GraphDef 和其相关的元数据（SignatureDef、CollectionDef、SaverDef）构成。其包含了用于继续训练，实施评估和（在已训练好的的图上）做前向推断的信息。
 定义在tensorflow/core/framework/graph.proto
 
 
-PredictRequest
+- PredictRequest
 由 map<string, TensorProto> 作为请求输入。要预测的样本就放在其中。
 
-PredictResponse
+- PredictResponse
 由 map<string, TensorProto> 作为请求返回。预测的结果就放在其中。
 
 
@@ -1473,10 +1475,15 @@ PredictResponse
 对于Serving来说，预测时的输入data就是 `tf.example` 形式的.
 
 serving_input_receiver_fn 方法在serving阶段，相当于训练阶段的 input_fn 方法。
-它返回了一个 ServingInputReceiver 对象。 这个对象创建时传入了两个参数：
-  一个是 features=parsing_ops.parse_example 的返回值，它定义了传给模型的features.
+
+- 它返回了一个 ServingInputReceiver 对象。 这个对象创建时传入了两个参数：
   一个是 receiver_tensors={receiver_key: serialized_tf_example}.
-它是要把 tf.Example 解析为 tensor. 
+  一个是 features=parsing_ops.parse_example(serialized_tf_example,
+                                           feature_spec)，它定义了传给模型的features.
+  它是要把 tf.Example 解析为 tensor. 
+
+  其中 serialized_tf_example 是 新创建的tf.placeholder，把它设计在要导出的graph中，用于接收input数据。
+  其中 feature_spec 就相当于训练时设定的feature_columns。
 
 serving_input_receiver_fn 是在导出模型时被使用的。
 在导出模型的时候，会将 serving_input_receiver_fn 方法传入到 export_savedmodel 方法中。
@@ -1593,6 +1600,8 @@ REGISTER_STORAGE_PATH_SOURCE_ADAPTER
 
 ## Optimizing the model for Serving
 
+https://hackernoon.com/how-we-improved-tensorflow-serving-performance-by-over-70-f21b5dad2d98
+
 0. Batching 并发预测同一个请求中的多条样本
 max_batch_size { value: 128 }
 batch_timeout_micros { value: 0 }
@@ -1618,6 +1627,18 @@ tf.graph_util.convert_variables_to_constants函数
 
 4. GPU预测
 
+
+5. 并行参数
+
+intra_op_parallelism_threads
+
+  - controls maximum number of threads to be used for parallel execution of a single operation.
+  - used to parallelize operations that have sub-operations that are inherently independent by nature.
+
+inter_op_parallelism_threads
+
+  - controls maximum number of threads to be used for parallel execution of independent different operations.
+  - operations on Tensorflow Graph that are independent from each other and thus can be run on different threads.
 
 
 

@@ -203,6 +203,9 @@ L1范数是指向量中各个元素绝对值之和，也叫“稀疏规则算子
 
  L2范数是指向量各元素的平方和然后求平方根。
 
+- l1 相比于 l2 为什么容易获得稀疏解？
+https://www.zhihu.com/question/37096933
+
 
 
 
@@ -323,15 +326,27 @@ for i in range(nb_epochs):
 
 ## 牛顿方法
 
+用目标函数的二阶泰勒展开近似该目标函数，通过求解这个二次函数的极小值来求解凸优化的搜索方向。
+
+https://zhuanlan.zhihu.com/p/33544363
+
 ## Momentum
+
+momentum是模拟物理里动量的概念，积累之前的动量来替代真正的梯度
 
 ## Nesterov accelerated gradient
 
+https://zhuanlan.zhihu.com/p/22810533
+
 ## Adagrad
+
+Adagrad其实是对学习率进行了一个约束
 
 ## Adadelta
 
 ## RMSprop
+
+RMSprop可以算作Adadelta的一个特例：
 
 ## Adam
 
@@ -347,10 +362,13 @@ Adaptive Moment Estimation (Adam) combines ideas from both RMSProp and Momentum.
 
 ## BFGS
 
+## L-BFGS
+
+https://blog.csdn.net/dadouyawp/article/details/44179599
+
 
 
 ## 多种优化方法的结合使用
-
 
 比如通过切换从Adam到SGD。
 Adam在一开始表现更好，而SGD最终达到更好的全局最小值。
@@ -366,3 +384,6 @@ Adam在一开始表现更好，而SGD最终达到更好的全局最小值。
 # Reference
 
 http://ruder.io/optimizing-gradient-descent/
+
+https://zhuanlan.zhihu.com/p/22252270
+
