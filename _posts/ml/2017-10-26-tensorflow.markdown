@@ -222,8 +222,27 @@ https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/profil
 https://www.tensorflow.org/api_guides/python/tfdbg
 
 
+## 性能分析模块 TensorFlow Profiler
 
+### tfprof
 
+### tf.RunMetadata
+使用 run_metadata 将每次session run的性能信息记录下来。生成的trace文件可以用 chrome://tracing/ 直接打开显示。
+```
+options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+run_metadata = tf.RunMetadata()
+
+_ = sess.run(optimizer, options=options, run_metadata=run_metadata)
+
+fetched_timeline = timeline.Timeline(run_metadata.step_stats)
+chrome_trace = fetched_timeline.generate_chrome_trace_format()
+
+with open(FLAGS.trace_file, 'w') as f:
+    f.write(chrome_trace)
+print('Chrome Trace File write in %s' % FLAGS.trace_file)
+```
+
+### tf.train.ProfilerHook
 
 
 
@@ -874,6 +893,8 @@ feature_columns 作为 `Estimators的params参数`之一，它将输入数据 in
 可参考 https://www.tensorflow.org/guide/feature_columns
 
 - tf.feature_column.input_layer() 比较特殊，它作为输入层。
+
+它的返回值是生产的dense Tensor，作为网络的输入层。
 
 - tf.feature_column.make_parse_example_spec 方法将若干个feature_colunms转换为key-value字典形式（key是feature name， value是FixedLenFeature 或 VarLenFeature）
 
@@ -1596,6 +1617,21 @@ REGISTER_STORAGE_PATH_SOURCE_ADAPTER
 
 
 
+
+
+
+
+
+
+# Tensorflow 性能调优 
+
+## Performance
+
+https://tensorflow.google.cn/guide/performance/overview
+
+## Benchmarks
+
+https://github.com/tensorflow/benchmarks
 
 
 ## Optimizing the model for Serving
