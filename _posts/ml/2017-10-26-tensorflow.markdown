@@ -119,6 +119,20 @@ tf.estimator.VocabInfo  表示 WarmStartSettings 的词汇信息。它被用于�
 
 
 
+## Keras API
+
+```
+model = keras.Sequential([keras.layers.Dense(units=1, input_shape=[1])])
+model.compile(optimizaer=''sgd', loss='mean_squared_error')
+
+xs = np.array([-1.0, 0.0, 1.0, 2.0], dtype=float) 
+ys = np.array([-3.0. -1.0, 1.0, 3.0], dtype=float)
+model.fit(xs, ys, epochs=500)
+
+result = model.predict([4.0])
+```
+
+
 ## Tensorflow Eager 模式 API
 
 无需构建图：操作会返回具体的值，而不是构建以后再运行的计算图
@@ -223,6 +237,8 @@ https://www.tensorflow.org/api_guides/python/tfdbg
 
 
 ## 性能分析模块 TensorFlow Profiler
+
+官方文档： https://github.com/tensorflow/tensorflow/tree/r1.3/tensorflow/core/profiler
 
 ### tfprof
 
@@ -1623,7 +1639,7 @@ REGISTER_STORAGE_PATH_SOURCE_ADAPTER
 
 
 
-# Tensorflow 性能调优 
+# Tensorflow 性能调优（训练/预测） 
 
 ## Performance
 
@@ -1633,49 +1649,117 @@ https://tensorflow.google.cn/guide/performance/overview
 
 https://github.com/tensorflow/benchmarks
 
+## Grappler 模块
+
+Grappler是优化模块，包括：
+  - tensorflow.gappler.ModelPruner 裁剪图中不需要的节点
+  - tensorflow.grappler.ConstantFolding 做常量的折叠，所谓的常量折叠是将计算图中可以预先可以确定输出值的节点替换成常量，并对计算图进行一些结构简化的操作。
+  - tensorflow.grappler.LayoutOptimizer类的主要优化逻辑是改变一些运算节点的输入数据格式来提高运算效率。
+  - tensorflow.grappler.MemoryOptimizer 把一些计算中间结果交换到其他内存，需要时再换回，以节省计算设备的内存占用。
+  - tensorflow.grappler.AutoParallel的优化逻辑是通过重构原来的计算图，使得模型的训练过程实现数据并行，准确的说是多个batch的数据能并行训练，而不用等前一个batch训练完成。
 
 ## Optimizing the model for Serving
 
-https://hackernoon.com/how-we-improved-tensorflow-serving-performance-by-over-70-f21b5dad2d98
+综合性文档： https://hackernoon.com/how-we-improved-tensorflow-serving-performance-by-over-70-f21b5dad2d98
 
-0. Batching 并发预测同一个请求中的多条样本
+
+课程：https://www.bilibili.com/video/av47698851
+
+### 选择合适的指令集优化选项
+编译Sering程序的时候加入优化flags，选择自己CPU所能支持的指令集。
+
+
+
+### Batching 并发预测同一个请求中的多条样本
+
+官方文档： https://github.com/tensorflow/serving/tree/master/tensorflow_serving/batching
+
 max_batch_size { value: 128 }
+  - The maximum size of any batch. This parameter governs the throughput/latency tradeoff, and also avoids having batches that are so large they exceed some resource constraint (e.g. GPU memory to hold a batch's data).
+
 batch_timeout_micros { value: 0 }
-max_enqueued_batches { value: 1000000 }
+  - The maximum amount of time to wait before executing a batch (even if it hasn't reached max_batch_size). Used to rein in tail latency.
+
 num_batch_threads { value: 8 }
+  - The degree of parallelism, i.e. the maximum number of batches processed concurrently.
 
-Parallelize Data Transformation
+max_enqueued_batches { value: 1000000 }
+  - The number of batches worth of tasks that can be enqueued to the scheduler. Used to bound queueing delay, by turning away requests that would take a long time to get to, rather than building up a large backlog.
 
-Parallelize Data Extraction
+
+- Parallelize Data Transformation
+
+- Parallelize Data Extraction
 
 
-0. Batching 并发预测不同请求的样本
+### Batching 并发预测不同请求的样本
 inter-request batching support
 
 
-1. “freeze the weights” of the model
-
+### “freeze the weights” of the model
 tf.graph_util.convert_variables_to_constants函数
 
-2. Custom DataSet OP 多线程数据预处理
+```
+from tensorflow.python.tools import freeze_graph
 
-3. 并发处理多个请求
+freeze_graph.freeze_graph(
+    input_saved_model_dir=saved_model_dir,
+    output_graph=out_graph_filename,
+    saved_model_tags=tag_constants.SERVING,
+    output_node_names=outpput_node_names,
+    ...
+)
+```
 
-4. GPU预测
+### Custom DataSet OP 多线程数据预处理
 
+### 并发处理多个请求
 
-5. 并行参数
+### GPU预测
 
-intra_op_parallelism_threads
+TensorRT
+
+### GTT - Graph Transform Tool
+
+官方文档： https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tools/graph_transforms
+
+```
+from tensorflow.tools.graph_transforms import TransformGraph
+
+TRANSFORMS = [
+  'remove_nodes(op=Identity)',
+  'fold_constants(ignore_error=true)',
+  'merge_duplicate_nodes',
+  'strip_unused_nodes',
+  'fold_batch_norms',
+]
+
+optimized_graph_def = TransformGraph(
+  graph_def,
+  input_names,
+  output_names,
+  TRANSFORMS
+)
+```
+
+### 并行参数
+
+有两个运行时的参数用于 Session parallelism。默认这两项配置是自动选择的。
+
+intra_op_parallelism_threads 一个OP内的并行
 
   - controls maximum number of threads to be used for parallel execution of a single operation.
   - used to parallelize operations that have sub-operations that are inherently independent by nature.
 
-inter_op_parallelism_threads
+inter_op_parallelism_threads  相互独立的不同OP的并行
 
   - controls maximum number of threads to be used for parallel execution of independent different operations.
   - operations on Tensorflow Graph that are independent from each other and thus can be run on different threads.
 
+
+### Client端瘦身
+
+在Serving的时候加载 tensorflow_serving and tensorflow libraries 这两行个库增加了不必要的延时。
 
 
 
@@ -1792,9 +1876,9 @@ https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.
 
 ## Fashion-MNIST 数据集
 
-这是一个服饰类的图像数据集，包含了10个类别，分别是10种服饰类型。
+这是一个服饰类的图像数据集，包含了10个类别，分别是10种服饰类型。一共7万张图片。
 
-
+keras.datasets.fashion_mnist.load_data()
 
 
 ## ImageNet 图像数据集模型训练
