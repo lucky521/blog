@@ -28,7 +28,7 @@ Running the computational graph in a session
 
 ## TensorFlow Estimator (High-Level API)
 
-最适合用于模型实践的API就是tf.estimator这一套方法。
+最适合用于模型实践的API就是tf.estimator这一套方法。 在高阶API中不显式的出现session.run的概念。
 
 ### tf.estimator.Estimator 类
 
@@ -240,10 +240,11 @@ https://www.tensorflow.org/api_guides/python/tfdbg
 
 官方文档： https://github.com/tensorflow/tensorflow/tree/r1.3/tensorflow/core/profiler
 
-### tfprof
-
-### tf.RunMetadata
-使用 run_metadata 将每次session run的性能信息记录下来。生成的trace文件可以用 chrome://tracing/ 直接打开显示。
+### TF Trace / tf.RunMetadata / timeline对象
+这是低阶API才能使用使用的方法。
+使用 run_metadata 将每次session run的性能信息记录下来。
+Timeline类可以被用于以Chrome Tracing的格式生成一个JSON trace文件。
+生成的trace文件可以用 chrome://tracing/ 直接打开显示。
 ```
 options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
 run_metadata = tf.RunMetadata()
@@ -258,7 +259,21 @@ with open(FLAGS.trace_file, 'w') as f:
 print('Chrome Trace File write in %s' % FLAGS.trace_file)
 ```
 
+### tfprof
+tf.contrib.tfprof.ProfileContext
+```
+with tf.contrib.tfprof.ProfileContext(args.profile_dir) as pctx:
+  run... # 可以是高阶API、也可以是低阶API
+```
+
 ### tf.train.ProfilerHook
+```
+hook = tf.train.ProfilerHook(save_steps=100, output_dir='/tmp/')
+estimator.train(
+      input_fn=lambda: ltr_dataset.csv_input_fn(train_file_list, args.batch_size),
+      hooks=[hook]
+)
+```
 
 
 
@@ -640,7 +655,6 @@ if __name__=="__main__": #用这种方式保证了，如果此文件被其他文
 tf.random_normal
 
 tf.random_uniform
-
 ```
 
 - 沿tensor向量某一个维度的计算
@@ -669,7 +683,6 @@ tf.boolean_mask
 
 ```
 
-
 - 两个tensor向量的加减乘除运算
 ```
 tf.add
@@ -688,7 +701,6 @@ tf.truediv 按元素除法x / y
 
 ```
 
-
 - 两个tensor向量的concat操作
 ```
 tf.concat
@@ -704,6 +716,15 @@ tf.equal
 
 tf.where
 tf.where(condition, x = None, y = None, name = None)，根据condition判定返回。即condition是True，选择x；condition是False，选择y。
+
+
+tf.unique
+返回一个元组tuple(y,idx)，y为x的列表的唯一化数据列表，idx为x数据对应y元素的index
+比如
+# tensor 'x' is [1, 1, 2, 4, 4, 4, 7, 8, 8]
+y, idx = unique(x)
+y ==> [1, 2, 4, 7, 8]
+idx ==> [0, 0, 1, 2, 2, 2, 3, 4, 4]
 ```
 
 ### 向量标准化
@@ -730,56 +751,6 @@ tf.tile 对当前张量内的数据进行一定规则的复制。最终的输出
 
 用于解析和处理命令行参数
 
-
-## 模型保存和加载函数
-
-我们经常在训练完一个模型之后希望保存训练的结果，这些结果指的是模型的参数，以便下次迭代的训练或者用作测试。
-
-1. 第一种：是传统的 tf.train.Saver 类save保存和restore恢复方法。Tensorflow针对这一需求提供了Saver类。
-这种方法将模型保存为ckpt格式。
-
-tf.train.get_checkpoint_state   输入路径必须是绝对路径
-
-```
-# 保存
-saver = tf.train.Saver() #什么参数都不输入，则保存all saveable objects，存储形式为ckpt
-save_path = saver.save(sess, model_path) 
-...
-saver = tf.train.Saver({"embeddings": embeddings}) #输入包含variable的字典，存储形式为variables
-saver.save(sess, "./lu_vari")
-...
-
-# 加载
-saver.restore(sess, tf.train.latest_checkpoint(checkpoint_path))
-# tf.train.latest_checkpoint自动获取最后一次保存的模型
-saver.restore(sess, model_path)
-```
-
-2. 第二种：是比较新颖的 tf.saved_model.builder.SavedModelBuilder 类的builder保存和loader文件里的load恢复方法。
-
-```
-# 保存
-builder = tf.saved_model.builder.SavedModelBuilder(export_path)
-builder.add_meta_graph_and_variables(...)
-builder.save()
-...
-# 加载
-tf.saved_model.loader.load(sess, ["tag"], export_dir)
-```
-
-3. 第三种：高阶API版的方法
-tf.estimator.Estimator.export_savedmodel
-
-```
-export_savedmodel(
-    export_dir_base,
-    serving_input_receiver_fn,
-    assets_extra=None,
-    as_text=False,
-    checkpoint_path=None,
-    strip_default_attrs=False
-)
-```
 
 
 ## 高阶函数
@@ -1132,15 +1103,14 @@ GetNextInternal 可能会被并发调用，所以推荐用一个互斥量来保�
 # 模型文件格式
 
 1. GraphDef
-2. SavedModels
-
+2. SavedModel
 
 下面两种模型文件格式对应着tensorflow的两种模型文件保存方式。
 
 checkpoint文件 是用于本地加载模型然后进行本地预测的。
 pb-variable文件是用来让tensorflow serving加载并进行远程预测的。
 
-在模型文件中，我们想保存的信息有两种：
+在模型文件中（不管是何种格式），我们想保存的信息有两种：
 1. a graph (various operations).
 2. weights/variables in a graph.
 
@@ -1167,7 +1137,7 @@ checkpoints, which are versions of the model created during training. 存储的�
 https://www.tensorflow.org/guide/checkpoints
 
 
-## pb-variable文件
+## pb-variable文件(SavedModel)
 
 这是由 tf.saved_model.builder.SavedModelBuilder 类生成的模型文件。
 
@@ -1219,6 +1189,59 @@ builder.add_meta_graph_and_variables
 
 builder.save()
 ```
+
+## 模型保存和加载函数
+
+我们经常在训练完一个模型之后希望保存训练的结果，这些结果指的是模型的参数，以便下次迭代的训练、或用作测试、或用于预测。
+
+1. 第一种：是传统的 tf.train.Saver 类save保存和restore恢复方法。Tensorflow针对这一需求提供了Saver类。
+这种方法将模型保存为ckpt格式。
+
+tf.train.get_checkpoint_state   输入路径必须是绝对路径
+
+```
+# 保存
+saver = tf.train.Saver() #什么参数都不输入，则保存all saveable objects，存储形式为ckpt
+save_path = saver.save(sess, model_path) 
+...
+saver = tf.train.Saver({"embeddings": embeddings}) #输入包含variable的字典，存储形式为variables
+saver.save(sess, "./lu_vari")
+...
+
+# 加载
+saver.restore(sess, tf.train.latest_checkpoint(checkpoint_path))
+# tf.train.latest_checkpoint自动获取最后一次保存的模型
+saver.restore(sess, model_path)
+```
+
+2. 第二种：是比较新颖的 tf.saved_model.builder.SavedModelBuilder 类的builder保存和loader文件里的load恢复方法。
+这种方法将模型保存为pb-variable格式。
+
+```
+# 保存
+builder = tf.saved_model.builder.SavedModelBuilder(export_path)
+builder.add_meta_graph_and_variables(...)
+builder.save()
+...
+# 加载
+tf.saved_model.loader.load(sess, ["tag"], export_dir)
+```
+
+3. 第三种：高阶API版的方法
+tf.estimator.Estimator.export_savedmodel
+这种方法将模型也保存为pb-variable格式。
+
+```
+export_savedmodel(
+    export_dir_base,
+    serving_input_receiver_fn,
+    assets_extra=None,
+    as_text=False,
+    checkpoint_path=None,
+    strip_default_attrs=False
+)
+```
+
 
 
 ## checkpoint文件 和 pb-variable文件之间的转换
@@ -1658,6 +1681,17 @@ Grappler是优化模块，包括：
   - tensorflow.grappler.MemoryOptimizer 把一些计算中间结果交换到其他内存，需要时再换回，以节省计算设备的内存占用。
   - tensorflow.grappler.AutoParallel的优化逻辑是通过重构原来的计算图，使得模型的训练过程实现数据并行，准确的说是多个batch的数据能并行训练，而不用等前一个batch训练完成。
 
+## XLA
+
+XLA是将tensorflow.GraphDef编译成可执行代码。
+
+XLA提供了AOT(提前编译)和JIT(即时编译)两种方式。
+
+- AOT(提前编译)方式就是在代码执行阶段之前全部编译成目标指令，进入执行阶段后，不再有编译过程发生。
+
+- JIT全称Just In Time（即时）.在即时编译中，计算图在不会在运行阶段前被编译成可执行代码，而是在进入运行阶段后的适当的时机才会被编译成可执行代码，并且可以被直接调用了。
+
+
 ## Optimizing the model for Serving
 
 综合性文档： https://hackernoon.com/how-we-improved-tensorflow-serving-performance-by-over-70-f21b5dad2d98
@@ -1760,6 +1794,11 @@ inter_op_parallelism_threads  相互独立的不同OP的并行
 ### Client端瘦身
 
 在Serving的时候加载 tensorflow_serving and tensorflow libraries 这两行个库增加了不必要的延时。
+
+
+
+
+
 
 
 
