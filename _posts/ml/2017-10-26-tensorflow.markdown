@@ -1968,7 +1968,7 @@ https://deepmind.com/blog/wavenet-generative-model-raw-audio/
 
 
 
-# Tensorflow 多语言支持 
+# Tensorflow 跨语言支持 
 
 大多数情况下，我们使用Python来进行模型训练，所有可用的Python API都在 https://tensorflow.google.cn/api_docs/python
 
@@ -2003,6 +2003,8 @@ Python API具备功能最为全面的方法，能够支持基本上机器学习�
       ReductionOp<CPUDevice, type, int64, Eigen::internal::MaxReducer<type>>);
 ```
 
+
+## OpKernel
 
 
 ## TFX API

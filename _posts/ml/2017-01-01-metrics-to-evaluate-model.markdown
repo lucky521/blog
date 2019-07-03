@@ -143,7 +143,7 @@ AUC metric is only designed for binary classifiers.
 机器学习实践中分类器常用的评价指标就是auc，不想搞懂，简单用的话，记住一句话就行。auc取值范围[0.5, 1]，越大表示越好，小于0.5的把结果取反就行。
 
 roc曲线下的面积就是auc，所以要先搞清楚roc - receiver operating characteristic curve。
-ROC曲线是以横坐标为FPR，以纵坐标为TPR，划出的一条曲线。
+ROC曲线是以横坐标为 FPR ，以纵坐标为 TPR ，划出的一条曲线。
 ROC曲线越靠拢(0,1)点，越偏离45度对角线越好，Sensitivity、Specificity越大效果越好。
 
 AUC(Area under Curve)：Roc曲线下的面积，显然这个面积的数值不会大于1。

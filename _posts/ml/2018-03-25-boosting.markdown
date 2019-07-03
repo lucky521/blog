@@ -148,6 +148,17 @@ Load一个模型文件
     XGBoost允许在每一轮boosting迭代中使用交叉验证
 
 
+## XGBoost 框架
+
+XGBOOST_REGISTER_OBJECTIVE
+
+```
+XGBOOST_REGISTER_OBJECTIVE(PairwiseRankObj, "rank:pairwise")
+.describe("Pairwise rank objective.")
+.set_body([]() { return new PairwiseRankObj(); });
+```
+
+
 ## Pairwise Training
 
 XGBoost支持pairwise方式的训练目标。我们来看一下pairwise方式的训练策略是怎么样进行的。
