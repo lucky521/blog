@@ -276,8 +276,6 @@ estimator.train(
 ```
 
 
-
-
 # 重要的元素
 
 tensorflow::GraphDef是图，模型的载体。
@@ -471,7 +469,9 @@ graph.get_operation_by_name(op_name)
 
 ## custom_ops
 
-custom op指的是使用C++来实现自己的tensor操作。
+custom op指的是使用C++来实现自己的tensor操作。 
+
+当然了Tensorflow 内部的运算方法也都是通过OP这一方式来注册的。
 
 https://www.tensorflow.org/guide/extend/op
 
@@ -483,6 +483,7 @@ https://github.com/tensorflow/custom-op
 #include "tensorflow/core/framework/op_kernel.h"
 #include "tensorflow/core/framework/shape_inference.h"
 using namespace tensorflow;
+
 REGISTER_OP("接口名称")
     .Input("输入名称: int32")
     .Output("输出名称: int32")
@@ -770,8 +771,6 @@ tf.layers.dense / tf.layers.Dense
     activation：激活函数，即神经网络的非线性变化
     use_bias：使用bias为True（默认使用），不用bias改成False即可，是否使用偏置项
     trainable=True:表明该层的参数是否参与训练。如果为真则变量加入到图集合中
-
-
 
 tf.layers.batch_normalization
 
@@ -1790,6 +1789,13 @@ inter_op_parallelism_threads  相互独立的不同OP的并行
   - controls maximum number of threads to be used for parallel execution of independent different operations.
   - operations on Tensorflow Graph that are independent from each other and thus can be run on different threads.
 
+```
+config = tf.ConfigProto()
+config.intra_op_parallelism_threads = 44
+config.inter_op_parallelism_threads = 44
+tf.Session(config=config)
+```
+
 
 ### Client端瘦身
 
@@ -1956,3 +1962,48 @@ https://github.com/pannous/tensorflow-speech-recognition
 ### WaveNet
 
 https://deepmind.com/blog/wavenet-generative-model-raw-audio/
+
+
+
+
+
+
+# Tensorflow 多语言支持 
+
+大多数情况下，我们使用Python来进行模型训练，所有可用的Python API都在 https://tensorflow.google.cn/api_docs/python
+
+也可以使用C++来进行模型训练， 所有可用的C++ API都在 https://tensorflow.google.cn/api_docs/cc
+
+
+Python API具备功能最为全面的方法，能够支持基本上机器学习工作中所需要的几乎所有操作。
+
+## 那么Python API 和 C++ API是如何对应的呢？
+
+在tensorflow/core/kernels目录下，能看到非常多的xxx_op.cc
+
+通过注册 REGISTER_KERNEL_BUILDER
+
+有些运算操作的对应关系比较直接：
+
+比如 tf.unique 和 class UniqueOp
+比如 tf.concat 和 class ConcatBaseOp
+比如 tf.argmax 和 class ArgMaxOp
+比如 tf.reshape 和 class ReshapeOp
+比如 tf.matmul 和 class MatMulOp
+
+
+有些运算操作
+比如 tf.reduce_xxx
+```
+  REGISTER_KERNEL_BUILDER(                                                     \
+      Name("Max")                                                              \
+          .Device(DEVICE_CPU)                                                  \
+          .TypeConstraint<type>("T")                                           \
+          .TypeConstraint<int64>("Tidx"),                                      \
+      ReductionOp<CPUDevice, type, int64, Eigen::internal::MaxReducer<type>>);
+```
+
+
+
+## TFX API
+

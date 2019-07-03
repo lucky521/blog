@@ -116,7 +116,7 @@ def Hinge(yHat, y):
 ```
 
 6. 交叉熵损失/负对数似然
-Cross-entropy loss, or log loss
+Cross-entropy loss, or Log loss
 Loss = -actual * (log(pred)) - (1-actual)(log(1-pred))
 ```
 def CrossEntropy(yHat, y):
