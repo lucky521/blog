@@ -158,7 +158,9 @@ PolynomialFeatures 以多项式运算的方式将2个以上的特征以多项式
 
 
 
-# 特征选择 Feature Selection
+# 特征选择 Feature Selection & 降维 Dimension Reduction
+
+降维本质上是特征的处理或抽取，从一个维度空间映射到另一个维度空间，特征的多少别没有减少，在映射的过程中特征值也会相应的变化。
 
 为什么会有维度灾难（curse of dimensionality）？
 特征维度越高，所需要的样本点数据越多。
@@ -171,6 +173,9 @@ PolynomialFeatures 以多项式运算的方式将2个以上的特征以多项式
 
 
 ## 计算特征之间的相关系数
+
+
+## 特征重要性
 
 
 
@@ -190,6 +195,11 @@ PCA降维的大致思想是挑选特征明显的、显得比较重要的信息�
 ## SVD 奇异值分解 - singular value decomposition
 
 线性代数中一种重要的矩阵分解
+
+
+## LSA 隐含语义分析
+
+创建主体向量
 
 ## Sammon’s Mapping 方法
 
@@ -212,6 +222,8 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 
 
+
+
 # 流形学习 Manifold Learning
 
 流形学习方法是模式识别中的基本方法，分为线性流形学习算法和非线性流形学习算法。
@@ -228,7 +240,8 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 # 稀疏表示 Sparse representation 和 字典学习 Dictionary learning
 
-字典学习（Dictionary Learning）和稀疏表示（Sparse Representation）在学术界的正式称谓应该是稀疏字典学习（Sparse Dictionary Learning）。该算法理论包含两个阶段：字典构建阶段（Dictionary Generate）和利用字典（稀疏的）表示样本阶段（Sparse coding with a precomputed dictionary）。
+字典学习（Dictionary Learning）和稀疏表示（Sparse Representation）在学术界的正式称谓应该是稀疏字典学习（Sparse Dictionary Learning）。
+该算法理论包含两个阶段：字典构建阶段（Dictionary Generate）和利用字典（稀疏的）表示样本阶段（Sparse coding with a precomputed dictionary）。
 
 稀疏表示的本质：用尽可能少的资源表示尽可能多的知识，这种表示还能带来一个附加的好处，即计算速度快。
 
@@ -237,7 +250,9 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 
 
-# 处理数据倾斜/不平衡
+# 采样
+
+## 处理数据倾斜/不平衡
 
 类不平衡（class-imbalance）是指在训练分类器中所使用的训练集的类别分布不均。比如说一个二分类问题，1000个训练样本，比较理想的情况是正类、负类样本的数量相差不多；而如果正类样本有995个、负类样本仅5个，就意味着存在类不平衡。
 
@@ -260,11 +275,15 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 
 
+## Candidate Sampling
 
+Candidate Sampling 训练方法要对每一次训练任务构建训练集合，每一个集合都是总样本集的一个小子集。
 
+Context-Specific Sampling
 
+Generic Sampling
 
-
+参考 https://www.tensorflow.org/extras/candidate_sampling.pdf
 
 
 # 从特征到训练集
@@ -284,27 +303,6 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 比如说对于排序或广告，我们可以把“有点击”的文档样本作为正样本，把“没有点击”的文档样本作为负样本。
 或者是把“有无订单”作为这个文档样本的label。
-
-
-
-
-# Candidate Sampling
-
-
-Candidate Sampling 训练方法要对每一次训练任务构建训练集合，每一个集合都是总样本集的一个小子集。
-
-Context-Specific Sampling
-
-Generic Sampling
-
-
-
-参考 https://www.tensorflow.org/extras/candidate_sampling.pdf
-
-
-
-
-
 
 
 

@@ -103,7 +103,7 @@ pipe中的最后一个estimator可以是transformer, classifier。之前的estim
 
 
 
-# 机器学习问题
+# sklearn解决机器学习问题
 
 ## 回归预测问题 Regression
 

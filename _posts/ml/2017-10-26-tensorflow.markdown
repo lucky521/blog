@@ -869,6 +869,8 @@ global_step 参数是训练迭代的计数器，比如说在Tensorboard画loss�
 
 # 特征处理 Feature Columns
 
+特征预处理是要将样本的原始数据变换为和模型适配的Tensor向量形式。
+
 Feature Columns是Tensorflow中 原始数据 和 Estimator 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns其实就是在做特征预处理。
 
 ## 如何使用 Feature Columns？
@@ -1246,6 +1248,9 @@ export_savedmodel(
 ## checkpoint文件 和 pb-variable文件之间的转换
 
 
+## 导出到pb-variable模型文件中的操作有哪些？
+
+通过Python函数 export_savedmodel 导出生成的图中，包含的全部都是最原始的op操作，一些高阶的py操作都会转换为原始op。
 
 
 
@@ -1974,12 +1979,13 @@ https://deepmind.com/blog/wavenet-generative-model-raw-audio/
 
 也可以使用C++来进行模型训练， 所有可用的C++ API都在 https://tensorflow.google.cn/api_docs/cc
 
-
 Python API具备功能最为全面的方法，能够支持基本上机器学习工作中所需要的几乎所有操作。
 
-## 那么Python API 和 C++ API是如何对应的呢？
+## Python API 和 C++ API是如何对应和调用的呢？
 
-在tensorflow/core/kernels目录下，能看到非常多的xxx_op.cc
+在tensorflow/core/kernels目录下，能看到非常多的xxx_op.cc，其实Python调用到的OP方法也都是C++实现。
+
+Tensorflow在编译时生成gen_array_ops.py
 
 通过注册 REGISTER_KERNEL_BUILDER
 
@@ -2005,6 +2011,13 @@ Python API具备功能最为全面的方法，能够支持基本上机器学习�
 
 
 ## OpKernel
+
+- OP注册操作 REGISTER_OP 的实现
+将op name 和 OpRegistrationData 关联起来，保存到 registry_ 这个map中。
+
+- Kernel注册操作 REGISTER_KERNEL_BUILDER 的实现
+
+创建一个名称唯一， 类型为 OpKernelRegistrar 的全局静态变量
 
 
 ## TFX API
