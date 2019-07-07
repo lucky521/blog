@@ -148,7 +148,7 @@ https://www.tensorflow.org/guide/eager
 
 官方文档：https://github.com/tensorflow/tensorboard/blob/master/README.md
 
-### tensorboard 命令
+### tensorboard 启动命令
 
 		tensorboard --logdir=/path/to/log-directory
 
@@ -160,7 +160,7 @@ tensorboard默认占用了6006端口
 
 		tensorboard --inspect  --logdir=./
 
-### tf.summary API
+### tf.summary 信息输出API
 
 tf.summary 提供了向文件写入模型内部的结构和数据信息的方法，以供 tensorboard 来展示。
 
@@ -177,10 +177,6 @@ https://www.tensorflow.org/api_guides/python/summary
 
 events.out.tfevents.XXX.local 文件是summary方法所生成的文件，其中包含了用于tensorboard进行可视化展示所需的信息。
 每创建一个tf.summary.FileWriter实例，就会对应的生成一个tfevent文件。
-
-Event files, which contain information that TensorBoard uses to create visualizations.
-
-Everytime when tf.summary.FileWriter is instantiated, a event file will be saved in the specified directory.
 
 
 ### Data 可视化
@@ -276,11 +272,13 @@ estimator.train(
 ```
 
 
-# 重要的元素
+# 重要元素
 
-tensorflow::GraphDef是图，模型的载体。
+## Tensor、 Graph、 Session 是Tensorflow体系三个非常重要的概念
+
+tensorflow::Tensor 是模型输入、模型输出、模型内部任何流动数据的载体。
+tensorflow::GraphDef是图、模型的载体。
 tensorflow::Session是训练或预测过程的会话载体。
-tensorflow::Tensor是模型输入、输出的载体。
 
 ```
   // Construct your graph.
@@ -447,6 +445,9 @@ name_scope 作用于操作。
 
 variable_scope 可以通过设置 reuse 标志以及初始化方式来影响域下的变量。
 
+## Collection
+
+tensorflow的collection提供一个全局的存储机制，不会受到变量名生存空间的影响。一处保存，到处可取。
 
 ## tf.placeholder 可变数据输入
 
@@ -455,11 +456,11 @@ variable_scope 可以通过设置 reuse 标志以及初始化方式来影响域�
 
 ## tf.Operation
 
-运算节点。Operation节点的输入是tensor或0，输出是tensor或0.
+运算节点（也有人称作是 算子）。Operation节点的输入是tensor或0，输出是tensor或0.
+
+[不同类型OP](https://raw.githubusercontent.com/stdcoutzyx/Blogs/master/blogs2016/imgs_tensorflow/1.png)
 
 在graph.pbtxt文件中能看到每一个node里，都有一个key名为op的字段，它指明了对tensor对象的操作。
-
-
 
 The `local_init_op` is an `Operation` that is run always after a new session was created.
 
@@ -577,13 +578,16 @@ def testShuffle(self):
 
 实现一个 from tensorflow.python.data.ops import dataset_ops 的子类，然后将该类对象传入到 input_fn .
 
+### CustomOP能否存入到导出模型中 
 
 
 ## tf.Session 运行数据流
 
+Session是一个运动状态。图的运行只发生在会话中，开启会话后，就可以用数据填充节点，进行运算；关闭会话后，就不能计算。
+
 在 tf.Session 之前的过程都是定义，tf.Session().run(...)才是真正执行前面定义好的操作。如果只声明tensor而运行session.run，是不会运行计算逻辑的。
 
-Run函数 是整个tensorflow graph的核心过程。
+Run函数 是整个tensorflow graph运动的核心过程。
 
 首先看 run函数的接口
 
@@ -726,6 +730,12 @@ tf.unique
 y, idx = unique(x)
 y ==> [1, 2, 4, 7, 8]
 idx ==> [0, 0, 1, 2, 2, 2, 3, 4, 4]
+
+
+
+tf.gather
+用一个一维的索引数组,将张量中对应索引的向量提取出来
+
 ```
 
 ### 向量标准化
@@ -840,7 +850,16 @@ tf.distributions.kl_divergence
 
 ### 优化器函数 Set Optimizer
 
-优化器有哪些？
+最直接的优化方法自然是梯度下降：
+```
+tf.gradients
+tf.gradients(ys, xs)实现ys对xs求导
+
+tf.stop_gradient
+```
+
+
+内置优化器有哪些？
 ```
 tf.train.AdamOptimizer
 tf.train.GradientDescentOptimizer
@@ -884,7 +903,7 @@ feature_columns 作为 `Estimators的params参数`之一，它将输入数据 in
 
 它的返回值是生产的dense Tensor，作为网络的输入层。
 
-- tf.feature_column.make_parse_example_spec 方法将若干个feature_colunms转换为key-value字典形式（key是feature name， value是FixedLenFeature 或 VarLenFeature）
+- tf.feature_column.make_parse_example_spec 方法将若干个feature_colunms转换为key-value字典形式（key是feature name， value是 FixedLenFeature 或 VarLenFeature）
 
 ```
 # Define features and transformations
@@ -1142,13 +1161,17 @@ https://www.tensorflow.org/guide/checkpoints
 
 这是由 tf.saved_model.builder.SavedModelBuilder 类生成的模型文件。
 
-variables保存所有变量; saved_model.pb用于保存模型结构等信息。
+总的来说，variables保存所有变量; saved_model.pb用于保存模型结构等信息。
 
-pb文件，其实就是graph_def，但是指的一般是做了constant化，这样可以直接加载做inference，安装部署用。
+- pb文件，其实就是graph_def，但是指的一般是做了constant化，这样可以直接加载做inference，安装部署用。
 The .pb file stores the computational graph. Includes the graph definitions as `MetaGraphDef` protocol buffers.
 PB是表示 MetaGraph 的 protocol buffer格式的文件，MetaGraph 包括计算图，数据流，以及相关的变量和输入输出signature以及 asserts 指创建计算图时额外的文件。
 
-assets目录文件：assets is a subfolder containing auxiliary (external) files, such as vocabularies. Assets are copied to the SavedModel location and can be read when loading a specific MetaGraphDef.
+- variables.data 
+
+- variables.index
+
+- assets目录文件：assets is a subfolder containing auxiliary (external) files, such as vocabularies. Assets are copied to the SavedModel location and can be read when loading a specific MetaGraphDef.
 
 ```
 	|-- mnist_saved_model
@@ -1162,9 +1185,65 @@ assets目录文件：assets is a subfolder containing auxiliary (external) files
 
 tf.train.Saver也能导出variables文件。
 
-### pb 和 pbtxt
+### pb/pbtxt中的信息
+
+其实这里要说的就是 message SavedModel （tensorflow/core/protobuf/saved_model.proto）的定义。
+SavedModel的核心元素是 message MetaGraphDef 。下面六类message是 MetaGraphDef 的核心元素。
+
+- MetaInfoDef meta_info_def
+```
+    stripped_op_list {} # 这里罗列了图中所有的OP的名称、输入输出名称属性、属性
+    tags: "serve"
+    tensorflow_version: "1.13.1"
+    tensorflow_git_version: "b\'unknown\'"
+    stripped_default_attrs: true
+```
+- GraphDef graph_def
+由大量的 NodeDef 而组成的有向图（计算图）。每一个NodeDef的名称、op名、输入名、输出形态
+- SaverDef saver_def
+configuration of a Saver.
+```
+    filename_tensor_name: "save/Const:0"
+    save_tensor_name: "save/Identity:0"
+    restore_op_name: "save/restore_all"
+    max_to_keep: 5
+    sharded: true
+    keep_checkpoint_every_n_hours: 10000.0
+    version: V2
+```
+- CollectionDef collection_def
+```
+saved_model_main_op
+table_initializer
+train_op
+trainable_variables
+variables
+```
+- SignatureDef signature_def
+SignatureDef的作用是定义输出和输入接口。
+- AssetFileDef asset_file_def
+Asset file def to be used with the defined graph.
+- SavedObjectGraph object_graph_def
+Extra information about the structure of functions and stateful objects.
+
+### 图中的op都是怎么样的op？ 是否包含custom op？
+通过Python函数 export_savedmodel 导出生成的图中，包含的全部都是最原始的op操作，一些高阶的py操作都会转换为原始op。
+
+### pb 和 pbtxt 之间的转换
 
 There are actually two different formats that a ProtoBuf can be saved in. 
+
+两种格式转换可以通过 tensorflow.core.protobuf.saved_model_pb2
+
+```
+def pb_to_pbtxt(pbtxt_filename, pb_filename):
+    with gfile.FastGFile(pb_filename, 'rb') as f:
+        saved_model = saved_model_pb2.SavedModel()
+        saved_model.ParseFromString(f.read())
+        with open(pbtxt_filename, 'w') as g:
+            g.write(str(saved_model))
+```
+
 
 ### 构建模型的输入输出以及调用方式
 
@@ -1248,10 +1327,38 @@ export_savedmodel(
 ## checkpoint文件 和 pb-variable文件之间的转换
 
 
-## 导出到pb-variable模型文件中的操作有哪些？
 
-通过Python函数 export_savedmodel 导出生成的图中，包含的全部都是最原始的op操作，一些高阶的py操作都会转换为原始op。
+## 如何可视化展示模型文件里的图？
 
+https://github.com/tensorflow/tensorflow/issues/8854
+
+下面这个脚本就是把输入的saved_model.pb文件转换为能够被tensorboard展示的 events 文件。
+```
+import tensorflow as tf
+import sys
+from tensorflow.python.platform import gfile
+from tensorflow.core.protobuf import saved_model_pb2
+from tensorflow.python.util import compat
+
+with tf.Session() as sess:
+	model_filename =sys.argv[1]
+	with gfile.FastGFile(model_filename, 'rb') as f:
+
+		data = compat.as_bytes(f.read())
+		sm = saved_model_pb2.SavedModel()
+		sm.ParseFromString(data)
+		if 1 != len(sm.meta_graphs):
+			print('More than one graph found. Not sure which to write')
+			sys.exit(1)
+			
+		g_in = tf.import_graph_def(sm.meta_graphs[0].graph_def)
+	LOGDIR=sys.argv[2]
+train_writer = tf.summary.FileWriter(LOGDIR)
+train_writer.add_graph(sess.graph)
+train_writer.flush()
+train_writer.close()
+
+```
 
 
 
@@ -1568,7 +1675,6 @@ tf.estimator.export.ServingInputReceiver 和 tf.estimator.export.TensorServingIn
 SavedModelBundle 是核心模块，它要将来自指定文件的模型表示回graph，提供像训练时那样的Session::Run方法来做预测。
 SavedModelBundle 结构中保存了 Session 指针和 MetaGraphDef。
 
-
 Serve request with TensorFlow Serving `ServerCore`.
 
 
@@ -1814,21 +1920,25 @@ tf.Session(config=config)
 
 
 
-# 分布式TensorFlow集群 - Distributed TensorFlow
+# 分布式TensorFlow - Distributed TensorFlow
 
-	TensorFlow server - tf.train.Server instance
+“分布式”的阶段：有训练时的分布式，有预测时的分布式（Distributed TF-Serving）。
+
+“分布式”的形式：有多机器的分布式，也有单机多卡的分布式。
+
+- TensorFlow server - tf.train.Server instance
 	
 		Master service
 	
 		Worker service
 	
-	Client - 在单例环境中一个graph位于一个tensorflow::Session中。对于分布式环境中，Session位于一个Server中。
+-	Client - 在单例环境中一个graph位于一个tensorflow::Session中。对于分布式环境中，Session位于一个Server中。
 	
-	Cluster - tf.train.ClusterSpec object 用于在创建 tf.train.Server 时指明spec。
+-	Cluster - tf.train.ClusterSpec object 用于在创建 tf.train.Server 时指明spec。
 	
-	Job - 一个Cluster可能包含多个Job。
+-	Job - 一个Cluster可能包含多个Job。
 	
-	Task - 一个Job可能有多个Task。
+-	Task - 一个Job可能有多个Task。
 
 
 tf.train.Server.create_local_server 单进程集群，这主要是其演示作用吧。
@@ -1845,7 +1955,11 @@ tf.train.Server 创建server实例
 
 
 
+## PS in Tensorflow
 
+参数服务器(parameter server)，简称为ps，用于存储可训练的参数变量tf.Variable.
+
+ps作为tensorflow分布式训练中作为一个worker
 
 
 
@@ -1973,7 +2087,38 @@ https://deepmind.com/blog/wavenet-generative-model-raw-audio/
 
 
 
-# Tensorflow 跨语言支持 
+
+# StreamExecutor
+
+tensorflow/stream_executor
+
+https://github.com/henline/streamexecutordoc
+
+https://www.cnblogs.com/deep-learning-stacks/p/9386188.html
+
+# Tensorflow 框架体系的设计模式
+
+支持异构设备
+
+支持异构语言
+
+Tensor 数据形式的统一化
+
+Protobuffer 结构定义的统一化
+
+OP 计算逻辑的统一化
+
+前端系统和后端系统
+
+
+## 源代码组织结构
+
+tensorflow/core
+
+tensorflow/contrib
+
+
+## C-API 跨语言支持 
 
 大多数情况下，我们使用Python来进行模型训练，所有可用的Python API都在 https://tensorflow.google.cn/api_docs/python
 
@@ -1981,7 +2126,7 @@ https://deepmind.com/blog/wavenet-generative-model-raw-audio/
 
 Python API具备功能最为全面的方法，能够支持基本上机器学习工作中所需要的几乎所有操作。
 
-## Python API 和 C++ API是如何对应和调用的呢？
+### Python API 和 C++ API是如何对应和调用的呢？
 
 在tensorflow/core/kernels目录下，能看到非常多的xxx_op.cc，其实Python调用到的OP方法也都是C++实现。
 
@@ -1989,7 +2134,7 @@ Tensorflow在编译时生成gen_array_ops.py
 
 通过注册 REGISTER_KERNEL_BUILDER
 
-有些运算操作的对应关系比较直接：
+- 有些运算操作的对应关系比较直接：
 
 比如 tf.unique 和 class UniqueOp
 比如 tf.concat 和 class ConcatBaseOp
@@ -1998,7 +2143,8 @@ Tensorflow在编译时生成gen_array_ops.py
 比如 tf.matmul 和 class MatMulOp
 
 
-有些运算操作
+- 有些运算操作是比较间接的：
+
 比如 tf.reduce_xxx
 ```
   REGISTER_KERNEL_BUILDER(                                                     \
@@ -2020,5 +2166,16 @@ Tensorflow在编译时生成gen_array_ops.py
 创建一个名称唯一， 类型为 OpKernelRegistrar 的全局静态变量
 
 
-## TFX API
 
+
+## 幕后英雄 Thirdparty
+
+在 third_party 下包含了tensorflow依赖的第三方库。
+
+Protobuffer 数据定义
+
+gRPC 组件间数据交换
+
+Eigen - 包括线性代数，矩阵，向量操作，数值解决和其他相关的算法的C++模板库。
+
+SWIG - 一个可以让你的C++代码链接到JavaScript，Perl，PHP，Python，Tcl和Ruby的包装器/接口生成器

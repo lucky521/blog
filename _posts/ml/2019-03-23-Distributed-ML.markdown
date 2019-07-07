@@ -34,6 +34,8 @@ categories: [MachineLearning]
 
 数据流 - Tensorflow
 
+horovod
+
 
 
 # 分布式机器学习算法
@@ -69,3 +71,17 @@ AlexNet
 # Distributed Tensorflow - 基于数据流的分布式机器学习
 
 https://www.tensorflow.org/guide/distribute_strategy
+
+
+
+# 异步梯度更新策略  parameter server
+
+parameter server异步更新策略是指每个 GPU或者CPU计算完梯度后，无需等待其他 GPU或CPU的梯度计算（有时可以设置需要等待的梯度个数），就可立即更新整体的权值，然后同步此权值，即可进行下一轮计算.
+
+https://zhuanlan.zhihu.com/p/69010949
+
+# 同步梯度更新策略  ring all-reduce
+
+每个 GPU 只从左邻居接受数据、并发送数据给右邻居。
+
+https://zhuanlan.zhihu.com/p/69806200

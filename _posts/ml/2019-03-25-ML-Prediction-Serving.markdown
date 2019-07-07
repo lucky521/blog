@@ -11,11 +11,6 @@ categories: [MachineLearning]
 
 
 
-
-
-
-
-
 # 从训练环境到预测环境
 
 Moving models from training to serving in production at scale 
@@ -23,7 +18,7 @@ Moving models from training to serving in production at scale
 
 # 并行化
 
-同事处理多个预测请求。
+同时处理多个预测请求。
 
 
 
