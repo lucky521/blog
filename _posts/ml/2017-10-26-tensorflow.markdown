@@ -660,6 +660,9 @@ if __name__=="__main__": #用这种方式保证了，如果此文件被其他文
 tf.random_normal
 
 tf.random_uniform
+
+tf.truncated_normal(shape, mean, stddev)
+shape表示生成张量的维度，mean是均值，stddev是标准差。这个函数产生正态分布，均值和标准差自己设定
 ```
 
 - 沿tensor向量某一个维度的计算
@@ -757,6 +760,26 @@ tf.squeeze 将原始input中所有维度为1的那些维都删掉
 
 tf.tile 对当前张量内的数据进行一定规则的复制。最终的输出张量维度不变。
 ```
+
+### 计算 Embedding 
+
+```
+tf.nn.embedding_lookup
+
+embeddings = tf.Variable(tf.random_uniform([voc_size, embedding_size], -1.0, 1.0))
+...
+embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
+```
+
+
+tf.nn.embedding_lookup_sparse
+```
+embedding_variable = tf.Variable(tf.truncated_normal([input_size, embedding_size], stddev=0.05), name='emb')
+...
+embedding = tf.nn.embedding_lookup_sparse(embedding_variable, sparse_id, sparse_value, "mod", combiner="sum")
+```
+embedding_variable 就是需要学习的参数，其中input_size是矩阵的行数，embedding_size是矩阵的列数，比如我们有100万个稀疏id，每个id要embedding到50维向量，那么矩阵的大小是[1000000, 50]。
+sparse_id是要做向量化的一组id，用SparseTensor表示；sparse_value是每个id对应的一个value，用作权重，也用SparseTensor表示。
 
 ### tensorflow::Flag
 
@@ -1188,6 +1211,7 @@ tf.train.Saver也能导出variables文件。
 ### pb/pbtxt中的信息
 
 其实这里要说的就是 message SavedModel （tensorflow/core/protobuf/saved_model.proto）的定义。
+官方文档：https://www.tensorflow.org/guide/extend/model_files
 SavedModel的核心元素是 message MetaGraphDef 。下面六类message是 MetaGraphDef 的核心元素。
 
 - MetaInfoDef meta_info_def
@@ -1226,8 +1250,9 @@ Asset file def to be used with the defined graph.
 - SavedObjectGraph object_graph_def
 Extra information about the structure of functions and stateful objects.
 
-### 图中的op都是怎么样的op？ 是否包含custom op？
+### 图中的op都是怎么样的op？ 是否包含custom op？ 哪些高阶OP是直接体现在图中的？哪些高阶OP是以简单OP的组合体现在图中的？
 通过Python函数 export_savedmodel 导出生成的图中，包含的全部都是最原始的op操作，一些高阶的py操作都会转换为原始op。
+
 
 ### pb 和 pbtxt 之间的转换
 
@@ -1922,15 +1947,23 @@ tf.Session(config=config)
 
 # 分布式TensorFlow - Distributed TensorFlow
 
-“分布式”的阶段：有训练时的分布式，有预测时的分布式（Distributed TF-Serving）。
+“分布式”的阶段：有训练时的分布式，有预测时的分布式（Distributed TF-Serving）。目前TF只实现了前者。
 
 “分布式”的形式：有多机器的分布式，也有单机多卡的分布式。
 
 - TensorFlow server - tf.train.Server instance
 	
 		Master service
+
+    Prunes a specific subgraph from the graph, as defined by the arguments to Session.run().
+    Partitions the subgraph into multiple pieces that run in different processes and devices.
+    Distributes the graph pieces to worker services.
+    Initiates graph piece execution by worker services.
 	
 		Worker service
+
+    Schedule the execution of graph operations using kernel implementations appropriate to the available hardware (CPUs, GPUs, etc).
+    Send and receive operation results to and from other worker services.
 	
 -	Client - 在单例环境中一个graph位于一个tensorflow::Session中。对于分布式环境中，Session位于一个Server中。
 	
@@ -2098,24 +2131,35 @@ https://www.cnblogs.com/deep-learning-stacks/p/9386188.html
 
 # Tensorflow 框架体系的设计模式
 
-支持异构设备
+[官网文档](https://www.tensorflow.org/guide/extend/architecture) 中介绍了一些TF框架的实现机制。
 
-支持异构语言
+- 支持异构设备
 
-Tensor 数据形式的统一化
+- 支持异构语言
 
-Protobuffer 结构定义的统一化
+- Tensor 数据形式的统一化
 
-OP 计算逻辑的统一化
+- Protobuffer 结构定义的统一化
 
-前端系统和后端系统
+- OP 计算逻辑的统一化
+
+https://gist.github.com/dustinvtran/cf34557fb9388da4c9442ae25c2373c9
+
+- 前端系统和后端系统
 
 
 ## 源代码组织结构
 
 tensorflow/core
 
+　　core/ops/ contains the "signatures" of the operations
+　　core/kernels/ contains the "implementations" of the operations (including CPU and CUDA kernels)
+　　core/framework/ contains the main abstract graph computation and other useful libraries
+　　core/platform/ contains code that abstracts away the platform and other imported libraries (protobuf, etc)
+
+
 tensorflow/contrib
+
 
 
 ## C-API 跨语言支持 
@@ -2167,15 +2211,19 @@ Tensorflow在编译时生成gen_array_ops.py
 
 
 
+## Runtime
+
 
 ## 幕后英雄 Thirdparty
 
 在 third_party 下包含了tensorflow依赖的第三方库。
 
-Protobuffer 数据定义
+Protobuffer - 数据格式定义
 
-gRPC 组件间数据交换
+gRPC - 组件间数据交换
 
 Eigen - 包括线性代数，矩阵，向量操作，数值解决和其他相关的算法的C++模板库。
 
 SWIG - 一个可以让你的C++代码链接到JavaScript，Perl，PHP，Python，Tcl和Ruby的包装器/接口生成器
+
+Thread Safety Analysis

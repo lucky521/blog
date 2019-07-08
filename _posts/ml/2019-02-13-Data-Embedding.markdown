@@ -63,6 +63,7 @@ tflearn.layers.embedding_ops.embedding(incoming,
 在Tensorflow中也可以在网络结构中加入Embedding层：
 ```
 embeddings = tf.Variable(tf.random_uniform([voc_size, embedding_size], -1.0, 1.0))
+...
 embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
 ```
 
