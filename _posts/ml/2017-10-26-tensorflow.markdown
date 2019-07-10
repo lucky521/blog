@@ -150,7 +150,7 @@ https://www.tensorflow.org/guide/eager
 
 ### tensorboard 启动命令
 
-		tensorboard --logdir=/path/to/log-directory
+		tensorboard --logdir=/path/to/log-directory --port=8008
 
 tensorboard默认占用了6006端口
 
@@ -1353,7 +1353,7 @@ export_savedmodel(
 
 
 
-## 如何可视化展示模型文件里的图？
+## 如何可视化展示导出模型文件里的图？
 
 https://github.com/tensorflow/tensorflow/issues/8854
 
@@ -1382,10 +1382,65 @@ train_writer = tf.summary.FileWriter(LOGDIR)
 train_writer.add_graph(sess.graph)
 train_writer.flush()
 train_writer.close()
-
 ```
 
+## 导出模型文件中常见的OP
 
+```
+op: "Add"
+op: "Assign"
+op: "Cast"
+op: "ConcatV2"
+op: "Const"
+op: "ExpandDims"
+op: "Fill"
+op: "GatherNd"
+op: "GatherV2"
+op: "Greater"
+op: "GreaterEqual"
+op: "HashTableV2"
+op: "HistogramSummary"
+op: "Identity"
+op: "InitializeTableFromTextFileV2"
+op: "LookupTableFindV2"
+op: "MatMul"
+op: "Maximum"
+op: "MergeV2Checkpoints"
+op: "Minimum"
+op: "Mul"
+op: "NoOp"
+op: "NotEqual"
+op: "Pack"
+op: "ParseExample"
+op: "Placeholder"
+op: "Prod"
+op: "RealDiv"
+op: "Relu"
+op: "Reshape"
+op: "RestoreV2"
+op: "Rsqrt"
+op: "SaveV2"
+op: "Select"
+op: "Shape"
+op: "ShardedFilename"
+op: "Sigmoid"
+op: "Slice"
+op: "SparseFillEmptyRows"
+op: "SparseReshape"
+op: "SparseSegmentSqrtN"
+op: "Square"
+op: "StridedSlice"
+op: "StringJoin"
+op: "Sub"
+op: "Sum"
+op: "Tile"
+op: "TokenizeSparse"
+op: "TruncatedNormal"
+op: "Unique"
+op: "VariableV2"
+op: "Where"
+op: "ZerosLike"
+```
 
 # 模型训练方式
 
@@ -2121,13 +2176,7 @@ https://deepmind.com/blog/wavenet-generative-model-raw-audio/
 
 
 
-# StreamExecutor
 
-tensorflow/stream_executor
-
-https://github.com/henline/streamexecutordoc
-
-https://www.cnblogs.com/deep-learning-stacks/p/9386188.html
 
 # Tensorflow 框架体系的设计模式
 
@@ -2150,7 +2199,7 @@ https://gist.github.com/dustinvtran/cf34557fb9388da4c9442ae25c2373c9
 
 ## 源代码组织结构
 
-tensorflow/core
+tensorflow/core  核心代码由C++实现。
 
 　　core/ops/ contains the "signatures" of the operations
 　　core/kernels/ contains the "implementations" of the operations (including CPU and CUDA kernels)
@@ -2200,6 +2249,13 @@ Tensorflow在编译时生成gen_array_ops.py
 ```
 
 
+- 巧妙应用的python的装饰器，提高了代码的动态性。
+```
+tf_export = functools.partial(api_export, api_name=TENSORFLOW_API_NAME)
+estimator_export = functools.partial(api_export, api_name=ESTIMATOR_API_NAME)
+keras_export = functools.partial(api_export, api_name=KERAS_API_NAME)
+```
+
 ## OpKernel
 
 - OP注册操作 REGISTER_OP 的实现
@@ -2212,6 +2268,17 @@ Tensorflow在编译时生成gen_array_ops.py
 
 
 ## Runtime
+
+## StreamExecutor
+
+tensorflow/stream_executor
+
+https://github.com/henline/streamexecutordoc
+
+https://www.cnblogs.com/deep-learning-stacks/p/9386188.html
+
+
+## Compiler, XLA 
 
 
 ## 幕后英雄 Thirdparty
@@ -2226,4 +2293,4 @@ Eigen - 包括线性代数，矩阵，向量操作，数值解决和其他相关
 
 SWIG - 一个可以让你的C++代码链接到JavaScript，Perl，PHP，Python，Tcl和Ruby的包装器/接口生成器
 
-Thread Safety Analysis
+Thread Safety Analysis -
