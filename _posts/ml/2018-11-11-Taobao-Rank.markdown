@@ -121,6 +121,16 @@ LSTM and GRU 是两种RNN模型，都具有避免梯度弥散的性质。两者�
 解读：https://github.com/alibaba/x-deeplearning/wiki/%E7%94%A8%E6%88%B7%E5%85%B4%E8%B6%A3%E6%BC%94%E5%8C%96%E6%A8%A1%E5%9E%8B(DIEN)
 
 
+## ESMM
+
+https://github.com/alibaba/x-deeplearning/wiki/%E5%85%A8%E7%A9%BA%E9%97%B4%E5%A4%9A%E4%BB%BB%E5%8A%A1%E6%A8%A1%E5%9E%8B(ESMM)
+
+## TDM
+
+https://github.com/alibaba/x-deeplearning/wiki/%E6%B7%B1%E5%BA%A6%E6%A0%91%E5%8C%B9%E9%85%8D%E6%A8%A1%E5%9E%8B(TDM)
+
+
+
 
 
 
@@ -153,6 +163,14 @@ LSTM and GRU 是两种RNN模型，都具有避免梯度弥散的性质。两者�
 YouTube发表在WSDM2018上基于RNN的视频推荐模型，考虑了时序信息。
 
 
+
+
+
+# Facebook
+
+## DLRM
+
+https://github.com/facebookresearch/dlrm
 
 
 

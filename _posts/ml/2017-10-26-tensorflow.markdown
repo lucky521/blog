@@ -1636,7 +1636,6 @@ $ tensorflow_model_server \
 
 具体的交互流程一般是这样：
 下面的代码中每次请求可能传入多条样本（多条预测请求）。
-
 ```
 // TFS request 伪代码
 tensorflow::Example example;
@@ -1886,17 +1885,18 @@ XLA提供了AOT(提前编译)和JIT(即时编译)两种方式。
 
 综合性文档： https://hackernoon.com/how-we-improved-tensorflow-serving-performance-by-over-70-f21b5dad2d98
 
-
 课程：https://www.bilibili.com/video/av47698851
+
 
 ### 选择合适的指令集优化选项
 编译Sering程序的时候加入优化flags，选择自己CPU所能支持的指令集。
 
 
-
 ### Batching 并发预测同一个请求中的多条样本
 
 官方文档： https://github.com/tensorflow/serving/tree/master/tensorflow_serving/batching
+
+问题：同一个batch的多条样本中，如果有些列特征总是相同的，如何在特征预处理的时候进行优化？
 
 max_batch_size { value: 128 }
   - The maximum size of any batch. This parameter governs the throughput/latency tradeoff, and also avoids having batches that are so large they exceed some resource constraint (e.g. GPU memory to hold a batch's data).
