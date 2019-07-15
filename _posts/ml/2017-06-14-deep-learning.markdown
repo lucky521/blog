@@ -109,6 +109,8 @@ Loss = -actual * (log(pred)) - (1-actual)(log(1-pred))
 
 ### SGD
 
+1-bit Stochastic Gradient Descent (1-bit SGD)
+
 ### 动量
 
 ### Nesterov动量
@@ -323,6 +325,11 @@ shared weights
 ### Normalization层
 
 BN(Batch Normalization) 
+
+训练深度网络的时候经常发生训练困难的问题，因为，每一次参数迭代更新后，上一层网络的输出数据经过这一层网络计算后，数据的分布会发生变化，为下一层网络的学习带来困难。
+Internal Covariate Shift
+https://machinelearning.wtf/terms/internal-covariate-shift/
+
 https://keras.io/zh/layers/normalization/
 https://zhuanlan.zhihu.com/p/56225304
 https://zhuanlan.zhihu.com/p/34879333

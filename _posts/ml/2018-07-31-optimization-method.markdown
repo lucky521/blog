@@ -344,6 +344,8 @@ Adagrad其实是对学习率进行了一个约束
 
 ## Adadelta
 
+自动调整学习率
+
 ## RMSprop
 
 RMSprop可以算作Adadelta的一个特例：

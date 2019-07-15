@@ -2010,6 +2010,8 @@ tf.Session(config=config)
 	
 		Master service
 
+    Master implements the service MasterService
+
     Prunes a specific subgraph from the graph, as defined by the arguments to Session.run().
     Partitions the subgraph into multiple pieces that run in different processes and devices.
     Distributes the graph pieces to worker services.
@@ -2041,6 +2043,26 @@ tf.train.Server 创建server实例
 		  weights_2 = tf.Variable(...)
 		  biases_2 = tf.Variable(...)
 
+
+
+```
+/tensorflow.WorkerService/GetStatus
+/tensorflow.WorkerService/CreateWorkerSession
+/tensorflow.WorkerService/DeleteWorkerSession
+/tensorflow.WorkerService/RegisterGraph
+/tensorflow.WorkerService/DeregisterGraph
+/tensorflow.WorkerService/RunGraph
+/tensorflow.WorkerService/CleanupGraph
+/tensorflow.WorkerService/CleanupAll
+/tensorflow.WorkerService/RecvTensor
+/tensorflow.WorkerService/RecvBuf
+/tensorflow.WorkerService/Logging
+/tensorflow.WorkerService/Tracing
+/tensorflow.WorkerService/CompleteGroup
+/tensorflow.WorkerService/CompleteInstance
+/tensorflow.WorkerService/GetStepSequence
+/tensorflow.WorkerService/MarkRecvFinished
+```
 
 
 ## PS in Tensorflow
