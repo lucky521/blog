@@ -2218,6 +2218,8 @@ https://gist.github.com/dustinvtran/cf34557fb9388da4c9442ae25c2373c9
 
 - 前端系统和后端系统
 
+前端系统是多语言的编程环境， 后端系统是C++实现。
+
 
 ## 源代码组织结构
 
@@ -2287,6 +2289,10 @@ keras_export = functools.partial(api_export, api_name=KERAS_API_NAME)
 
 创建一个名称唯一， 类型为 OpKernelRegistrar 的全局静态变量
 
+
+## Session
+
+SessionFactory
 
 
 ## Runtime
