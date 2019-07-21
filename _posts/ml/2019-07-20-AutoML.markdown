@@ -1,0 +1,52 @@
+---
+layout: post
+title:  "机器学习模型自动调参"
+subtitle: "Auto ML"
+categories: [MachineLearning]
+---
+
+# 模型参数和模型超参数的区别
+
+最优化算法的目标是求解模型的参数。而AutoML的目标是求解模型的超参数。
+
+## 深度学习模型有哪些超参数
+
+Hyperparameter optimization
+earning rate, regularization, momentum
+
+Neural architecture search
+网络结构
+
+# 自动调参方法
+
+## GridSearch
+
+## RandomSearch
+
+## Multi-armed Bandit
+
+## 贝叶斯优化
+
+
+# 开源框架
+
+## NNI
+
+https://github.com/microsoft/nni
+
+
+## Google Vizier
+
+https://github.com/tobegit3hub/advisor
+
+
+## tune
+https://github.com/ray-project/ray/tree/master/python/ray/tune
+
+## MLBox
+
+https://github.com/AxeldeRomblay/MLBox
+
+## auto-sklearn
+
+https://github.com/automl/auto-sklearn

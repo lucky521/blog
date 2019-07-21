@@ -85,3 +85,9 @@ https://zhuanlan.zhihu.com/p/69010949
 每个 GPU 只从左邻居接受数据、并发送数据给右邻居。
 
 https://zhuanlan.zhihu.com/p/69806200
+
+
+
+# Distributed (Deep) Machine Learning Community
+
+https://github.com/dmlc
