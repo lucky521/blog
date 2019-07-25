@@ -1021,14 +1021,14 @@ tensorflow的 example 包含的是基于key-value对的存储方法，其中key�
 
 parse_example 方法把 序列化的特征(tf.Example) 解析为 字典类型(tensor)。
 参考 tensorflow/python/ops/parsing_ops.py.
-parse_example的输入：
+parse_example 的输入：
     serialized: A vector (1-D Tensor) of strings, a batch of binary
-      serialized `Example` protos.
-    features: A mapping dict from keys to `VarLenFeature`, `SparseFeature`, and `FixedLenFeature` objects.
+      serialized `Example` protos. 这是原始数据。
+    features: A mapping dict from keys to `VarLenFeature`, `SparseFeature`, and `FixedLenFeature` objects. 这是期望解析成的schema。
 
-VarlenFeature： 是按照键值把example的value映射到SpareTensor对象.
-FixedLenFeature：是按照键值对将features映射到大小为[serilized.size(), df.shape]的Tensor矩阵.
-SparseFeature：稀疏表示方式的feature，不推荐使用。
+1. VarlenFeature： 是按照键值把example的value映射到SpareTensor对象.
+2. FixedLenFeature：是按照键值对将features映射到大小为 [serilized.size(), df.shape] 的Tensor矩阵.
+3. SparseFeature：稀疏表示方式的feature，不推荐使用。
 
 parse_example的输出：
     return: A `dict` mapping feature keys to `Tensor` and `SparseTensor` values.
@@ -1036,7 +1036,7 @@ parse_example的输出：
 
 ### tf.parse_single_example 方法
 
-区别于tf.parse_example，tf.parse_single_example只是少了一个batch而已，其余的都是一样的
+区别于tf.parse_example，tf.parse_single_example 只是少了一个batch而已，其余的都是一样的
 
 
 ## TFRecord
@@ -1443,6 +1443,10 @@ op: "ZerosLike"
 ```
 
 # 模型训练方式
+
+## Multi-output
+
+
 
 ## Multi-head / Multi-task DNN
 
