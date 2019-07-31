@@ -1447,7 +1447,6 @@ op: "ZerosLike"
 ## Multi-output
 
 
-
 ## Multi-head / Multi-task DNN
 
 比如把点击率和下单率作为两个目标，分别计算各自的loss function。DNN的前几层作为共享层，两个目标共享这几层的表达，在BP阶段根据两个目标算出的梯度共同进行参数更新。网络的最后用一个全连接层进行拆分，单独学习对应loss的参数。
@@ -2008,6 +2007,8 @@ tf.Session(config=config)
 
 “分布式”的阶段：有训练时的分布式，有预测时的分布式（Distributed TF-Serving）。目前TF只实现了前者。
 
+“分布式”的内容：有模型分布式并行，有数据分布式并行。TF中一般采用数据并行， 即在各个worker节点用相同的数据流图计算不同的数据。
+
 “分布式”的形式：有多机器的分布式，也有单机多卡的分布式。
 
 - TensorFlow server - tf.train.Server instance
@@ -2073,7 +2074,7 @@ tf.train.Server 创建server实例
 
 参数服务器(parameter server)，简称为ps，用于存储可训练的参数变量tf.Variable.
 
-ps作为tensorflow分布式训练中作为一个worker
+ps作为tensorflow分布式训练中作为一个worker。
 
 
 

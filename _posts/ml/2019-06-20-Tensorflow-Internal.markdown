@@ -28,6 +28,9 @@ https://gist.github.com/dustinvtran/cf34557fb9388da4c9442ae25c2373c9
 前端系统是多语言的编程环境， 后端系统是C++实现。
 
 
+
+
+
 # 源代码组织结构
 
 tensorflow/core  核心代码由C++实现。
@@ -39,6 +42,8 @@ tensorflow/core  核心代码由C++实现。
 
 
 tensorflow/contrib
+
+
 
 
 
@@ -100,9 +105,26 @@ keras_export = functools.partial(api_export, api_name=KERAS_API_NAME)
 
 ## FunctionDefHelper 是怎么工作的？
 
+
+
+
+
+
+# 计算图
+
+计算图中的Node实例 就是 OP 
+计算图中的Edge实例 就是 Tensor
+
+
+
+
+
 # Session
 
 SessionFactory
+
+
+
 
 
 
@@ -117,7 +139,17 @@ SessionFactory
 GradientDef 定义了一个函数对应的梯度函数。
 
 
+
+
+
+
+
+
 # Runtime
+
+
+
+
 
 
 
@@ -130,7 +162,19 @@ https://github.com/henline/streamexecutordoc
 https://www.cnblogs.com/deep-learning-stacks/p/9386188.html
 
 
+
+
+
+
+
 # Compiler, XLA 
+
+
+
+
+
+
+
 
 
 # 幕后英雄 Thirdparty
