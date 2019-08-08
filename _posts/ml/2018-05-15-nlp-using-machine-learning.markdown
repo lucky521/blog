@@ -272,3 +272,6 @@ Sequence Tagging with Tensorflow https://guillaumegenthial.github.io/sequence-ta
 
 
 https://www.tensorflow.org/tutorials/word2vec
+
+
+https://github.com/graykode/nlp-tutorial
