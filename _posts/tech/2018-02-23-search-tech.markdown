@@ -192,7 +192,7 @@ EdgeRank用来给一个用户的新鲜事流进行排序。计算公式为
 
 ### RankNet
 
-RankNet算法是一种复杂度为 O(n) 但是属于pair-wise方法的算法。它是基于模型的算法，可以是网络模型也可以是其他模型。
+RankNet算法是一种复杂度为 O(n) 但是属于pair-wise方法的算法。它是基于模型的算法，可以是神经网络模型也可以是其他模型。
 
 训练目标：以错误pair最少为优化目标，错误pair也被称作是inversion。
 优化方法：使用Stochastic Gradient Descent作为优化方法。

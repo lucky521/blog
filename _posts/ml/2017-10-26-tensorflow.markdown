@@ -1997,9 +1997,19 @@ tf.Session(config=config)
 
 
 
+### SavedModel Warmup
 
+TensorFlow Runtime 内部组件的对象策略是懒初始(Lazy Initialization)，很多对象实在真正需要的时候才会构建。也就是在第一个请求时构建。这对TF Serving也就意味着第一个请求延时会很高。
 
+为此官方提供了warmup的解决办法，
+Warmup file name: 'tf_serving_warmup_requests'
+File location: assets.extra/
+File format: TFRecord with each record as a PredictionLog.
+Number of warmup records <= 1000.
+The warmup data must be representative of the inference requests used at serving.
 
+参考：https://www.tensorflow.org/tfx/serving/saved_model_warmup
+ 
 
 
 
