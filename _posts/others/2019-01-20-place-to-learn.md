@@ -6,6 +6,17 @@ categories: [other]
 ---
 
 
+# 公开课
+
+网易公开课
+
+Coursera
+
+
+# 电子版图书
+
+pdf, epub, mobi
+
 # 论文
 
 [论文](https://arxiv.org/)
@@ -20,18 +31,10 @@ categories: [other]
 
 [Machine Learning papers, code and evaluation tables](https://paperswithcode.com/sota)
 
-# 公开课
-
-网易公开课
-
-Coursera
-
-
-# 电子版图书
-
-pdf, epub, mobi
 
 # 官网文档、博客
+
+
 
 
 

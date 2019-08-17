@@ -96,7 +96,7 @@ OmniDiskSweeper 有助于系统空间清理。
 
 ### 数据同步和备份
 
-百度云，快盘，微云，邮箱附件，IFTTT，多看云存储，Github
+百度云，邮箱附件，IFTTT，多看云存储，Github
 
 
 ## 硬件
