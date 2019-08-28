@@ -170,15 +170,15 @@ sparse_xentropy = tf.nn.sparse_softmax_cross_entropy_with_logits(unscaled_logits
 ## Embedding loss functions
 
 It deals with problems where we have to measure whether two inputs are similar or dissimilar. Some examples are:
-1. L1 Hinge Error- Calculates the L1 distance between two inputs.
+1. L1 Hinge Error - Calculates the L1 distance between two inputs.
 
-2. Cosine Error- Cosine distance between two inputs.
+2. Cosine Error - Cosine distance between two inputs.
 
 
 3. Noise Contrastive Estimation training loss (NCE loss)
 为什么NCE常作为word2vec的loss函数？
 word2vec用二分类目标来区分真实目标和噪音目标。训练的目标就是增大真实目标的输出结果，减小噪音目标的输出结果。
-num_sampled refers to the number of negative sampling in nce algorithm.
+num_sampled refers to the number of negative sampling in NCE algorithm.
 
 https://stackoverflow.com/questions/41475180/understanding-tf-nn-nce-loss-in-tensorflow
 
@@ -203,8 +203,10 @@ L1范数是指向量中各个元素绝对值之和，也叫“稀疏规则算子
 
  L2范数是指向量各元素的平方和然后求平方根。
 
-- l1 相比于 l2 为什么容易获得稀疏解？
+- 为什么 l1 相比于 l2 容易获得稀疏解？
 https://www.zhihu.com/question/37096933
+
+- 什么是稀疏解？
 
 
 
