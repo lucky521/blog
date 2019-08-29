@@ -81,7 +81,7 @@ cost function 用于表示所训练出模型的好坏程度。它是构建一个
 
 下面有几种常见的代价函数。
 
-### 交叉熵 cross-entropy
+### 交叉熵 cross-entropy Loss
 
 交叉熵损失函数简单来说就是样本的预测概率和真实概率的乘积。
 
@@ -91,10 +91,10 @@ Loss = -actual * (log(pred)) - (1-actual)(log(1-pred))
 
 交叉熵损失(Cross-entropy Loss)，也叫对数损失（Log Loss），其本质就是最大似然估计（最小化对数似然的负数，相当于最大化似然函数）。
 
-### 均方误差 Mean Square Error
+### 均方误差 Mean Square Error Loss
 
 
-### K-L散度
+### K-L散度 Loss
 
 
 

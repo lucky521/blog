@@ -849,7 +849,10 @@ tf.contrib.layers.l2_regularizer(scale, scope=None)
 
 ### 损失函数 Set Loss
 
-- 交叉熵损失函数 softmax_cross_entropy_with_logits
+- tf.nn.sigmoid_cross_entropy_with_logits
+计算经sigmoid 函数激活之后的交叉熵.
+
+- 交叉熵损失函数 tf.nn.softmax_cross_entropy_with_logits
 
 - 交叉熵损失函数 tf.nn.sparse_softmax_cross_entropy_with_logits
 
