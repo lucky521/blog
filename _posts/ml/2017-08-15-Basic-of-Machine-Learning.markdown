@@ -4,7 +4,7 @@ categories: [MachineLearning]
 layout: post
 ---
 
-机器学习领域的基础理论书籍推荐一下：
+# 机器学习领域的基础理论书籍推荐一下
 
     Machine Learning:A Probabilistic Perspective
 
@@ -152,7 +152,7 @@ k邻近估计
 
 
 
-# Probably Approximately Correct PAC-Learning
+# PAC Learning - Probably Approximately Correct 
 
 PAC-learning在1984年由Leslie Valiant提出，由这个概念产生了计算学习理论。
 

@@ -34,11 +34,9 @@ Neural architecture search
 
 https://github.com/microsoft/nni
 
-
 ## Google Vizier
 
 https://github.com/tobegit3hub/advisor
-
 
 ## tune
 https://github.com/ray-project/ray/tree/master/python/ray/tune
