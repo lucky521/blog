@@ -387,7 +387,7 @@ Adam在一开始表现更好，而SGD最终达到更好的全局最小值。
 
 # Reference
 
-http://ruder.io/optimizing-gradient-descent/
+超级全面的总结： http://ruder.io/optimizing-gradient-descent/
 
-https://zhuanlan.zhihu.com/p/22252270
+中文版： https://zhuanlan.zhihu.com/p/22252270
 
