@@ -9,7 +9,10 @@ layout: post
 
 # 目标函数和目标模型
 
-这里需要考虑几个问题。
+在建模的时候，这里需要考虑几个问题。
+
+## 如何选择Objective Function？
+
 
 ## 如何确定满足最小化Objective Function就能训练出好的模型？
 

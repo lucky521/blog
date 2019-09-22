@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Data Embedding"
-subtitle: ""
+subtitle: "用向量表达一切"
 categories: [MachineLearning]
 ---
 
@@ -292,7 +292,7 @@ https://github.com/facebookresearch/PyTorch-BigGraph
 
 
 
-# 相关资料
+# Reference
 
 https://gist.github.com/nzw0301/333afc00bd508501268fa7bf40cafe4e
 
