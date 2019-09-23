@@ -914,7 +914,7 @@ global_step 参数是训练迭代的计数器，比如说在Tensorboard画loss�
 
 # 特征处理 Feature Columns
 
-特征预处理是要将样本的原始数据变换为和模型适配的Tensor向量形式。
+特征预处理是要将样本的原始数据变换为同模型适配的 Tensor向量 形式。
 
 Feature Columns是Tensorflow中 原始数据 和 Estimator 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns其实就是在做特征预处理。
 
@@ -973,13 +973,12 @@ tf.feature_column.crossed_column
 ## Indicator column
 tf.feature_column.indicator_column
 对类型特征进行one-hot编码后的特征。
+它是以Categorical column为输入基础的。
 
 ## Embedding column
 tf.feature_column.embedding_column
 对类型特征进行Embedding编码后的特征。
-
-以上这两种colunm是以Categorical column为输入基础的，
-
+它是以Categorical column为输入基础的。
 
 ## tf.feature_column.shared_embedding_columns
 若干个embedding column共享一模一样的权重数值。
@@ -993,7 +992,7 @@ Applies weight values to a CategoricalColumn
 
 
 
-# 样本文件/数据格式处理
+# 样本文件/数据的格式化处理
 
 tf.Example messages to and from tfrecord files
 
@@ -1143,7 +1142,7 @@ GetNextInternal 可能会被并发调用，所以推荐用一个互斥量来保�
 
 ## 缺失值的处理
 
-
+每一种Feature Column都有一项default_value作为输入参数。
 
 
 

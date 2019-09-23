@@ -36,7 +36,7 @@ layout: post
 总体来讲目标函数和损失函数都是优化的目标，我们都是要再迭代中减小其数值。
 
 目标函数的设定中要包含loss function 和 regularization。
-前者是要使得我们的模型尽可能的学习训练样本的分布。后者是希望模型不用过拟合。
+前者是要使得我们的模型尽可能的学习训练样本的分布。后者是希望模型不会过拟合。
 
 Training Loss measures how well model fit on training data.
 
@@ -49,14 +49,13 @@ Training Loss measures how well model fit on training data.
 
 Regularization measures complexity of model.
 
+常见的正则化方法有三种：
+1. L0值: 原向量中非0元素的个数； 
+2. L1值：原向量中各元素绝对值之和；
+3. L2值：原向量中个元素的平方和的平方根。
+
 
 # 损失函数 Loss functions
-
-## logits是什么？
-
-the vector of raw (non-normalized) predictions that a classification model generates, which is ordinarily then passed to a normalization function. If the model is solving a multi-class classification problem, logits typically become an input to the softmax function. The softmax function then generates a vector of (normalized) probabilities with one value for each possible class.
-
-
 
 按任务的目标我们将损失函数分为回归损失函数、分类损失函数、Embedding损失函数。
 
@@ -167,7 +166,9 @@ Loss = sum( -actual * log(pred) )
 sparse_xentropy = tf.nn.sparse_softmax_cross_entropy_with_logits(unscaled_logits, sparse_target_dist)
 ```
 
+### logits是什么？
 
+The vector of raw (non-normalized) predictions that a classification model generates, which is ordinarily then passed to a normalization function. If the model is solving a multi-class classification problem, logits typically become an input to the softmax function. The softmax function then generates a vector of (normalized) probabilities with one value for each possible class.
 
 
 ## Embedding loss functions
@@ -200,14 +201,16 @@ L0范数是指向量中非0的元素的个数。
 
 1. L1 Regularization
 
-L1范数是指向量中各个元素绝对值之和，也叫“稀疏规则算子”（Lasso regularization）。
+L1范数是指向量中各个元素绝对值之和。也叫做“稀疏规则算子”（Lasso regularization）。
 
 2. L2 Regularization
 
- L2范数是指向量各元素的平方和然后求平方根。
+ L2范数是指向量各元素的平方和然后求平方根。也叫做"Ridge regression"。
 
 - 为什么 l1 相比于 l2 容易获得稀疏解？
 https://www.zhihu.com/question/37096933
+
+https://maristie.com/blog/differences-between-normalization-standardization-and-regularization/
 
 - 什么是稀疏解？
 
@@ -307,7 +310,7 @@ for i in range(nb_epochs):
 
 θ=θ−η⋅∇θJ(θ;x(i);y(i))
 
-```
+```cpp
 for i in range(nb_epochs):
   np.random.shuffle(data)
   for example in data:
@@ -321,7 +324,7 @@ for i in range(nb_epochs):
 
 θ=θ−η⋅∇θJ(θ;x(i:i+n);y(i:i+n))
 
-```
+```cpp
 for i in range(nb_epochs):
   np.random.shuffle(data)
   for batch in get_batches(data, batch_size=50):
@@ -393,4 +396,6 @@ Adam在一开始表现更好，而SGD最终达到更好的全局最小值。
 超级全面的总结： http://ruder.io/optimizing-gradient-descent/
 
 中文版： https://zhuanlan.zhihu.com/p/22252270
+
+区分normalization/standardization/regularization：https://maristie.com/blog/differences-between-normalization-standardization-and-regularization/
 
