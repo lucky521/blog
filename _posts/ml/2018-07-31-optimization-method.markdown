@@ -35,13 +35,13 @@ layout: post
 
 总体来讲目标函数和损失函数都是优化的目标，我们都是要再迭代中减小其数值。
 
-目标函数的设定中要包含loss function 和 regularization。
+目标函数的设定中要包含 loss function 和 regularization。
 前者是要使得我们的模型尽可能的学习训练样本的分布。后者是希望模型不会过拟合。
 
 Training Loss measures how well model fit on training data.
 
 常见的损失误差有五种：
-1. 铰链损失（Hinge Loss）：主要用于支持向量机（SVM） 中；
+1. 铰链损失（Hinge Loss）：主要用于支持向量机（SVM） 分类中；
 2. 互熵损失 (Cross Entropy Loss，Softmax Loss)：用于Logistic 回归与Softmax 分类中；
 3. 平方损失（Square Loss）：主要是最小二乘法（OLS）中；
 4. 指数损失（Exponential Loss） ：主要用于Adaboost 集成学习算法中；
@@ -53,6 +53,8 @@ Regularization measures complexity of model.
 1. L0值: 原向量中非0元素的个数； 
 2. L1值：原向量中各元素绝对值之和；
 3. L2值：原向量中个元素的平方和的平方根。
+
+
 
 
 # 损失函数 Loss functions
@@ -102,6 +104,7 @@ def Huber(yHat, y, delta=1.):
 
 The output variable in classification problem is usually a probability value f(x), called the score for the input x. Generally, the magnitude of the score represents the confidence of our prediction. The target variable y, is a binary variable, 1 for true and -1 for false.
 On an example (x,y), the margin is defined as yf(x). The margin is a measure of how correct we are. Most classification losses mainly aim to maximize the margin. Some classification algorithms are:
+
 1. Binary Cross Entropy
 
 2. Negative Log Likelihood
@@ -112,15 +115,15 @@ On an example (x,y), the margin is defined as yf(x). The margin is a measure of 
 
 5. Hinge Loss/多分类 SVM 损失
 Loss = max(0, 1 - (pred * actual))
-```
+```python
 def Hinge(yHat, y):
     return np.max(0, 1 - yHat * y)
 ```
 
-6. 交叉熵损失/负对数似然
-Cross-entropy loss, or Log loss
+6. 交叉熵损失/负对数似然/Logarithmic Loss
+Cross-entropy loss, or Logloss
 Loss = -actual * (log(pred)) - (1-actual)(log(1-pred))
-```
+```python
 def CrossEntropy(yHat, y):
     if y == 1:
       return -log(yHat)
@@ -132,7 +135,7 @@ def CrossEntropy(yHat, y):
 Loss = -actual * (log(sigmoid(pred))) - (1-actual)(log(1-sigmoid(pred)))
 或者
 Loss = max(actual, 0) - actual * pred + log(1 + exp(-abs(actual)))
-```
+```python
 xentropy_sigmoid_y_vals = tf.nn.sigmoid_cross_entropy_with_logits(labels=x_vals, logits=targets)
 xentropy_sigmoid_y_out = sess.run(xentropy_sigmoid_y_vals)
 ```
@@ -141,7 +144,7 @@ xentropy_sigmoid_y_out = sess.run(xentropy_sigmoid_y_vals)
 Loss = -actual * (log(pred)) * weights - (1-actual)(log(1-pred))
 或者
 Loss = (1 - pred) * actual + (1 + (weights - 1) * pred) * log(1 + exp(-actual))
-```
+```python
 xentropy_weighted_y_vals = tf.nn.weighted_cross_entropy_with_logits(x_vals, targets, weight)
 xentropy_weighted_y_out = sess.run(xentropy_weighted_y_vals)
 ```
@@ -149,14 +152,14 @@ xentropy_weighted_y_out = sess.run(xentropy_weighted_y_vals)
 
 9. KL散度 KL-divergence Loss
 我们可以把最大似然看作是使模型分布尽可能地和经验分布相匹配的尝试。最小化训练集上的经验分布和模型分布之间的差异。
-```
+```python
 def kl_divergence(p, q):  # q,p都是长度相同的浮点数向量，且向量元素值之和都为1
     return tf.reduce_sum(p * tf.log(p/q)) 
 ```
 
 10. Softmax entropy loss
 Loss = -actual * (log(softmax(pred))) - (1-actual)(log(1-softmax(pred)))
-```
+```python
 softmax_xentropy = tf.nn.softmax_cross_entropy_with_logits(unscaled_logits, target_dist)
 ```
 
@@ -177,7 +180,6 @@ It deals with problems where we have to measure whether two inputs are similar o
 1. L1 Hinge Error - Calculates the L1 distance between two inputs.
 
 2. Cosine Error - Cosine distance between two inputs.
-
 
 3. Noise Contrastive Estimation training loss (NCE loss)
 为什么NCE常作为word2vec的loss函数？

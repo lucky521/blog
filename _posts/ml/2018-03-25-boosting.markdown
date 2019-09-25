@@ -8,12 +8,14 @@ layout: post
 
 Ensemble learning 是结合多个学习器、组合单一分类方法来完成学习任务。
 
-集成学习策略主要可以分为三大类，Boosting, Bagging, Stacking。
+## 集成学习策略主要可以分为三大类，Boosting, Bagging, Stacking。
 
-      Bagging方法: Averaging methods, 训练好几个模型，最终预测结果用的是几个模型预测结果的平均值。
+      Bagging方法: Averaging methods, 多个模型并行学习，训练好几个模型，最终预测结果用的是几个模型预测结果的平均值。
       Boosting方法：训练好几个模型，模型之间是承接关系，后一个模型是在预测前一个模型的预测误差值。
       Stacking：训练一个模型用于组合(combine)其他各个模型，称作为2-level model。
 
+
+Bagging方法利于减小模型的方差。Boosting方法利于减小模型的偏差。
 
 三种集成学习测量的代表：
 
@@ -22,18 +24,28 @@ Ensemble learning 是结合多个学习器、组合单一分类方法来完成�
       Stacking 的话，好像还没有著名的代表，可以视其为一种集成的套路。
 
 
+Ensemble tree based models：
 
-# Ensemble tree based models
-
-      	* RandomForestClassifier
-      	* RandomForestRegressor
-      	* ExtraTreesClassifier
-      	* ExtraTreesRegressor
-      	* XGBClassifier
-      	* XGBRegressor
-
+    * RandomForestClassifier
+    * RandomForestRegressor
+    * ExtraTreesClassifier
+    * ExtraTreesRegressor
+    * XGBClassifier
+    * XGBRegressor
 
 
+## 基分类器
+
+指的是集成学习中所使用的基础分类器。在选择基分类器时，对其的要求是：
+1. 稳定性不能太强：数据的随机性对分类器的影响越大的话，越容易在集成时得到收益。
+2. 分类器的表达能力、泛化能力要容易调节。
+3. 样本权重的控制要容易。
+结合这三点，就发现决策树分类器是最适合作为基分类器的。
+
+
+## 梯度下降 vs 梯度提升
+
+GBDT使用梯度提升作为训练方法；神经网络、逻辑回归梯度下降作为训练方法。
 
 
 
@@ -165,7 +177,7 @@ XGBoost支持pairwise方式的训练目标。我们来看一下pairwise方式的
 
 我们先来看简单的使用例子。
 
-```
+```python
 import sys
 import xgboost as xgb
 import numpy as np
@@ -297,7 +309,7 @@ XGBoost提供了plot_importance方法来计算和展示一个模型的feature im
 
 我们先看怎么用XGBoost计算模型的Feature Importance。
 
-```
+```python
 import matplotlib.pyplot as plt
 
 # show feature importance plot
@@ -345,7 +357,7 @@ https://stackoverflow.com/questions/43862499/xgboost-get-fscore-or-get-score-ret
 
 先看一个简单的例子。
 
-```
+```python
 from sklearn.datasets import load_iris, load_boston
 import xgboost as xgb
 import xgbfir

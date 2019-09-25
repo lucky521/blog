@@ -1823,6 +1823,7 @@ https://github.com/tensorflow/custom-op/issues/3
 You can add your op/kernel BUILD targets to the list of SUPPORTED_TENSORFLOW_OPS and recompile the ModelServer.
 
 1. adding my custom op in tensorflow_serving/model_servers/BUILD
+
 ```
 SUPPORTED_TENSORFLOW_OPS = [
     "@org_tensorflow//tensorflow/contrib:contrib_kernels",
