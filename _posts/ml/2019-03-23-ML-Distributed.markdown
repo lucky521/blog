@@ -13,6 +13,15 @@ categories: [MachineLearning]
 
 模型规模太大
 
+
+
+# 分布式机器学习容易遇到的问题
+
+训练框架复杂化
+
+对分布式集群资源的利用率不高（尽管对单个模型的训练速度提高了）
+
+
 # 分布式机器学习的要求
 
 数据并行
@@ -34,8 +43,19 @@ categories: [MachineLearning]
 
 数据流 - Tensorflow
 
-horovod
+horovod - https://eng.uber.com/horovod/
 
+NCCL
+
+
+communication primitive
+
+    Point-to-point communication
+    
+    Collective communication
+
+
+ring-base collectives
 
 
 # 分布式机器学习算法

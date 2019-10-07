@@ -115,6 +115,7 @@ On an example (x,y), the margin is defined as yf(x). The margin is a measure of 
 
 5. Hinge Loss/多分类 SVM 损失
 Loss = max(0, 1 - (pred * actual))
+
 ```python
 def Hinge(yHat, y):
     return np.max(0, 1 - yHat * y)
@@ -123,6 +124,7 @@ def Hinge(yHat, y):
 6. 交叉熵损失/负对数似然/Logarithmic Loss
 Cross-entropy loss, or Logloss
 Loss = -actual * (log(pred)) - (1-actual)(log(1-pred))
+
 ```python
 def CrossEntropy(yHat, y):
     if y == 1:
@@ -135,6 +137,7 @@ def CrossEntropy(yHat, y):
 Loss = -actual * (log(sigmoid(pred))) - (1-actual)(log(1-sigmoid(pred)))
 或者
 Loss = max(actual, 0) - actual * pred + log(1 + exp(-abs(actual)))
+
 ```python
 xentropy_sigmoid_y_vals = tf.nn.sigmoid_cross_entropy_with_logits(labels=x_vals, logits=targets)
 xentropy_sigmoid_y_out = sess.run(xentropy_sigmoid_y_vals)
@@ -144,6 +147,7 @@ xentropy_sigmoid_y_out = sess.run(xentropy_sigmoid_y_vals)
 Loss = -actual * (log(pred)) * weights - (1-actual)(log(1-pred))
 或者
 Loss = (1 - pred) * actual + (1 + (weights - 1) * pred) * log(1 + exp(-actual))
+
 ```python
 xentropy_weighted_y_vals = tf.nn.weighted_cross_entropy_with_logits(x_vals, targets, weight)
 xentropy_weighted_y_out = sess.run(xentropy_weighted_y_vals)

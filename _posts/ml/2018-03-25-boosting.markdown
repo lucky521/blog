@@ -47,6 +47,9 @@ Ensemble tree based models：
 
 GBDT使用梯度提升作为训练方法；神经网络、逻辑回归梯度下降作为训练方法。
 
+梯度下降的含义：通过向负梯度方向移动来最小化函数.
+
+Gradient Boosting = Gradient Descent + Boosting
 
 
 # Gradient Boosting & GBDT

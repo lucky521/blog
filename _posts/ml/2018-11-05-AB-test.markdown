@@ -33,6 +33,10 @@ Read/U（平均每个用户每天会有多少次阅读）
 
 
 
+# 计算F值
+
+F = variation between sample means / variation within the samples
+
 # 计算P值
 
 正例占比 和 样本总数，这两个数值都对指标的评价有影响。简单来讲，就是样本数越大，正例占比这个结果越是可信。
