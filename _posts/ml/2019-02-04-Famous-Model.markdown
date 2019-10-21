@@ -15,7 +15,7 @@ categories: [MachineLearning]
 
 
 
-# deep-learning based CTR models
+# Deep-learning based CTR models
 
 https://github.com/shenweichen/DeepCTR
 
@@ -40,11 +40,24 @@ https://zhuanlan.zhihu.com/p/43364598
 
 
 
-# deep-learning based NLP models
+# Deep-learning based NLP models
+
+## Batch Negative
+
+
+## Transformer
+
+http://jalammar.github.io/illustrated-transformer/
+
+
+## Attention
+
 
 ## BERT 模型
 
 BERT的全称是Bidirectional Encoder Representation from Transformers，即双向Transformer的Encoder，因为decoder是不能获要预测的信息的。模型的主要创新点都在pre-train方法上，即用了Masked LM和Next Sentence Prediction两种方法分别捕捉词语和句子级别的representation。
+
+
 
 
 
