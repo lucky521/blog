@@ -1862,6 +1862,9 @@ REGISTER_STORAGE_PATH_SOURCE_ADAPTER
 
 # Tensorflow 性能调优（训练/预测） 
 
+服务器端模型最在意的延时和吞吐率。
+本地端模型最在意的是CPU资源占用率、内存占用率。
+
 ## Performance
 
 https://tensorflow.google.cn/guide/performance/overview
@@ -2016,6 +2019,18 @@ The warmup data must be representative of the inference requests used at serving
 
 参考：https://www.tensorflow.org/tfx/serving/saved_model_warmup
  
+
+### Quantization
+
+主要思想是通过缩小模型系数的元类型来加速和缩小体积。
+
+32bit-float to 8bit-int 
+
+1. Post Training quantization
+
+2. During Traing quantization
+
+### Connection Pruning
 
 
 
