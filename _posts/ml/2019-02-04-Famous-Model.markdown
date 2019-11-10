@@ -14,6 +14,14 @@ categories: [MachineLearning]
 # GBM models
 
 
+# FM models
+
+对categorical类型进行独热编码变成数值特征（1变多）之后，特征会非常稀疏（非零值少），特征维度空间也变大。因此FM的思路是构建新的交叉特征。
+
+FM的表达式是在线性表达式后面加入了新的交叉项特征及对应的权值。
+
+https://www.cnblogs.com/wkang/p/9588360.html
+
 
 # Deep-learning based CTR models
 
@@ -51,6 +59,8 @@ http://jalammar.github.io/illustrated-transformer/
 
 
 ## Attention
+
+https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/
 
 
 ## BERT 模型
