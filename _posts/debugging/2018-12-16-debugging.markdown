@@ -17,7 +17,11 @@ WinDgb
 
 ## Linux
 
-GDB
+### GDB
+
+```shell
+gdb binary corefile
+```
 
 ## Mac
 

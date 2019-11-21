@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "经典网络结构"
+title:  "经典模型结构"
 subtitle: "如何选择适合的模型？"
 categories: [MachineLearning]
 ---

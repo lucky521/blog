@@ -218,6 +218,8 @@ https://www.zhihu.com/question/37096933
 
 https://maristie.com/blog/differences-between-normalization-standardization-and-regularization/
 
+3. 在L1和L2正则的基础上，人们引入L21正则(group lasso)和L22正则(exclusive sparsity)
+
 - 什么是稀疏解？
 
 
@@ -249,11 +251,11 @@ https://maristie.com/blog/differences-between-normalization-standardization-and-
 
 使用拉格朗日乘子法（Lagrange Multiplier) 求解。
 
-常常丽勇拉格朗日对偶性将原始问题转换为对偶问题，通过解对偶问题而得到原始问题的解。
+常利用拉格朗日对偶性将原始问题转换为对偶问题，通过解对偶问题而得到原始问题的解。
 
 ## 有不等式约束的优化问题
 
-使用KKT条件求解。
+常使用KKT条件转换为无约束问题来求解。
 
 [参考](https://zhuanlan.zhihu.com/p/26514613)
 

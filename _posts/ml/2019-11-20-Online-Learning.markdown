@@ -1,0 +1,46 @@
+---
+layout: post
+title:  "在线学习"
+subtitle: "Online Learning"
+categories: [MachineLearning]
+---
+
+
+# 理论
+
+## 在线学习的概念
+
+In computer science, online machine learning is a method of machine learning in which data becomes available in a sequential order and is used to update our best predictor for future data at each step, as opposed to batch learning techniques which generate the best predictor by learning on the entire training data set at once.
+
+
+## 在线学习算法
+
+FTRL（Follow The Regularized Leader）
+BPR（Bayesian Probit Regression）
+RDA
+FOBOS
+
+FTRL是一种在线学习的常见优化算法，方便实用，而且效果很好，常用于更新在线的CTR预估模型。
+
+FTRL算法融合了RDA算法能产生稀疏模型的特性和SGD算法能产生更有效模型的特性。
+
+FTRL算法的实现
+https://github.com/Angel-ML/angel/blob/master/docs/algo/ftrl_lr_spark.md
+
+
+在线最优化算法讲解
+https://plushunter.github.io/2017/07/26/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%B3%BB%E5%88%97%EF%BC%8831%EF%BC%89%EF%BC%9A%E5%9C%A8%E7%BA%BF%E6%9C%80%E4%BC%98%E5%8C%96%E6%B1%82%E8%A7%A3%EF%BC%88online%20Optimization%EF%BC%89/
+
+
+# 工业实践
+在线学习在爱奇艺信息流推荐业务中的探索与实践
+https://www.infoq.cn/article/lTHcDaZelZgC639P1P5q
+
+
+支付宝在线学习实践
+https://zhuanlan.zhihu.com/p/53530167
+
+1. embedding_lookup_sparse 改造
+2. 正则化优化
+3. 模型压缩：实现了完整简洁的图裁剪工具，在模型热导出时调用， 将模型从原先的8GB左右压缩到几百兆大小，同时保证模型打分一致。
+```

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Tensorflow 框架体系的设计模式"
+title:  "Tensorflow 内部设计模式"
 subtitle: "Tensorflow Internal"
 categories: [MachineLearning]
 ---
