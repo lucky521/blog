@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "在线学习"
-subtitle: "Online Learning"
+subtitle: "Online Machine Learning"
 categories: [MachineLearning]
 ---
 
@@ -12,8 +12,12 @@ categories: [MachineLearning]
 
 In computer science, online machine learning is a method of machine learning in which data becomes available in a sequential order and is used to update our best predictor for future data at each step, as opposed to batch learning techniques which generate the best predictor by learning on the entire training data set at once.
 
+简单理解，就是把原本离线进行的模型训练也搬到线上，模型一边训练一边预测。
+
 
 ## 在线学习算法
+
+微软的RDA，google的FOBOS和最著名的FTRL
 
 FTRL（Follow The Regularized Leader）
 BPR（Bayesian Probit Regression）
