@@ -1,6 +1,6 @@
 # Site settings
 title: Lucky
-description: Lucky Blog. This is your RSS. Welcome!
+description: Lucky Blog. Welcome!
 
 baseurl: /blog # the subpath of your site, e.g. /blog/
 abouturl: lucky521.github.io

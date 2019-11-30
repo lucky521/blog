@@ -1,56 +1,83 @@
 ---
 layout: post
 title:  "机器学习系统工程实践"
-subtitle: "模型系统"
+subtitle: "机器学习平台"
 categories: [MachineLearning]
 ---
 
 # 什么是机器学习系统？
 
-我觉得机器学习系统（又可以称作是`模型系统`）作为一个软件系统，它不是一个孤立存在的软件系统，而总是作为一个工具服务于另一个更大的软件系统。比如用于预测一件事情发生的概率，或是用于预测一个事物所属的归类，而被安放在某种识别系统、推荐系统、搜索排序系统、广告系统之中。
+我觉得机器学习系统（又可以称作是`模型系统`、`机器学习平台`）作为一个软件系统，它不是一个孤立存在的软件系统，而总是作为一个工具服务于另一个更大的软件系统。比如用于预测一件事情发生的概率，或是用于预测一个事物所属的归类，而被安放在某种识别系统、推荐系统、搜索排序系统、广告系统之中。
 
 在不同应用中的模型系统又具有很多相同之处，因此机器学习系统可以作为一个独立的系统来进行设计和开发。
 
-和其他软件系统一样，机器学习系统在设计和开发阶段一样需要软件设计思想。
-和其他软件系统一样，机器学习系统随着规模的扩大、对性能要求的提高，也会面临性能挑战。
+- 和其他软件系统一样，机器学习系统在设计和开发阶段一样需要软件设计思想。
+- 和其他软件系统一样，机器学习系统随着规模的扩大、对性能要求的提高，也会面临性能挑战。
+- 和其他软件系统一样，机器学习系统需要足够的可扩展性，运行更多新的功能被开发出来。
 
 # 机器学习系统和其他软件系统有什么差别？
 
 机器学习系统中“错误”这一概念要更模糊一些。
 
-机器学习系统中的”数据“会影响到逻辑。
-
+机器学习系统中的”数据“(样本)会实质性的影响"逻辑"(模型)。
 
 
 # 机器学习系统的组成
 
 ## 离线功能部分
-样本相关：标签数据接收、特征数据接收、样本生成、样本预处理
-模型训练相关：模型训练（分布式训练、自动调参、增量学习）、离线指标计算、模型推送、模型版本控制
+样本数据相关：
+- 标签数据接收、
+- 特征数据接收、
+- 样本生成（数据验证、ExampleGen、StatisticsGen、SchemaGen）
+- 样本预处理（DataTransform）
+
+模型训练相关：
+- 模型训练（Trainer、分布式训练、自动调参、增量学习、调度器）
+- 模型验证（灵活的Evaluator、离线指标计算）
+- 模型版本控制（模型元数据库）
+- 模型推送（Pusher）
 
 
 ## 在线功能部分
-特征相关：特征数据服务、在线特征生成、
-模型预测相关：模型热更新、模型预测服务（本地预测、远端预测服务、在线学习）、样本日志记录
+特征数据相关：
+- 特征数据服务、
+- 在线特征生成框架、
+- 特征日志记录
+- 事件埋点记录
+
+模型预测相关：
+- 模型热更新、
+- 模型预测服务（本地预测、远端预测服务、在线学习）、
+- 模型灰度
 
 
 ## 监控
 各环节性能监控
+
 离线样本值监控
+
 在线特征值监控
+
 预发指标预算
+
 在线指标监控
 
+
 ## 人机交互
+训练任务平台
+
 特征管理系统
-模型管理系统
-训练平台
-监控平台
+
+模型配置、发布、管理系统
+
+监控、报警平台
 
 
 
 
 # 机器学习系统的设计
+
+并不是所有的模块都需要从0设计，集成合适的开源组件，是一种不错的选择。
 
 ## 模块化设计
 
@@ -61,6 +88,9 @@ categories: [MachineLearning]
 
 
 配置设计
+
+
+充分的可视化交互设计
 
 
 
@@ -97,13 +127,35 @@ categories: [MachineLearning]
 
 
 
-# 开源实践
+# 开源工业实践
 
-https://mitdbg.github.io/modeldb/
+基础设施层方案
+- 数据流批处理框架：kubeflow.org
+- 数据流程化处理系统：https://github.com/apache/airflow
+- DAG数据工作流框架： https://mlflow.org/
+- 可视化数据流处理系统： https://nifi.apache.org/
+- 类似于kubeflow的：https://polyaxon.com/
+- https://mitdbg.github.io/modeldb/
 
-https://mlflow.org/
+数据处理层组件
+- https://github.com/pachyderm/pachyderm
 
-https://github.com/tensorflow/tfx
+训练层组件
+- 分布式的Tensorflow：https://github.com/tensorflow/examples/blob/master/community/en/docs/deploy/distributed.md
+- Horovod
+-
+
+完整方案
+- google: https://github.com/tensorflow/tfx
+- facebook: https://engineering.fb.com/core-data/introducing-fblearner-flow-facebook-s-ai-backbone/
+- uber: https://eng.uber.com/michelangelo/
+
+
+## TFX
+
+全称 Tensorflow Extended
+
+数据预处理组件 https://github.com/tensorflow/transform
 
 
 
@@ -117,3 +169,7 @@ https://zhuanlan.zhihu.com/p/55032862
 https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems.pdf
 
 https://storage.googleapis.com/pub-tools-public-publication-data/pdf/aad9f93b86b7addfea4c419b9100c6cdd26cacea.pdf
+
+[machine-learning-systems-design](https://github.com/chiphuyen/machine-learning-systems-design)
+
+[Deep Learning Infrastructure at Scale: An Overview](https://mlconf.com/blog/deep-learning-infrastructure-at-scale-an-overview/)
