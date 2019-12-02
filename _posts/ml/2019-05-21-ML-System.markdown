@@ -7,7 +7,7 @@ categories: [MachineLearning]
 
 # 什么是机器学习系统？
 
-我觉得机器学习系统（又可以称作是`模型系统`、`机器学习平台`）作为一个软件系统，它不是一个孤立存在的软件系统，而总是作为一个工具服务于另一个更大的软件系统。比如用于预测一件事情发生的概率，或是用于预测一个事物所属的归类，而被安放在某种识别系统、推荐系统、搜索排序系统、广告系统之中。
+我觉得机器学习系统（又可以称作是`模型系统`、`机器学习平台`、`ML-as-a-service system`）作为一个软件系统，它不是一个孤立存在的软件系统，而总是作为一个工具服务于另一个更大的软件系统。比如用于预测一件事情发生的概率，或是用于预测一个事物所属的归类，而被安放在某种识别系统、推荐系统、搜索排序系统、广告系统之中。
 
 在不同应用中的模型系统又具有很多相同之处，因此机器学习系统可以作为一个独立的系统来进行设计和开发。
 
@@ -26,8 +26,8 @@ categories: [MachineLearning]
 
 ## 离线功能部分
 样本数据相关：
-- 标签数据接收、
-- 特征数据接收、
+- 标签数据接收
+- 特征数据接收
 - 样本生成（数据验证、ExampleGen、StatisticsGen、SchemaGen）
 - 样本预处理（DataTransform）
 
@@ -40,38 +40,30 @@ categories: [MachineLearning]
 
 ## 在线功能部分
 特征数据相关：
-- 特征数据服务、
-- 在线特征生成框架、
+- 特征数据服务（Feature Store、Feature Service）
+- 在线特征生成框架
 - 特征日志记录
 - 事件埋点记录
 
 模型预测相关：
-- 模型热更新、
+- 模型热更新
 - 模型预测服务（本地预测、远端预测服务、在线学习）、
 - 模型灰度
 
 
-## 监控
-各环节性能监控
-
-离线样本值监控
-
-在线特征值监控
-
-预发指标预算
-
-在线指标监控
-
-
 ## 人机交互
-训练任务平台
+- 训练任务和可视化训练平台（可编写训练Workflow、实验模型可重载、训练任务可重载、训练结果历史库）
+- 特征和样本管理平台
+- 模型配置、发布、管理系统
+- 监控、报警平台
 
-特征管理系统
 
-模型配置、发布、管理系统
-
-监控、报警平台
-
+## 监控
+- 各环节性能监控
+- 离线样本值监控
+- 在线特征值监控
+- 预发指标预算
+- 线上指标监控
 
 
 
@@ -143,12 +135,11 @@ categories: [MachineLearning]
 训练层组件
 - 分布式的Tensorflow：https://github.com/tensorflow/examples/blob/master/community/en/docs/deploy/distributed.md
 - Horovod
--
 
 完整方案
-- google: https://github.com/tensorflow/tfx
-- facebook: https://engineering.fb.com/core-data/introducing-fblearner-flow-facebook-s-ai-backbone/
-- uber: https://eng.uber.com/michelangelo/
+- TFX by google : https://github.com/tensorflow/tfx
+- FBLearner Flow by facebook: https://engineering.fb.com/core-data/introducing-fblearner-flow-facebook-s-ai-backbone/
+- Michelangelo by uber: https://eng.uber.com/michelangelo/
 
 
 ## TFX
