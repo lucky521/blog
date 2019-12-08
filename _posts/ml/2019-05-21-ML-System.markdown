@@ -26,10 +26,9 @@ categories: [MachineLearning]
 
 ## 离线功能部分
 样本数据相关：
-- 标签数据接收
-- 特征数据接收
-- 样本生成（数据验证、ExampleGen、StatisticsGen、SchemaGen）
-- 样本预处理（DataTransform）
+- 标签接收、特征接收
+- 样本验证框架（数据验证、ExampleGen、StatisticsGen、SchemaGen）
+- 样本预处理框架（DataTransform）
 
 模型训练相关：
 - 模型训练（Trainer、分布式训练、自动调参、增量学习、调度器）
@@ -40,10 +39,9 @@ categories: [MachineLearning]
 
 ## 在线功能部分
 特征数据相关：
-- 特征数据服务（Feature Store、Feature Service）
+- 特征数据服务（Feature Flow、Feature Service）
 - 在线特征生成框架
-- 特征日志记录
-- 事件埋点记录
+- 特征日志记录、事件埋点记录
 
 模型预测相关：
 - 模型热更新
@@ -134,7 +132,7 @@ categories: [MachineLearning]
 
 训练层组件
 - 分布式的Tensorflow：https://github.com/tensorflow/examples/blob/master/community/en/docs/deploy/distributed.md
-- Horovod
+- Horovod: https://eng.uber.com/horovod/
 
 完整方案
 - TFX by google : https://github.com/tensorflow/tfx

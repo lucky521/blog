@@ -363,3 +363,7 @@ The data format of LIBFFM is:
 https://www.zhihu.com/question/29316149
 
 http://scikit-learn.org/stable/modules/classes.html
+
+
+整理一份详细的数据预处理方法
+https://zhuanlan.zhihu.com/p/51131210
