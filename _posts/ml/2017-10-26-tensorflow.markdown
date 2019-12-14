@@ -183,11 +183,16 @@ events.out.tfevents.XXX.local 文件是summary方法所生成的文件，其中�
 
 Scalar、custom_scalar、images、audio、text各种类型的数据都能通过在代码里创建summary，然后在tensorboard的相应面板里查看。
 
-比如在代码里调用 tf.summary.scalar("loss", loss)，就能在scalars可视化面板里看到“loss”值的变化情况。
+- Scalar 标量可视化
+  比如在代码里调用 tf.summary.scalar("loss", loss)，就能在scalars可视化面板里看到“loss”值的变化情况。
 
-Histogram、Distribution
+- Histogram、Distribution 分布可视化
+  “Distributions” tab contains a plot that shows the distribution of the values of the tensor (y-axis) through steps (x-axis).
 
-在代码里调用 tf.summary.histogram，就能在可视化面板里查看数据的分布。
+  在代码里调用 tf.summary.histogram，就能在可视化面板里查看数据的分布。
+
+  HISTOGRAMS 和 DISTRIBUTIONS 是对同一数据不同方式的展现。与 DISTRIBUTIONS 不同的是，HISTOGRAMS 可以说是 频数分布直方图 的堆叠。
+
 
 ### Model graph 可视化
 
@@ -199,15 +204,17 @@ https://www.tensorflow.org/guide/graph_viz
 
 https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/pr_curve
 
-### Embedding Projector 可视化
+### Projector 可视化
 
 Embedding Projector是Tensorboard的一个功能，可以可视化的查看embeddings。
-把checkpoint文件、model.ckpt文件、metadata.tsv文件、projector_config.pbtxt文件都放在同一个目录下。
-到这个目录下然后运行 tensorbord --logdir=.
+- 把checkpoint文件、model.ckpt文件、metadata.tsv文件、projector_config.pbtxt文件都放在同一个目录下。到这个目录下然后运行 tensorbord --logdir=.
 
-metadata.tsv按顺序存储了每一个embedding的label，可以是id也是可以name。
+  metadata.tsv按顺序存储了每一个embedding的label，可以是id也是可以name。
 
 visualize的方式有T-SNE、PCA以及custom的方式。
+
+kernel
+kernel/Adam
 
 ### Beholder 可视化
 

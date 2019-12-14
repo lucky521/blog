@@ -119,13 +119,17 @@ categories: [MachineLearning]
 
 # 开源工业实践
 
-基础设施层方案
+基础设施层方案、数据流方案（airflow argo kubeflow）
 - 数据流批处理框架：kubeflow.org
 - 数据流程化处理系统：https://github.com/apache/airflow
 - DAG数据工作流框架： https://mlflow.org/
 - 可视化数据流处理系统： https://nifi.apache.org/
 - 类似于kubeflow的：https://polyaxon.com/
+- https://github.com/argoproj/argo
 - https://mitdbg.github.io/modeldb/
+
+数据可视化
+- https://github.com/PAIR-code/facets
 
 数据处理层组件
 - https://github.com/pachyderm/pachyderm
@@ -162,3 +166,5 @@ https://storage.googleapis.com/pub-tools-public-publication-data/pdf/aad9f93b86b
 [machine-learning-systems-design](https://github.com/chiphuyen/machine-learning-systems-design)
 
 [Deep Learning Infrastructure at Scale: An Overview](https://mlconf.com/blog/deep-learning-infrastructure-at-scale-an-overview/)
+
+[Rules of Machine Learning: Best Practices for ML Engineering](http://martin.zinkevich.org/rules_of_ml/rules_of_ml.pdf)
