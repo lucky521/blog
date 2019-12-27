@@ -493,8 +493,8 @@ https://github.com/tensorflow/custom-op
 using namespace tensorflow;
 
 REGISTER_OP("接口名称")
-    .Input("输入名称: int32")
-    .Output("输出名称: int32")
+    .Input("输入名称: 类型int32")
+    .Output("输出名称: 类型int32")
     .SetShapeFn([](::tensorflow::shape_inference::InferenceContext* c) {
       c->set_output(0, c->input(0));
       return Status::OK();
@@ -505,11 +505,14 @@ REGISTER_KERNEL_BUILDER(Name("接口名称").Device(DEVICE_CPU), 类名);
 - 其中input和output都是在定义输入输出tensor的名称和类型
 - 其中还实现了一个Shape functions: infers the shape of outputs given that of inputs.
 
-### 编写自定义op的内部实现
+### 编写自定义op类的内部实现
 
 After you define the interface, provide one or more implementations of the op. To create one of these kernels, create a class that extends OpKernel and overrides the Compute method. The Compute method provides one context argument of type OpKernelContext*, from which you can access useful things like the input and output tensors.
 
 需要实现一个compute方法
+取到输入tensor： context->input
+分配出输出tensor： allocate_output
+
 
 ```
 class ZeroOutOp : public OpKernel {
@@ -540,6 +543,7 @@ class ZeroOutOp : public OpKernel {
 ```
 
 ### 直接用g++编译自定义op
+
 ```
 TF_CFLAGS=( $(python -c 'import tensorflow as tf; print(" ".join(tf.sysconfig.get_compile_flags()))') )
 TF_LFLAGS=( $(python -c 'import tensorflow as tf; print(" ".join(tf.sysconfig.get_link_flags()))') )
@@ -585,7 +589,10 @@ def testShuffle(self):
 
 实现一个 from tensorflow.python.data.ops import dataset_ops 的子类，然后将该类对象传入到 input_fn .
 
-### CustomOP能否存入到导出模型中 
+### CustomOP是如何存入到导出模型中 
+
+
+
 
 
 ## tf.Session 运行数据流
