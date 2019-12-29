@@ -25,6 +25,8 @@ https://www.cnblogs.com/wkang/p/9588360.html
 
 # Deep-learning based CTR models
 
+![]({{site.baseurl}}/images/dnnmodels.jpeg)
+
 https://github.com/shenweichen/DeepCTR
 
 
