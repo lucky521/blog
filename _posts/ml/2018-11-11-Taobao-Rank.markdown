@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "搜索推荐论文赏析"
+title:  "搜索推荐广告论文赏析"
 subtitle: ""
 categories: [MachineLearning]
 ---
@@ -50,7 +50,7 @@ ranks both the documents and positions
 
 
 
-# Image
+# CV Image
 
 这里聊的image不为做图像识别，是为了排序目标贡献图像类型的特征。
 
@@ -66,6 +66,14 @@ https://github.com/alibaba/x-deeplearning/wiki/%E5%9B%BE%E5%83%8F%E8%81%94%E5%90
 
 
 # 淘宝
+
+
+## UIC-MIMN: Practice on Long Sequential User Behavior Modeling for Click-Through Rate Prediction
+
+长序列用户行为
+UIC不依赖于搜索或推荐请求，而依赖于用户行为来实时计算用户兴趣。
+
+
 
 ## Perceive Your Users in Depth: Learning Universal User Representations from Multiple E-commerce Tasks
 
