@@ -1762,7 +1762,7 @@ serving_input_receiver_fn 是在导出模型时被使用的。
 
 
 tf.estimator.export.ServingInputReceiver 和 tf.estimator.export.TensorServingInputReceiver 有一点点差异：
-`tf.estimator.export.TensorServingInputReceiver` allows `tf.estimator.Estimator.export_savedmodel` to pass raw tensors to model functions.
+`tf.estimator.export.TensorServingInputReceiver` allows `tf.estimator.Estimator.export_savedmodel` to pass raw tensors to model functions. TensorServingInputReceiver是一种特殊形式，只有一个tensor作为输入。
 
 
 ## Serving 内部是 怎么加载模型 和 怎么做预测的？
