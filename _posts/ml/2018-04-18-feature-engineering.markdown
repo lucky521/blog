@@ -222,7 +222,7 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 除了组合两个特征，我们也可以组合多个特征。
 
 
-
+## K-means 特征聚类
 
 
 
@@ -364,6 +364,7 @@ https://www.zhihu.com/question/29316149
 
 http://scikit-learn.org/stable/modules/classes.html
 
+一本书 《Feature Engineering for Machine Learning.pdf》
 
 整理一份详细的数据预处理方法
 https://zhuanlan.zhihu.com/p/51131210
