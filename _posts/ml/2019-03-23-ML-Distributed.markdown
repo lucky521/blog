@@ -118,6 +118,7 @@ AlexNet
 数据流 - Tensorflow  https://www.tensorflow.org/guide/distribute_strategy
 
 horovod - https://eng.uber.com/horovod/
+控制层使用了https://www.open-mpi.org/
 
 NCCL - https://docs.nvidia.com/deeplearning/sdk/index.html
 

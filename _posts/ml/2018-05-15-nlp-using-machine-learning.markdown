@@ -159,7 +159,6 @@ Bi-LSTM
 self-attention mechanism
 http://www.jeyzhang.com/understand-attention-in-rnn.html
 
-
 LSTM with attention 
 
 
