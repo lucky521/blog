@@ -173,7 +173,6 @@ LSTM with attention
 
 # NLP Model 模型
 
-
 ## neural language model 
 
 
@@ -225,7 +224,7 @@ GloVe is essentially a log-bilinear model with a weighted least-squares objectiv
 
 
 ## CRF++
-
+CRF++是著名的条件随机场的开源工具,也是目前综合性能最佳的CRF工具，用于segmenting/labeling sequential data。
 
 
 ## fasttext
@@ -274,3 +273,6 @@ https://www.tensorflow.org/tutorials/word2vec
 
 
 https://github.com/graykode/nlp-tutorial
+
+
+[Notes on Deep Learning for NLP](https://arxiv.org/pdf/1808.09772.pdf)

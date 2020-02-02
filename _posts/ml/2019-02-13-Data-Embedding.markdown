@@ -6,6 +6,7 @@ categories: [MachineLearning]
 ---
 
 # Data embedding是什么？
+
 Embedding的概念来自于word embeddings。
 Embedding is a transformation from discrete values/scalars to dense real value vectors. 有的地方把embedding翻译为嵌套，有的地方把它翻译为向量。
 
@@ -22,8 +23,12 @@ An embedding can be learned and reused across models.
 它可以用来加载预先训练的词嵌入模型，这是一种迁移学习。
 它可以用来做相似召回，在某种空间计算embedding的相似度。
 
-
 广告、推荐、搜索等领域用户数据的稀疏性几乎必然要求在构建DNN之前对user和item进行embedding后才能进行有效的训练。
+
+## 使用Embedding的好处
+
+最大的好处是有利于捕捉特征值之间的相似关系。
+第二个好处是将sparse特征转变为dense特征，减少模型计算量。
 
 
 # 神经网络中的Embedding layer
@@ -223,7 +228,7 @@ item和user的量可以认为是无限的，所以不能直接使用它们的ind
 
 
 
-# Embedding 论文
+# Embedding 相关论文
 
 Embedding是一种方法，而它不是直接去解决目标问题的模型，但有了它作为模型或者输入的一部分，需要问题能够方便的求解。
 
