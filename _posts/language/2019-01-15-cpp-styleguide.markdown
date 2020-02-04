@@ -23,7 +23,16 @@ unique_ptr是用于取代c++98的auto_ptr的产物
 # 匿名函数
 
 
+# 左值右值
+
+C++中的每个表达式都有两种独立的特性：类型（type）和值分类（value category）。每个表达式都属于三大value category之一：prvalue，xvalue和lvalue。
+
+
 # std::forward
+
+完美转发实现了参数在传递过程中保持其值属性的功能，即若是左值，则传递之后仍然是左值，若是右值，则传递之后仍然是右值。
+
+std::forward<T>()不仅可以保持左值或者右值不变，同时还可以保持const、Lreference、Rreference、validate等属性不变；
 
 
 # std::move
