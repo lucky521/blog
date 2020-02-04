@@ -9,6 +9,11 @@ layout: post
 
 # 不可或缺的软件工具
 
+## Iterm2
+
+尤其是其中配置的triggers，不能丢。
+
+
 ## Alfred
 
 效率工具。它将搜索引擎搜索、本地文件查找、本地App启动、本地定制化命令操作、计算器、词典等功能合为一个入口。不管做什么事情，只需要一个快捷键启动这个入口，就能查询想要的东西。
@@ -70,6 +75,16 @@ Mac笔记本往往硬盘不够大。用着用着就不够用了。这时候就�
     anaconda的包文件
     conda clean -p
     conda clean -t
+
+
+# 通过命令行设置电源选项
+
+比如我设置的一个crontab任务：
+*/7 * * * * echo "password" | sudo -S  pmset -c displaysleep 60
+https://www.cnblogs.com/zhengran/p/4802582.html
+
+
+
 
 
 <!--

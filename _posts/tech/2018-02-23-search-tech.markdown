@@ -228,6 +228,21 @@ https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/MSR-TR-2010-
 
 
 
+# Rerank重排序算法
+
+## 什么是Rerank？ 为什么已经有Rank了还要再Rerank呢？
+重排主要是对排序后结果的优化，也可以用于二次推荐。
+
+Rank阶段，模型以单个item为预测目标，排序时不会兼顾到多个item之间的相互关系或影响。
+
+## ReRank一般做什么事？
+
+- 去重
+- item多样性
+- 业务的特殊需求
+- Exploitation Exploration
+- 强化学习
+
 # 开源搜索引擎框架
 
 如果不是有极为特殊的业务需求，或者数据量极为庞大，通用的开源搜索引擎就可以满足一般场景的搜索需求。
