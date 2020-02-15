@@ -8,7 +8,7 @@ layout: post
 # cpplint
 
 
-# 指针
+# 智能指针
 
 shared_ptr, weak_ptr, unique_ptr
 
@@ -19,6 +19,7 @@ unique_ptr是用于取代c++98的auto_ptr的产物
 # const
 
 
+# 仿函数
 
 # 匿名函数
 
