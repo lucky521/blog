@@ -5,6 +5,8 @@ subtitle: ""
 categories: [MachineLearning]
 ---
 
+分布式机器学习是一个偏工程实践的领域，90%是工程、10%是数学。
+
 # 为什么需要分布式机器学习？
 
 计算量太大

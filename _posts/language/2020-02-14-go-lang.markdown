@@ -1,0 +1,20 @@
+---
+title: "Go语言"
+categories: [Language]
+layout: post
+---
+
+# 为什么要用Go？
+Go语言是一门为并发而生的语言。
+听过有个技术大佬说，他写了十几年C++，后来他开始用go，之后就不怎么写c++了。
+Go是静态类型的编译型语言。
+垃圾回收、并行计算是Go语言的亮点之处。
+
+# Go的语法
+
+http://docscn.studygolang.com/ref/spec
+
+
+# Go的标准库
+
+https://studygolang.com/pkgdoc
