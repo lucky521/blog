@@ -495,6 +495,8 @@ using namespace tensorflow;
 REGISTER_OP("接口名称")
     .Input("输入名称: 类型int32")
     .Output("输出名称: 类型int32")
+    .Attr("属性名称: 属性约束")
+    .SetIsStateful() // prevents constant folding
     .SetShapeFn([](::tensorflow::shape_inference::InferenceContext* c) {
       c->set_output(0, c->input(0));
       return Status::OK();
@@ -584,6 +586,13 @@ def testShuffle(self):
 ```
 
 更多例子：https://www.programcreek.com/python/example/90369/tensorflow.load_op_library
+
+- 这里python方法加载了so之后，对应的方法名如何确定？
+
+REGISTER_KERNEL_BUILDER 和 REGISTER_OP 后面跟的接口名称是"若干个首字母大写的单词"组成的名称，它对应到python之后，接口名称就变为"每个单词全变为小写，单词间以下划线分割"的名称。这应该是swig处理的。
+
+
+
 
 ### Dataset ops
 
