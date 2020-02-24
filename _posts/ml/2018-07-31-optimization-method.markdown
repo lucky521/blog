@@ -272,6 +272,8 @@ https://maristie.com/blog/differences-between-normalization-standardization-and-
 
 目标函数的光滑性意味着自变量的微小变化只会引起函数值的微小变化。
 
+目前绝大多数优化理论都是针对凸函数的。
+
 
 
 
@@ -283,12 +285,15 @@ https://maristie.com/blog/differences-between-normalization-standardization-and-
 ## 二阶确定性算法
 
 
-## 随机优化算法
+## 一阶随机优化算法
 
 
+## 二阶随机优化算法
 
 
+## 原始方法 vs 对偶方法
 
+对偶方法是通过对偶变换，先把原始问题转换为对偶问题，针对对偶变量进行优化。
 
 
 

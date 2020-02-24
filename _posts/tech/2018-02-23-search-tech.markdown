@@ -235,6 +235,8 @@ https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/MSR-TR-2010-
 
 Rank阶段，模型以单个item为预测目标，排序时不会兼顾到多个item之间的相互关系或影响。
 
+rerank(重排) 跟Rank的区别在于，rank对每个商品独立打分，而rerank 结合所有商品给出整体分数, 相当于listwise的排序思想。
+
 ## ReRank一般做什么事？
 
 - 去重
