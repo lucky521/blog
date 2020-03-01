@@ -10,6 +10,19 @@ layout: post
 
 # Hive
 
+## hive SerDe
+1、SerDe is a short name for “Serializer and Deserializer.”
+Hive uses SerDe (and !FileFormat) to read and write table rows.
+HDFS files –> InputFileFormat –> <key, value> –> Deserializer –> Row object
+Row object –> Serializer –> <key, value> –> OutputFileFormat –> HDFS files
+2、InputFormat是将数据读取进来，解析成一个个记录，SerDe通过Deserializer将记录解析成字段
+3、SerDe通过Serializer将字段解析成一个个记录，再通过OutputFileFormat将记录写到存储系统
+
+当面临一个HDFS上的文件时，Hive将如下处理（以读为例）：
+(1) 调用InputFormat，将文件切成不同的文档。每篇文档即一行(Row)。
+(2) 调用SerDe的Deserializer，将一行(Row)，切分为各个字段。
+
+当HIVE执行INSERT操作，将Row写入文件时，主要调用OutputFormat、SerDe的Seriliazer，顺序与读取相反。
 
 
 # Pig
