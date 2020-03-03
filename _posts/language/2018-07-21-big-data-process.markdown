@@ -63,6 +63,10 @@ def my_function(key_sku, similar_sku_list, nn_sku_list):
 https://hadoop.apache.org/docs/r1.2.1/streaming.html
 
 
+## Run Python script
+
+https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/
+
 
 
 # Spark
