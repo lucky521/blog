@@ -1,0 +1,124 @@
+---
+title: "Flink部署和开发实践"
+categories: [framework]
+layout: post
+---
+
+# 流式数据处理
+
+本地状态，存储中间信息、缓存信息。
+
+窗口操作
+
+事件驱动
+
+管道 允许输入流数据，输出流数据，交给下一个任务
+
+DAG
+
+
+
+# Flink功能
+
+## 分层API
+
+最高层 sql api
+data stream api
+process function api
+
+
+## 批处理和流处理都支持
+
+
+
+## Operator算子
+
+map可以理解为映射，对每个元素进行一定的变换后，映射为另一个元素。
+
+flatmap可以理解为将元素摊平，每个元素可以变为0个、1个、或者多个元素。
+
+filter 过滤器，对数据流中的每个元素进行过滤判断，判断为true的元素进入下一个数据流
+
+key Agg
+
+## source
+
+flink中的source作为整个stream中的入口，而sink作为整个stream的终点。
+
+SourceFunction为所有flink中source的根接口，其定义了run()方法和cancel()方法。
+
+- run方法的功能是核心功能，主要用于source往出emit元素
+- cancel方法时用于取消run方法的执行，一般来说run方法内部是一个循环，cancel方法中控制run方法的循环不满足条件，从而取消run方法的执行。
+
+
+## sink
+
+Sink是流的重点，根接口是sinkFunction。
+
+其重要的方法是invoke()方法，用以实现结果数据的处理逻辑
+
+
+
+
+# 部署
+
+## standalone mode
+
+mac环境下: /usr/local/Cellar/apache-flink/1.9.1/libexec 
+
+./libexec/bin/start-cluster.sh
+
+./libexec/bin/stop-cluster.sh
+
+## yarn mode
+
+
+## kubernetes mode 
+
+
+
+
+
+
+# HelloWorld
+
+## Commands
+
+./bin/flink run -c com.aaa.worldcount xxx.jar --host localhost --port 7777
+
+./bin/flink list --all
+
+./bin/flink cancel job_id
+
+
+
+
+## scala job
+
+```java
+import org.apache.flink.api.scala._
+
+object FlinkWordCount {
+  def main(args:Array[String]):Unit = {
+    //val env = ExecutionEnvironment.getExecutionEnvironment;
+    val env = ExecutionEnvironment.createRemoteEnvironment("flink-master", 6123, "D:\\CodeBase\\jvmlearning\\flink-learning\\target\\flink-learning-1.0-SNAPSHOT.jar")
+    
+	val text = env.readTextFile("hdfs://flink-master:9000/user/flink/input/SogouQ.sample")
+    
+	println(text.count())
+    
+	val counts = text.flatMap {  _.toLowerCase.split("\\W+") }
+      .map { (_, 1) }
+      .groupBy(0)
+      .sum(1)
+    
+	//env.execute()
+    println(counts.count())
+    //println(env.getExecutionPlan());
+    //counts.print()
+  }
+}
+```
+
+
+## java job
