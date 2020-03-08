@@ -6,6 +6,8 @@ layout: post
 
 # 流式数据处理
 
+## 基本概念
+
 本地状态，存储中间信息、缓存信息。
 
 窗口操作
@@ -15,10 +17,6 @@ layout: post
 管道 允许输入流数据，输出流数据，交给下一个任务
 
 DAG
-
-
-
-# Flink功能
 
 ## 分层API
 
@@ -30,6 +28,7 @@ process function api
 ## 批处理和流处理都支持
 
 
+# Flink功能
 
 ## Operator算子
 
@@ -40,6 +39,12 @@ flatmap可以理解为将元素摊平，每个元素可以变为0个、1个、�
 filter 过滤器，对数据流中的每个元素进行过滤判断，判断为true的元素进入下一个数据流
 
 key Agg
+
+## window
+
+Window是无限数据流处理的核心，Window将一个无限的stream拆分成有限大小的”buckets”桶，我们可以在这些桶上做计算操作。
+
+窗口化的Flink程序的一般结构如下，第一个代码段中是分组的流，而第二段是非分组的流。正如我们所见，唯一的区别是分组的stream调用keyBy(…)和window(…)，而非分组的stream中window()换成了windowAll(…)
 
 ## source
 
@@ -56,6 +61,26 @@ SourceFunction为所有flink中source的根接口，其定义了run()方法和ca
 Sink是流的重点，根接口是sinkFunction。
 
 其重要的方法是invoke()方法，用以实现结果数据的处理逻辑
+
+SinkFunction 是一个接口，类似于SourceFunction接口。SinkFunction中主要包含一个方法，那就是用于数据输出的invoke 方法,每条记录都会执行一次invoke方法，用于执行输出操作。
+
+
+## Connector 
+
+用于支持与其他组件数据连接的 source 和 sink。比如和kafka连接，比如和Hadoop连接，比如和RaddbitMQ连接。
+
+其中最为常用的当属Flink kafka connector。
+
+此外，Apache Bahir 项目中也提供了更多连接器。
+
+
+
+## Flink DDL
+
+
+
+
+
 
 
 
@@ -80,20 +105,23 @@ mac环境下: /usr/local/Cellar/apache-flink/1.9.1/libexec
 
 
 
-# HelloWorld
+# Flink HelloWorld
 
 ## Commands
+
+```shell
+cd /usr/local/Cellar/apache-flink/1.9.1 && ./libexec/bin/start-cluster.sh
 
 ./bin/flink run -c com.aaa.worldcount xxx.jar --host localhost --port 7777
 
 ./bin/flink list --all
 
 ./bin/flink cancel job_id
+```
 
 
 
-
-## scala job
+## scala code
 
 ```java
 import org.apache.flink.api.scala._
@@ -121,4 +149,78 @@ object FlinkWordCount {
 ```
 
 
-## java job
+
+## java code
+
+这是我在IDEA上编译运行的第一个flink程序（maven构建）。
+
+可以通过在命令行 $ nc -lk 9000 来往flink程序里输入字节流。
+
+```java
+package myflink;
+import org.apache.flink.api.common.functions.FlatMapFunction;
+import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.windowing.time.Time;
+import org.apache.flink.util.Collector;
+
+public class SocketWindowWordCount {
+    public static void main(String[] args) throws Exception {
+        // Create the execution environment.
+        final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+        // Get the input data by connecting the socket.
+        // Here it is connected to the local port 9000.
+        // If the port 9000 has been already occupied, change to another port.
+        DataStream<String> text = env.socketTextStream("localhost", 9000, "\n");
+        // Parse the data, and group, windowing and aggregate it by word.
+        DataStream<Tuple2<String, Integer>> windowCounts = text
+                .flatMap(new FlatMapFunction<String, Tuple2<String, Integer>>() {
+                    @Override
+                    public void flatMap(String value, Collector<Tuple2<String, Integer>> out) {
+                        for (String word : value.split("\\s")) {
+                            out.collect(Tuple2.of(word, 1));
+                        }
+                    }
+                })
+                .keyBy(0)
+                .timeWindow(Time.seconds(10))
+                .sum(1);
+        // Print the results to the console, note that here it uses the single-threaded printing instead of multi-threading
+        windowCounts.print().setParallelism(1);
+        env.execute("Socket Window WordCount");
+    }
+}
+```
+
+
+```java
+StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+        // 添加自定义数据源
+        DataStreamSource<Person> data = env.addSource(new MyMysqlSource());
+        data.print().setParallelism(2);
+        data.addSink(new MyMysqlSink());
+        // 提交执行任务
+env.execute("MySourceMysql");
+```
+
+
+## Flink Job
+
+首先你得把java或scala程序变成jar包，直接使用mave的package功能（注意maven指定的jdk版本要和运行时的版本一致）。
+
+打开 http://localhost:8081/#/overview ，在Web界面提交job。
+
+然后在Task Manager里面就可以看到自己提交的job，日志和标准输出都可以看到。
+
+
+
+
+
+
+
+# 参考
+
+如何正确使用 flink connector https://yq.aliyun.com/articles/716838
+
+idea+maven打jar包  https://blog.csdn.net/branwel/article/details/79918018

@@ -1,11 +1,11 @@
 ---
 title: "大数据处理的方法"
 subtitle: "Working on Big Data"
-categories: [framework]
+categories: [Language]
 layout: post
 ---
 
-本篇想要总结一下在Hadoop集群上处理大数据文件的方法，主要从应用层面去看我们有多少种、怎么样的方式去读写大数据进行增删查改，不打算关注框架的实现部分。
+本篇想要总结一下在Hadoop集群上处理大数据文件的方法，主要从应用层面去看我们有多少种、怎么样的方式（写什么样的程序、越简单越好的程序）去读写大数据进行增删查改，不打算关注大数据概念，也不关注框架的实现部分。
 
 
 # Hive
@@ -69,11 +69,14 @@ https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-py
 
 
 
-# Spark
+# Spark 
 
 ## PySpark
 
+## Spark SQL
 
-# Flink
 
 
+# Presto
+
+presto是Facebook开源的大数据查询引擎，为了解决hive查询慢产生
