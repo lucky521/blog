@@ -221,6 +221,8 @@ env.execute("MySourceMysql");
 
 # 参考
 
+flink基本概念介绍 https://www.jianshu.com/p/2ee7134d7373
+
 如何正确使用 flink connector https://yq.aliyun.com/articles/716838
 
 idea+maven打jar包  https://blog.csdn.net/branwel/article/details/79918018
