@@ -24,7 +24,19 @@ categories: [MachineLearning]
 对分布式集群资源的利用率不高（尽管对单个模型的训练速度提高了）
 
 
-# 分布式机器学习的方式
+“分布式”的阶段：有训练时的分布式，有预测时的分布式（Distributed TF-Serving）。目前TF只实现了前者。
+
+“分布式”的内容：有模型分布式并行，有数据分布式并行。TF中一般采用数据并行， 即在各个worker节点用相同的数据流图计算不同的数据。
+
+“分布式”的形式：有多机器的分布式，也有单机多卡的分布式。
+
+
+# 分布式机器学习(训练)的方式
+
+## 计算并行
+
+模型和数据都在统一一份，训练的计算资源是并行的。也就是最简单的单机多卡训练。
+
 
 ## 数据并行
 
@@ -76,6 +88,13 @@ communication primitive
 
 ring-base collectives
 
+## mirror strategy
+
+Mirrored Strategy是TensorFlow官方提供的分布式策略之一。
+
+单机多GPU卡。
+
+
 
 # 分布式机器学习算法
 
@@ -106,8 +125,6 @@ DistBelief
 AlexNet
 
 
-
-## mirror strategy
 
 
 
