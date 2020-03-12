@@ -30,15 +30,19 @@ process function api
 
 # Flink功能
 
-## Operator算子
-
-map可以理解为映射，对每个元素进行一定的变换后，映射为另一个元素。
-
-flatmap可以理解为将元素摊平，每个元素可以变为0个、1个、或者多个元素。
+## Operator算子 DataStream Transformations
 
 filter 过滤器，对数据流中的每个元素进行过滤判断，判断为true的元素进入下一个数据流
 
+map可以理解为映射，对每个元素进行一定的变换后，映射为另一个元素。
+
+flatmap 可以理解为将元素摊平，每个元素可以变为0个、1个、或者多个元素。
+
+keyby DataStream → KeyedStream	
+
 key Agg
+
+
 
 ## window
 
@@ -226,3 +230,5 @@ flink基本概念介绍 https://www.jianshu.com/p/2ee7134d7373
 如何正确使用 flink connector https://yq.aliyun.com/articles/716838
 
 idea+maven打jar包  https://blog.csdn.net/branwel/article/details/79918018
+
+官网的内容超级全 https://ci.apache.org/projects/flink/flink-docs-release-1.10/
