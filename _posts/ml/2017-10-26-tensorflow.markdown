@@ -1214,15 +1214,15 @@ https://www.tensorflow.org/guide/checkpoints
 
 总的来说，variables保存所有变量; saved_model.pb用于保存模型结构等信息。
 
-- pb文件，其实就是graph_def，但是指的一般是做了constant化，这样可以直接加载做inference，安装部署用。
+- saved_model.pb文件，其实就是graph_def，但是指的一般是做了constant化，这样可以直接加载做inference，安装部署用。
 The .pb file stores the computational graph. Includes the graph definitions as `MetaGraphDef` protocol buffers.
 PB是表示 MetaGraph 的 protocol buffer格式的文件，MetaGraph 包括计算图，数据流，以及相关的变量和输入输出signature以及 asserts 指创建计算图时额外的文件。
 
-- variables.data 
+- variables.data:保存的是模型结构图中的op和参数变量之间的对应关系
 
-- variables.index
+- variables.index:保存的是变量值
 
-- assets目录文件：assets is a subfolder containing auxiliary (external) files, such as vocabularies. Assets are copied to the SavedModel location and can be read when loading a specific MetaGraphDef.
+- assets目录文件：我们常说的模型词表文件，就放在这个目录下。 assets is a subfolder containing auxiliary (external) files, such as vocabularies. Assets are copied to the SavedModel location and can be read when loading a specific MetaGraphDef.
 
 ```
 	|-- mnist_saved_model
@@ -1517,6 +1517,8 @@ tf.estimator.WarmStartSettings的参数：
 		var_name_to_prev_var_name=config.var_name_to_prev_var_name
 
 
+
+## 额外加载预训练的Embedding词表
 
 
 

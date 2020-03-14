@@ -20,7 +20,8 @@ HBase
 
 flume - 把来自不同源头不同节点的大量数据发送到中心存储。
 
-kafka
+kafka 
+http://kafka.apache.org/quickstart
 
 MQ
 
