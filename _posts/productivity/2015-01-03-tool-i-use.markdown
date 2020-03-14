@@ -13,7 +13,7 @@ categories: [productivity]
 
 ## 软件
 
-### 命令行工具
+### 命令行跨平台工具
 
 Vim 附加有若干了Plugin来加强功能。我常用到的插件有。
 
@@ -38,7 +38,7 @@ cpplint
 	sudo pip install cpplint
 	sudo ln -s /usr/bin/cpplint /usr/local/bin/cpplint
 
-### 可视化工具
+### 可视化跨平台工具
 
 VS Code 文本编辑，全平台支持。经常用的插件有
 
@@ -58,9 +58,29 @@ Chrome 浏览器，全平台支持。经常用的插件有
 
 Evernote 笔记。全平台支持
 
-Wunderlist 备忘录。全平台支持
+Wunderlist->TODO 备忘录。全平台支持
 
 Anaconda Python环境包。全平台支持
+
+以下是平时都会用到的应用软件：
+
+- Email: outlook, foxmail, Mail.app
+- GFW: ShadowsocksX-NG
+- Virtual Machine: Fusion
+- 输入法: sougou （自动同步输入习惯配置，比如哪些APP用英文，哪些APP用中文。
+- 解压缩软件: RAR Extrator Free
+- 网易云音乐/QQ音乐
+- QQ Wechat
+- 百度云网盘
+- Calendar
+- Reminder
+- 视频播放器: Mplayerx
+- 音视频处理：iMovie, Audacity
+- 录屏软件: OBS
+- 下载工具: Thunder
+- 视频格式转换: FFmpeg, HandBrake
+- BookReader: Kitabu(epub), kindle(mobi), iBooks(pdf)
+
 
 
 
@@ -107,6 +127,9 @@ OmniDiskSweeper 有助于系统空间清理。
 
 键盘： HHKB
 
+接口转换器： USB，Typec，HDMI
+
+移动硬盘
 
 ---
 My ToolNotes have more details [here][mygithub].
