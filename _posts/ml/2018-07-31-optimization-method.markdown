@@ -297,13 +297,23 @@ https://maristie.com/blog/differences-between-normalization-standardization-and-
 
 
 
+
+
 # 最优化方法
 
-最优化方法在这里指的就是针对损失函数的优化方法。
+最优化方法在这里指的就是针对损失函数的优化方法。目前都是以尽可能快的方式找到全局最小值，并且避开局部最小值。
 
 一个有效的优化算法会随着迭代的进行使输出的模型w越来越接近于最优模型W。
 
 常见的有三种梯度下降方法，主要区别是在使用多少数据来计算objective function的梯度。
+
+
+## Vanilla gradient descent
+
+用所有数据执行一次参数更新。
+
+θ=θ−η⋅∇θJ(θ)
+
 
 ## Batch gradient descent
 
@@ -353,7 +363,8 @@ https://zhuanlan.zhihu.com/p/33544363
 
 ## Momentum
 
-momentum是模拟物理里动量的概念，积累之前的动量来替代真正的梯度
+momentum是模拟物理里动量的概念，积累之前的动量来替代真正的梯度。
+依靠惯性来使得计算时躲开局部最小值。
 
 ## Nesterov accelerated gradient
 
@@ -361,7 +372,7 @@ https://zhuanlan.zhihu.com/p/22810533
 
 ## Adagrad
 
-Adagrad其实是对学习率进行了一个约束
+Adagrad其实是对学习率进行了一个约束。使得经常更新的参数更新的少，使得不经常更新的参数的参数更新的多。
 
 ## Adadelta
 
