@@ -10,6 +10,13 @@ categories: [MachineLearning]
 模型预测服务，意味着我们想把预测这件事放到一个独立的节点去处理。外界给到一条testX，制定一个model，服务就能够进行预测并传回一个所预测的testY。
 
 
+# 设计原则
+
+与训练系统联合。
+性能和易用性的兼顾。
+
+
+
 
 # 从训练环境到预测环境
 
@@ -31,6 +38,7 @@ Moving models from training to serving in production at scale
  Google称它的处理能力可以达到100000 requests per second per core。
  
 
+
 ## Clipper
  https://github.com/ucbrise/clipper
 
@@ -51,6 +59,16 @@ Moving models from training to serving in production at scale
  https://github.com/NVIDIA/gpu-rest-engine
  Nvidia’s TensorRT is a deep learning optimizer and runtime for accelerating deep learning inference on Nvidia GPUs.
  TensorRT严格来讲并不是以一个model server框架，他的重点在于性能优化。但TensorRT提供了REST方式的服务支持。
+
+
+## TVM
+
+直接打击计算密集算子
+提供了基本的图优化功能
+需要人工撰写算子schedule
+
+
+
 
 
 

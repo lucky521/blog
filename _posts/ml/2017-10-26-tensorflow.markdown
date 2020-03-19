@@ -1414,6 +1414,26 @@ train_writer.close()
 
 ## 导出模型文件中常见的OP
 
+tf.gater
+
+tf.where
+
+tf.split
+
+tf.concat
+
+tf.expend_dim
+
+tf.unsorted_segment_sum
+
+tf.unstack
+
+tf.stack
+
+tf.slice
+
+tf.erf
+
 ```
 op: "Add"
 op: "Assign"
@@ -1977,8 +1997,6 @@ freeze_graph.freeze_graph(
 ### 并发处理多个请求
 
 ### GPU预测
-
-TensorRT
 
 ### GTT - Graph Transform Tool
 

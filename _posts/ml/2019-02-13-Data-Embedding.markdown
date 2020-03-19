@@ -133,7 +133,7 @@ embedding_lookup不是简单的查表，id对应的向量是可以训练的，�
 
 
 下面是word2vec实现的最简单的版本，这里只展示网络结构的部分。
-```
+```python
 train_inputs = tf.placeholder(tf.int32, shape=[batch_size])
 # need to shape [batch_size, 1] for nn.nce_loss
 train_labels = tf.placeholder(tf.int32, shape=[batch_size, 1])
