@@ -209,9 +209,13 @@ L0范数是指向量中非0的元素的个数。
 
 L1范数是指向量中各个元素绝对值之和。也叫做“稀疏规则算子”（Lasso regularization）。
 
+L1是拉普拉斯分布
+
 2. L2 Regularization
 
  L2范数是指向量各元素的平方和然后求平方根。也叫做"Ridge regression"。
+
+ L2是高斯分布
 
 - 为什么 l1 相比于 l2 容易获得稀疏解？
 https://www.zhihu.com/question/37096933

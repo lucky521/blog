@@ -225,7 +225,7 @@ bias-variance tradeoff可以被翻译做”偏差-方差困境“。
 
 # 概率图模型
 
-概率图模型（Graphical Model）是用图论方法以表现若干个独立随机变量之关联的一种建模法。
+Probabilistic Graphical Model 概率图模型 是用图论方法以表现若干个独立随机变量之关联的一种建模法。
 概率图模型有朴素贝叶斯模型、贝叶斯网络、最大熵模型、隐马尔可夫模型HMM、条件随机场CRF、主题模型.
 
 

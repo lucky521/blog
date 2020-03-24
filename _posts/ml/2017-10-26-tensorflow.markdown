@@ -248,7 +248,7 @@ https://www.tensorflow.org/api_guides/python/tfdbg
 使用 run_metadata 将每次session run的性能信息记录下来。
 Timeline类可以被用于以Chrome Tracing的格式生成一个JSON trace文件。
 生成的trace文件可以用 chrome://tracing/ 直接打开显示。
-```
+```python
 options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
 run_metadata = tf.RunMetadata()
 
