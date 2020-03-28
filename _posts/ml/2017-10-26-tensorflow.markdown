@@ -239,45 +239,6 @@ https://github.com/tensorflow/tensorboard/tree/master/tensorboard/plugins/profil
 https://www.tensorflow.org/api_guides/python/tfdbg
 
 
-## 性能分析模块 TensorFlow Profiler
-
-官方文档： https://github.com/tensorflow/tensorflow/tree/r1.3/tensorflow/core/profiler
-
-### TF Trace / tf.RunMetadata / timeline对象
-这是低阶API才能使用使用的方法。
-使用 run_metadata 将每次session run的性能信息记录下来。
-Timeline类可以被用于以Chrome Tracing的格式生成一个JSON trace文件。
-生成的trace文件可以用 chrome://tracing/ 直接打开显示。
-```python
-options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
-run_metadata = tf.RunMetadata()
-
-_ = sess.run(optimizer, options=options, run_metadata=run_metadata)
-
-fetched_timeline = timeline.Timeline(run_metadata.step_stats)
-chrome_trace = fetched_timeline.generate_chrome_trace_format()
-
-with open(FLAGS.trace_file, 'w') as f:
-    f.write(chrome_trace)
-print('Chrome Trace File write in %s' % FLAGS.trace_file)
-```
-
-### tfprof
-tf.contrib.tfprof.ProfileContext
-```
-with tf.contrib.tfprof.ProfileContext(args.profile_dir) as pctx:
-  run... # 可以是高阶API、也可以是低阶API
-```
-
-### tf.train.ProfilerHook
-```
-hook = tf.train.ProfilerHook(save_steps=100, output_dir='/tmp/')
-estimator.train(
-      input_fn=lambda: ltr_dataset.csv_input_fn(train_file_list, args.batch_size),
-      hooks=[hook]
-)
-```
-
 
 # 重要元素
 
@@ -563,7 +524,7 @@ tf_custom_op_library(
 
 使用 tf.load_op_library 加载自己编译的so.
 
-### 使用自定义op
+### 模型设计中使用自定义op计算
 
 ```
 def testShuffle(self):
@@ -592,6 +553,14 @@ def testShuffle(self):
 REGISTER_KERNEL_BUILDER 和 REGISTER_OP 后面跟的接口名称是"若干个首字母大写的单词"组成的名称，它对应到python之后，接口名称就变为"每个单词全变为小写，单词间以下划线分割"的名称。这应该是swig处理的。
 
 
+### python加载带有custom op的saved_model
+
+```python
+op = tf.load_op_library('./xxxx.so')
+
+tensorflow.python.saved_model.load(模型文件)
+
+```
 
 
 ### Dataset ops
@@ -599,6 +568,9 @@ REGISTER_KERNEL_BUILDER 和 REGISTER_OP 后面跟的接口名称是"若干个首
 实现一个 from tensorflow.python.data.ops import dataset_ops 的子类，然后将该类对象传入到 input_fn .
 
 ### CustomOP是如何存入到导出模型中 
+
+首先在 saved_model.pbtxt 文件中可以到对应的op名称。应该说这些op的代码并没有保存到模型中，而必须要让加载模型的程序提前加载好这些custom op。
+
 
 
 
@@ -733,7 +705,7 @@ tf.truediv 按元素除法x / y
 ```
 
 - 两个tensor向量的concat操作
-```
+```python
 tf.concat
 在某个维度把两个tensor串联起来。
 
@@ -742,7 +714,7 @@ tf.sparse_concat
 ```
 
 - 关于tensor向量的判断
-```
+```python
 tf.equal
 
 tf.where
@@ -750,19 +722,24 @@ tf.where(condition, x = None, y = None, name = None)，根据condition判定返�
 
 
 tf.unique
+换一种形式表达原来的向量。由原始向量变为 值向量 和 索引向量.
 返回一个元组tuple(y,idx)，y为x的列表的唯一化数据列表，idx为x数据对应y元素的index
 比如
-# tensor 'x' is [1, 1, 2, 4, 4, 4, 7, 8, 8]
+tensor 'x' is [1, 1, 2, 4, 4, 4, 7, 8, 8]
 y, idx = unique(x)
 y ==> [1, 2, 4, 7, 8]
 idx ==> [0, 0, 1, 2, 2, 2, 3, 4, 4]
 
 
-
 tf.gather
 用一个一维的索引数组,将张量中对应索引的向量提取出来
+比如 
+b = tf.Variable([1,2,3,4,5,6,7,8,9,10])
+index_b = tf.Variable([2,4,6,8])
+那么 tf.gather(b, index_b) 的结果就是 [3 5 7 9]
 
 ```
+
 
 ### 向量标准化
 
@@ -786,17 +763,19 @@ tf.tile 对当前张量内的数据进行一定规则的复制。最终的输出
 
 ### 计算 Embedding 
 
-```
+```python
 tf.nn.embedding_lookup
 
+ # 加载总的词表
 embeddings = tf.Variable(tf.random_uniform([voc_size, embedding_size], -1.0, 1.0))
 ...
-embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
+# 从总词表里查询当前输入的embedding
+embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table 
 ```
 
 
 tf.nn.embedding_lookup_sparse
-```
+```python
 embedding_variable = tf.Variable(tf.truncated_normal([input_size, embedding_size], stddev=0.05), name='emb')
 ...
 embedding = tf.nn.embedding_lookup_sparse(embedding_variable, sparse_id, sparse_value, "mod", combiner="sum")
@@ -1910,9 +1889,48 @@ REGISTER_STORAGE_PATH_SOURCE_ADAPTER
 服务器端模型最在意的延时和吞吐率。
 本地端模型最在意的是CPU资源占用率、内存占用率。
 
-## Performance
 
-https://tensorflow.google.cn/guide/performance/overview
+## 性能分析模块 TensorFlow Profiler
+
+https://github.com/tensorflow/tensorflow/tree/r1.15/tensorflow/core/profiler
+https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/profiler
+
+### TF Trace / tf.RunMetadata / timeline对象
+这是低阶API才能使用使用的方法。
+使用 run_metadata 将每次session run的性能信息记录下来。
+Timeline类可以被用于以Chrome Tracing的格式生成一个JSON trace文件。
+生成的trace文件可以用 chrome://tracing/ 直接打开显示。
+```python
+options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+run_metadata = tf.RunMetadata()
+
+_ = sess.run(optimizer, options=options, run_metadata=run_metadata)
+
+fetched_timeline = timeline.Timeline(run_metadata.step_stats)
+chrome_trace = fetched_timeline.generate_chrome_trace_format()
+
+with open(FLAGS.trace_file, 'w') as f:
+    f.write(chrome_trace)
+print('Chrome Trace File write in %s' % FLAGS.trace_file)
+```
+
+### tfprof
+tf.contrib.tfprof.ProfileContext
+```
+with tf.contrib.tfprof.ProfileContext(args.profile_dir) as pctx:
+  run... # 可以是高阶API、也可以是低阶API
+```
+
+### tf.train.ProfilerHook
+```
+hook = tf.train.ProfilerHook(save_steps=100, output_dir='/tmp/')
+estimator.train(
+      input_fn=lambda: ltr_dataset.csv_input_fn(train_file_list, args.batch_size),
+      hooks=[hook]
+)
+```
+
+
 
 ## Benchmarks
 
@@ -2074,6 +2092,10 @@ The warmup data must be representative of the inference requests used at serving
 2. During Traing quantization
 
 ### Connection Pruning
+
+
+
+
 
 
 

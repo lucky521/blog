@@ -179,7 +179,7 @@ https://www.cnblogs.com/deep-learning-stacks/p/9386188.html
 
 # 幕后英雄 Thirdparty
 
-在 third_party 下包含了tensorflow依赖的第三方库。
+在 third_party 下包含了tensorflow依赖的第三方库，有些是Google自己的开源项目，有的是外部的项目。
 
 Protobuffer - 数据格式定义
 
@@ -190,3 +190,9 @@ Eigen - 包括线性代数，矩阵，向量操作，数值解决和其他相关
 SWIG - 一个可以让你的C++代码链接到JavaScript，Perl，PHP，Python，Tcl和Ruby的包装器/接口生成器
 
 Thread Safety Analysis -
+
+MLIR - 全称是Multi-Level Intermediate Representation compiler infrastructure， 编译器的编译器，meta compiler. 其目的是为了在机器学习的前端和后端之间建立起一个中端的IR bridge，来减少前端直接打到后端所涉及到重复建设
+
+wheel - 
+
+MKL - Intel出的数学计算库Math kernel library（MKL)
