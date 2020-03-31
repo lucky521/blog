@@ -45,6 +45,27 @@ tensorflow/contrib
 
 
 
+## 从源码编译Tensorflow
+
+https://tensorflow.google.cn/install/source?hl=zh-cn
+
+### 编译python pip包
+```shell
+cd tensorflow-1.15
+
+#配置 build
+./configure
+
+#构建 pip 软件包
+bazel build --copt=-march=native --copt="-Wno-error" --config=noaws --config=nogcp --config=nohdfs --config=nokafka //tensorflow/tools/pip_package:build_pip_package
+
+# 构建出wheel包
+./bazel-bin/tensorflow/tools/pip_package/build_pip_package  /tmp/tensorflow_pkg
+
+# 安装wheel包
+pip install /tmp/tensorflow_pkg/tensorflow-version-tags.whl
+```
+
 
 
 # C-API 跨语言支持 

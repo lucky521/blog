@@ -1052,13 +1052,13 @@ TFRecord是Tensorflow特有的二进制数据存储格式。它的好处是性�
 tf.python_io.TFRecordWriter
 
 使用tf_record_iterator方法可以从tfrecord文件中解析出json(k-v)形式的特征数据。
-```
+```python
+# 这一方法已经被 deprecated
 import tensorflow as tf
 target_file = "tf_record_file_000"
 for example in tf.python_io.tf_record_iterator(target_file):
     result = tf.train.Example.FromString(example)
 ```
-
 
 ## tf.data.Dataset
 
@@ -1067,7 +1067,7 @@ tf.data.Dataset协助我们完成数据从文件形式到灌入Tensor的处理�
 在进行预测的时候，tf.data.Dataset 
 
 下面的七行代码，我们使用tf.data.Dataset来完成ETL三个过程。
-```
+```python
 with tf.name_scope("tf_record_reader"):
             # 1.Extract
             # generate file list
@@ -1244,14 +1244,14 @@ configuration of a Saver.
 ```
 - CollectionDef collection_def
 ```
-saved_model_main_op
-table_initializer
-train_op
-trainable_variables
-variables
+    saved_model_main_op
+    table_initializer
+    train_op
+    trainable_variables
+    variables
 ```
 - SignatureDef signature_def
-SignatureDef的作用是定义输出和输入接口。
+SignatureDef的作用是定义 输出 和 输入接口。
 - AssetFileDef asset_file_def
 Asset file def to be used with the defined graph.
 - SavedObjectGraph object_graph_def
@@ -1393,6 +1393,8 @@ train_writer.close()
 
 ## 导出模型文件中常见的OP
 
+比较特别的OP比如 Placeholder ，用于放置input。
+
 tf.gater
 
 tf.where
@@ -1519,11 +1521,16 @@ tf.estimator.WarmStartSettings的参数：
 
 ## 额外加载预训练的Embedding词表
 
+```python
+tf.train.load_variable
+
+W = tf.get_variable(name="W", shape=embedding.shape, initializer=tf.constant_initializer(embedding), trainable=False)
+
+```
 
 
 
-
-# Transfer Learning - Retrained Model
+## Transfer Learning - Retrained Model
 
 通过迁移学习，我们不需要太多的数据！这个想法是从一个以前在数百万图像上训练过的网络开始的，比如在ImageNet上预训练的ResNet。然后，我们将通过仅重新训练最后几个层并使其他层独立来微调ResNet模型。
 
@@ -1531,13 +1538,13 @@ tf.estimator.WarmStartSettings的参数：
 
 bottleneck指的是网络最后输出层之前的一层（倒数第二层）。这一层中原始的特征已经经过了前面若干层而被压缩到了新的表示空间。对于图像分类网络来讲，它就是image feature vector。
 
-## bottleneck layer - penultimate layer
+### bottleneck layer - penultimate layer
 
 
-## final layer retraining
+### final layer retraining
 
 
-## Fine Tune
+### Fine Tune
 Fine Tune通常指的就是冻结网络前面的层，然后训练最后一层。
 
 在调用优化器的 minimize 方法生成训练op的时候，可以传入一个参数var_list来指定可以被优化的参数。
@@ -1546,10 +1553,9 @@ output_vars = tf.get_collection(tf.GraphKyes.TRAINABLE_VARIABLES, scope='outpt')
 train_step = optimizer.minimize(loss_score,var_list = output_vars)
 ```
 
+### retrain一个model
 
-## retrain一个model
-
-```
+```python
 python -m scripts.retrain \
   --bottleneck_dir=tf_files/bottlenecks \
   --how_many_training_steps=500 \
@@ -1561,12 +1567,11 @@ python -m scripts.retrain \
   --image_dir=tf_files/flower_photos
 ```
 
-
 jpeg_data_tensor -> decoded_image_tensor -> resized_input_tensor
 
 
 
-## 使用retrained model进行预测
+### 使用retrained model进行预测
 
 ```
 python -m scripts.label_image \
@@ -2072,11 +2077,11 @@ tf.Session(config=config)
 TensorFlow Runtime 内部组件的对象策略是懒初始(Lazy Initialization)，很多对象实在真正需要的时候才会构建。也就是在第一个请求时构建。这对TF Serving也就意味着第一个请求延时会很高。
 
 为此官方提供了warmup的解决办法，
-Warmup file name: 'tf_serving_warmup_requests'
-File location: assets.extra/
-File format: TFRecord with each record as a PredictionLog.
-Number of warmup records <= 1000.
-The warmup data must be representative of the inference requests used at serving.
+- Warmup file name: 'tf_serving_warmup_requests'
+- File location: assets.extra/
+- File format: TFRecord with each record as a PredictionLog.
+- Number of warmup records <= 1000.
+- The warmup data must be representative of the inference requests used at serving.
 
 参考：https://www.tensorflow.org/tfx/serving/saved_model_warmup
  

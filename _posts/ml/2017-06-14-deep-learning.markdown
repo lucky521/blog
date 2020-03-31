@@ -10,10 +10,10 @@ layout: post
 
 深度学习的三位创始人Geoffrey Hinton, Yoshua Bengio, Yann LeCun, 因其在深度学习理论及工程领域上的重大贡献，获得了2018年的图灵奖。
 
-
 # 多层感知机、玻尔兹曼机、受限玻尔兹曼机
 
 多层感知机器(MLP)，是一种前向结构的人工神经网络，映射一组输入向量到一组输出向量。
+这是最简单形态的深度学习模型，全名Multi Layer Perceptron(MLP)，或是Deep Neural Network(DNN).
 ![](https://qph.fs.quoracdn.net/main-qimg-7f4840d91eb9da1b6673511a0eb806f2.webp)
 
 玻尔兹曼机的图像表示：每条无向边都表示一对依赖关系. 
@@ -65,7 +65,8 @@ Neuron是神经网络的一个单元。它是一个函数，一个回归模型�
 
 ## NN模型的参数初始化
 
-Xavier初始化
+Xavier 初始化
+Xavier初始化方法是一种很有效的神经网络初始化方法，目标就是使得每一层输出的方差应该尽量相等。
 
 
 ## NN模型的代价函数 Cost Function / 损失函数 Loss / 误差函数 Error / Objective 目标函数
@@ -344,7 +345,49 @@ https://zhuanlan.zhihu.com/p/34879333
 
 ### Attention layer
 
+attn_layer = AttentionLayer(name='attention_layer')([encoder_out,decoder_out])
 
+```python
+def attention(queries, keys, keys_length):
+  '''
+    queries:     [B, H] 前面的B代表的是batch_size，取值为32，H是128，代表向量维度。代表的是预估item
+    keys:        [B, T, H] T是一个batch中，当前特征最大的长度，每个样本代表一个样本的特征
+    keys_length: [B]
+  '''
+  # H
+  queries_hidden_units = queries.get_shape().as_list()[-1] #每个query词的隐藏层神经元是多少，也就是H
+  # tf.tile为复制函数，1代表在B上保持一致，tf.shape(keys)[1] 代表在H上复制这么多次
+  # 那么queries最终shape为(B, H*T)
+  queries = tf.tile(queries, [1, tf.shape(keys)[1]])
+  # queries.shape(B, T, H) 其中每个元素(T,H)代表T行H列，其中每个样本中，每一行的数据都是一样的
+  queries = tf.reshape(queries, [-1, tf.shape(keys)[1], queries_hidden_units])
+  # 下面4个变量的shape都是(B, T, H)，按照最后一个维度concat，所以shape是(B, T, H*4)
+  # 在这块就将特征中的每个item和目标item连接在了一起
+  din_all = tf.concat([queries, keys, queries-keys, queries*keys], axis=-1)
+  # (B, T, 80)
+  d_layer_1_all = tf.layers.dense(din_all, 80, activation=tf.nn.sigmoid, name='f1_att', reuse=tf.AUTO_REUSE)
+  # (B, T, 40)
+  d_layer_2_all = tf.layers.dense(d_layer_1_all, 40, activation=tf.nn.sigmoid, name='f2_att', reuse=tf.AUTO_REUSE)
+  # (B, T, 1)
+  d_layer_3_all = tf.layers.dense(d_layer_2_all, 1, activation=None, name='f3_att', reuse=tf.AUTO_REUSE)
+  # (B, 1, T)
+  # 每一个样本都是 [1,T] 的维度，和原始特征的维度一样，但是这时候每个item已经是特征中的一个item和目标item混在一起的数值了
+  d_layer_3_all = tf.reshape(d_layer_3_all, [-1, 1, tf.shape(keys)[1]])
+  outputs = d_layer_3_all
+  # Mask，每一行都有T个数字，keys_length长度为B，假设第1 2个数字是5,6，那么key_masks第1 2行的前5 6个数字为True
+  key_masks = tf.sequence_mask(keys_length, tf.shape(keys)[1])   # [B, T]
+  key_masks = tf.expand_dims(key_masks, 1) # [B, 1, T]
+  # 创建一个和outputs的shape保持一致的变量，值全为1，再乘以(-2 ** 32 + 1)，所以每个值都是(-2 ** 32 + 1)
+  paddings = tf.ones_like(outputs) * (-2 ** 32 + 1)
+  outputs = tf.where(key_masks, outputs, paddings)  # [B, 1, T]
+  # Scale
+  outputs = outputs / (keys.get_shape().as_list()[-1] ** 0.5) # T，根据特征数目来做拉伸
+  # Activation
+  outputs = tf.nn.softmax(outputs)  # [B, 1, T]
+  # Weighted sum
+  outputs = tf.matmul(outputs, keys)  # [B, 1, H]
+  return outputs
+```
 
 
 

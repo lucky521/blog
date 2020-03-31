@@ -4,7 +4,7 @@ categories: [MachineLearning]
 layout: post
 ---
 
-# 机器学习领域的基础理论书籍推荐一下
+# 机器学习领域的基础理论书籍推荐
 
     Machine Learning:A Probabilistic Perspective
 

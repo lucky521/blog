@@ -63,10 +63,16 @@ P值即概率，反映某一事件发生的可能性大小。统计学根据显�
 
 这是进行模型实验的另一种方法。
 
+# Interleaving 测试方法
 
+传统AB实验方法是选中一部分用户或流量，使用新的算法或策略，比较跟基准算法或策略的表现差异。
+
+而Interleaving方法会在一个请求中混合基准算法和实验算法的结果，也就是说，需要一个混合AB结果的过程。
 
 
 
 # 参考链接
 
-https://juejin.im/post/5bcd3cfcf265da0b001f69a9
+AA实验的波动性 https://juejin.im/post/5bcd3cfcf265da0b001f69a9
+
+interleaving实验方法 https://zhuanlan.zhihu.com/p/68509372

@@ -5,7 +5,7 @@ subtitle: "如何选择适合的模型？"
 categories: [MachineLearning]
 ---
 
-说说久经考验的经典深度学习模型。
+说说久经考验的机器学习经典模型。
 
 
 # LR models
@@ -27,7 +27,8 @@ https://www.cnblogs.com/wkang/p/9588360.html
 
 ![]({{site.baseurl}}/images/dnnmodels.jpeg)
 
-https://github.com/shenweichen/DeepCTR
+![]({{site.baseurl}}/images/dnnmodels-2.jpg)
+
 
 
 ## Wide and Deep learning 模型
@@ -35,17 +36,21 @@ https://github.com/shenweichen/DeepCTR
 wide model (logistic regression with sparse features and transformations)
 deep model (feed-forward neural network with an embedding layer and several hidden layers)
 
+### DeepFM 模型
 
-## DeepFM 模型
+将LR替换为FM
 
+### Deep&Cross DCN模型
 
-
-## Deep&Cross DCN模型
+Cross Layer
 
 https://zhuanlan.zhihu.com/p/43364598
 
 
 
+## DIN & DIEN
+
+在embedding层和MLP层之间加入 attention 机制
 
 
 
@@ -105,3 +110,7 @@ NFM: https://www.comp.nus.edu.sg/~xiangnan/papers/sigir17-nfm.pdf
 AFM: https://arxiv.org/pdf/1708.04617.pdf
 
 deepFM: https://www.ijcai.org/proceedings/2017/0239.pdf
+
+深度学习推荐系统 https://www.zhihu.com/people/wang-zhe-58
+
+CTR深度模型总结 https://github.com/shenweichen/DeepCTR
