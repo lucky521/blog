@@ -52,14 +52,30 @@ layout: post
 
 https://www.cs.toronto.edu/~rsalakhu/papers/rbmcf.pdf
 
-# SVD & SVD++
 
 
 # 矩阵分解
 
-Latent-factor models
+提高处理稀疏矩阵的能力.
+
+隐向量：矩阵分解算法期望为每一个user和item生成一个隐向量，将user和item都定位到隐向量的表示空间里。
+
+这个隐向量是通过对 协同过滤的共现矩阵 进行 矩阵分解 得到的。
+
+矩阵分解主要的三种计算方法：
+1. 特征值分解 :只能用作方阵，不适用于user、item矩阵的分解。
+2. 奇异值分解：要求矩阵是稠密的，并且计算复杂度高。
+3. 梯度下降：这是机器学习矩阵分解的常用计算方法
+
+
+Latent-factor modelsa
 
 Matrix Factorization
+
+Factorization Machine
+
+
+## SVD & SVD++
 
 
 # 关联规则
