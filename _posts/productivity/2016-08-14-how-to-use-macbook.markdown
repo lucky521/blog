@@ -78,6 +78,12 @@ Mac笔记本往往硬盘不够大。用着用着就不够用了。这时候就�
     conda clean -t
 
 
+    虚拟机的虚拟磁盘文件
+    /Applications/VMware\ Fusion.app/Contents/Library/vmware-vdiskmanager -d "Virtual Disk.vmdk"
+    /Applications/VMware\ Fusion.app/Contents/Library/vmware-vdiskmanager -k "Virtual Disk.vmdk"
+
+
+
 # 通过命令行设置电源选项
 
 比如我设置的一个crontab任务：
