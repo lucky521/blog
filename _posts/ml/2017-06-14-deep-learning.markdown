@@ -542,3 +542,6 @@ print l2
 ```
 
 
+# 参考资料
+
+CS230 Deep Learning http://cs230.stanford.edu/

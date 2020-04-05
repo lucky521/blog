@@ -211,3 +211,9 @@ openface识别人脸的工作流程：
 ### face_recognition
 
 https://github.com/ageitgey/face_recognition
+
+
+
+# 参考资料
+
+CS231: Convolutional Neural Networks for Visual Recognition http://cs231n.stanford.edu/
