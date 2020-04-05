@@ -62,6 +62,8 @@ https://zhuanlan.zhihu.com/p/43364598
 
 ## Transformer
 
+transformer layer的样子
+
 http://jalammar.github.io/illustrated-transformer/
 
 

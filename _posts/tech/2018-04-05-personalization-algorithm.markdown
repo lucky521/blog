@@ -68,12 +68,13 @@ https://www.cs.toronto.edu/~rsalakhu/papers/rbmcf.pdf
 3. 梯度下降：这是机器学习矩阵分解的常用计算方法
 
 
-Latent-factor modelsa
+Latent-factor models
 
 Matrix Factorization
 
-Factorization Machine
+## Factorization Machine
 
+因子分解机(FM) 通过特征对之间的隐变量内积来提取特征组合。
 
 ## SVD & SVD++
 

@@ -5,7 +5,10 @@ categories: [MachineLearning]
 layout: post
 ---
 
+自然语言处理设计的领域很多，比如机器翻译、问答系统、语音识别、文本分类、中文分词、信息检索、词性标注、知识图谱等等。
+
 自然语言处理和信息检索有一定的关系，因为搜索的查询词本身是自然语言，对查询词有合适的理解和表达，能够帮助搜索系统更好的工作。
+
 
 # NLP Terminology 术语
 
@@ -152,8 +155,6 @@ CRF(条件随机场)，HMM(隐马模型)，MEMM(最大熵隐马模型)都常用�
 
 Recurrent Neural Networks
 
-LSTM Networks
-
 Bi-LSTM
 
 self-attention mechanism
@@ -171,9 +172,13 @@ LSTM with attention
 
 
 
-# NLP Model 模型
+# NLP 典型模型
 
 ## neural language model 
+
+
+
+## Seq2Seq
 
 
 ## attention 机制
@@ -187,6 +192,11 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
 具体计算c_i的方法有很多，比如：我们用 a_{ij} 衡量Encoder中第j阶段的h_j和解码时第i阶段的相关性，最终Decoder中第i阶段的输入的上下文信息 c_i 就来自于所有 h_j 对 a_{ij} 的加权和。
 
 
+## LSTM Networks
+
+## transformer
+
+## Memory 记忆网络
 
 
 
@@ -194,7 +204,8 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
 
 
 
-# NLP Framework 框架
+
+# NLP 开源框架
 
 以上讲的算法、理论、模型，都有成熟的开源项目来实现。
 
@@ -243,6 +254,12 @@ https://github.com/facebookresearch/fastText/blob/master/docs/crawl-vectors.md
 这个库实现了tf-idf, random projections, word2vec and document2vec algorithms, hierarchical Dirichlet processes (HDP), latent semantic analysis (LSA, LSI, SVD) and latent Dirichlet allocation (LDA).
 
 
+## Flair
+https://github.com/zalandoresearch/flair
+
+
+## Familia
+Familia 开源项目包含文档主题推断工具、语义匹配计算工具以及基于工业级语料
 
 
 ## Tensorflow
@@ -251,13 +268,6 @@ Tensorflow属于大而全的功能框架，我有另一篇[Blog文章](https://l
 
 
 
-## Flair
-https://github.com/zalandoresearch/flair
-
-
-
-## Familia
-Familia 开源项目包含文档主题推断工具、语义匹配计算工具以及基于工业级语料
 
 
 
@@ -268,11 +278,10 @@ Sequence Tagging with Tensorflow https://guillaumegenthial.github.io/sequence-ta
 
 斯坦福的cs224n http://web.stanford.edu/class/cs224n/
 
-
 https://www.tensorflow.org/tutorials/word2vec
-
 
 https://github.com/graykode/nlp-tutorial
 
-
 [Notes on Deep Learning for NLP](https://arxiv.org/pdf/1808.09772.pdf)
+
+NLP深度学习发展历史 https://ruder.io/a-review-of-the-recent-history-of-nlp/

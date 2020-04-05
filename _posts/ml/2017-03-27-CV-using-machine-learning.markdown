@@ -67,7 +67,7 @@ layout: post
 
 
 
-# 卷积神经网络的结构
+# CNN卷积神经网络的一般结构
 
 卷积神经网络近几年在图像视觉领域的发展使得深度学习成为大热门。
 
@@ -101,10 +101,14 @@ s(t) = (x * w)(t)
 
 池化的平移不变性指的是当我们对输入进行少量平移时，经过池化函数后的大多数输出不会发生变化。当我们关心一个特征是否出现而不是关心在哪里出现时，局部平移不变性是很有用的性质。
 
+
+
+
+
 典型的卷积神经网络层有三级。
 
     第一级卷积层：仿射变换
-    第二级探测层：整流线性
+    第二级探测层：整流线性 ReLU
     第三级池化层：不变性
 
 
@@ -143,11 +147,13 @@ http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional
 
 ## VGGNet
 
-## GoogLeNet,  Inception V3 model
+## GoogLeNet,  InceptionV1-V4
 
 http://arxiv.org/abs/1409.4842
 
 ## ResNet
+
+残差网络
 
 ## CaffeNet
 
@@ -158,6 +164,7 @@ https://arxiv.org/abs/1704.04861
 https://ai.googleblog.com/2017/06/mobilenets-open-source-models-for.html
 
 
+## DenseNet
 
 
 
