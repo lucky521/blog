@@ -321,7 +321,8 @@ shared weights
 
 ### Embedding层
 
-我再另外一篇blog中单独介绍了Embedding的构建。 [Embedding](https://lucky521.github.io/blog/machinelearning/2019/02/13/Data-Embedding.html)
+我在另外一篇blog中单独介绍了Embedding的构建。 
+[Embedding](https://lucky521.github.io/blog/machinelearning/2019/02/13/Data-Embedding.html)
 
 ### Normalization层
 
@@ -390,7 +391,40 @@ def attention(queries, keys, keys_length):
 ```
 
 
+### 残差单元 Residual Unit
 
+输入过两层MLP之后再和原输入进行按位加操作。
+```python
+def Residual_Unit(input, in_channel, out_channel, stride=1):
+    """
+    :param input: The input of the Residual_Unit. Should be a 4D array like (batch_num, img_len, img_len, channel_num)
+    :param in_channel: The 4-th dimension (channel number) of input matrix. For example, in_channel=3 means the input contains 3 channels.
+    :param out_channel: The 4-th dimension (channel number) of output matrix. For example, out_channel=5 means the output contains 5 channels (feature maps).
+    :param stride: Integer. The number of pixels to move between 2 neighboring receptive fields.
+    """
+
+    # initialize as the input (identity) data
+    shortcut = input
+    shortcut = Conv2D(out_channel, (1, 1), padding='same', strides=stride)(shortcut)
+
+    # RestNet module
+    x = BatchNormalization()(input)
+    x = Activation('relu')(x)
+    x = Conv2D(in_channel, (1, 1))(x)
+
+    x = BatchNormalization()(x)
+    x = Activation('relu')(x)
+    x = Conv2D(in_channel, (3, 3), padding='same', strides=stride)(x)
+
+    x = BatchNormalization()(x)
+    x = Activation('relu')(x)
+    x = Conv2D(out_channel, (1, 1), padding='same')(x)
+
+    # identity
+    x = Add()([x, shortcut])
+
+    return x
+```
 
 
 # 神经网络实现

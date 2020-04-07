@@ -91,7 +91,9 @@ embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
 # 从哪里学习Embedding？
 
 在word2vec中，学习的目标是一个word的Embedding表达，文本语料是学习的来源，我们通过一个word的context来学习这个word的表达，context指的是一段语料中某word相邻的words。
+
 在广告推荐等领域中，如果要做item Embedding，那么context可以是一个用户点击行为中某被点击item相邻的被点击items。
+
 
 
 
@@ -220,11 +222,38 @@ item和user的量可以认为是无限的，所以不能直接使用它们的ind
 将word embedding和item embedding放到同一个网络里训练。也就意味着使用同一个语料进行训练。
 
 
+## node embedding
+
+## knowledge graph embedding
+
+知识图谱的目标是要学习知识图的embedding。
+
+- GraphVite https://github.com/DeepGraphLearning/graphvite
+- DGL-KE https://github.com/awslabs/dgl-ke
+- PyTorch-BigGraph https://github.com/facebookresearch/PyTorch-BigGraph
+
+# 构建Embedding的开源框架
+
+## Facebook - starspace
+
+https://github.com/facebookresearch/starspace
+
+这个命令行工具用起来很简单：input.txt中每一行是一个session中的item序列。
+
+./starspace train -trainFile input.txt -model pagespace -label 'page' -trainMode 1
+
+
+## Flair
+https://github.com/zalandoresearch/flair
+A text embedding library
 
 
 
+## fasttext
 
 
+## PyTorch-BigGraph (PBG)
+https://github.com/facebookresearch/PyTorch-BigGraph
 
 
 
@@ -267,32 +296,6 @@ Item2vec中把用户浏览的商品集合等价于word2vec中的word的序列.
 
 ## Learning Item-Interaction Embeddings for User Recommendations
 
-
-
-
-
-# 构建Embedding的开源框架
-
-## Facebook - starspace
-
-https://github.com/facebookresearch/starspace
-
-这个命令行工具用起来很简单：input.txt中每一行是一个session中的item序列。
-
-./starspace train -trainFile input.txt -model pagespace -label 'page' -trainMode 1
-
-
-## Flair
-https://github.com/zalandoresearch/flair
-A text embedding library
-
-
-
-## fasttext
-
-
-## PyTorch-BigGraph (PBG)
-https://github.com/facebookresearch/PyTorch-BigGraph
 
 
 
