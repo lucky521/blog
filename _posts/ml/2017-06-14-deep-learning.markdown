@@ -284,7 +284,7 @@ L2 正规化是附加权重的平方之和，L1是附加权重的绝对值之和
 ### Dropout层
 
 这是为实现正则化而存在的层。上一节有介绍。
-为输入数据施加Dropout。Dropout将在训练过程中每次更新参数时按一定概率（rate）随机断开输入神经元，Dropout层用于防止过拟合。
+为输入数据施加Dropout。Dropout将在训练过程中每次更新参数时按一定概率（rate）随机断开输入神经元，Dropout层用于防止过拟合。一般放置在输出层之前的一层。
 
 注意这一层只能在训练的时候生效，在预测的时候就不要生效了。
 
@@ -335,6 +335,8 @@ https://machinelearning.wtf/terms/internal-covariate-shift/
 https://keras.io/zh/layers/normalization/
 https://zhuanlan.zhihu.com/p/56225304
 https://zhuanlan.zhihu.com/p/34879333
+
+batchnorm层的放置位置很重要可以尝试放在最输出层之前或embedding层之后。
 
 ### Noise层
 
@@ -425,6 +427,21 @@ def Residual_Unit(input, in_channel, out_channel, stride=1):
 
     return x
 ```
+
+### Cross Layer
+
+交叉网络层是DCN模型中出现一种层。
+
+```python
+def cross_layer(x0, x, name):
+  with tf.variable_scope(name):
+    input_dim = x0.get_shape().as_list()[1]
+    w = tf.get_variable("weight", [input_dim], initializer=tf.truncated_normal_initializer(stddev=0.01))
+    b = tf.get_variable("bias", [input_dim], initializer=tf.truncated_normal_initializer(stddev=0.01))
+    xb = tf.tensordot(tf.reshape(x, [-1, 1, input_dim]), w, 1)
+    return x0 * xb + b + x
+```
+
 
 
 # 神经网络实现

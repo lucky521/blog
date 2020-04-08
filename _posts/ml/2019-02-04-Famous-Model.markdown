@@ -33,18 +33,22 @@ https://www.cnblogs.com/wkang/p/9588360.html
 
 ## Wide and Deep learning 模型
 
-wide model (logistic regression with sparse features and transformations)
-deep model (feed-forward neural network with an embedding layer and several hidden layers)
+- wide model (logistic regression with sparse features and transformations) 
+wide的部分具有较强的记忆能力，协同过滤、逻辑回归等简单模型的记忆能力较强。
+- deep model (feed-forward neural network with an embedding layer and several hidden layers)
+deep的部分具有较强的泛化能力，
 
 ### DeepFM 模型
 
 将LR替换为FM
 
-### Deep&Cross DCN模型
+### Deep&Cross DCN 模型
+
+它和Wide&Deep的差异就是用cross网络替代wide的部分。
 
 Cross Layer
 
-https://zhuanlan.zhihu.com/p/43364598
+
 
 
 
@@ -102,6 +106,8 @@ FNN: 利用FM的结果进行网络初始化 https://arxiv.org/pdf/1601.02376.pdf
 DNN-YouTube: https://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/45530.pdf
 
 DCN: https://arxiv.org/pdf/1708.05123.pdf
+DCN介绍： https://zhuanlan.zhihu.com/p/43364598
+
 
 GBDT+LR: http://quinonero.net/Publications/predicting-clicks-facebook.pdf
 

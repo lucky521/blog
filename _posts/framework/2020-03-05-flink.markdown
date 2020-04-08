@@ -52,11 +52,25 @@ key Agg
 
 
 
+join 和 coGroup
+
+> Join转换使用来自两个输入的匹配记录对调用JoinFunction,这两个输入具有相同的键字段值.此行为与相等的内部联接非常相似.
+> CoGroup转换在具有相同键值字段的两个输入的所有记录上调用带有迭代器的CoGroupFunction.如果输入没有某个键值的记录,则传递空迭代器.除了别的以外,CoGroup转换可以用于内部和外部的相等连接.因此它比Join变换更通用.
+
+
 ## window
 
 Window是无限数据流处理的核心，Window将一个无限的stream拆分成有限大小的”buckets”桶，我们可以在这些桶上做计算操作。
 
 窗口化的Flink程序的一般结构如下，第一个代码段中是分组的流，而第二段是非分组的流。正如我们所见，唯一的区别是分组的stream调用keyBy(…)和window(…)，而非分组的stream中window()换成了windowAll(…)
+
+- 滚动窗口合并 TumblingEventTimeWindows
+- 滑动窗口合并 SlidingEventTimeWindows
+- Session窗口合并 EventTimeSessionWindows
+- 间隔关联合并
+
+官网对window的介绍 https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/operators/joining.html
+
 
 ## source
 
@@ -96,6 +110,8 @@ SinkFunction 是一个接口，类似于SourceFunction接口。SinkFunction中�
 ## watermark
 
 水印就是一个时间戳，可以给每个消息添加一个 允许一定延迟 的时间戳
+
+watermark是用于处理乱序事件的，通常用watermark机制结合window来实现
 
 - 窗口可以继续计算一定时间范围内延迟的消息
 - 添加水印后，窗口会等 5 秒，再执行计算。若超过5秒，则舍弃。

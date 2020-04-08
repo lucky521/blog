@@ -250,6 +250,9 @@ Hierarchical Softmax
 
 Differentiated Softmax
 
+## Cross Product Transformation
+
+https://datascience.stackexchange.com/questions/57435/how-is-the-cross-product-transformation-defined-for-binary-features
 
 
 
