@@ -31,6 +31,9 @@ batch application
 stream application
 
 
+
+
+
 # Flink功能
 
 ## StreamExecutionEnvironment
@@ -62,11 +65,14 @@ join 和 coGroup
 
 Window是无限数据流处理的核心，Window将一个无限的stream拆分成有限大小的”buckets”桶，我们可以在这些桶上做计算操作。
 
-窗口化的Flink程序的一般结构如下，第一个代码段中是分组的流，而第二段是非分组的流。正如我们所见，唯一的区别是分组的stream调用keyBy(…)和window(…)，而非分组的stream中window()换成了windowAll(…)
+分组的流 vs 非分组的流。唯一的区别是分组的stream调用keyBy(…)和window(…)，而非分组的stream中window()换成了windowAll(…)
 
-- 滚动窗口合并 TumblingEventTimeWindows
+- 滚动窗口合并 TumblingEventTimeWindows 
+固定大小窗口，不重叠，一个贴一个，同一元素不会分配到多个窗口。
 - 滑动窗口合并 SlidingEventTimeWindows
+固定大小窗口，多了一个滑动参数，每次滑动都按滑动参数大小，窗口大小>滑动大小的话，就会有一部分重叠，落入重叠的元素会分配到多个窗口。
 - Session窗口合并 EventTimeSessionWindows
+不同流之间的窗口不是按时间分组的，而是按各自的session分组。session的划分是当固定时间周期内不受到元素，则窗口关闭。
 - 间隔关联合并
 
 官网对window的介绍 https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/operators/joining.html
@@ -121,15 +127,16 @@ watermark是用于处理乱序事件的，通常用watermark机制结合window�
 
 
 
-# 部署
+# Flink部署
 
 ## standalone mode
 
-mac环境下: /usr/local/Cellar/apache-flink/1.9.1/libexec 
+mac环境下: 用brew安装flink， $ brew install apache-flink
+* brew安装的flink会放置在 /usr/local/Cellar/apache-flink/1.9.1/libexec 
 
-./libexec/bin/start-cluster.sh
+* ./libexec/bin/start-cluster.sh
 
-./libexec/bin/stop-cluster.sh
+* ./libexec/bin/stop-cluster.sh
 
 ## yarn mode
 
@@ -143,7 +150,9 @@ mac环境下: /usr/local/Cellar/apache-flink/1.9.1/libexec
 
 # Flink HelloWorld
 
-## Commands
+下面是一些最为简单的例子程序
+
+## Basic Commands
 
 ```shell
 cd /usr/local/Cellar/apache-flink/1.9.1 && ./libexec/bin/start-cluster.sh
@@ -247,7 +256,7 @@ env.execute("MySourceMysql");
 
 打开 http://localhost:8081/#/overview ，在Web界面提交job。
 
-然后在Task Manager里面就可以看到自己提交的job，日志和标准输出都可以看到。
+然后在Task Manager里面就可以看到自己提交的job，其日志和标准输出都可以看到。
 
 
 
