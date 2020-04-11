@@ -20,9 +20,9 @@ DAG
 
 ## 分层API
 
-最高层 sql api
 data stream api
 process function api
+最高层 sql api
 
 
 ## 批处理和流处理都支持
@@ -41,13 +41,25 @@ stream application
 每一个flink应用都需要一个执行环境， 对于流处理程序，使用的执行环境类是 StreamExecutionEnvironment.
 当env.execute()方法执行之后，代码所设计的一张执行图就会被打包发送到Flink Master，进行任务拆解和并行化，分配到TaskManager执行。
 
+## 几种stream
+
+DataStream
+
+SingleOutputStreamOperator
+
+
 ## Operator算子 DataStream Transformations
 
 filter 过滤器，对数据流中的每个元素进行过滤判断，判断为true的元素进入下一个数据流
 
-map可以理解为映射，对每个元素进行一定的变换后，映射为另一个元素。
-
 flatmap 可以理解为将元素摊平，每个元素可以变为0个、1个、或者多个元素。
+
+map 可以理解为映射，对每个元素进行一定的变换后，映射为另一个元素。
+
+name 方法Sets the name of the current data stream.
+
+returns 方法Adds a type information hint about the return type of this operator.
+
 
 keyby DataStream → KeyedStream	
 
@@ -55,7 +67,7 @@ key Agg
 
 
 
-join 和 coGroup
+### join 和 coGroup
 
 > Join转换使用来自两个输入的匹配记录对调用JoinFunction,这两个输入具有相同的键字段值.此行为与相等的内部联接非常相似.
 > CoGroup转换在具有相同键值字段的两个输入的所有记录上调用带有迭代器的CoGroupFunction.如果输入没有某个键值的记录,则传递空迭代器.除了别的以外,CoGroup转换可以用于内部和外部的相等连接.因此它比Join变换更通用.
@@ -76,6 +88,10 @@ Window是无限数据流处理的核心，Window将一个无限的stream拆分�
 - 间隔关联合并
 
 官网对window的介绍 https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/operators/joining.html
+
+## Event Time
+
+setStreamTimeCharacteristic
 
 
 ## source
