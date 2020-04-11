@@ -271,3 +271,6 @@ https://datascience.stackexchange.com/questions/57435/how-is-the-cross-product-t
 http://blog.codinglabs.org/articles/statistical-learning-theory.html
 
 https://www.zhihu.com/question/20446337
+
+
+- Algebra, Topology, Differential Calculus, and Optimization Theory For Computer Science and Machine Learning 这本书1900页，涵盖了计算机科学所需的线性代数、微分和最优化理论等问题
