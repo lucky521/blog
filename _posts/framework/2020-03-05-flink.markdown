@@ -124,6 +124,18 @@ SinkFunction 是一个接口，类似于SourceFunction接口。SinkFunction中�
 
 此外，Apache Bahir 项目中也提供了更多连接器。
 
+### FlinkKafkaConsumer
+kafka 中数据都是以二进制 byte 形式存储的。读到 Flink 系统中之后，需要将二进制数据转化为具体的 java、scala 对象。所以需要实现一个 schema 类，定义如何序列化和反序列数据。
+
+反序列化时需要实现 DeserializationSchema 接口，并重写 deserialize(byte[] message) 函数。
+如果是反序列化 kafka 中 kv 的数据时，需要实现 KeyedDeserializationSchema 接口，并重写 deserialize(byte[] messageKey, byte[] message, String topic, int partition, long offset) 函数。
+
+- DeserializationSchema 接口类
+下面是三个内置的常用序列化类
+  * SimpleStringSchema，按字符串方式进行序列化、反序列化。
+  * TypeInformationSerializationSchema，它可根据 Flink 的 TypeInformation 信息来推断出需要选择的 schema。
+  * JsonDeserializationSchema 使用 jackson 反序列化 json 格式消息，并返回 ObjectNode，可以使用 .get(“property”) 方法来访问相应字段。
+
 
 
 ## Flink DDL
