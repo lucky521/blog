@@ -93,6 +93,13 @@ Window是无限数据流处理的核心，Window将一个无限的stream拆分�
 
 setStreamTimeCharacteristic
 
+- TimeCharacteristic.EventTime 
+事件产生的时间，即数据产生时自带时间戳
+- TimeCharacteristic.ProcessingTime
+与数据本身的时间戳无关，即在window窗口内计算完成的时间（默认的Time）
+- TimeCharacteristic.IngestionTime
+数据进入到Flink的时间
+
 
 ## source
 
@@ -143,9 +150,13 @@ kafka 中数据都是以二进制 byte 形式存储的。读到 Flink 系统中�
 
 ## watermark
 
-水印就是一个时间戳，可以给每个消息添加一个 允许一定延迟 的时间戳
+watermark是和Event Time一起使用的一个概念。由于消息自身的时间和消息被flink处理的时间往往是不同的，为了准备的表达数据的处理进度，出现了水印的概念。
+
+水印就是一个时间戳，可以给每个消息添加一个 允许一定延迟 的时间戳。
 
 watermark是用于处理乱序事件的，通常用watermark机制结合window来实现
+
+DataStream.assignTimestampsAndWatermarks()方法来提取事件时间并同时产生水印
 
 - 窗口可以继续计算一定时间范围内延迟的消息
 - 添加水印后，窗口会等 5 秒，再执行计算。若超过5秒，则舍弃。
