@@ -83,6 +83,9 @@ Mac笔记本往往硬盘不够大。用着用着就不够用了。这时候就�
     /Applications/VMware\ Fusion.app/Contents/Library/vmware-vdiskmanager -k "Virtual Disk.vmdk"
 
 
+    VScode Cache
+    Press Ctrl + Shift + P -> type command Clear Editor History
+
 
 # 通过命令行设置电源选项
 

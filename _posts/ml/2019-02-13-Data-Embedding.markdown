@@ -230,14 +230,20 @@ item和user的量可以认为是无限的，所以不能直接使用它们的ind
 
 ### 方法
 
-经典的Graph Embedding方法——DeepWalk
-Node2vec
-阿里的Graph Embedding方法EGES
+- 经典的Graph Embedding方法——DeepWalk
+Random Walk
+- Node2vec
+- 阿里的Graph Embedding方法EGES
 
 ### 构建graph embedding的框架
 - GraphVite https://github.com/DeepGraphLearning/graphvite
 - DGL-KE https://github.com/awslabs/dgl-ke
 - PyTorch-BigGraph https://github.com/facebookresearch/PyTorch-BigGraph
+
+
+
+
+
 
 # 构建Embedding的开源框架
 

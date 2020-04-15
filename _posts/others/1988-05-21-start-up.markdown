@@ -25,7 +25,13 @@ layout: post
 ## TeX数学公式
 
 When $a \ne 0$, there are two solutions to $ax^2 + bx + c = 0$ and they are
-$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}$$
+
+希腊字母参考
+https://cloud.tencent.com/developer/article/1392098
+
+运算符合参考
+https://blog.csdn.net/anscor/article/details/80878285
 
 ## 配图
 
@@ -36,7 +42,7 @@ $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
 
 ## 代码高亮
 
-```
+```python
 print "hello"
 ```
 
@@ -48,11 +54,6 @@ print "hello"
 
 <!--
 这里是注释区
-
-配上代码
-```
-print "hello"
-```
 
 ***Stronger***
 
@@ -68,9 +69,5 @@ print "hello, Lucky!"
 配上链接
 My Github is [here][mygithub].
 [mygithub]: https://github.com/lucky521
-
-
-配上公式
-
 
 -->
