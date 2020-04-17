@@ -57,26 +57,19 @@ probabilistic method or model:
 
 [两个概念的差异和关联是什么？](https://www.quora.com/Whats-the-difference-between-statistical-learning-theory-and-computational-learning-theory)
 
-统计学习理论（LST）：研究一个模型的错误边界（error bound,  bound between generalization error and training error）。
-计算学习理论(CoLT)：研究一个问题是不是可学习的。
+- 统计学习理论（LST）：研究一个模型的错误边界（error bound,  bound between generalization error and training error）。
+- 计算学习理论(CoLT)：研究一个问题是不是可学习的。
 
 ## 统计学习理论
-
 统计学习本质上是一个最优化问题。优化的是映射函数f(x->y)，使得损失函数L(x,y,f)的期望最小。这里的f是未知的，L是要我们来定义。
 
 
 ## 计算学习理论
+分析学习任务的困难本质，为学习算法提供理论保证，并根据分析结果指导算法设计。
 
 
 
 
-# 贝叶斯统计
-
-三种信息：总体分布、样本分布、先验分布。
-
-贝叶斯统计的特点是使用先验信息，
-
-把未知量当做随机变量。
 
 
 
@@ -89,22 +82,45 @@ probabilistic method or model:
 
 最大似然估计是频率学派的学习方法；最大后验估计是贝叶斯学派的学习方法。
 
-## 最大似然估计 Maximum likelihood estimation
+## 最大似然估计 Maximum Likelihood Estimation
 似然函数是指样本视为不变量，分布参数视为变量时的分布函数。
 最大似然估计会寻找关于 分布参数 的最可能的值（即，在所有可能的取值中，寻找一个值使当前样本的“可能性”最大化）。
+
+最大似然估计提供了一种给定观察数据来评估模型参数的方法，即：“模型已定，参数未知”。
+
+比如我假设一个模型满足正态分布，我通过采样，获取部分样本，然后通过最大似然估计来获取上述假设中的正态分布的均值与方差。
+
+最大似然估计中采样需满足一个很重要的假设，就是所有的采样都是独立同分布的。
 
 
 ## 最大后验估计 Maximum A Posteriori estimation
 MAP优化的是一个后验概率，样本视为不变量时，分布参数视为变量，寻找能使得后验概率值最大的分布参数。
 
-
-## 比较两种方法
-MLE只考虑样本集，样本集完全决定了参数估计结果。而贝叶斯学习通过先验分布，可以将一定的先验知识”编码“进去，从而在某些现实中更贴合。
-
+最大似然估计是求参数θ, 使似然函数P(x0|θ)最大。
+最大后验概率估计则是想求θ使P(x0|θ)P(θ)最大。求得的θ不单单让似然函数大，θ自己出现的先验概率也得大。
 
 
-## 贝叶斯估计
+## 比较两种方法(MLE vs MAP)
+MLE只考虑样本集，样本集完全决定了参数估计结果。
+而贝叶斯学习通过先验分布，可以将一定的先验知识”编码“进去，从而在某些现实中更贴合。
 
+
+## Frequentist Statistics
+
+?
+
+
+## 贝叶斯统计 Bayesian Statistics
+
+三种信息：总体分布、样本分布、先验分布。
+
+贝叶斯统计的特点是使用先验信息，
+
+把未知量当做随机变量。
+
+
+## 贝叶斯估计 Bayesian Inference
+MLE is a special case of MAP where the prior is uniform.
 
 
 
@@ -274,3 +290,5 @@ https://www.zhihu.com/question/20446337
 
 
 - Algebra, Topology, Differential Calculus, and Optimization Theory For Computer Science and Machine Learning 这本书1900页，涵盖了计算机科学所需的线性代数、微分和最优化理论等问题
+
+- 斯坦福 CS229: Machine Learning http://cs229.stanford.edu/
