@@ -1,13 +1,16 @@
 ---
-title: "jupyter notebook"
+title: "使用jupyter notebook工作学习"
 subtitle: ""
 categories: [productivity]
 layout: post
 ---
 
+jupyter使得代码、文档、可视化可以整合到一起，交互式开发环境。
+
+
 # This is jupyter notebook
 
-ipynb文件既是笔记、又是代码，这对于边学边练的方式非常非常有用。
+ipynb文件既是笔记、又是代码，这对于边学边练的方式非常非常有用。 
 
 Jupyter notebook, 前身是IPython notebook。
 
@@ -53,3 +56,8 @@ Python开发环境
 突然离线的时候
 
 持续的远端操作环境
+
+
+# 参考
+
+- 用Jupyter可以做什么事情？ https://www.zhihu.com/question/46309360

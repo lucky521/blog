@@ -1,5 +1,5 @@
 ---
-title: "Flink部署和开发实践"
+title: "Flink开发实践"
 categories: [framework]
 layout: post
 ---
@@ -186,6 +186,7 @@ mac环境下: 用brew安装flink， $ brew install apache-flink
 
 
 
+## Prometheus 监控flink
 
 
 

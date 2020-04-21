@@ -53,24 +53,6 @@ probabilistic method or model:
 
 
 
-# Statistical learning theory 统计学习理论 vs Computational learning theory 计算学习理论
-
-[两个概念的差异和关联是什么？](https://www.quora.com/Whats-the-difference-between-statistical-learning-theory-and-computational-learning-theory)
-
-- 统计学习理论（LST）：研究一个模型的错误边界（error bound,  bound between generalization error and training error）。
-- 计算学习理论(CoLT)：研究一个问题是不是可学习的。
-
-## 统计学习理论
-统计学习本质上是一个最优化问题。优化的是映射函数f(x->y)，使得损失函数L(x,y,f)的期望最小。这里的f是未知的，L是要我们来定义。
-
-
-## 计算学习理论
-分析学习任务的困难本质，为学习算法提供理论保证，并根据分析结果指导算法设计。
-
-
-
-
-
 
 
 
@@ -122,6 +104,23 @@ MLE只考虑样本集，样本集完全决定了参数估计结果。
 ## 贝叶斯估计 Bayesian Inference
 MLE is a special case of MAP where the prior is uniform.
 
+
+
+
+
+# Statistical learning theory 统计学习理论 vs Computational learning theory 计算学习理论
+
+[两个概念的差异和关联是什么？](https://www.quora.com/Whats-the-difference-between-statistical-learning-theory-and-computational-learning-theory)
+
+- 统计学习理论（LST）：研究一个模型的错误边界（error bound,  bound between generalization error and training error）。
+- 计算学习理论(CoLT)：研究一个问题是不是可学习的。
+
+## 统计学习理论
+统计学习本质上是一个最优化问题。优化的是映射函数f(x->y)，使得损失函数L(x,y,f)的期望最小。这里的f是未知的，L是要我们来定义。
+
+
+## 计算学习理论
+分析学习任务的困难本质，为学习算法提供理论保证，并根据分析结果指导算法设计。
 
 
 

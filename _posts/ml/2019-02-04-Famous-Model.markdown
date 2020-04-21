@@ -68,7 +68,9 @@ Cross Layer
 
 transformer layer的样子
 
-http://jalammar.github.io/illustrated-transformer/
+- 美团如何使用 Transformer 搜索排序 https://tech.meituan.com/2020/04/16/transformer-in-meituan.html
+
+- 介绍 http://jalammar.github.io/illustrated-transformer/
 
 
 ## Attention
