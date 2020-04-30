@@ -291,3 +291,5 @@ https://www.zhihu.com/question/20446337
 - Algebra, Topology, Differential Calculus, and Optimization Theory For Computer Science and Machine Learning 这本书1900页，涵盖了计算机科学所需的线性代数、微分和最优化理论等问题
 
 - 斯坦福 CS229: Machine Learning http://cs229.stanford.edu/
+
+- 算法工程师的数学基础 https://mp.weixin.qq.com/s/_V-OzNNVL9tz119Z8qJOSw
