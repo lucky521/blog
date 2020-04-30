@@ -18,6 +18,9 @@ layout: post
 
 DAG
 
+数据传递方式
+rebalance / forward / shuffle / rescale
+
 ## 分层API
 
 data stream api
@@ -64,6 +67,9 @@ returns 方法Adds a type information hint about the return type of this operato
 keyby DataStream → KeyedStream	
 
 key Agg
+
+
+getSideOutput 侧输出
 
 
 
@@ -315,3 +321,5 @@ flink基本概念介绍 https://www.jianshu.com/p/2ee7134d7373
 idea+maven打jar包  https://blog.csdn.net/branwel/article/details/79918018
 
 官网的内容超级全 https://ci.apache.org/projects/flink/flink-docs-release-1.10/
+
+Flink如何支持特征工程、在线学习、在线预测等AI场景？ https://mp.weixin.qq.com/s/C2Uft-IuzgiKa1aDlROIng
