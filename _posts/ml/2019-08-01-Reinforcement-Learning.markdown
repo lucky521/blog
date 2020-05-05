@@ -37,10 +37,16 @@ DQN 算法 Deep Q-network
 
 
 
+
+
+
 # 参考资料
 
 - gym强化学习工具集
 https://gym.openai.com/
+
+- Arcade Learning Environment
+https://github.com/mgbellemare/Arcade-Learning-Environment
 
 - 这个baseline库里面有好多注明的强化学习算法实现
 https://github.com/openai/baselines 中你所了解的强化学习算法
@@ -53,3 +59,6 @@ https://item.jd.com/12696004.html
 
 - 斯坦福CS234 Reinforcement Learning
 http://web.stanford.edu/class/cs234/index.html
+
+- UCL Course on RL
+https://www.davidsilver.uk/teaching/

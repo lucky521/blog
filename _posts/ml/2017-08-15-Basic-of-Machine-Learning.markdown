@@ -64,7 +64,8 @@ probabilistic method or model:
 
 最大似然估计是频率学派的学习方法；最大后验估计是贝叶斯学派的学习方法。
 
-## 最大似然估计 Maximum Likelihood Estimation
+## 最大似然估计 Maximum Likelihood Estimation (MLE)
+MLE是获得模型参数估计的一种最常用的方法。
 似然函数是指样本视为不变量，分布参数视为变量时的分布函数。
 最大似然估计会寻找关于 分布参数 的最可能的值（即，在所有可能的取值中，寻找一个值使当前样本的“可能性”最大化）。
 
@@ -75,7 +76,7 @@ probabilistic method or model:
 最大似然估计中采样需满足一个很重要的假设，就是所有的采样都是独立同分布的。
 
 
-## 最大后验估计 Maximum A Posteriori estimation
+## 最大后验估计 Maximum A Posteriori estimation (MAP)
 MAP优化的是一个后验概率，样本视为不变量时，分布参数视为变量，寻找能使得后验概率值最大的分布参数。
 
 最大似然估计是求参数θ, 使似然函数P(x0|θ)最大。
@@ -169,7 +170,7 @@ k邻近估计
 
 # PAC Learning - Probably Approximately Correct 
 
-PAC-learning在1984年由Leslie Valiant提出，由这个概念产生了计算学习理论。
+PAC-learning在1984年由Leslie Valiant提出，由这个概念产生了计算学习理论。该算法的目的是选择一个生成函数，具有较小的泛化错误。
 
 [Probably Approximately Correct — a Formal Theory of Learning](https://jeremykun.com/2014/01/02/probably-approximately-correct-a-formal-theory-of-learning/)
 

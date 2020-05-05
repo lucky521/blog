@@ -127,13 +127,13 @@ Loss = -actual * (log(pred)) - (1-actual)(log(1-pred))
 
 ## 激活函数 Activation Function
 
-激活函数是在神经网络的某些层运算中加入非线性。使其能够学习更复杂的函数。如果没有它, 神经网络将只能够学习线性函数, 它只能产生输入数据的线性组合。
+激活函数是在神经网络的某些层运算中加入非线性转换。使其能够学习更复杂的函数。如果没有它, 神经网络将只能够学习线性函数, 它只能产生输入数据的线性组合。
 
 计算输入数据的带权之和，加上一个偏差，然后判断该样本的结果（是否“激活”）。
 
 激活函数可以通过设置单独的激活层实现，也可以在构造层对象时通过传递activation参数实现。
 
-常见的激活函数。
+常见的激活函数：
 
 ### Sigmoid Function
 
@@ -266,6 +266,13 @@ Weight penalty的方法有两种：L2和L1. 他们用于附加在cost function�
 L2 正规化是附加权重的平方之和，L1是附加权重的绝对值之和。
 
 
+## 归一化 Normalization
+
+Normalization 的目的是为了加快训练效率
+
+### Batch Normalization
+
+### Layer Normalization
 
 
 
