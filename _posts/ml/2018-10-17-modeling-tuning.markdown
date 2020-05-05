@@ -22,6 +22,9 @@ categories: [MachineLearning]
 我们假设上面这个阶段的问题的解决方法是互不影响的，也就是正交的。
 Orthogonalization 正交的意思是，我们希望每种调整方式只会影响一个阶段，而不会对其他阶段产生影响，以免把问题复杂化。
 
+![]({{site.baseurl}}/images/train_perf_solution.png)
+
+
 # 诊断手段
 
 ## 数据集检查
