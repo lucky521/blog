@@ -102,7 +102,7 @@ setStreamTimeCharacteristic
 - TimeCharacteristic.EventTime 
 事件产生的时间，即数据产生时自带时间戳
 - TimeCharacteristic.ProcessingTime
-与数据本身的时间戳无关，即在window窗口内计算完成的时间（默认的Time）
+与数据本身的时间戳无关，即在window窗口内计算的时间（默认的Time）
 - TimeCharacteristic.IngestionTime
 数据进入到Flink的时间
 
@@ -115,12 +115,17 @@ watermark是和Event Time一起使用的一个概念。由于消息自身的时�
 
 watermark是用于处理乱序事件的，通常用watermark机制结合window来实现
 
+水印是Flink判断迟到数据的标准，同时也是窗口触发的标记。
+
 DataStream.assignTimestampsAndWatermarks()方法来提取事件时间并同时产生水印
 
 - 窗口可以继续计算一定时间范围内延迟的消息
 - 添加水印后，窗口会等 5 秒，再执行计算。若超过5秒，则舍弃。
 - 窗口执行计算时间由 水印时间 来触发，当接收到消息的 watermark >= endtime ，触发计算
 
+
+BoundedOutOfOrdernessTimestampExtractor 的作用？
+BoundedOutOfOrdernessTimestampExtractor产生的时间戳和水印是允许“有界乱序”的，构造它时传入的参数maxOutOfOrderness就是乱序区间的长度，而实际发射的水印为通过覆写extractTimestamp()方法提取出来的时间戳减去乱序区间，相当于让水印把步调“放慢一点”。这是Flink为迟到数据提供的第一重保障。
 
 
 
