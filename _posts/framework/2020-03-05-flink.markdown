@@ -93,7 +93,11 @@ Window是无限数据流处理的核心，Window将一个无限的stream拆分�
 不同流之间的窗口不是按时间分组的，而是按各自的session分组。session的划分是当固定时间周期内不受到元素，则窗口关闭。
 - 间隔关联合并
 
+PS:间隔关联目前只支持eventtime，只支持inner join.
+
 官网对window的介绍 https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/operators/joining.html
+
+中文介绍 https://blog.csdn.net/dafei1288/article/details/98919202
 
 ## Event Time
 
@@ -124,9 +128,14 @@ DataStream.assignTimestampsAndWatermarks()方法来提取事件时间并同时�
 - 窗口执行计算时间由 水印时间 来触发，当接收到消息的 watermark >= endtime ，触发计算
 
 
+AscendingTimestampExtractor的作用？
+AscendingTimestampExtractor产生的时间戳和水印必须是单调非递减的，用户通过覆写extractAscendingTimestamp()方法抽取时间戳.
+
 BoundedOutOfOrdernessTimestampExtractor 的作用？
 BoundedOutOfOrdernessTimestampExtractor产生的时间戳和水印是允许“有界乱序”的，构造它时传入的参数maxOutOfOrderness就是乱序区间的长度，而实际发射的水印为通过覆写extractTimestamp()方法提取出来的时间戳减去乱序区间，相当于让水印把步调“放慢一点”。这是Flink为迟到数据提供的第一重保障。
 
+
+需要深刻理解这几个概念才行 https://www.jianshu.com/p/c612e95a5028
 
 
 ## source
