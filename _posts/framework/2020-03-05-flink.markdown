@@ -19,7 +19,7 @@ layout: post
 DAG
 
 数据传递方式
-rebalance / forward / shuffle / rescale
+hash / rebalance / forward / shuffle / rescale
 
 Exactly-Once
 Exactly-Once是流处理系统核心特性之一，它保证每一条消息只被流处理系统处理一次，通过借鉴Chandy和Lamport在1985年发表的一篇关于分布式快照的论文，Flink实现了Exactly-Once特性。
@@ -232,6 +232,34 @@ flink metric类型分为Counter、Gauge、Histogram、Meter
 https://ci.apache.org/projects/flink/flink-docs-stable/monitoring/metrics.html
 
 ## Prometheus 监控flink metric
+
+
+# Flink集群资源规划
+
+## CPU和内存
+
+JobManager个数
+
+TaskManager规格
+
+TaskManager个数 
+
+单个TaskManager槽位数
+
+## Task slot
+
+任务槽是Flink计算资源的基本单位. Task Manager 的一个 Slot 代表一个可用线程，该线程具有固定的内存，注意 Slot 只对内存隔离，没有对 CPU 隔离。
+每个任务槽可以在同一时间执行一个Task，而TaskManager可以拥有一个或者多个任务槽。
+任务槽可以实现TaskManager中不同Task的资源隔离，不过是逻辑隔离，并且只隔离内存，亦即在调度层面认为每个任务槽“应该”得到taskmanager.heap.size的N分之一大小的内存。CPU资源不算在内。
+
+
+apus.slotmanager.slot-placement-policy  SLOT
+
+
+
+## 并行度设定
+
+
 
 
 
