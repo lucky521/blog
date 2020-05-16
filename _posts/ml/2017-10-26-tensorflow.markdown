@@ -7,6 +7,9 @@ layout: post
 本篇所涉及的TensorFlow API都在官方文档有所涉及，https://www.tensorflow.org/api_docs/
 
 首先要注意，tensorflow版本之间差异比较大，一些API会发生增减或者位置迁移。
+```python
+python -c 'import tensorflow as tf; print(tf.__version__)'
+```
 
 # 功能体系
 
@@ -1267,7 +1270,9 @@ There are actually two different formats that a ProtoBuf can be saved in.
 
 两种格式转换可以通过 tensorflow.core.protobuf.saved_model_pb2
 
-```
+```python
+from tensorflow.python.platform import gfile
+from tensorflow.core.protobuf import saved_model_pb2
 def pb_to_pbtxt(pbtxt_filename, pb_filename):
     with gfile.FastGFile(pb_filename, 'rb') as f:
         saved_model = saved_model_pb2.SavedModel()
@@ -1365,7 +1370,7 @@ export_savedmodel(
 https://github.com/tensorflow/tensorflow/issues/8854
 
 下面这个脚本就是把输入的saved_model.pb文件转换为能够被tensorboard展示的 events 文件。
-```
+```python
 import tensorflow as tf
 import sys
 from tensorflow.python.platform import gfile
@@ -1470,6 +1475,11 @@ op: "VariableV2"
 op: "Where"
 op: "ZerosLike"
 ```
+
+
+
+
+
 
 # 模型训练方式
 
@@ -1608,6 +1618,8 @@ https://www.tensorflow.org/serving/serving_basic
 
     CC=gcc-4.9 CXX=g++-4.9  bazel build -c opt tensorflow_serving/... --jobs 2 --local_resources 2048,3.0,1.0
 
+    编译之后，可执行文件 tensorflow_model_server 就放在 /tensorflow-serving/bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server
+
 如果编译环境的内存不够大或者gcc版本过高，编译时就容易遇到编译系统错误。所以我编译的时候主动用的较低的gcc版本4.9来编译。
 
 1. 在服务端先要训练一个模型
@@ -1624,7 +1636,7 @@ https://www.tensorflow.org/serving/serving_basic
 
 2. 保存的模型是这样子的：
 
-```
+```shell
 	|-- mnist_saved_model
 	|   `-- 1531711208
 	|       |-- saved_model.pb   保存了serialized tensorflow::SavedModel.
@@ -1633,20 +1645,27 @@ https://www.tensorflow.org/serving/serving_basic
 	|           `-- variables.index
 ```
 
+源代码下有一些模型例子 tensorflow_serving/servables/tensorflow/testdata
+
 3. 然后将这个模型载入到 TensorFlow ModelServer，注意输入的模型路径必须是绝对路径。
 
     tensorflow_model_server --port=9000 --model_name=mnist --model_base_path=/tmp/mnist_model/
+
+    /tensorflow-serving/bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server
+      --port=8700 \
+      --model_name=half_plus_two \
+      --model_base_path=/tensorflow-serving/tensorflow_serving/servables/tensorflow/testdata/half_plus_two/
 
 或者使用配置文件加载模型
 
     tensorflow_model_server --port=9000 --model_config_file=/serving/models.conf
 
 
-4. gRPC方式对外提供服务
+1. gRPC方式对外提供服务
 
 默认使用 --port方式就是以gPRC方式提供服务。
 
-```
+```shell
 $ tensorflow_model_server \
       --port=9000 \
       --model_name=mnist \
@@ -1656,12 +1675,49 @@ $ tensorflow_model_server \
 5. RESTful方式对外提供服务
 
 用参数指明要使用rest方式提供服务。
-```
+```shell
 $ tensorflow_model_server \
    --rest_api_port=8501 \
    --model_name=half_plus_three \
    --model_base_path=$(pwd)/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_half_plus_three/
 ```
+
+6. 更多启动参数
+
+```shell
+usage: /tensorflow-serving/bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server
+Flags:
+	--port=8500                      	int32	Port to listen on for gRPC API
+	--grpc_socket_path=""            	string	If non-empty, listen to a UNIX socket for gRPC API on the given path. Can be either relative or absolute path.
+	--rest_api_port=0                	int32	Port to listen on for HTTP/REST API. If set to zero HTTP/REST API will not be exported. This port must be different than the one specified in --port.
+	--rest_api_num_threads=16        	int32	Number of threads for HTTP/REST API processing. If not set, will be auto set based on number of CPUs.
+	--rest_api_timeout_in_ms=30000   	int32	Timeout for HTTP/REST API calls.
+	--enable_batching=false          	bool	enable batching
+	--allow_version_labels_for_unavailable_models=false	bool	If true, allows assigning unused version labels to models that are not available yet.
+	--batching_parameters_file=""    	string	If non-empty, read an ascii BatchingParameters protobuf from the supplied file name and use the contained values instead of the defaults.
+	--model_config_file=""           	string	If non-empty, read an ascii ModelServerConfig protobuf from the supplied file name, and serve the models in that file. This config file can be used to specify multiple models to serve and other advanced parameters including non-default version policy. (If used, --model_name, --model_base_path are ignored.)
+	--model_config_file_poll_wait_seconds=0	int32	Interval in seconds between each poll of the filesystemfor model_config_file. If unset or set to zero, poll will be done exactly once and not periodically. Setting this to negative is reserved for testing purposes only.
+	--model_name="default"           	string	name of model (ignored if --model_config_file flag is set)
+	--model_base_path=""             	string	path to export (ignored if --model_config_file flag is set, otherwise required)
+	--max_num_load_retries=5         	int32	maximum number of times it retries loading a model after the first failure, before giving up. If set to 0, a load is attempted only once. Default: 5
+	--load_retry_interval_micros=60000000	int64	The interval, in microseconds, between each servable load retry. If set negative, it doesnt wait. Default: 1 minute
+	--file_system_poll_wait_seconds=1	int32	Interval in seconds between each poll of the filesystem for new model version. If set to zero poll will be exactly done once and not periodically. Setting this to negative value will disable polling entirely causing ModelServer to indefinitely wait for a new model at startup. Negative values are reserved for testing purposes only.
+	--flush_filesystem_caches=true   	bool	If true (the default), filesystem caches will be flushed after the initial load of all servables, and after each subsequent individual servable reload (if the number of load threads is 1). This reduces memory consumption of the model server, at the potential cost of cache misses if model files are accessed after servables are loaded.
+	--tensorflow_session_parallelism=0	int64	Number of threads to use for running a Tensorflow session. Auto-configured by default.Note that this option is ignored if --platform_config_file is non-empty.
+	--tensorflow_intra_op_parallelism=0	int64	Number of threads to use to parallelize the executionof an individual op. Auto-configured by default.Note that this option is ignored if --platform_config_file is non-empty.
+	--tensorflow_inter_op_parallelism=0	int64	Controls the number of operators that can be executed simultaneously. Auto-configured by default.Note that this option is ignored if --platform_config_file is non-empty.
+	--ssl_config_file=""             	string	If non-empty, read an ascii SSLConfig protobuf from the supplied file name and set up a secure gRPC channel
+	--platform_config_file=""        	string	If non-empty, read an ascii PlatformConfigMap protobuf from the supplied file name, and use that platform config instead of the Tensorflow platform. (If used, --enable_batching is ignored.)
+	--per_process_gpu_memory_fraction=0.000000	float	Fraction that each process occupies of the GPU memory space the value is between 0.0 and 1.0 (with 0.0 as the default) If 1.0, the server will allocate all the memory when the server starts, If 0.0, Tensorflow will automatically select a value.
+	--saved_model_tags="serve"       	string	Comma-separated set of tags corresponding to the meta graph def to load from SavedModel.
+	--grpc_channel_arguments=""      	string	A comma separated list of arguments to be passed to the grpc server. (e.g. grpc.max_connection_age_ms=2000)
+	--enable_model_warmup=true       	bool	Enables model warmup, which triggers lazy initializations (such as TF optimizations) at load time, to reduce first request latency.
+	--version=false                  	bool	Display version
+	--monitoring_config_file=""      	string	If non-empty, read an ascii MonitoringConfig protobuf from the supplied file name
+	--remove_unused_fields_from_bundle_metagraph=true	bool	Removes unused fields from MetaGraphDef proto message to save memory.
+	--use_tflite_model=false         	bool	EXPERIMENTAL; CAN BE REMOVED ANYTIME! Load and use TensorFlow Lite model from `model.tflite` file in SavedModel directory instead of the TensorFlow model from `saved_model.pb` file.
+```
+
 
 ## 客户端 tensorflow-serving-api
 
@@ -1669,11 +1725,16 @@ $ tensorflow_model_server \
 
 		python tensorflow_serving/example/mnist_client.py --num_tests=1000 --server=localhost:9000
 
+通过http直接请求
+
+    curl -d '{"instances": [1.0, 2.0, 5.0]}' \
+    -X POST http://localhost:8501/v1/models/half_plus_two:predict
+
 ## Client-Server 交互过程
 
 具体的交互流程一般是这样：
 下面的代码中每次请求可能传入多条样本（多条预测请求）。
-```
+```cpp
 // TFS request 伪代码
 tensorflow::Example example;
 tensorflow::Features* features = example.mutable_features(); // tensorflow::Features内部是一个map
@@ -1702,7 +1763,7 @@ inputs["examples"] = example_proto; // 这个例子中只在tensorflow::serving:
 ```
 
 下面的代码中一次读取请求时传入的多条样本所对应的结果。
-```
+```cpp
 // TFS response 伪代码
 tensorflow::serving::PredictResponse* response_pb = static_cast<tensorflow::serving::PredictResponse*>(response);
 const google::protobuf::Map<std::string, tensorflow::TensorProto>& map_outputs = response_pb->outputs();
@@ -1892,7 +1953,7 @@ REGISTER_STORAGE_PATH_SOURCE_ADAPTER
 # Tensorflow 性能调优（训练/预测） 
 
 服务器端模型最在意的延时和吞吐率。
-本地端模型最在意的是CPU资源占用率、内存占用率。
+本地端的模型最在意的是CPU资源占用率、内存占用率。
 
 
 ## 性能分析模块 TensorFlow Profiler
@@ -1909,15 +1970,27 @@ Timeline类可以被用于以Chrome Tracing的格式生成一个JSON trace文件
 ```python
 options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
 run_metadata = tf.RunMetadata()
-
 _ = sess.run(optimizer, options=options, run_metadata=run_metadata)
-
 fetched_timeline = timeline.Timeline(run_metadata.step_stats)
 chrome_trace = fetched_timeline.generate_chrome_trace_format()
-
 with open(FLAGS.trace_file, 'w') as f:
     f.write(chrome_trace)
 print('Chrome Trace File write in %s' % FLAGS.trace_file)
+```
+
+```cpp
+std::vector<Tensor> outputs;
+RunOptions run_options;
+RunMetadata run_metadata;
+run_options.set_trace_level(RunOptions::FULL_TRACE);
+session->Run(run_options, inputs, output_tensor_names, {},
+                                  &outputs, &run_metadata);
+std::string outfile = "serialized";
+run_metadata.step_stats().SerializeToString(&outfile);
+std::ofstream ofs("trace.json");
+ofs << outfile;
+ofs.close();
+
 ```
 
 ### tfprof
@@ -2059,11 +2132,11 @@ inter_op_parallelism_threads  相互独立的不同OP的并行
   - controls maximum number of threads to be used for parallel execution of independent different operations.
   - operations on Tensorflow Graph that are independent from each other and thus can be run on different threads.
 
-```
-config = tf.ConfigProto()
-config.intra_op_parallelism_threads = 44
-config.inter_op_parallelism_threads = 44
-tf.Session(config=config)
+```python
+  config = tf.ConfigProto()
+  config.intra_op_parallelism_threads = 44
+  config.inter_op_parallelism_threads = 44
+  tf.Session(config=config)
 ```
 
 
