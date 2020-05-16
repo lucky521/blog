@@ -1506,7 +1506,7 @@ https://www.tensorflow.org/api_docs/python/tf/estimator/WarmStartSettings
 这个参数的作用是：Optional string filepath to a checkpoint or SavedModel to warm-start from, or a tf.estimator.WarmStartSettings object to fully configure warm-starting. If the string filepath is provided instead of a tf.estimator.WarmStartSettings, then all variables are warm-started, and it is assumed that vocabularies and tf.Tensor names are unchanged.
 
 
-```
+```python
 emb_vocab_file = tf.feature_column.embedding_column(
     tf.feature_column.categorical_column_with_vocabulary_file(
         "sc_vocab_file", "new_vocab.txt", vocab_size=100),
@@ -1535,7 +1535,6 @@ tf.estimator.WarmStartSettings的参数：
 tf.train.load_variable
 
 W = tf.get_variable(name="W", shape=embedding.shape, initializer=tf.constant_initializer(embedding), trainable=False)
-
 ```
 
 
@@ -1558,7 +1557,7 @@ bottleneck指的是网络最后输出层之前的一层（倒数第二层）。�
 Fine Tune通常指的就是冻结网络前面的层，然后训练最后一层。
 
 在调用优化器的 minimize 方法生成训练op的时候，可以传入一个参数var_list来指定可以被优化的参数。
-```
+```python
 output_vars = tf.get_collection(tf.GraphKyes.TRAINABLE_VARIABLES, scope='outpt')
 train_step = optimizer.minimize(loss_score,var_list = output_vars)
 ```
@@ -1583,7 +1582,7 @@ jpeg_data_tensor -> decoded_image_tensor -> resized_input_tensor
 
 ### 使用retrained model进行预测
 
-```
+```python
 python -m scripts.label_image \
     --graph=tf_files/retrained_graph.pb  \
     --labels=tf_files/retrained_labels.txt  \
@@ -1687,35 +1686,62 @@ $ tensorflow_model_server \
 ```shell
 usage: /tensorflow-serving/bazel-bin/tensorflow_serving/model_servers/tensorflow_model_server
 Flags:
-	--port=8500                      	int32	Port to listen on for gRPC API
-	--grpc_socket_path=""            	string	If non-empty, listen to a UNIX socket for gRPC API on the given path. Can be either relative or absolute path.
-	--rest_api_port=0                	int32	Port to listen on for HTTP/REST API. If set to zero HTTP/REST API will not be exported. This port must be different than the one specified in --port.
-	--rest_api_num_threads=16        	int32	Number of threads for HTTP/REST API processing. If not set, will be auto set based on number of CPUs.
-	--rest_api_timeout_in_ms=30000   	int32	Timeout for HTTP/REST API calls.
-	--enable_batching=false          	bool	enable batching
-	--allow_version_labels_for_unavailable_models=false	bool	If true, allows assigning unused version labels to models that are not available yet.
-	--batching_parameters_file=""    	string	If non-empty, read an ascii BatchingParameters protobuf from the supplied file name and use the contained values instead of the defaults.
-	--model_config_file=""           	string	If non-empty, read an ascii ModelServerConfig protobuf from the supplied file name, and serve the models in that file. This config file can be used to specify multiple models to serve and other advanced parameters including non-default version policy. (If used, --model_name, --model_base_path are ignored.)
+	--port=8500
+    int32	Port to listen on for gRPC API
+	--grpc_socket_path=""
+    string	If non-empty, listen to a UNIX socket for gRPC API on the given path. Can be either relative or absolute path.
+	--rest_api_port=0                	
+    int32	Port to listen on for HTTP/REST API. If set to zero HTTP/REST API will not be exported. This port must be different than the one specified in --port.
+	--rest_api_num_threads=16        	
+    int32	Number of threads for HTTP/REST API processing. If not set, will be auto set based on number of CPUs.
+	--rest_api_timeout_in_ms=30000   	
+    int32	Timeout for HTTP/REST API calls.
+	--enable_batching=false          	
+    bool	enable batching
+	--allow_version_labels_for_unavailable_models=false	bool	
+    If true, allows assigning unused version labels to models that are not available yet.
+	--batching_parameters_file=""    	
+    string	If non-empty, read an ascii BatchingParameters protobuf from the supplied file name and use the contained values instead of the defaults.
+	--model_config_file=""           	
+    string	If non-empty, read an ascii ModelServerConfig protobuf from the supplied file name, and serve the models in that file. This config file can be used to specify multiple models to serve and other advanced parameters including non-default version policy. (If used, --model_name, --model_base_path are ignored.)
 	--model_config_file_poll_wait_seconds=0	int32	Interval in seconds between each poll of the filesystemfor model_config_file. If unset or set to zero, poll will be done exactly once and not periodically. Setting this to negative is reserved for testing purposes only.
-	--model_name="default"           	string	name of model (ignored if --model_config_file flag is set)
-	--model_base_path=""             	string	path to export (ignored if --model_config_file flag is set, otherwise required)
-	--max_num_load_retries=5         	int32	maximum number of times it retries loading a model after the first failure, before giving up. If set to 0, a load is attempted only once. Default: 5
-	--load_retry_interval_micros=60000000	int64	The interval, in microseconds, between each servable load retry. If set negative, it doesnt wait. Default: 1 minute
-	--file_system_poll_wait_seconds=1	int32	Interval in seconds between each poll of the filesystem for new model version. If set to zero poll will be exactly done once and not periodically. Setting this to negative value will disable polling entirely causing ModelServer to indefinitely wait for a new model at startup. Negative values are reserved for testing purposes only.
-	--flush_filesystem_caches=true   	bool	If true (the default), filesystem caches will be flushed after the initial load of all servables, and after each subsequent individual servable reload (if the number of load threads is 1). This reduces memory consumption of the model server, at the potential cost of cache misses if model files are accessed after servables are loaded.
-	--tensorflow_session_parallelism=0	int64	Number of threads to use for running a Tensorflow session. Auto-configured by default.Note that this option is ignored if --platform_config_file is non-empty.
-	--tensorflow_intra_op_parallelism=0	int64	Number of threads to use to parallelize the executionof an individual op. Auto-configured by default.Note that this option is ignored if --platform_config_file is non-empty.
-	--tensorflow_inter_op_parallelism=0	int64	Controls the number of operators that can be executed simultaneously. Auto-configured by default.Note that this option is ignored if --platform_config_file is non-empty.
-	--ssl_config_file=""             	string	If non-empty, read an ascii SSLConfig protobuf from the supplied file name and set up a secure gRPC channel
-	--platform_config_file=""        	string	If non-empty, read an ascii PlatformConfigMap protobuf from the supplied file name, and use that platform config instead of the Tensorflow platform. (If used, --enable_batching is ignored.)
-	--per_process_gpu_memory_fraction=0.000000	float	Fraction that each process occupies of the GPU memory space the value is between 0.0 and 1.0 (with 0.0 as the default) If 1.0, the server will allocate all the memory when the server starts, If 0.0, Tensorflow will automatically select a value.
-	--saved_model_tags="serve"       	string	Comma-separated set of tags corresponding to the meta graph def to load from SavedModel.
-	--grpc_channel_arguments=""      	string	A comma separated list of arguments to be passed to the grpc server. (e.g. grpc.max_connection_age_ms=2000)
-	--enable_model_warmup=true       	bool	Enables model warmup, which triggers lazy initializations (such as TF optimizations) at load time, to reduce first request latency.
-	--version=false                  	bool	Display version
-	--monitoring_config_file=""      	string	If non-empty, read an ascii MonitoringConfig protobuf from the supplied file name
+	--model_name="default"           	
+    string	name of model (ignored if --model_config_file flag is set)
+	--model_base_path=""             	
+    string	path to export (ignored if --model_config_file flag is set, otherwise required)
+	--max_num_load_retries=5         	
+    int32	maximum number of times it retries loading a model after the first failure, before giving up. If set to 0, a load is attempted only once. Default: 5
+	--load_retry_interval_micros=60000000	
+    int64	The interval, in microseconds, between each servable load retry. If set negative, it doesnt wait. Default: 1 minute
+	--file_system_poll_wait_seconds=1	
+    int32	Interval in seconds between each poll of the filesystem for new model version. If set to zero poll will be exactly done once and not periodically. Setting this to negative value will disable polling entirely causing ModelServer to indefinitely wait for a new model at startup. Negative values are reserved for testing purposes only.
+	--flush_filesystem_caches=true   	
+    bool	If true (the default), filesystem caches will be flushed after the initial load of all servables, and after each subsequent individual servable reload (if the number of load threads is 1). This reduces memory consumption of the model server, at the potential cost of cache misses if model files are accessed after servables are loaded.
+	--tensorflow_session_parallelism=0	
+    int64	Number of threads to use for running a Tensorflow session. Auto-configured by default.Note that this option is ignored if --platform_config_file is non-empty.
+	--tensorflow_intra_op_parallelism=0	
+    int64	Number of threads to use to parallelize the executionof an individual op. Auto-configured by default.Note that this option is ignored if --platform_config_file is non-empty.
+	--tensorflow_inter_op_parallelism=0	
+    int64	Controls the number of operators that can be executed simultaneously. Auto-configured by default.Note that this option is ignored if --platform_config_file is non-empty.
+	--ssl_config_file=""             	
+    string	If non-empty, read an ascii SSLConfig protobuf from the supplied file name and set up a secure gRPC channel
+	--platform_config_file=""        	
+    string	If non-empty, read an ascii PlatformConfigMap protobuf from the supplied file name, and use that platform config instead of the Tensorflow platform. (If used, --enable_batching is ignored.)
+	--per_process_gpu_memory_fraction=0.000000	
+    float	Fraction that each process occupies of the GPU memory space the value is between 0.0 and 1.0 (with 0.0 as the default) If 1.0, the server will allocate all the memory when the server starts, If 0.0, Tensorflow will automatically select a value.
+	--saved_model_tags="serve"       	
+    string	Comma-separated set of tags corresponding to the meta graph def to load from SavedModel.
+	--grpc_channel_arguments=""      	
+    string	A comma separated list of arguments to be passed to the grpc server. (e.g. grpc.max_connection_age_ms=2000)
+	--enable_model_warmup=true       	
+    bool	Enables model warmup, which triggers lazy initializations (such as TF optimizations) at load time, to reduce first request latency.
+	--version=false                  	
+    bool	Display version
+	--monitoring_config_file=""      	
+    string	If non-empty, read an ascii MonitoringConfig protobuf from the supplied file name
 	--remove_unused_fields_from_bundle_metagraph=true	bool	Removes unused fields from MetaGraphDef proto message to save memory.
-	--use_tflite_model=false         	bool	EXPERIMENTAL; CAN BE REMOVED ANYTIME! Load and use TensorFlow Lite model from `model.tflite` file in SavedModel directory instead of the TensorFlow model from `saved_model.pb` file.
+	--use_tflite_model=false         	
+    bool	EXPERIMENTAL; CAN BE REMOVED ANYTIME! Load and use TensorFlow Lite model from `model.tflite` file in SavedModel directory instead of the TensorFlow model from `saved_model.pb` file.
 ```
 
 
@@ -1968,15 +1994,18 @@ https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/profiler
 Timeline类可以被用于以Chrome Tracing的格式生成一个JSON trace文件。
 生成的trace文件可以用 chrome://tracing/ 直接打开显示。
 ```python
+from tensorflow.python.client import timeline
 options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
 run_metadata = tf.RunMetadata()
 _ = sess.run(optimizer, options=options, run_metadata=run_metadata)
+
 fetched_timeline = timeline.Timeline(run_metadata.step_stats)
 chrome_trace = fetched_timeline.generate_chrome_trace_format()
 with open(FLAGS.trace_file, 'w') as f:
     f.write(chrome_trace)
 print('Chrome Trace File write in %s' % FLAGS.trace_file)
 ```
+Python版本通过generate_chrome_trace_format方法能够生产一个json文件，以traceEvents为最外层的key。直接能用chrome浏览器打开。
 
 ```cpp
 std::vector<Tensor> outputs;
@@ -1985,13 +2014,33 @@ RunMetadata run_metadata;
 run_options.set_trace_level(RunOptions::FULL_TRACE);
 session->Run(run_options, inputs, output_tensor_names, {},
                                   &outputs, &run_metadata);
+
 std::string outfile = "serialized";
 run_metadata.step_stats().SerializeToString(&outfile);
-std::ofstream ofs("trace.json");
+std::ofstream ofs("perf_trace");
 ofs << outfile;
 ofs.close();
+```
+C++版本是直接生成了一个二进制的traceEvent文件，可以通过独立的py来将装成
+参考： https://github.com/tensorflow/tensorflow/issues/21312
+
+```python
+# StepStats2Timeline.py
+from tensorflow.core.framework.step_stats_pb2 import StepStats
+from tensorflow.python.client import timeline
+
+f1 = open("perf_trace")
+serialized = f1.read()
+step_stats = StepStats()
+step_stats.ParseFromString(serialized)
+
+fetched_timeline = timeline.Timeline(step_stats)
+chrome_trace = fetched_timeline.generate_chrome_trace_format()
+with open("perf_trace.json", 'w') as f:
+    f.write(chrome_trace)
 
 ```
+
 
 ### tfprof
 tf.contrib.tfprof.ProfileContext
