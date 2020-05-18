@@ -1753,8 +1753,7 @@ Flags:
 
 通过http直接请求
 
-    curl -d '{"instances": [1.0, 2.0, 5.0]}' \
-    -X POST http://localhost:8501/v1/models/half_plus_two:predict
+    curl -d '{"instances": [1.0, 2.0, 5.0]}'  -X POST http://localhost:8501/v1/models/half_plus_two:predict
 
 ## Client-Server 交互过程
 
@@ -2274,7 +2273,7 @@ tf.train.Server 创建server实例
 
 
 
-```
+```shell
 /tensorflow.WorkerService/GetStatus
 /tensorflow.WorkerService/CreateWorkerSession
 /tensorflow.WorkerService/DeleteWorkerSession
@@ -2293,6 +2292,11 @@ tf.train.Server 创建server实例
 /tensorflow.WorkerService/MarkRecvFinished
 ```
 
+## In-graph replication
+
+## Between-graph replication
+
+TensorFlow cluster in action: https://github.com/tensorflow/examples/blob/master/community/en/docs/deploy/distributed.md
 
 ## PS in Tensorflow
 

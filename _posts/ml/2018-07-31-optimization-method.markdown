@@ -211,6 +211,8 @@ https://stackoverflow.com/questions/41475180/understanding-tf-nn-nce-loss-in-ten
 
 # 正则化方法 Regularization Functions
 
+对模型的复杂度进行惩罚，避免过拟合。
+
 0. L0 Regularization
 
 L0范数是指向量中非0的元素的个数。
@@ -245,7 +247,7 @@ https://maristie.com/blog/differences-between-normalization-standardization-and-
 
 
 
-# 约束优化问题
+# 约束优化问题理论
 
 研究优化的学科，便是运筹学。
 
@@ -441,9 +443,9 @@ Adam在一开始表现更好，而SGD最终达到更好的全局最小值。
 
 # Reference
 
-超级全面的总结： http://ruder.io/optimizing-gradient-descent/
+- 超级全面的总结： http://ruder.io/optimizing-gradient-descent/
 
-中文版： https://zhuanlan.zhihu.com/p/22252270
+- 中文版： https://zhuanlan.zhihu.com/p/22252270
 
-区分normalization/standardization/regularization：https://maristie.com/blog/differences-between-normalization-standardization-and-regularization/
+- 区分normalization/standardization/regularization：https://maristie.com/blog/differences-between-normalization-standardization-and-regularization/
 

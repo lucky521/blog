@@ -282,6 +282,7 @@ rerank(重排) 跟Rank的区别在于，rank对每个商品独立打分，而rer
 - Exploitation Exploration
 - 强化学习
 
+Seq2Slate
 
 
 

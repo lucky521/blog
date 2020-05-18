@@ -31,7 +31,7 @@ An embedding can be learned and reused across models.
 第二个好处是将sparse特征转变为dense特征，减少模型计算量。
 
 
-# 神经网络中的Embedding layer
+# 神经网络中的Embedding Layer
 
 深度学习中设计离散特征的话一般都处理成Embedding的形式，作为网络的底部（第一层），一般对整体网络效果有着重要的作用。
 
@@ -315,7 +315,7 @@ Item2vec中把用户浏览的商品集合等价于word2vec中的word的序列.
 
 # Reference
 
-https://gist.github.com/nzw0301/333afc00bd508501268fa7bf40cafe4e
+- *2vec papers: https://gist.github.com/nzw0301/333afc00bd508501268fa7bf40cafe4e
 
 
 

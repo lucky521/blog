@@ -7,7 +7,9 @@ categories: [MachineLearning]
 
 分布式机器学习是一个偏工程实践的领域，90%是工程、10%是数学。
 
-# 为什么需要分布式机器学习？
+# 基本概念
+
+## 为什么需要分布式机器学习？
 
 计算量太大
 
@@ -16,19 +18,22 @@ categories: [MachineLearning]
 模型规模太大
 
 
-
-# 分布式机器学习容易遇到的问题
+## 分布式机器学习容易遇到的问题
 
 训练框架复杂化
 
 对分布式集群资源的利用率不高（尽管对单个模型的训练速度提高了）
 
+## 怎么样的分布式？
 
-“分布式”的阶段：有训练时的分布式，有预测时的分布式（Distributed TF-Serving）。目前TF只实现了前者。
+“分布式”的阶段：有训练时的分布式，有预测时的分布式（Distributed TF-Serving）。
 
-“分布式”的内容：有模型分布式并行，有数据分布式并行。TF中一般采用数据并行， 即在各个worker节点用相同的数据流图计算不同的数据。
+“分布式”的内容：有模型分布式并行，有数据分布式并行。
 
 “分布式”的形式：有多机器的分布式，也有单机多卡的分布式。
+
+
+
 
 
 # 分布式机器学习(训练)的方式
@@ -96,6 +101,9 @@ Mirrored Strategy是TensorFlow官方提供的分布式策略之一。
 
 
 
+
+
+
 # 分布式机器学习算法
 
 同步SGD
@@ -132,15 +140,15 @@ AlexNet
 
 # 工业实践
 
-迭代式MapReduce  - Spark MLlib 
+- 迭代式MapReduce  - Spark MLlib 
 
-参数服务器 - Multiverso
+- 参数服务器 - Multiverso
 
-数据流 - Tensorflow  https://www.tensorflow.org/guide/distribute_strategy
+- 数据流 - Tensorflow  https://www.tensorflow.org/guide/distribute_strategy
 
-horovod - https://eng.uber.com/horovod/
+- horovod - https://eng.uber.com/horovod/
 控制层使用了https://www.open-mpi.org/
 
-NCCL - https://docs.nvidia.com/deeplearning/sdk/index.html
+- NCCL - https://docs.nvidia.com/deeplearning/sdk/index.html
 
-Distributed (Deep) Machine Learning Community - https://github.com/dmlc
+- Distributed (Deep) Machine Learning Community - https://github.com/dmlc
