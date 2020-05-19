@@ -1977,12 +1977,16 @@ REGISTER_STORAGE_PATH_SOURCE_ADAPTER
 
 # Tensorflow 性能调优（训练/预测） 
 
-服务器端模型最在意的延时和吞吐率。
-本地端的模型最在意的是CPU资源占用率、内存占用率。
+- 服务器端的模型最在意的延时和吞吐率。
+- 本地端的模型最在意的是CPU资源占用率、内存占用率。
 
+## Benchmarks
+
+https://github.com/tensorflow/benchmarks
 
 ## 性能分析模块 TensorFlow Profiler
 
+https://www.tensorflow.org/guide/profiler
 https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/profiler/g3doc/options.md
 https://github.com/tensorflow/tensorflow/tree/r1.15/tensorflow/core/profiler
 https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/profiler
@@ -2040,6 +2044,37 @@ with open("perf_trace.json", 'w') as f:
 
 ```
 
+### Timeline文件解析
+
+hardware tracing 和 software tracing
+
+MemcpyHtoD 和 MemcpyDtoH 是host和device之间拷贝内存，host指的是cpu主机。
+
+
+一个CPU模型生成的timeline
+```
+/host:CPU Compute (pid 1)
+
+/job:localhost/replica:0/task:0/device:CPU:0 Compute (pid 3)   - Fully qualified name 
+```
+
+一个GPU模型生成的timeline
+```
+/device:GPU:0/stream:all Compute (pid 7)
+
+/gpu:0 (Tesla P40)/context#0/stream#1 Compute (pid 5)  - Short-hand notation
+
+/gpu:0 (Tesla P40)/context#0/stream#2:MemcpyDtoH Compute (pid 3)
+
+/gpu:0 (Tesla P40)/context#0/stream#3:MemcpyHtoD Compute (pid 1)
+
+/host:CPU Compute (pid 9)
+
+/job:localhost/replica:0/task:0/device:CPU:0 Compute (pid 11)
+
+/job:localhost/replica:0/task:0/device:GPU:0 Compute (pid 13)
+```
+
 
 ### tfprof
 tf.contrib.tfprof.ProfileContext
@@ -2059,11 +2094,11 @@ estimator.train(
 
 
 
-## Benchmarks
 
-https://github.com/tensorflow/benchmarks
 
 ## Grappler 模块
+
+runtime图优化: https://www.tensorflow.org/guide/graph_optimization
 
 Grappler是优化模块，包括：
   - tensorflow.gappler.ModelPruner 裁剪图中不需要的节点
@@ -2226,14 +2261,16 @@ TensorFlow Runtime 内部组件的对象策略是懒初始(Lazy Initialization)�
 
 
 
-# 分布式TensorFlow - Distributed TensorFlow
+# 分布式TensorFlow (Distributed TensorFlow)
 
-“分布式”的阶段：有训练时的分布式，有预测时的分布式（Distributed TF-Serving）。目前TF只实现了前者。
+“分布式”的阶段：有训练时的分布式，有预测时的分布式（Distributed Serving）。目前TF只实现了前者。
 
 “分布式”的内容：有模型分布式并行，有数据分布式并行。TF中一般采用数据并行， 即在各个worker节点用相同的数据流图计算不同的数据。
 
 “分布式”的形式：有多机器的分布式，也有单机多卡的分布式。
 
+
+## 重要概念
 - TensorFlow server - tf.train.Server instance
 	
 		Master service
@@ -2292,9 +2329,15 @@ tf.train.Server 创建server实例
 /tensorflow.WorkerService/MarkRecvFinished
 ```
 
-## In-graph replication
+## Replicated training
 
-## Between-graph replication
+前面提到，TF使用的是数据并行(data parallelism)，即使不同的训练节点使用不同的数据训练完整的模型。这里的关键是如何训练出一个模型来（而不是各自训各自的），，模型参数需要借助PS进行拷贝。
+
+### In-graph replication
+
+只有一个client创建模型图和模型参数，指定把参数放在 /job:ps 上。
+
+### Between-graph replication
 
 TensorFlow cluster in action: https://github.com/tensorflow/examples/blob/master/community/en/docs/deploy/distributed.md
 
