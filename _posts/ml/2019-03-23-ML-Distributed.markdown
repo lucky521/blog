@@ -152,3 +152,5 @@ AlexNet
 - NCCL - https://docs.nvidia.com/deeplearning/sdk/index.html
 
 - Distributed (Deep) Machine Learning Community - https://github.com/dmlc
+
+- BytePS - https://github.com/bytedance/byteps

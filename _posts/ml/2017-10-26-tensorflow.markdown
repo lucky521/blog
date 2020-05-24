@@ -2052,14 +2052,14 @@ MemcpyHtoD 和 MemcpyDtoH 是host和device之间拷贝内存，host指的是cpu�
 
 
 一个CPU模型生成的timeline
-```
+```shell
 /host:CPU Compute (pid 1)
 
 /job:localhost/replica:0/task:0/device:CPU:0 Compute (pid 3)   - Fully qualified name 
 ```
 
 一个GPU模型生成的timeline
-```
+```shell
 /device:GPU:0/stream:all Compute (pid 7)
 
 /gpu:0 (Tesla P40)/context#0/stream#1 Compute (pid 5)  - Short-hand notation
@@ -2078,13 +2078,13 @@ MemcpyHtoD 和 MemcpyDtoH 是host和device之间拷贝内存，host指的是cpu�
 
 ### tfprof
 tf.contrib.tfprof.ProfileContext
-```
+```python
 with tf.contrib.tfprof.ProfileContext(args.profile_dir) as pctx:
   run... # 可以是高阶API、也可以是低阶API
 ```
 
 ### tf.train.ProfilerHook
-```
+```python
 hook = tf.train.ProfilerHook(save_steps=100, output_dir='/tmp/')
 estimator.train(
       input_fn=lambda: ltr_dataset.csv_input_fn(train_file_list, args.batch_size),
@@ -2122,7 +2122,7 @@ XLA提供了AOT(提前编译)和JIT(即时编译)两种方式。
 
 综合性文档： https://hackernoon.com/how-we-improved-tensorflow-serving-performance-by-over-70-f21b5dad2d98
 
-课程：https://www.bilibili.com/video/av47698851
+视频课程：https://www.bilibili.com/video/av47698851
 
 
 ### 选择合适的指令集优化选项
@@ -2147,7 +2147,6 @@ num_batch_threads { value: 8 }
 max_enqueued_batches { value: 1000000 }
   - The number of batches worth of tasks that can be enqueued to the scheduler. Used to bound queueing delay, by turning away requests that would take a long time to get to, rather than building up a large backlog.
 
-
 - Parallelize Data Transformation
 
 - Parallelize Data Extraction
@@ -2160,7 +2159,7 @@ inter-request batching support
 ### “freeze the weights” of the model
 tf.graph_util.convert_variables_to_constants函数
 
-```
+```python
 from tensorflow.python.tools import freeze_graph
 
 freeze_graph.freeze_graph(
@@ -2172,6 +2171,9 @@ freeze_graph.freeze_graph(
 )
 ```
 
+### ParseExample 
+
+
 ### Custom DataSet OP 多线程数据预处理
 
 ### 并发处理多个请求
@@ -2182,7 +2184,7 @@ freeze_graph.freeze_graph(
 
 官方文档： https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tools/graph_transforms
 
-```
+```python
 from tensorflow.tools.graph_transforms import TransformGraph
 
 TRANSFORMS = [
@@ -2241,6 +2243,8 @@ TensorFlow Runtime 内部组件的对象策略是懒初始(Lazy Initialization)�
 - The warmup data must be representative of the inference requests used at serving.
 
 参考：https://www.tensorflow.org/tfx/serving/saved_model_warmup
+
+本质上warmup文件是tfrecord格式文件。
  
 
 ### Quantization
@@ -2302,11 +2306,15 @@ tf.train.ClusterSpec  创建cluster配置描述
 
 tf.train.Server 创建server实例
 
-在模型中指明在特定节点或设备进行某个操作
 
+## tf.device
+
+在模型中指明在特定节点或设备进行某个操作，比如 with tf.device('/device:CPU:0'):
+```python
 		with tf.device("/job:ps/task:1"):
 		  weights_2 = tf.Variable(...)
 		  biases_2 = tf.Variable(...)
+```
 
 
 
