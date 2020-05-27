@@ -68,12 +68,37 @@ categories: [MachineLearning]
 
 
 
-
 # 分布式通信拓扑结构
 
 ## 异步梯度更新策略  parameter server
 
-parameter server异步更新策略是指每个 GPU或者CPU计算完梯度后，无需等待其他 GPU或CPU的梯度计算（有时可以设置需要等待的梯度个数），就可立即更新整体的权值，然后同步此权值，即可进行下一轮计算.
+parameter server异步更新策略是指每个 GPU或者CPU 计算完梯度后，无需等待其他 GPU或CPU的梯度计算（有时可以设置需要等待的梯度个数），就可立即更新整体的权值，然后同步此权值，即可进行下一轮计算.
+
+异步的优势是速度快，缺点是worker模型更新不一致。不过实践表明，不一致带来的问题并不大，对优化目标的收敛速度影响较小。
+
+为了实现异步，worker中pull全局参数和计算梯度是解耦进行的。
+
+Worker和Server的交互：
+
+- PS Worker: 
+  - 从Server拉取最新模型参数
+  - 利用部分训练数据，计算局部梯度
+  - 上传局部梯度给Server
+  
+- PS Server:
+  - 保存模型参数
+  - 接受worker发来的局部梯度，汇总计算全局梯度，更新模型参数
+  - 给worker发送新的模型参数 
+
+分布式协作：
+
+- 不同PS Worker如何分配任务？
+  - 不同worker都是更新所有梯度。
+
+- 多个PS Server如何工作？
+  - 如果只有一个Server，它作为中心节点负载就太大了，所以引入了分布式的PS Server。
+  - 每个Server只负责一部分模型参数的更新。分工方式采用一致性哈希环，按模型参数的key进行哈希分配。
+
 
 https://zhuanlan.zhihu.com/p/69010949
 
@@ -144,10 +169,11 @@ AlexNet
 
 - 参数服务器 - Multiverso
 
-- 数据流 - Tensorflow  https://www.tensorflow.org/guide/distribute_strategy
+- 数据流
+  - Tensorflow  https://www.tensorflow.org/guide/distribute_strategy
 
 - horovod - https://eng.uber.com/horovod/
-控制层使用了https://www.open-mpi.org/
+  - 控制层使用了https://www.open-mpi.org/
 
 - NCCL - https://docs.nvidia.com/deeplearning/sdk/index.html
 
