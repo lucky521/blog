@@ -404,6 +404,8 @@ def attention(queries, keys, keys_length):
 
 ### 残差单元 Residual Unit
 
+避免网络太深而梯度消失。如果某一层的输出已经较好的拟合了期望结果，那么之后的层会被短链而跳过。
+
 输入过两层MLP之后再和原输入进行按位加操作。
 ```python
 def Residual_Unit(input, in_channel, out_channel, stride=1):

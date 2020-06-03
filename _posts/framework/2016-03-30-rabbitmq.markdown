@@ -146,18 +146,3 @@ RPC服务者，首先订阅消息，回调函数是处理PRC的请求，计算�
 所以需要设置 properties=pika.BasicProperties(correlation_id = props.correlation_id) 以记住消息请求者的身份。
 
 
-<!--
-这里是注释区
-
-```
-print "hello"
-```
-
-***Stronger***
-
-![My image]({{ site.baseurl }}/images/emule.png)
-
-My Github is [here][mygithub].
-[mygithub]: https://github.com/lucky521
-
--->

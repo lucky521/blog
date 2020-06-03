@@ -12,10 +12,12 @@ categories: [MachineLearning]
 ## 深度学习模型有哪些超参数
 
 Hyperparameter optimization
-earning rate, regularization, momentum
+learning rate, regularization, momentum
 
 Neural architecture search
 网络结构
+
+
 
 # 自动调参方法
 
