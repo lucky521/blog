@@ -34,8 +34,6 @@ categories: [MachineLearning]
 
 
 
-
-
 # 分布式机器学习(训练)的方式
 
 ## 计算并行
@@ -102,11 +100,18 @@ Worker和Server的交互：
 
 https://zhuanlan.zhihu.com/p/69010949
 
-## 同步梯度更新策略  ring all-reduce
+
+## 同步梯度更新策略  
+
+### ring all-reduce
+
+AllReduce算法，是用于分布式深度学习的通信运算.
 
 每个 GPU 只从左邻居接受数据、并发送数据给右邻居。
 
 https://zhuanlan.zhihu.com/p/69806200
+
+https://blog.csdn.net/qq_35799003/article/details/85016537
 
 
 communication primitive
@@ -118,12 +123,9 @@ communication primitive
 
 ring-base collectives
 
-## mirror strategy
 
-Mirrored Strategy是TensorFlow官方提供的分布式策略之一。
 
-单机多GPU卡。
-
+## 同步更新和异步更新的平衡
 
 
 
@@ -180,3 +182,47 @@ AlexNet
 - Distributed (Deep) Machine Learning Community - https://github.com/dmlc
 
 - BytePS - https://github.com/bytedance/byteps
+
+- baidu-allreduce - https://github.com/baidu-research/baidu-allreduce
+
+
+## mirror strategy
+
+Mirrored Strategy是TensorFlow官方提供的分布式策略之一。
+
+单机多GPU卡。
+
+## horovod
+
+标准的分布式TF使用worker计算梯度，用ps平均梯度与更新参数。这样很容易产生因ps与worker分配不合理所导致的计算或通信瓶颈。
+
+Horovod正式基于MPI实现了ring-allreduce. 无论是一个机器上的多个GPU还是多个机器上的多个GPU都可以使用。
+
+TF+horovod : https://github.com/horovod/horovod/blob/master/docs/tensorflow.rst
+
+* -np参数 指明使用的GPU数量
+* -H参数 指明使用的GPU在什么位置
+* hvd.size 是GPU的数量
+* hvd.rank 是当前运行逻辑所在GPU的序号
+
+
+
+安装horovod需要高版本的gcc：
+```shell
+sudo yum install centos-release-scl
+sudo yum install devtoolset-8-gcc devtoolset-8-gcc-c++
+scl enable devtoolset-8 -- bash #sets gcc8 as the default compiler for a session within your current session
+env HOROVOD_WITHOUT_MXNET=1 HOROVOD_WITHOUT_PYTORCH=1 pip install --no-cache-dir horovod
+```
+
+Train
+```python
+horovodrun -np 4 -H localhost:4  python test.py
+```
+
+Trace Profiler
+```shell
+horovodrun -np 4 --timeline-filename ./ll_timeline.json python test.py
+```
+
+example: https://github.com/horovod/horovod/blob/master/examples/tensorflow2_mnist.py

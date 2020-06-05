@@ -119,7 +119,6 @@ keras_export = functools.partial(api_export, api_name=KERAS_API_NAME)
 将op name 和 OpRegistrationData 关联起来，保存到 registry_ 这个map中。
 
 - Kernel注册操作 REGISTER_KERNEL_BUILDER 的实现
-
 创建一个名称唯一， 类型为 OpKernelRegistrar 的全局静态变量
 
 
@@ -190,11 +189,17 @@ https://www.cnblogs.com/deep-learning-stacks/p/9386188.html
 
 # Compiler, XLA 
 
+Accelerated LinearAlgebra
 
+XLA是TensorFlow图表的编译器，该组件的目标是加速TF数据流图的执行，提高内存效率，降低操作依赖。
 
+XLA主要由数据流图转换器、XLA编译器、JIT（just-in-time）编译机制、AOT（ahead-of-time）编译机制等模块构成。
 
+XLA的核心是高阶优化中间表示层（HLO IR，High Level Optimization Intermediate Presentation）。HLO是一种面向线性代数语义的编译器，Tensorflow官网或源码中的operation_semantic.md文档给出了HLO的操作说明。HLO的引入将核函数开发时的前后端代码解耦，有助于增强Tensorflow的可移植性。
 
+XLA技术的总体流程是将Tensorflow的数据流图转换为XLA图，再由基于LLVM的编译器生成相应设备的二进制文件。
 
+参考: https://zhuanlan.zhihu.com/p/124269986
 
 
 

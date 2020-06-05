@@ -9,6 +9,7 @@ layout: post
 首先要注意，tensorflow版本之间差异比较大，一些API会发生增减或者位置迁移。
 ```python
 python -c 'import tensorflow as tf; print(tf.__version__)'
+python -c 'import tensorflow as tf; tf.test.is_gpu_available()'
 ```
 
 # 功能体系
@@ -913,7 +914,22 @@ global_step 参数是训练迭代的计数器，比如说在Tensorboard画loss�
 
 
 
+tf.GradientTape怎么用？
+GradientTape是TF2引入的梯度计算方式，
+```python
+    def train_step(input, label):
+        loss = 0.0
+        with tf.GradientTape() as tape:
+            probs = model(input)
+            ...
+            loss = loss_func(probs, label)
 
+        batch_loss = loss
+        variables = model.trainable_variables
+        gradients = tape.gradient(loss, variables)
+        optimizer.apply_gradients(zip(gradients, variables))
+        return batch_loss
+```
 
 
 
@@ -2116,6 +2132,14 @@ XLA提供了AOT(提前编译)和JIT(即时编译)两种方式。
 - AOT(提前编译)方式就是在代码执行阶段之前全部编译成目标指令，进入执行阶段后，不再有编译过程发生。
 
 - JIT全称Just In Time（即时）.在即时编译中，计算图在不会在运行阶段前被编译成可执行代码，而是在进入运行阶段后的适当的时机才会被编译成可执行代码，并且可以被直接调用了。
+
+在创建 Session 时，增加 config 参数，设置 config.graph_options.optimizer_options.global_jit_level 值为 tf.OptimizerOptions.ON_1 即可打开 XLA JIT 功能。注：该配置对整个 Session 生效，所有 OP 都会受到影响。(https://mp.weixin.qq.com/s/tBb2_X-lQvW-7puWS4XrlQ)
+
+```python
+  config = tf.ConfigProto()
+  config.graph_options.optimizer_options.global_jit_level = tf.OptimizerOptions.ON_1
+  sess = tf.Session(config=config)
+```
 
 
 ## Optimizing the model for Serving
