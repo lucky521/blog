@@ -59,7 +59,6 @@ categories: [MachineLearning]
 
 
 
-
 # 通信的内容
 
 对于数据并行方式来讲，通信的内容就是模型的权值和训练过程中的梯度。
@@ -129,6 +128,14 @@ ring-base collectives
 
 
 
+# 分布式通信框架
+
+MPI，openMPI，openMP
+
+- baidu-allreduce - https://github.com/baidu-research/baidu-allreduce
+- NCCL - https://docs.nvidia.com/deeplearning/sdk/index.html
+- rabid -  https://github.com/dmlc/rabit
+
 
 
 # 分布式机器学习算法
@@ -163,34 +170,69 @@ AlexNet
 
 
 
+# GPU 硬件和软件生态
+
+## NVIDIA-SMI Driver
+
+## CUDA
+
+CUDA是Nvidia GPU生态的软件基石。
+
+## NCCL
+
+NCCL是Nvidia Collective multi-GPU Communication Library的简称.
+它是一个实现多GPU的collective communication通信（all-gather, reduce, broadcast）库.
+Nvidia做了很多优化，以在PCIe、Nvlink、InfiniBand上实现较高的通信速度。
+
+- NCCL - https://docs.nvidia.com/deeplearning/sdk/index.html
+
+## cuDNN
+
+## cudatoolkit
+
+## cuBLAS
+
+basic linear algebra subroutines 利用cuda加速矩阵运算的库
 
 
-# 工业实践
+
+
+
+# 分布式机器学习的开源工业实践
 
 - 迭代式MapReduce  - Spark MLlib 
 
 - 参数服务器 - Multiverso
 
 - 数据流
-  - Tensorflow  https://www.tensorflow.org/guide/distribute_strategy
+  - Tensorflow  https://www.tensorflow.org/guide/distribute_strategy ,  https://www.tensorflow.org/api_docs/python/tf/distribute
 
 - horovod - https://eng.uber.com/horovod/
   - 控制层使用了https://www.open-mpi.org/
-
-- NCCL - https://docs.nvidia.com/deeplearning/sdk/index.html
 
 - Distributed (Deep) Machine Learning Community - https://github.com/dmlc
 
 - BytePS - https://github.com/bytedance/byteps
 
-- baidu-allreduce - https://github.com/baidu-research/baidu-allreduce
 
 
-## mirror strategy
+## tf.distribute.Strategy 
+
+* MirroredStrategy
+* CentralStorageStrategy
+* MultiWorkerMirroredStrategy
+* TPUStrategy
+* ParameterServerStrategy
+* OneDeviceStrategy
 
 Mirrored Strategy是TensorFlow官方提供的分布式策略之一。
 
 单机多GPU卡。
+
+## BytePS
+
+
+example: https://github.com/bytedance/byteps/tree/master/example/tensorflow
 
 ## horovod
 
@@ -202,9 +244,10 @@ TF+horovod : https://github.com/horovod/horovod/blob/master/docs/tensorflow.rst
 
 * -np参数 指明使用的GPU数量
 * -H参数 指明使用的GPU在什么位置
-* hvd.size 是GPU的数量
-* hvd.rank 是当前运行逻辑所在GPU的序号
-
+* hvd.size() 是GPU的数量
+* hvd.rank() 是当前运行逻辑所在GPU的序号
+* hvd.local_rank() 含义的差别rank is your index within the entire ring, local_rank is your index within your node.
+* hvd.local_size() 含义 returns the number of Horovod processes within the node the current process is running on.
 
 
 安装horovod需要高版本的gcc：
@@ -225,4 +268,4 @@ Trace Profiler
 horovodrun -np 4 --timeline-filename ./ll_timeline.json python test.py
 ```
 
-example: https://github.com/horovod/horovod/blob/master/examples/tensorflow2_mnist.py
+example: https://github.com/horovod/horovod/tree/master/examples

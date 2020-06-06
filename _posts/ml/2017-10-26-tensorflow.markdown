@@ -9,7 +9,8 @@ layout: post
 首先要注意，tensorflow版本之间差异比较大，一些API会发生增减或者位置迁移。
 ```python
 python -c 'import tensorflow as tf; print(tf.__version__)'
-python -c 'import tensorflow as tf; tf.test.is_gpu_available()'
+python -c 'import tensorflow as tf; print(tf.test.is_gpu_available())'
+python -c 'import tensorflow as tf; tf.config.list_physical_devices()'
 ```
 
 # 功能体系
