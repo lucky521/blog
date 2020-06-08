@@ -88,6 +88,20 @@ getSideOutput 侧输出
 > CoGroup转换在具有相同键值字段的两个输入的所有记录上调用带有迭代器的CoGroupFunction.如果输入没有某个键值的记录,则传递空迭代器.除了别的以外,CoGroup转换可以用于内部和外部的相等连接.因此它比Join变换更通用.
 
 
+## StatusBackend
+
+Flink 提供了内存、文件系统、RocksDB 三种 StateBackends.
+- MemoryStateBackend
+- FsStateBackend
+- RocksDBStateBackend
+
+关于超大状态存储策略选择，生产环境状态存储 Backend 有两种方式： 
+FsStateBackend：State 存储在内存，Checkpoint 时持久化到 HDFS； 
+RocksDBStateBackend：State 存储在 RocksDB 实例，可增量 Checkpoint，适合超大 State。在推荐广告搜索等场景下展现流 20 分钟数据有 1 TB 以上。
+
+
+
+
 ## window
 
 Window是无限数据流处理的核心，Window将一个无限的stream拆分成有限大小的”buckets”桶，我们可以在这些桶上做计算操作。

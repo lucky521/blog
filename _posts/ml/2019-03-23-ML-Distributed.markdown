@@ -130,6 +130,10 @@ ring-base collectives
 
 # 分布式通信框架
 
+## MapReduce
+
+## MPI
+
 MPI，openMPI，openMP
 
 - baidu-allreduce - https://github.com/baidu-research/baidu-allreduce
@@ -205,7 +209,7 @@ basic linear algebra subroutines 利用cuda加速矩阵运算的库
 - 参数服务器 - Multiverso
 
 - 数据流
-  - Tensorflow  https://www.tensorflow.org/guide/distribute_strategy ,  https://www.tensorflow.org/api_docs/python/tf/distribute
+  - Tensorflow  https://www.tensorflow.org/guide/distribute_strategy ,  https://www.tensorflow.org/api_docs/python/tf/distribute , https://www.tensorflow.org/guide/distributed_training
 
 - horovod - https://eng.uber.com/horovod/
   - 控制层使用了https://www.open-mpi.org/
@@ -218,16 +222,17 @@ basic linear algebra subroutines 利用cuda加速矩阵运算的库
 
 ## tf.distribute.Strategy 
 
-* MirroredStrategy
+介绍： https://www.tensorflow.org/guide/distributed_training
+
+* MirroredStrategy 适用于单机多卡。
 * CentralStorageStrategy
 * MultiWorkerMirroredStrategy
 * TPUStrategy
-* ParameterServerStrategy
+* ParameterServerStrategy 适用于多机多卡场景。
 * OneDeviceStrategy
+* CollectiveAllReduceStrategy 用于多机多卡场景，通过 all-reduce 的方式融合梯度，只需要 worker 节点，不需要 PS 节点
 
-Mirrored Strategy是TensorFlow官方提供的分布式策略之一。
-
-单机多GPU卡。
+Mirrored Strategy是TensorFlow官方提供的分布式策略之一，适用于单机多GPU卡。
 
 ## BytePS
 

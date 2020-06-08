@@ -1,0 +1,55 @@
+---
+title: "Kubernetes"
+categories: [framework]
+layout: post
+---
+
+# 资源管理平台历史
+
+Apache Mesos
+UC伯克利大学推出的资源管理平台。老一辈的框架，目前使用的企业已经不多。abstracts CPU, memory, storage, and other compute resources away from machines (physical or virtual), enabling fault-tolerant and elastic distributed systems to easily be built and run effectively.
+
+
+Docker Swarm
+Docker官方推出的资源管理平台。功能比较少，市场占有率很少。
+
+
+Kubernetes
+Google推出的资源管理平台。同时Go语言开发，是Google内部的Borg系统的开源版。容器管家。Kubernetes (k8s) is an open-source system for automating deployment, scaling, and management of containerized applications.
+
+
+# Kubernets介绍
+
+http://kubernetes.io/
+https://github.com/kubernetes/kubernetes
+https://github.com/feiskyer/kubernetes-handbook 
+
+## 优势特点
+
+* 轻量级，消耗资源小
+* 代码开源
+* 弹性伸缩
+* 负载均衡: IPVS
+
+
+Kubernetes和docker是什么关系？
+Kubernetes是Google的一个开源容器管理项目，他能利用Docker/其他技术部署/管理容器集群。
+
+
+## 概念
+
+Master (Scheduler, API Server, Replication controller)
+
+Node (kubelet, kube-proxy, Pod(Container))
+
+Pod 
+
+kubelet 跟容器引擎交互，管理容器的生命周期
+
+kube-proxy 写入规则到iptables实现服务映射
+
+通讯模式: 所有Pod都在一个可以直接连通的网络空间里。  Flannel提供跨物理机的容器间扁平 通信。
+
+资源清单 yam
+
+etcd 存储

@@ -2324,12 +2324,18 @@ TensorFlow Runtime 内部组件的对象策略是懒初始(Lazy Initialization)�
 	
 -	Task - 一个Job可能有多个Task。
 
-
 tf.train.Server.create_local_server 单进程集群，这主要是其演示作用吧。
 
 tf.train.ClusterSpec  创建cluster配置描述
 
 tf.train.Server 创建server实例
+
+## TF_CONFIG
+['ps', 'worker','evaluator','chief']
+There should be no "ps" job except when using tf.distribute.experimental.ParameterServerStrategy.
+
+TF_CONFIG介绍 - https://cloud.google.com/ai-platform/training/docs/distributed-training-details
+
 
 
 ## tf.device
