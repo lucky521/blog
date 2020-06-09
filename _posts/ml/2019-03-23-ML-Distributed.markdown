@@ -222,7 +222,12 @@ basic linear algebra subroutines 利用cuda加速矩阵运算的库
 
 ## tf.distribute.Strategy 
 
+tf.distribute.Strategy 是TF的高阶API中所提供的多卡分布式训练的几种策略。
+它是 tf.estimator.RunConfig 配置入参之一。
+
 介绍： https://www.tensorflow.org/guide/distributed_training
+
+https://github.com/tensorflow/docs/blob/master/site/en/r1/guide/distribute_strategy.ipynb
 
 * MirroredStrategy 适用于单机多卡。
 * CentralStorageStrategy
@@ -264,7 +269,7 @@ env HOROVOD_WITHOUT_MXNET=1 HOROVOD_WITHOUT_PYTORCH=1 pip install --no-cache-dir
 ```
 
 Train
-```python
+```shell
 horovodrun -np 4 -H localhost:4  python test.py
 ```
 

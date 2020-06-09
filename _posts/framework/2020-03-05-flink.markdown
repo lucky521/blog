@@ -99,6 +99,7 @@ Flink 提供了内存、文件系统、RocksDB 三种 StateBackends.
 FsStateBackend：State 存储在内存，Checkpoint 时持久化到 HDFS； 
 RocksDBStateBackend：State 存储在 RocksDB 实例，可增量 Checkpoint，适合超大 State。在推荐广告搜索等场景下展现流 20 分钟数据有 1 TB 以上。
 
+参考： https://cloud.tencent.com/developer/article/1592441
 
 
 
@@ -404,3 +405,5 @@ idea+maven打jar包  https://blog.csdn.net/branwel/article/details/79918018
 官网的内容超级全 https://ci.apache.org/projects/flink/flink-docs-release-1.10/
 
 Flink如何支持特征工程、在线学习、在线预测等AI场景？ https://mp.weixin.qq.com/s/C2Uft-IuzgiKa1aDlROIng
+
+快手的Flink实践 https://new.qq.com/omn/20190717/20190717A0HNBE00.html

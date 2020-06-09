@@ -2336,6 +2336,9 @@ There should be no "ps" job except when using tf.distribute.experimental.Paramet
 
 TF_CONFIG介绍 - https://cloud.google.com/ai-platform/training/docs/distributed-training-details
 
+chief 是一个特殊的worker。 需要负责初始化整个运行图，其他worker 节点将从chief 节点获取计算图的信息.
+主节点负责初始化参数、模型保存、概要保存.
+通过调用 tf.train.MonitoredTrainingSession来进行。
 
 
 ## tf.device
@@ -2368,9 +2371,13 @@ TF_CONFIG介绍 - https://cloud.google.com/ai-platform/training/docs/distributed
 /tensorflow.WorkerService/MarkRecvFinished
 ```
 
-## Replicated training
+## Replicated training 数据并行
 
-前面提到，TF使用的是数据并行(data parallelism)，即使不同的训练节点使用不同的数据训练完整的模型。这里的关键是如何训练出一个模型来（而不是各自训各自的），，模型参数需要借助PS进行拷贝。
+TF中的数据并行训练又叫做 复制训练。
+
+前面提到，TF使用的是数据并行(data parallelism)，即使不同的训练节点使用不同的数据训练完整的模型。这里的关键是如何训练出一个模型来（而不是各自训各自的），模型参数需要借助PS进行拷贝。
+
+参考: https://github.com/tensorflow/examples/blob/master/community/en/docs/deploy/distributed.md
 
 ### In-graph replication
 
@@ -2378,13 +2385,25 @@ TF_CONFIG介绍 - https://cloud.google.com/ai-platform/training/docs/distributed
 
 ### Between-graph replication
 
-TensorFlow cluster in action: https://github.com/tensorflow/examples/blob/master/community/en/docs/deploy/distributed.md
+每个worker都创建一个client,各个client构建相同的Graph，但是参数还是放置在ps上。TensorFlow提供了一个专门的函数tf.train.replica_device_setter来方便Graph构建.
+
+两种方式中更常用的是Between-graph replication方式.
+
+使用tf.train.replica_device_setter可以自动把Graph中的Variables放到ps上，而同时将Graph的计算部分放置在当前worker上，省去了很多麻烦。由于ps往往不止一个，这个函数在为各个Variable分配ps时默认采用简单的round-robin方式，就是按次序将参数挨个放到各个ps上，但这个方式可能不能使ps负载均衡，如果需要更加合理，可以采用tf.contrib.training.GreedyLoadBalancingStrategy策略。
+
+
+
 
 ## PS in Tensorflow
 
 参数服务器(parameter server)，简称为ps，用于存储可训练的参数变量tf.Variable.
 
 ps作为tensorflow分布式训练中作为一个worker。
+
+
+
+
+
 
 
 
