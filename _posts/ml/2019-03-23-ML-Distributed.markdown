@@ -33,7 +33,6 @@ categories: [MachineLearning]
 “分布式”的形式：有多机器的分布式，也有单机多卡的分布式。
 
 
-
 # 分布式机器学习(训练)的方式
 
 ## 计算并行
@@ -61,13 +60,25 @@ categories: [MachineLearning]
 
 # 通信的内容
 
+## 集合通信 collective communication
+
+* broadcast，将参数从一个 node 发到多个 node 上
+* reduce，将参数从多个 node 收集到一个 node 上，同时对收集到的参数进行归并(求和，求积)。
+* allreduce，每个 node 都从其他 node 上面收集参数，同时对收集到的参数进行归并。
+
 对于数据并行方式来讲，通信的内容就是模型的权值和训练过程中的梯度。
 
 
 
 # 分布式通信拓扑结构
 
-## 异步梯度更新策略  parameter server
+## 同步更新 PS
+
+ps 会同时充当 reducer 的角色，等待所有 worker 都发来梯度和参数更新请求后，ps 会对梯度取平均(reduce mean)，并用平均过后的梯度更新一次参数。各个 worker 在从 ps 读取最新参数的过程中，以及等待 ps 更新参数的过程中，都是处于空闲状态。
+
+为了减缓因单个 ps 的有限带宽带来的阻塞，通常会设置多个 ps 对通信进行分流。
+
+## 异步梯度更新策略 PS
 
 parameter server异步更新策略是指每个 GPU或者CPU 计算完梯度后，无需等待其他 GPU或CPU的梯度计算（有时可以设置需要等待的梯度个数），就可立即更新整体的权值，然后同步此权值，即可进行下一轮计算.
 
@@ -100,9 +111,7 @@ Worker和Server的交互：
 https://zhuanlan.zhihu.com/p/69010949
 
 
-## 同步梯度更新策略  
-
-### ring all-reduce
+## 同步梯度更新策略  ring allreduce
 
 AllReduce算法，是用于分布式深度学习的通信运算.
 
@@ -176,6 +185,20 @@ AlexNet
 
 # GPU 硬件和软件生态
 
+## GPU间通信
+
+- 单机多卡之间通信
+PCIe
+Nvlink
+
+- 多机多卡之间通信
+通过 Infinteband 连接方案和 Nvidia 的 GPUDirect RDMA 技术，可以实现不同 host 上的卡间直连
+
+## NUMA
+
+## RDMA
+RDMA(RemoteDirect Memory Access)技术全称远程直接内存访问，就是为了解决网络传输中服务器端数据处理的延迟而产生的
+
 ## NVIDIA-SMI Driver
 
 ## CUDA
@@ -189,6 +212,7 @@ NCCL是Nvidia Collective multi-GPU Communication Library的简称.
 Nvidia做了很多优化，以在PCIe、Nvlink、InfiniBand上实现较高的通信速度。
 
 - NCCL - https://docs.nvidia.com/deeplearning/sdk/index.html
+- NCCL集合通信 - https://images.nvidia.com/events/sc15/pdfs/NCCL-Woolley.pdf
 
 ## cuDNN
 
@@ -222,8 +246,11 @@ basic linear algebra subroutines 利用cuda加速矩阵运算的库
 
 ## tf.distribute.Strategy 
 
-tf.distribute.Strategy 是TF的高阶API中所提供的多卡分布式训练的几种策略。
-它是 tf.estimator.RunConfig 配置入参之一。
+tf.distribute.Strategy 是TF的高阶API中所提供的多卡、多机分布式训练的几种策略。
+tf.distribute.Strategy它是 tf.estimator.RunConfig 配置入参之一。 (RunConfig是Estimator初始的入参)
+
+
+训练可用tf.keras 或 tf.estimator的API， 如 estimatorAPI中的 train_and_evaluate()。
 
 介绍： https://www.tensorflow.org/guide/distributed_training
 
@@ -239,10 +266,30 @@ https://github.com/tensorflow/docs/blob/master/site/en/r1/guide/distribute_strat
 
 Mirrored Strategy是TensorFlow官方提供的分布式策略之一，适用于单机多GPU卡。
 
+
 ## BytePS
 
+BytePS是一种带有辅助带宽节点的 allreduce 实现。在使用接口上跟horovod的几乎一样。
 
+安装时依赖numa库
+
+* DMLC_NUM_WORKER  worker的数量
+* DMLC_NUM_SERVER  server的数量
+* DMLC_PS_ROOT_URI 指定scheduler的ip地址
+* DMLC_PS_ROOT_PORT 指定scheduler的端口
+* NVIDIA_VISIBLE_DEVICES=0,1,2,3 允许程序看到的GPU编号
+* DMLC_WORKER_ID 程序运行的GPU编号
+* DMLC_ROLE 程序的角色 server/worker/scheduler
+* BYTEPS_FORCE_DISTRIBUTED 调试时使用
+* DMLC_INTERFACE  RDMA interface name of the scheduler
+
+Train
+```shell
+
+```
+介绍： https://www.zhihu.com/question/331936923
 example: https://github.com/bytedance/byteps/tree/master/example/tensorflow
+
 
 ## horovod
 
@@ -279,3 +326,15 @@ horovodrun -np 4 --timeline-filename ./ll_timeline.json python test.py
 ```
 
 example: https://github.com/horovod/horovod/tree/master/examples
+
+
+
+
+# 分布式机器学习预测
+
+
+
+
+# 参考
+
+分布式训练的方案和效率对比 https://zhuanlan.zhihu.com/p/50116885

@@ -15,6 +15,8 @@ python -c 'import tensorflow as tf; tf.config.list_physical_devices()'
 
 # 功能体系
 
+TF存在几套不同方式的使用方式API。
+
 ## TensorFlow Core (Low-Level API)
 
 TensorFlow Core 指的是 low-level TensorFlow APIs。 
@@ -90,7 +92,7 @@ eval_metric_ops由若干tf.metrics指标模块所组成的字典，比如tf.metr
 
 这个方法是真正去训练模型。它的输入是 Estimator对象 + TrainSpec对象 + EvalSpec对象。
 
-```
+```python
 # 上一节代码里创建有 estimator
 train_spec = tf.estimator.TrainSpec(input_fn=train_input_fn, max_steps=1000)
 eval_spec = tf.estimator.EvalSpec(input_fn=eval_input_fn)
@@ -124,7 +126,7 @@ tf.estimator.VocabInfo  表示 WarmStartSettings 的词汇信息。它被用于�
 
 
 
-## Keras API
+## Keras API (High-Level API)
 
 ```
 model = keras.Sequential([keras.layers.Dense(units=1, input_shape=[1])])
@@ -2298,7 +2300,6 @@ TensorFlow Runtime 内部组件的对象策略是懒初始(Lazy Initialization)�
 
 “分布式”的形式：有多机器的分布式，也有单机多卡的分布式。
 
-
 ## 重要概念
 - TensorFlow server - tf.train.Server instance
 	
@@ -2331,14 +2332,32 @@ tf.train.ClusterSpec  创建cluster配置描述
 tf.train.Server 创建server实例
 
 ## TF_CONFIG
-['ps', 'worker','evaluator','chief']
-There should be no "ps" job except when using tf.distribute.experimental.ParameterServerStrategy.
+
+TF_CONFIG环境变量是声明cluster的标准方式。它分为cluster 和 task 两个部分。
+
+```python
+os.environ['TF_CONFIG'] = json.dumps({
+    'cluster': {
+        'worker': ["localhost:12345", "localhost:23456"]
+    },
+    'task': {'type': 'worker', 'index': 0}
+})
+```
+
+type的类型有：['ps', 'worker','evaluator','chief'], There should be no "ps" job except when using tf.distribute.experimental.ParameterServerStrategy.
 
 TF_CONFIG介绍 - https://cloud.google.com/ai-platform/training/docs/distributed-training-details
+
+Multi-worker training with Estimator - https://www.tensorflow.org/tutorials/distribute/multi_worker_with_estimator
 
 chief 是一个特殊的worker。 需要负责初始化整个运行图，其他worker 节点将从chief 节点获取计算图的信息.
 主节点负责初始化参数、模型保存、概要保存.
 通过调用 tf.train.MonitoredTrainingSession来进行。
+
+## Trainning
+
+https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/distribute/estimator_training.py
+
 
 
 ## tf.device
@@ -2350,8 +2369,7 @@ chief 是一个特殊的worker。 需要负责初始化整个运行图，其他w
 		  biases_2 = tf.Variable(...)
 ```
 
-
-
+## RPC Worker调用
 ```shell
 /tensorflow.WorkerService/GetStatus
 /tensorflow.WorkerService/CreateWorkerSession
