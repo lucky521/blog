@@ -454,3 +454,4 @@ Adam在一开始表现更好，而SGD最终达到更好的全局最小值。
 
 - 区分normalization/standardization/regularization：https://maristie.com/blog/differences-between-normalization-standardization-and-regularization/
 
+- 可视化讲解几种梯度下降优化方法 https://zhuanlan.zhihu.com/p/147275344

@@ -305,9 +305,9 @@ https://github.com/christophM/interpretable-ml-book
 
 # 参考资料
 
-http://blog.codinglabs.org/articles/statistical-learning-theory.html
+- 统计学习理论的数理基础 http://blog.codinglabs.org/articles/statistical-learning-theory.html
 
-https://www.zhihu.com/question/20446337
+- 判定模型”和“生成模型”有什么区别 https://www.zhihu.com/question/20446337
 
 
 - Algebra, Topology, Differential Calculus, and Optimization Theory For Computer Science and Machine Learning 这本书1900页，涵盖了计算机科学所需的线性代数、微分和最优化理论等问题

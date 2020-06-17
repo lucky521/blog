@@ -41,11 +41,9 @@ Running the computational graph in a session
 
 tf.estimator是一个基类。
 
-可以使用原生预设的模型子类，比如 DNNClassifier、 DNNRegressor等
+可以使用原生预设的模型子类，比如 DNNClassifier、 DNNRegressor等。也可以基于基类自己实现子类。
 
-也可以基于基类自己实现子类。
-
-```
+```python
 predictor = tf.estimator.Estimator(
         model_fn=model.model_fn,
         params={  # dict of hyper parameters that will be passed into model_fn
@@ -128,21 +126,23 @@ tf.estimator.VocabInfo  表示 WarmStartSettings 的词汇信息。它被用于�
 
 ## Keras API (High-Level API)
 
-```
+```python
+# 定义模型
 model = keras.Sequential([keras.layers.Dense(units=1, input_shape=[1])])
-model.compile(optimizaer=''sgd', loss='mean_squared_error')
-
+# 定义学习过程
+model.compile(optimizaer='sgd', loss='mean_squared_error')
+# 训练
 xs = np.array([-1.0, 0.0, 1.0, 2.0], dtype=float) 
 ys = np.array([-3.0. -1.0, 1.0, 3.0], dtype=float)
 model.fit(xs, ys, epochs=500)
-
+# 预测
 result = model.predict([4.0])
 ```
 
 
 ## Tensorflow Eager 模式 API
 
-无需构建图：操作会返回具体的值，而不是构建以后再运行的计算图
+无需构建图：操作会返回具体的值，而不是构建以后再运行的计算图.
 
 https://www.tensorflow.org/guide/eager
 
@@ -592,13 +592,14 @@ Session是一个运动状态。图的运行只发生在会话中，开启会话�
 Run函数 是整个tensorflow graph运动的核心过程。
 
 首先看 run函数的接口
-
+```python
 		run(
 		    fetches,
 		    feed_dict=None,
 		    options=None,
 		    run_metadata=None
 		)
+```
 
 run函数的功能是：执行一轮图计算，执行fetches参数中的operation和计算fetches中的tensor。This method runs one "step" of TensorFlow computation, by running the necessary graph fragment to execute every Operation and evaluate every Tensor in fetches, substituting the values in feed_dict for the corresponding input values. 
 
@@ -643,6 +644,9 @@ if __name__=="__main__": #用这种方式保证了，如果此文件被其他文
     FLAGS, unparsed=parse.parse_known_args()
 ```
 
+
+## tf.function
+Tensorflow 2.0引入了tf.function这一概念. 为的是移除tf.Session这一概念．这样可以帮助用户更好的组织代码，不用将tf.Session作为一个变量在Python函数中传来传去，我们可以用一个Python装饰符来进行加速，那就是@tf.function
 
 
 
@@ -886,7 +890,7 @@ tf.distributions.kl_divergence
 ### 优化器函数 Set Optimizer
 
 最直接的优化方法自然是梯度下降：
-```
+```python
 tf.gradients
 tf.gradients(ys, xs)实现ys对xs求导
 
@@ -895,13 +899,13 @@ tf.stop_gradient
 
 
 内置优化器有哪些？
-```
+```python
 tf.train.AdamOptimizer
 tf.train.GradientDescentOptimizer
 ```
 
 优化器怎么用？
-```
+```python
 my_opt = tf.train.GradientDescentOptimizer(0.02) # 参数时学习率
 train_step = my_opt.minimize(loss) # 其中的loss是自己经过网络之后又构建好的损失值tensor
 ```
@@ -909,12 +913,11 @@ train_step = my_opt.minimize(loss) # 其中的loss是自己经过网络之后又
 优化器函数是怎么更新整个网络参数的？
 通过operation。 my_opt.minimize(loss)得到的就是一个op，把这个op传入到session.run(train_step)里面去，就会更新网络的权值。
 
-```
+```python
 train_op = optim.minimize(loss, global_step=self.global_step, var_list=train_vars)
 ```
 var_list 参数指明了本次优化中可以被更新的权值。
 global_step 参数是训练迭代的计数器，比如说在Tensorboard画loss和 accuracy的横坐标即是global_step。优化器op每执行一次，该值就会自增1.
-
 
 
 tf.GradientTape怎么用？
@@ -933,6 +936,12 @@ GradientTape是TF2引入的梯度计算方式，
         optimizer.apply_gradients(zip(gradients, variables))
         return batch_loss
 ```
+
+## 参数控制函数
+
+tf.train.exponential_decay
+
+tf.train.Supervisor
 
 
 
@@ -2418,6 +2427,12 @@ TF中的数据并行训练又叫做 复制训练。
 
 ps作为tensorflow分布式训练中作为一个worker。
 
+## 同步模式计算更新梯度
+
+tf.train.SyncReplicasOptimizer 
+
+
+## 异步模式计算更新梯度
 
 
 

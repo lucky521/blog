@@ -72,6 +72,9 @@ categories: [MachineLearning]
 
 # 分布式通信拓扑结构
 
+一般来讲，分布式同步训练是通过all-reduce来完成的。分布式异步训练是通过PS服务器来完成。
+当然这不意味着PS不可以做同步训练。
+
 ## 同步更新 PS
 
 ps 会同时充当 reducer 的角色，等待所有 worker 都发来梯度和参数更新请求后，ps 会对梯度取平均(reduce mean)，并用平均过后的梯度更新一次参数。各个 worker 在从 ps 读取最新参数的过程中，以及等待 ps 更新参数的过程中，都是处于空闲状态。
@@ -256,9 +259,9 @@ tf.distribute.Strategy它是 tf.estimator.RunConfig 配置入参之一。 (RunCo
 
 https://github.com/tensorflow/docs/blob/master/site/en/r1/guide/distribute_strategy.ipynb
 
-* MirroredStrategy 适用于单机多卡。
-* CentralStorageStrategy
-* MultiWorkerMirroredStrategy
+* MirroredStrategy 适用于单机多卡的同步训练。每个节点的变量都是一致拷贝(MirroredVariable)，其内部默认使用NVIDIA NCCL来做all-reduce。
+* MultiWorkerMirroredStrategy 同步训练，每个worker可以使用多个GPU。其内部实现了一个叫CollectiveOps的OP来自动选择all-reduce方法，或者自行选择(CollectiveCommunication.RING,CollectiveCommunication.NCCL)
+* CentralStorageStrategy 同步训练。
 * TPUStrategy
 * ParameterServerStrategy 适用于多机多卡场景。
 * OneDeviceStrategy
@@ -271,7 +274,7 @@ Mirrored Strategy是TensorFlow官方提供的分布式策略之一，适用于�
 
 BytePS是一种带有辅助带宽节点的 allreduce 实现。在使用接口上跟horovod的几乎一样。
 
-安装时依赖numa库
+安装时依赖numa库.
 
 * DMLC_NUM_WORKER  worker的数量
 * DMLC_NUM_SERVER  server的数量
@@ -332,9 +335,12 @@ example: https://github.com/horovod/horovod/tree/master/examples
 
 # 分布式机器学习预测
 
+分布式预测目前还没有开源方案。
 
 
 
 # 参考
 
 分布式训练的方案和效率对比 https://zhuanlan.zhihu.com/p/50116885
+
+分布式机器学习的论文综述 https://mp.weixin.qq.com/s/l90VsXKvcqDUvfQQe7BuRA
