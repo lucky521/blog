@@ -48,6 +48,10 @@ categories: [MachineLearning]
 
 在目前实际应用中，单机多卡的同步式数据并行是最常用的。
 
+* 单机多GPU
+* 多机多GPU
+* 多机纯CPU
+
 
 ## 模型并行
 
@@ -204,9 +208,14 @@ RDMA(RemoteDirect Memory Access)技术全称远程直接内存访问，就是为
 
 ## NVIDIA-SMI Driver
 
+
+
+
 ## CUDA
 
 CUDA是Nvidia GPU生态的软件基石。
+
+NVCC: Nvidia CUDA Compiler is a proprietary compiler by Nvidia intended for use with CUDA
 
 ## NCCL
 
@@ -250,24 +259,26 @@ basic linear algebra subroutines 利用cuda加速矩阵运算的库
 ## tf.distribute.Strategy 
 
 tf.distribute.Strategy 是TF的高阶API中所提供的多卡、多机分布式训练的几种策略。
-tf.distribute.Strategy它是 tf.estimator.RunConfig 配置入参之一。 (RunConfig是Estimator初始的入参)
-
+tf.distribute.Strategy 是 tf.estimator.RunConfig 配置入参之一。 (RunConfig是Estimator初始的入参)
 
 训练可用tf.keras 或 tf.estimator的API， 如 estimatorAPI中的 train_and_evaluate()。
 
-介绍： https://www.tensorflow.org/guide/distributed_training
+Distributed training with TensorFlow - https://www.tensorflow.org/guide/distributed_training
+
+Multi-worker training with Estimator - https://www.tensorflow.org/tutorials/distribute/multi_worker_with_estimator
+
 
 https://github.com/tensorflow/docs/blob/master/site/en/r1/guide/distribute_strategy.ipynb
 
-* MirroredStrategy 适用于单机多卡的同步训练。每个节点的变量都是一致拷贝(MirroredVariable)，其内部默认使用NVIDIA NCCL来做all-reduce。
+https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/ops/collective_ops.py
+
+* MirroredStrategy 适用于单机多卡，同步训练。每个节点的变量都是一致拷贝(MirroredVariable)，其内部默认使用NVIDIA NCCL来做all-reduce。
 * MultiWorkerMirroredStrategy 同步训练，每个worker可以使用多个GPU。其内部实现了一个叫CollectiveOps的OP来自动选择all-reduce方法，或者自行选择(CollectiveCommunication.RING,CollectiveCommunication.NCCL)
-* CentralStorageStrategy 同步训练。
+* CentralStorageStrategy 同步训练。单机多卡。一份CPU，多份GPU。
 * TPUStrategy
 * ParameterServerStrategy 适用于多机多卡场景。
 * OneDeviceStrategy
 * CollectiveAllReduceStrategy 用于多机多卡场景，通过 all-reduce 的方式融合梯度，只需要 worker 节点，不需要 PS 节点
-
-Mirrored Strategy是TensorFlow官方提供的分布式策略之一，适用于单机多GPU卡。
 
 
 ## BytePS
@@ -292,7 +303,7 @@ Train
 ```
 介绍： https://www.zhihu.com/question/331936923
 example: https://github.com/bytedance/byteps/tree/master/example/tensorflow
-
+纯CPU版本的分布式训练：BytePS目前不支持纯的CPU训练。
 
 ## horovod
 
@@ -320,7 +331,7 @@ env HOROVOD_WITHOUT_MXNET=1 HOROVOD_WITHOUT_PYTORCH=1 pip install --no-cache-dir
 
 Train
 ```shell
-horovodrun -np 4 -H localhost:4  python test.py
+horovodrun -np 4 -H localhost:4 python test.py
 ```
 
 Trace Profiler
@@ -330,7 +341,7 @@ horovodrun -np 4 --timeline-filename ./ll_timeline.json python test.py
 
 example: https://github.com/horovod/horovod/tree/master/examples
 
-
+纯CPU版本的分布式训练： https://github.com/horovod/horovod/issues/945
 
 
 # 分布式机器学习预测

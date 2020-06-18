@@ -13,9 +13,13 @@ python -c 'import tensorflow as tf; print(tf.test.is_gpu_available())'
 python -c 'import tensorflow as tf; tf.config.list_physical_devices()'
 ```
 
+
 # 功能体系
 
 TF存在几套不同方式的使用方式API。
+
+* tf.contrib，是TF官方团队之外的贡献者贡献的功能。
+* tf.compat 是为了兼容TF1和TF2的一些api
 
 ## TensorFlow Core (Low-Level API)
 
@@ -454,7 +458,7 @@ https://www.tensorflow.org/guide/extend/op
 https://github.com/tensorflow/custom-op
 
 ### 定义自定义op的接口
-```
+```cpp
 #include "tensorflow/core/framework/op.h"
 #include "tensorflow/core/framework/op_kernel.h"
 #include "tensorflow/core/framework/shape_inference.h"
@@ -484,7 +488,7 @@ After you define the interface, provide one or more implementations of the op. T
 分配出输出tensor： allocate_output
 
 
-```
+```cpp
 class ZeroOutOp : public OpKernel {
  public:
   explicit ZeroOutOp(OpKernelConstruction* context) : OpKernel(context) {}
@@ -514,7 +518,7 @@ class ZeroOutOp : public OpKernel {
 
 ### 直接用g++编译自定义op
 
-```
+```shell
 TF_CFLAGS=( $(python -c 'import tensorflow as tf; print(" ".join(tf.sysconfig.get_compile_flags()))') )
 TF_LFLAGS=( $(python -c 'import tensorflow as tf; print(" ".join(tf.sysconfig.get_link_flags()))') )
 g++ -std=c++11 -shared zero_out.cc -o zero_out.so -fPIC ${TF_CFLAGS[@]} ${TF_LFLAGS[@]} -O2
@@ -533,7 +537,7 @@ tf_custom_op_library(
 
 ### 模型设计中使用自定义op计算
 
-```
+```python
 def testShuffle(self):
         shuffle_module = tf.load_op_library('shuffle_op.so')
         shuffle = shuffle_module.shuffle
@@ -566,7 +570,6 @@ REGISTER_KERNEL_BUILDER 和 REGISTER_OP 后面跟的接口名称是"若干个首
 op = tf.load_op_library('./xxxx.so')
 
 tensorflow.python.saved_model.load(模型文件)
-
 ```
 
 
@@ -964,7 +967,7 @@ feature_columns 作为 `Estimators的params参数`之一，它将输入数据 in
 
 - tf.feature_column.make_parse_example_spec 方法将若干个feature_colunms转换为key-value字典形式（key是feature name， value是 FixedLenFeature 或 VarLenFeature）
 
-```
+```python
 # Define features and transformations
 feature_a = categorical_column_with_vocabulary_file(...)
 feature_b = numeric_column(...)
@@ -1097,33 +1100,36 @@ tf.data.Dataset协助我们完成数据从文件形式到灌入Tensor的处理�
 在训练模型的时候，tf.data.Dataset 可以作为 input_fn 方法的返回值数据.
 在进行预测的时候，tf.data.Dataset 
 
+tf.data.Dataset.from_tensor_slices
+
+
 下面的七行代码，我们使用tf.data.Dataset来完成ETL三个过程。
 ```python
 with tf.name_scope("tf_record_reader"):
-            # 1.Extract
-            # generate file list
-            files = tf.data.Dataset.list_files(glob_pattern, shuffle=training)
+    # 1.Extract
+    # generate file list
+    files = tf.data.Dataset.list_files(glob_pattern, shuffle=training)
 
-            # parallel fetch tfrecords dataset using the file list in parallel
-            dataset = files.apply(tf.contrib.data.parallel_interleave(
-                lambda filename: tf.data.TFRecordDataset(filename), cycle_length=threads))
+    # parallel fetch tfrecords dataset using the file list in parallel
+    dataset = files.apply(tf.contrib.data.parallel_interleave(
+        lambda filename: tf.data.TFRecordDataset(filename), cycle_length=threads))
 
-            # shuffle and repeat examples for better randomness and allow training beyond one epoch
-            dataset = dataset.apply(tf.contrib.data.shuffle_and_repeat(32*self.batch_size))
+    # shuffle and repeat examples for better randomness and allow training beyond one epoch
+    dataset = dataset.apply(tf.contrib.data.shuffle_and_repeat(32*self.batch_size))
 
-            # 2.Transform
-            # map the parse function to each example individually in threads*2 parallel calls
-            dataset = dataset.map(map_func=lambda example: _parse_function(example, self.image_size, self.num_classes,training=training),
-                                  num_parallel_calls=threads)
+    # 2.Transform
+    # map the parse function to each example individually in threads*2 parallel calls
+    dataset = dataset.map(map_func=lambda example: _parse_function(example, self.image_size, self.num_classes,training=training),
+                          num_parallel_calls=threads)
 
-            # batch the examples
-            dataset = dataset.batch(batch_size=self.batch_size)
+    # batch the examples
+    dataset = dataset.batch(batch_size=self.batch_size)
 
-            # 3.Load
-            #prefetch batch
-            dataset = dataset.prefetch(buffer_size=self.batch_size)
+    # 3.Load
+    #prefetch batch
+    dataset = dataset.prefetch(buffer_size=self.batch_size)
 
-            return dataset.make_one_shot_iterator()
+    return dataset.make_one_shot_iterator()
 ```
 
 1. Dataset的map方法
@@ -2343,11 +2349,11 @@ tf.train.Server 创建server实例
 ## TF_CONFIG
 
 TF_CONFIG环境变量是声明cluster的标准方式。它分为cluster 和 task 两个部分。
-
+其中cluster信息是需要在每一个节点都填写一致；task信息是每个节点填写自己的所属。
 ```python
 os.environ['TF_CONFIG'] = json.dumps({
     'cluster': {
-        'worker': ["localhost:12345", "localhost:23456"]
+        'worker': ["localhost:12345", "localhost:23456"], 'ps' : ["localhost:34567"]
     },
     'task': {'type': 'worker', 'index': 0}
 })
@@ -2357,16 +2363,13 @@ type的类型有：['ps', 'worker','evaluator','chief'], There should be no "ps"
 
 TF_CONFIG介绍 - https://cloud.google.com/ai-platform/training/docs/distributed-training-details
 
-Multi-worker training with Estimator - https://www.tensorflow.org/tutorials/distribute/multi_worker_with_estimator
-
 chief 是一个特殊的worker。 需要负责初始化整个运行图，其他worker 节点将从chief 节点获取计算图的信息.
 主节点负责初始化参数、模型保存、概要保存.
-通过调用 tf.train.MonitoredTrainingSession来进行。
+通过调用 tf.train.MonitoredTrainingSession 来进行。
 
 ## Trainning
 
 https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/distribute/estimator_training.py
-
 
 
 ## tf.device
@@ -2414,10 +2417,9 @@ TF中的数据并行训练又叫做 复制训练。
 
 每个worker都创建一个client,各个client构建相同的Graph，但是参数还是放置在ps上。TensorFlow提供了一个专门的函数tf.train.replica_device_setter来方便Graph构建.
 
-两种方式中更常用的是Between-graph replication方式.
+这两种方式中更常用的是Between-graph方式.
 
 使用tf.train.replica_device_setter可以自动把Graph中的Variables放到ps上，而同时将Graph的计算部分放置在当前worker上，省去了很多麻烦。由于ps往往不止一个，这个函数在为各个Variable分配ps时默认采用简单的round-robin方式，就是按次序将参数挨个放到各个ps上，但这个方式可能不能使ps负载均衡，如果需要更加合理，可以采用tf.contrib.training.GreedyLoadBalancingStrategy策略。
-
 
 
 
@@ -2435,6 +2437,12 @@ tf.train.SyncReplicasOptimizer
 ## 异步模式计算更新梯度
 
 
+
+## 数据并行下的分布式数据输入
+
+https://www.tensorflow.org/tutorials/distribute/input
+
+数据并行时，每个节点的训练数据都不同。
 
 
 

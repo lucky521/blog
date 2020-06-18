@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "机器学习模型预测服务"
-subtitle: "Model Serving"
+subtitle: "Model Serving/Inference"
 categories: [MachineLearning]
 ---
 
@@ -14,18 +14,29 @@ categories: [MachineLearning]
 
 与训练系统联合。
 性能和易用性的兼顾。
-
+在所运行的设备上能高效运行。
 
 
 
 # 从训练环境到预测环境
 
-Moving models from training to serving in production at scale 
+Moving models from training to serving in production at scale.
+
+
+# 模型格式
+
+ONNX是一个开源的机器学习模型格式。
+
+
+# 编译技术
 
 
 # 并行化
 
 同时处理多个预测请求。
+
+
+# 分布式
 
 
 
@@ -37,7 +48,6 @@ Moving models from training to serving in production at scale
  TensorFlow Serving is a prediction serving system developed by Google to serve models trained in TensorFlow.
  Google称它的处理能力可以达到100000 requests per second per core。
  
-
 
 ## Clipper
  https://github.com/ucbrise/clipper
@@ -61,11 +71,30 @@ Moving models from training to serving in production at scale
  TensorRT严格来讲并不是以一个model server框架，他的重点在于性能优化。但TensorRT提供了REST方式的服务支持。
 
 
+## glow
+
+https://github.com/pytorch/glow
+
 ## TVM
+
+https://tvm.apache.org/
 
 直接打击计算密集算子
 提供了基本的图优化功能
 需要人工撰写算子schedule
+
+
+## MNN
+
+MNN是阿里巴巴推出的一个高效、轻量的深度学习框架。
+https://github.com/alibaba/MNN
+
+## TNN
+腾讯推出的推理引擎。
+
+https://github.com/Tencent/ncnn
+
+https://github.com/Tencent/TNN
 
 
 
@@ -81,3 +110,7 @@ https://medium.com/@vikati/the-rise-of-the-model-servers-9395522b6c58
 https://medium.freecodecamp.org/what-we-learned-by-serving-machine-learning-models-using-aws-lambda-c70b303404a1
 
 https://zhuanlan.zhihu.com/p/43267451
+
+https://zhuanlan.zhihu.com/p/50529704
+
+Dive into Deep Learning Compiler - http://tvm.d2l.ai/d2l-tvm.pdf

@@ -96,7 +96,7 @@ Tensorflow在编译时生成gen_array_ops.py
 - 有些运算操作是比较间接的：
 
 比如 tf.reduce_xxx
-```
+```cpp
   REGISTER_KERNEL_BUILDER(                                                     \
       Name("Max")                                                              \
           .Device(DEVICE_CPU)                                                  \
@@ -107,13 +107,16 @@ Tensorflow在编译时生成gen_array_ops.py
 
 
 - 巧妙应用的python的装饰器，提高了代码的动态性。
-```
+```cpp
 tf_export = functools.partial(api_export, api_name=TENSORFLOW_API_NAME)
 estimator_export = functools.partial(api_export, api_name=ESTIMATOR_API_NAME)
 keras_export = functools.partial(api_export, api_name=KERAS_API_NAME)
 ```
 
 # OpKernel
+
+tensorflow/python/ops
+tensorflow/core/ops
 
 - OP注册操作 REGISTER_OP 的实现
 将op name 和 OpRegistrationData 关联起来，保存到 registry_ 这个map中。
@@ -222,3 +225,5 @@ MLIR - 全称是Multi-Level Intermediate Representation compiler infrastructure�
 wheel - 
 
 MKL - Intel出的数学计算库Math kernel library（MKL)
+
+GEMM - 线性代数库。
