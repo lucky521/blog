@@ -13,7 +13,7 @@ categories: [MachineLearning]
 # 设计原则
 
 与训练系统联合。
-性能和易用性的兼顾。
+性能和易用性的兼顾。 
 在所运行的设备上能高效运行。
 
 
@@ -30,6 +30,9 @@ ONNX是一个开源的机器学习模型格式。
 
 # 编译技术
 
+halide
+
+relay
 
 # 并行化
 
@@ -47,6 +50,10 @@ ONNX是一个开源的机器学习模型格式。
  https://github.com/tensorflow/serving
  TensorFlow Serving is a prediction serving system developed by Google to serve models trained in TensorFlow.
  Google称它的处理能力可以达到100000 requests per second per core。
+
+
+## TFlite
+ https://www.tensorflow.org/lite/guide
  
 
 ## Clipper

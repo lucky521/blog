@@ -228,6 +228,8 @@ Nvidia做了很多优化，以在PCIe、Nvlink、InfiniBand上实现较高的通
 
 ## cuDNN
 
+CUDA Deep Neural Network library.
+
 ## cudatoolkit
 
 ## cuBLAS
@@ -299,10 +301,22 @@ BytePS是一种带有辅助带宽节点的 allreduce 实现。在使用接口上
 
 Train
 ```shell
+# 单机多卡训练
+export NVIDIA_VISIBLE_DEVICES=0,1,2,3  # gpus list
+export DMLC_WORKER_ID=0 # your worker id
+export DMLC_NUM_WORKER=1 # one worker
+export DMLC_ROLE=worker
 
+# the following value does not matter for non-distributed jobs
+export DMLC_NUM_SERVER=1
+export DMLC_PS_ROOT_URI=10.0.0.1
+export DMLC_PS_ROOT_PORT=1234
+
+bpslaunch python3 /usr/local/byteps/example/tensorflow/synthetic_benchmark.py --model ResNet50 --num-iters 1000000
 ```
 介绍： https://www.zhihu.com/question/331936923
-example: https://github.com/bytedance/byteps/tree/master/example/tensorflow
+example code: https://github.com/bytedance/byteps/tree/master/example/tensorflow
+使用说明：https://github.com/bytedance/byteps/blob/master/docs/step-by-step-tutorial.md
 纯CPU版本的分布式训练：BytePS目前不支持纯的CPU训练。
 
 ## horovod
@@ -326,12 +340,15 @@ TF+horovod : https://github.com/horovod/horovod/blob/master/docs/tensorflow.rst
 sudo yum install centos-release-scl
 sudo yum install devtoolset-8-gcc devtoolset-8-gcc-c++
 scl enable devtoolset-8 -- bash #sets gcc8 as the default compiler for a session within your current session
-env HOROVOD_WITHOUT_MXNET=1 HOROVOD_WITHOUT_PYTORCH=1 pip install --no-cache-dir horovod
+env HOROVOD_WITHOUT_MXNET=1 HOROVOD_WITHOUT_PYTORCH=1 HOROVOD_GPU_OPERATIONS=NCCL pip install --no-cache-dir horovod
 ```
 
 Train
 ```shell
+# 单机多卡训练
 horovodrun -np 4 -H localhost:4 python test.py
+# 多机多卡训练
+horovodrun -np 16 -H server1:4,server2:4,server3:4,server4:4 python train.py
 ```
 
 Trace Profiler
