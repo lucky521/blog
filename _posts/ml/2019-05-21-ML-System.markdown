@@ -213,3 +213,5 @@ https://storage.googleapis.com/pub-tools-public-publication-data/pdf/aad9f93b86b
 [Deep Learning Infrastructure at Scale: An Overview](https://mlconf.com/blog/deep-learning-infrastructure-at-scale-an-overview/)
 
 [Rules of Machine Learning: Best Practices for ML Engineering](http://martin.zinkevich.org/rules_of_ml/rules_of_ml.pdf)
+
+[A Guide to Production Level Deep Learning](https://github.com/alirezadir/Production-Level-Deep-Learning)
