@@ -1096,7 +1096,7 @@ for example in tf.python_io.tf_record_iterator(target_file):
 
 ## tf.data.Dataset
 
-tf.data.Dataset协助我们完成数据从文件形式到灌入Tensor的处理过程。
+tf.data.Dataset 协助我们完成数据从文件形式到灌入Tensor的处理过程。
 在训练模型的时候，tf.data.Dataset 可以作为 input_fn 方法的返回值数据.
 在进行预测的时候，tf.data.Dataset 
 
