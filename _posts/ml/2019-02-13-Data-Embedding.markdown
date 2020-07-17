@@ -102,11 +102,12 @@ embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
 怎么把 raw format 的 feature data 转变为 embedding format(也就是浮点数向量vector<float>) 的 embedding data？
 
 下面链接讲了我们如何用TensorFlow做embedding 
-https://www.tensorflow.org/guide/embedding  
+- https://www.tensorflow.org/guide/embedding  
 下面两个链接讲的典型的word embedding，即word2vec。
-https://github.com/tensorflow/models/tree/master/tutorials/embedding  
-https://www.tensorflow.org/tutorials/representation/word2vec
+- https://github.com/tensorflow/models/tree/master/tutorials/embedding  
+- https://www.tensorflow.org/tutorials/representation/word2vec
 
+## Embedding 初始化
 
 嵌入层用随机权重进行初始化，并将学习训练数据集中所有单词的嵌入。
 
@@ -117,7 +118,7 @@ embedding_size = len(embedding-vector)
 word_ids = [1,2,3,4,5]
 embedded_word_ids = [[1, xxx], [2, yyy]...,[5, zzz]]
 
-```
+```python
 word_embeddings = tf.get_variable(“word_embeddings”, [vocabulary_size, embedding_size])
 embedded_word_ids = tf.nn.embedding_lookup(word_embeddings, word_ids)
 ```
@@ -133,6 +134,7 @@ embedding_lookup不是简单的查表，id对应的向量是可以训练的，�
 
 ## 构建怎么样的网络结构，才能让Embedding layer学到输入数据的 Representation？
 
+### word2vec
 
 下面是word2vec实现的最简单的版本，这里只展示网络结构的部分。
 ```python
@@ -160,6 +162,17 @@ train_op = tf.train.AdamOptimizer(1e-1).minimize(loss)
 ```
 
 
+## 
+
+使用主题模型LDA[24]将Query和Doc映射到同一向量空间
+
+
+## 
+
+使用BERT得到Query和Doc的表示向量
+
+
+
 
 # 语料中数据量较少的word，能否学到合适的Embedding值？
 
@@ -180,7 +193,9 @@ train_op = tf.train.AdamOptimizer(1e-1).minimize(loss)
 
 参考https://stackoverflow.com/questions/40849116/how-to-use-tensorboard-embedding-projector
 
+
 ## t-SNE dimensionality reduction technique
+
 
 ## Analogical Reasoning
 
