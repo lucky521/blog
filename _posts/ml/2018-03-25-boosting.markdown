@@ -10,7 +10,7 @@ Ensemble learning 是结合多个学习器、组合单一分类方法来完成�
 
 ## 集成学习策略主要可以分为三大类，Boosting, Bagging, Stacking。
 
-      Bagging方法: Averaging methods, 多个模型并行学习，训练好几个模型，最终预测结果用的是几个模型预测结果的平均值。
+      Bagging方法: 它是bootstrap aggregating的缩写。Averaging methods, 多个模型并行学习，训练好几个模型，最终预测结果用的是几个模型预测结果的平均值。
       Boosting方法：训练好几个模型，模型之间是承接关系，后一个模型是在预测前一个模型的预测误差值。
       Stacking：训练一个模型用于组合(combine)其他各个模型，称作为2-level model。
 

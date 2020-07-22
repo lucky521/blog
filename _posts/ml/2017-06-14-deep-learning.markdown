@@ -274,6 +274,9 @@ Normalization 的目的是为了加快训练效率（训练速度）。
 
 ### Batch Normalization
 
+BN由2015年提出，近年来越来越流行，几乎被用在每一种神经网络模型中，用于处理input layer。
+
+
 ### Layer Normalization
 
 

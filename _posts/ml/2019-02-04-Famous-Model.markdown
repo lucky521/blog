@@ -84,6 +84,8 @@ https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-s
 
 BERT的全称是Bidirectional Encoder Representation from Transformers，即双向Transformer的Encoder，因为decoder是不能获要预测的信息的。模型的主要创新点都在pre-train方法上，即用了Masked LM和Next Sentence Prediction两种方法分别捕捉词语和句子级别的representation。
 
+https://mp.weixin.qq.com/s/mFRhp9pJRa9yHwqc98FMbg
+
 
 # Deep-learning based Gragh models
 

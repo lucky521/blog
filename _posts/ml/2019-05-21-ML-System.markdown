@@ -208,6 +208,8 @@ https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-syst
 
 https://storage.googleapis.com/pub-tools-public-publication-data/pdf/aad9f93b86b7addfea4c419b9100c6cdd26cacea.pdf
 
+[美团搜索的模型系统实践](toutiao.com/i6850045815361110535)
+
 [machine-learning-systems-design](https://github.com/chiphuyen/machine-learning-systems-design)
 
 [Deep Learning Infrastructure at Scale: An Overview](https://mlconf.com/blog/deep-learning-infrastructure-at-scale-an-overview/)
