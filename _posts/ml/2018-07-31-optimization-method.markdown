@@ -80,7 +80,7 @@ They are used in case of regressive problems, that is when the target variable i
 0. Mean Square Error (MSE)
 均方误差/平方损失/L2 损失
 Loss2 = (pred - actual)^2
-```
+```python
 def MSE(yHat, y):
     return np.sum((yHat - y)**2) / y.size
 ```
@@ -94,7 +94,7 @@ a smooth version of Abs Criterion.
 
 3. 平均绝对误差(Mean Absolute Error) (MAE) /L1 损失
 Loss1 = abs(pred - actual)
-```
+```python
 def L1(yHat, y):
     return np.sum(np.absolute(yHat - y))
 ```
@@ -106,7 +106,7 @@ MBE=1n∑i=1n(y~i−yi)
 
 5. Huber Loss
 Loss = delta^2 * (sqrt(1 + ((pred - actual)/delta)^2) - 1)
-```
+```python
 def Huber(yHat, y, delta=1.):
     return np.where(np.abs(y-yHat) < delta,.5*(y-yHat)**2 , delta*(np.abs(y-yHat)-0.5*delta))
 ```

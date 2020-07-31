@@ -166,6 +166,8 @@ A = x if x>0 else 0
 
 其中ReLu应用的最多，可见 https://www.cnblogs.com/alexanderkun/p/6918029.html
 
+Dying ReLU: Relu有一个缺陷是，当梯度值过大时,权重更新后为负数,经relu后变为0,导致后面也不再更新. 为解决这个问题，出现了Leaky Relu，当输入为负数时，返回一个大于0的小值。
+
 
 ## 模型评估 Evaluation
 

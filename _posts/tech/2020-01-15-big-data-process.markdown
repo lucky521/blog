@@ -16,6 +16,8 @@ Redis
 
 HBase
 
+Pika  https://github.com/Qihoo360/pika
+
 ## Streaming
 
 flume - 把来自不同源头不同节点的大量数据发送到中心存储。

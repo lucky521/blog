@@ -126,7 +126,7 @@ categories: [MachineLearning]
 
 # 开源工业实践
 
-基础设施层方案、数据流方案（airflow argo kubeflow）
+基础设施层方案、数据流方案（airflow argo kubeflow）、资源调度
 - 数据流批处理框架：kubeflow.org
 - 数据流程化处理系统：https://github.com/apache/airflow
 - DAG数据工作流框架： https://mlflow.org/
@@ -134,6 +134,7 @@ categories: [MachineLearning]
 - 类似于kubeflow的：https://polyaxon.com/
 - https://github.com/argoproj/argo
 - https://mitdbg.github.io/modeldb/
+- https://github.com/Qihoo360/XLearning
 
 数据可视化
 - https://github.com/PAIR-code/facets

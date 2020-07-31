@@ -24,6 +24,8 @@ Row object –> Serializer –> <key, value> –> OutputFileFormat –> HDFS fil
 
 当HIVE执行INSERT操作，将Row写入文件时，主要调用OutputFormat、SerDe的Seriliazer，顺序与读取相反。
 
+列式存储和压缩
+
 
 # Pig
 

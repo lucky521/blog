@@ -1,0 +1,39 @@
+---
+title: "X_DB"
+categories: [framework]
+layout: post
+---
+
+# Redis
+
+缓存雪崩
+
+发生场景 : 当Redis服务器重启或者大量缓存在同一时期失效时,此时大量的流量会全部冲击到数据库上面,数据库有可能会因为承受不住而宕机
+
+
+缓冲穿透
+
+发生场景 : 此时要查询的数据不存在,缓存无法命中所以需要查询完数据库,但是数据是不存在的,此时数据库肯定会返回空,也就无法将该数据写入到缓存中,那么每次对该数据的查询都会去查询一次数据库
+
+
+# rocksDB
+
+## RocksDB Column Family
+
+每一个KV对都会关联一个Column Family, 其中默认的Column Family是 “default”. 
+Column Family主要是提供给RocksDB一个逻辑的分区.
+
+RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数据以 ColumnFamily（列族，亦有译为列簇）为逻辑单位进行存储.
+
+当用户发出读取请求时，RocksDB 先从 MemTable 查找；如果没找到，再查找不可变的 MemTable，随后再磁盘上进行逐级查找
+
+
+# levelDB
+
+
+# MongoDB
+
+# Cassandra
+
+
+# etcd
