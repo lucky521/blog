@@ -51,6 +51,7 @@ categories: [MachineLearning]
 
 ## 人机交互
 - 训练任务和可视化训练平台（可编写训练Workflow、实验模型可重载、训练任务可重载、训练结果历史库）
+- 多机多卡训练如单机单卡一样简单
 - 特征和样本管理平台
 - 模型配置、发布、管理系统
 - 监控、报警平台
@@ -126,7 +127,11 @@ categories: [MachineLearning]
 
 # 开源工业实践
 
-基础设施层方案、数据流方案（airflow argo kubeflow）、资源调度
+基础设施层方案
+- yarn
+- k8s
+
+数据流方案（airflow argo kubeflow）、资源调度
 - 数据流批处理框架：kubeflow.org
 - 数据流程化处理系统：https://github.com/apache/airflow
 - DAG数据工作流框架： https://mlflow.org/
@@ -146,12 +151,14 @@ categories: [MachineLearning]
 训练层组件
 - 分布式的Tensorflow：https://github.com/tensorflow/examples/blob/master/community/en/docs/deploy/distributed.md
 - Horovod: https://eng.uber.com/horovod/
+- oneflow: https://docs.oneflow.org/basics_topics/essentials_of_oneflow.html
 
 核心内核组件：
 - https://zhuanlan.zhihu.com/p/121834310
 
 模型分析层组件
-- https://github.com/tensorflow/model-analysis
+- https://github.com/tensorflow/model-analysis , https://github.com/tensorflow/model-analysis/blob/master/g3doc/get_started.md
+- 
 
 服务层组件
 - https://github.com/tensorflow/serving
@@ -189,17 +196,10 @@ https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/libs/ml/index.ht
 
 
 
-# 模型分析组件
-
-https://github.com/tensorflow/model-analysis/blob/master/g3doc/get_started.md
-
-
-
-
-
-
 
 # 参考
+
+[视频教程](https://www.youtube.com/c/PipelineAI/)
 
 https://www.atyun.com/40739.html
 

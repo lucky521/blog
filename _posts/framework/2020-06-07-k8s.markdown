@@ -35,6 +35,8 @@ https://github.com/feiskyer/kubernetes-handbook
 Kubernetes和docker是什么关系？
 Kubernetes是Google的一个开源容器管理项目，他能利用Docker/其他技术部署/管理容器集群。
 
+Kubernetes和Yarn的区别？
+Kubernetes和Yarn的最大区别是前者主要负责long running service 任务，后者则是跑一些batch jobs
 
 ## 概念
 
@@ -42,7 +44,7 @@ Master (Scheduler, API Server, Replication controller)
 
 Node (kubelet, kube-proxy, Pod(Container))
 
-Pod 
+Pod : Kubernetes有一个好的地方就是它把多个容器抽象成了Pod，方便用户管理。
 
 kubelet 跟容器引擎交互，管理容器的生命周期
 
