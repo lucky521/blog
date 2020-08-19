@@ -25,7 +25,11 @@ flume - 把来自不同源头不同节点的大量数据发送到中心存储。
 kafka 
 http://kafka.apache.org/quickstart
 
+原生版本： https://github.com/edenhill/librdkafka
+C++版本： https://github.com/mfontanini/cppkafka
+
 MQ
+
 
 
 ## Computing

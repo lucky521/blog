@@ -4,7 +4,22 @@ categories: [framework]
 layout: post
 ---
 
+# X_DB需解决的问题
+
+* 数据接口以如何形式组织
+* 内部存储数据以如何行使组织
+* 数据如何更新
+* 如何扩容
+* 最大可存储的数据量
+* 最大可服务的QPS
+* 最大可服务的吞吐量
+
+
 # Redis
+
+pipeline命令
+
+允许client将多个请求依次发给服务器（redis的客户端，如jedisCluster，lettuce等都实现了对pipeline的封装），过程中而不需要等待请求的回复，在最后再一并读取结果即可。
 
 缓存雪崩
 
