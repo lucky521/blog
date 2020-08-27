@@ -15,6 +15,21 @@ layout: post
 * 最大可服务的吞吐量
 
 
+## 缓存无底洞
+
+http://ifeve.com/redis-multiget-hole/
+
+## 缓存雪崩
+
+## 分布式哈希寻址
+
+https://www.jianshu.com/p/fe7b7800473e
+
+
+
+
+
+
 # Redis
 
 pipeline命令

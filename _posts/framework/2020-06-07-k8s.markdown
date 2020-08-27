@@ -42,13 +42,13 @@ Kubernetes和Yarn的最大区别是前者主要负责long running service 任务
 
 Master (Scheduler, API Server, Replication controller)
 
-Node (kubelet, kube-proxy, Pod(Container))
+Node (kubelet, kube-proxy, Pod(Container)): 是宿主机，包含一个agent进程，维护和管理该Node下所有容器的创建和启停。
 
 Pod : Kubernetes有一个好的地方就是它把多个容器抽象成了Pod，方便用户管理。
 
 kubelet 跟容器引擎交互，管理容器的生命周期
 
-kube-proxy 写入规则到iptables实现服务映射
+kube-proxy： 写入规则到iptables实现服务映射
 
 通讯模式: 所有Pod都在一个可以直接连通的网络空间里。  Flannel提供跨物理机的容器间扁平 通信。
 

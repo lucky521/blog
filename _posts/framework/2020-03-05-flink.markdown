@@ -6,6 +6,8 @@ layout: post
 
 # 流式数据处理概念
 
+
+
 ## 基本概念
 
 本地状态，存储中间信息、缓存信息。
@@ -24,11 +26,21 @@ hash / rebalance / forward / shuffle / rescale
 Exactly-Once
 Exactly-Once是流处理系统核心特性之一，它保证每一条消息只被流处理系统处理一次，通过借鉴Chandy和Lamport在1985年发表的一篇关于分布式快照的论文，Flink实现了Exactly-Once特性。
 
-TaskManager 
-TaskManager 相当于整个集群的 Slave 节点，负责具体的任务执行和对应任务在每个节点上的资源申请和管理。
+JobGraph
+JobGraph是通过 Flink 各类API构建起来的一张任务执行图。 当 JobGraph 提交给 Flink 集群后，能够以 Local、Standalone、Yarn 和 Kubernetes 四种模式运行。
 
 JobManager
 JobManager 相当于整个集群的 Master 节点，且整个集群有且只有一个活跃的 JobManager ，负责整个集群的任务管理和资源管理。
+
+TaskManager 
+TaskManager 相当于整个集群的 Slave 节点，负责具体的任务执行和对应任务在每个节点上的资源申请和管理。
+
+
+Task slot
+任务槽是Flink计算资源的基本单位. Task Manager 的一个 Slot 代表一个可用线程，该线程具有固定的内存，注意 Slot 只对内存隔离，没有对 CPU 隔离。
+每个任务槽可以在同一时间执行一个Task，而TaskManager可以拥有一个或者多个任务槽。
+任务槽可以实现TaskManager中不同Task的资源隔离，不过是逻辑隔离，并且只隔离内存，亦即在调度层面认为每个任务槽“应该”得到taskmanager.heap.size的N分之一大小的内存。CPU资源不算在内。
+
 
 ## 分层API
 
@@ -243,6 +255,9 @@ mac环境下: 用brew安装flink， $ brew install apache-flink
 
 ## kubernetes mode 
 
+* 首先往 Kubernetes 集群提交了资源描述文件后，会启动 Master 和 Worker 的 container。
+* Master Container 中会启动 Flink Master Process，包含 Flink-Container ResourceManager、JobManager 和 Program Runner。
+* Worker Container 会启动 TaskManager，并向负责资源管理的 ResourceManager 进行注册，注册完成之后，由 JobManager 将具体的任务分给 Container，再由 Container 去执行。
 
 # Flink数据监控
 
