@@ -23,6 +23,10 @@ layout: post
 
 长期的用户属性反映了一个用户基本的特征，比如性别、年龄、地域、职业、学历。
 
+## 用户的偏好标签
+
+
+
 ## 短期的用户意图
 
 短期的特征表现的用于近期或实时的意图，比如最近想买什么东西、最近关注什么品牌，比如现在喜欢什么款式、想要什么价位的、会重点关注哪一方面因素（关键词、评价、人气、品牌、服务、商家）。
@@ -30,13 +34,7 @@ layout: post
 即使是同一个人，也存在闲逛、比价、收藏、购买等不同的情况。
 
 
-# 有了用户画像，用来做什么？
 
-让用户尽快发现它最想发现的东西。根据画像来推荐，根据画像来排序。
-
-挖掘长尾（The Long Tail）中对个人有价值的东西。
-
-基于用户画像，互联网服务可以针对每一个账户或者设备来提供定制化的服务。这样的定制是通过数据挖掘训练、使用机器学习模型生成的方案，相比于人工定制来讲，会更加简单、快速、准确。
 
 
 
@@ -47,6 +45,19 @@ layout: post
 表达用户的特征分为两类：
 - 一类是偏静态的特征，例如用户的基本属性（年龄、性别、职业等等）特征、长期偏好（品类、价格等等）特征；
 - 另一类是动态变化的特征，例如刻画用户兴趣的实时行为序列特征。而用户实时行为特征能够明显加强不同样本之间的区分度，所以在模型中优化用户行为序列建模是让模型更好理解用户的关键环节。
+
+
+## 统一的行为schema
+
+1. 行为属性：行为类型、访问频率、停留时间
+2. 被访问的item属性：
+
+
+
+
+
+
+
 
 
 
@@ -115,6 +126,8 @@ https://zhuanlan.zhihu.com/p/35753281
 
 # 神经网络
 
+* self atten 层
+* atten pooling 层
 
 
 
@@ -130,19 +143,26 @@ https://102.alibaba.com/detail?id=179
 
 
 
-# 学习资料
+# 有了用户画像，用来做什么？
 
-Machine Learning Summer School 2014 in Pittsburgh
-http://technocalifornia.blogspot.com/2014/08/introduction-to-recommender-systems-4.html
+让用户尽快发现它最想发现的东西。根据画像来推荐，根据画像来排序。
 
-Predicting movie ratings and recommender systems
-http://arek-paterek.com/book/
+挖掘长尾（The Long Tail）中对个人有价值的东西。
+
+基于用户画像，互联网服务可以针对每一个账户或者设备来提供定制化的服务。这样的定制是通过数据挖掘训练、使用机器学习模型生成的方案，相比于人工定制来讲，会更加简单、快速、准确。
+
+
+
 
 
 
 
 
 # Reference
+
+Machine Learning Summer School 2014 in Pittsburgh - http://technocalifornia.blogspot.com/2014/08/introduction-to-recommender-systems-4.html
+
+Predicting movie ratings and recommender systems - http://arek-paterek.com/book/
 
 https://zhuanlan.zhihu.com/p/27768663
 
@@ -155,4 +175,6 @@ http://technocalifornia.blogspot.com/2014/08/introduction-to-recommender-systems
 一淘的个性化搜索技术  https://zhuanlan.zhihu.com/p/22516029
 
 淘宝的千人千面  https://www.zhihu.com/question/21353219
+
+淘宝搜索的用户建模 https://mp.weixin.qq.com/s/SRd7Cr16kpa_aUWDNwww_g
 

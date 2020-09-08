@@ -29,7 +29,7 @@ categories: [other]
 
 游戏开发 - https://github.com/miloyip/game-programmer
 
-机器学习 - 
+机器学习 - https://github.com/chris-chris/ml-engineer-roadmap
 
 后端 - 
 
@@ -39,7 +39,7 @@ categories: [other]
 
 安全 - 
 
-大数据 -
+大数据 - https://github.com/datastacktv/data-engineer-roadmap
 
 嵌入式 -
 
@@ -131,3 +131,5 @@ https://mp.weixin.qq.com/s?__biz=MjM5MzA0ODkyMA==&mid=405639492&idx=1&sn=e358964
 https://mp.weixin.qq.com/s?__biz=MzI5NjE3NzA4Mg==&mid=2650359943&idx=1&sn=b2558b3371a03701067f63d3d00110f8
 
 https://www.zhihu.com/question/27180582
+
+https://mp.weixin.qq.com/s/4JHG5Tq7l4lC8fRn3s6cmw
