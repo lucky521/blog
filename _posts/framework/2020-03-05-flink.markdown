@@ -42,6 +42,16 @@ Task slot
 任务槽可以实现TaskManager中不同Task的资源隔离，不过是逻辑隔离，并且只隔离内存，亦即在调度层面认为每个任务槽“应该”得到taskmanager.heap.size的N分之一大小的内存。CPU资源不算在内。
 
 
+Checkpoint 和 Savepoint
+Checkpoint 是增量做的，每次的时间较短，数据量较小，只要在程序里面启用后会自动触发，用户无须感知；Checkpoint 是作业 failover 的时候自动使用，不需要用户指定。
+Savepoint 是全量做的，每次的时间较长，数据量较大，需要用户主动去触发。Savepoint 一般用于程序的版本更新，Bug 修复，A/B Test 等场景，需要用户指定。
+概念比较 https://www.ververica.com/blog/differences-between-savepoints-and-checkpoints-in-flink
+
+Failover
+Checkpoint 在作业failover的时候自动使用。
+
+
+
 ## 分层API
 
 data stream api
