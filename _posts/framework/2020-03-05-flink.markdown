@@ -33,7 +33,7 @@ JobManager
 JobManager 相当于整个集群的 Master 节点，且整个集群有且只有一个活跃的 JobManager ，负责整个集群的任务管理和资源管理。
 
 TaskManager 
-TaskManager 相当于整个集群的 Slave 节点，负责具体的任务执行和对应任务在每个节点上的资源申请和管理。
+TaskManager 相当于整个集群的 Slave 节点，负责具体的任务执行和对应任务在每个节点上的资源申请和管理。一个TM对应一个JVM。
 
 
 Task slot
@@ -433,6 +433,11 @@ env.execute("MySourceMysql");
 
 
 
+# Flink背后的依赖库
+
+组件间通信 akka ，JobManager和TaskManager之间的通信
+数据传输 netty， 比如Operator之间的传输数据
+
 
 # 参考
 
@@ -447,3 +452,5 @@ idea+maven打jar包  https://blog.csdn.net/branwel/article/details/79918018
 Flink如何支持特征工程、在线学习、在线预测等AI场景？ https://mp.weixin.qq.com/s/C2Uft-IuzgiKa1aDlROIng
 
 快手的Flink实践 https://new.qq.com/omn/20190717/20190717A0HNBE00.html
+
+Flink Internals https://cwiki.apache.org/confluence/display/FLINK/Flink+Internals
