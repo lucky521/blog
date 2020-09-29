@@ -42,7 +42,7 @@ Kubernetes和Yarn的最大区别是前者主要负责long running service 任务
 
 Master (Scheduler, API Server, Replication controller)
 
-Node (kubelet, kube-proxy, Pod(Container)): 是宿主机，包含一个agent进程，维护和管理该Node下所有容器的创建和启停。
+Node (kubelet, kube-proxy, Pod(Container)): 是Pod运行的宿主机，包含一个agent进程，维护和管理该Node下所有容器的创建和启停。
 
 Pod : Kubernetes有一个好的地方就是它把多个容器抽象成了Pod，方便用户管理。
 
@@ -55,3 +55,16 @@ kube-proxy： 写入规则到iptables实现服务映射
 资源清单 yam
 
 etcd 存储
+
+
+
+# 具体
+
+## 配置Pod的liveness和readiness探针
+
+Kubelet使用liveness probe（存活探针）来确定何时重启容器。
+Kubelet使用readiness probe（就绪探针）来确定容器是否已经就绪可以接受流量。
+
+Kubelet 可以选择是否执行在容器上运行的两种探针执行和做出反应：
+* livenessProbe：指示容器是否正在运行。如果存活探测失败，则 kubelet 会杀死容器，并且容器将受到其 重启策略 的影响。如果容器不提供存活探针，则默认状态为 Success。
+* readinessProbe：指示容器是否准备好服务请求。如果就绪探测失败，端点控制器将从与 Pod 匹配的所有 Service 的端点中删除该 Pod 的 IP 地址。初始延迟之前的就绪状态默认为 Failure。如果容器不提供就绪探针，则默认状态为 Success
