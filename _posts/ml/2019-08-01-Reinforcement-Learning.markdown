@@ -31,6 +31,9 @@ categories: [MachineLearning]
 # 传统强化学习
 
 
+## "利用-探索" ( Exploitation/Exploration ) 建模
+
+
 # 深度强化学习网络
 
 DQN 算法 Deep Q-network

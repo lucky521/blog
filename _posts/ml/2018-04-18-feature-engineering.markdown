@@ -354,11 +354,13 @@ libffm格式是FM实现库libffm所支持的格式。
 
 The data format of LIBFFM is:
 
+```
 <label> <field1>:<feature1>:<value1> <field2>:<feature2>:<value2> ...
 .
 .
 .
 
+```
 `field' and `feature' should be non-negative integers
 
 
@@ -374,5 +376,8 @@ http://scikit-learn.org/stable/modules/classes.html
 
 一本书 《Feature Engineering for Machine Learning.pdf》
 
-整理一份详细的数据预处理方法
-https://zhuanlan.zhihu.com/p/51131210
+整理一份详细的数据预处理方法 https://zhuanlan.zhihu.com/p/51131210
+
+https://elitedatascience.com/feature-engineering
+
+Best Practices for Feature Engineering  https://elitedatascience.com/feature-engineering-best-practices

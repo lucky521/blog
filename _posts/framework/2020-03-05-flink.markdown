@@ -248,6 +248,10 @@ kafka 中数据都是以二进制 byte 形式存储的。读到 Flink 系统中�
 https://ci.apache.org/projects/flink/flink-docs-master/zh/dev/table/streaming/dynamic_tables.html
 
 
+## Flink 单点恢复
+https://segmentfault.com/a/1190000025168779
+
+
 
 # Flink部署
 
@@ -435,7 +439,7 @@ env.execute("MySourceMysql");
 
 # Flink背后的依赖库
 
-组件间通信 akka ，JobManager和TaskManager之间的通信
+组件间通信 akka ，JobManager和TaskManager之间的控制通信
 数据传输 netty， 比如Operator之间的传输数据
 
 

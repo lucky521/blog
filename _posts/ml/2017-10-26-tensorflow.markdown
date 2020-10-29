@@ -144,7 +144,7 @@ result = model.predict([4.0])
 ```
 
 
-## Tensorflow Eager 模式 API
+## Eager 模式 API
 
 无需构建图：操作会返回具体的值，而不是构建以后再运行的计算图.
 
@@ -457,6 +457,10 @@ https://www.tensorflow.org/guide/extend/op
 
 https://github.com/tensorflow/custom-op
 
+
+_as_variant_tensor
+
+
 ### 定义自定义op的接口
 ```cpp
 #include "tensorflow/core/framework/op.h"
@@ -580,6 +584,8 @@ tensorflow.python.saved_model.load(模型文件)
 ### CustomOP是如何存入到导出模型中 
 
 首先在 saved_model.pbtxt 文件中可以到对应的op名称。应该说这些op的代码并没有保存到模型中，而必须要让加载模型的程序提前加载好这些custom op。
+
+
 
 
 
@@ -1039,9 +1045,9 @@ tf.Example messages to and from tfrecord files
 - Load是将batch规模的样本加载到GPU加速设备上.
 
 
-## tf.Example / tf.train.example
+## tf.Example
 
-TFRecord是文件形态，tf.train.Example就是内存对象形态.
+TFRecord是文件形态，tf.Example / tf.train.example 是内存对象形态.
 
 tf.Example is a {"string": tf.train.Feature} mapping.
 
@@ -1097,6 +1103,8 @@ for example in tf.python_io.tf_record_iterator(target_file):
 ## tf.data.Dataset
 
 tf.data.Dataset 协助我们完成数据从文件形式到灌入Tensor的处理过程。
+第一步生成Dataset，第二步生成Iterator，第三部循环获取Tensor。
+
 在训练模型的时候，tf.data.Dataset 可以作为 input_fn 方法的返回值数据.
 在进行预测的时候，tf.data.Dataset 
 
@@ -1146,11 +1154,13 @@ apply方法和map方法是什么区别？https://stackoverflow.com/questions/470
 3. Dataset的interleave方法
 
 
-## 自定义文件格式
+## 自定义Dataset
 
 设计自定义文件格式和自己的方法构建tensor，需要自己实现两个任务：
 1. 文件格式：使用 tf.data.Dataset 阅读器来从文件中读取原始记录（通常以零阶字符串张量（scalar string tensors）表示，也可能有其他结构）。
 2. 记录格式：使用解码器或者解析操作将一个字符串记录转换成 TensorFlow 可用的张量（tensor）。
+
+以下是一种特别特殊的custom OP。
 
 - DatasetOpKernel 的子类
 
@@ -1158,7 +1168,7 @@ apply方法和map方法是什么区别？https://stackoverflow.com/questions/470
 
 - MakeDataset 方法要返回一个 DatasetBase 的子类
 
-要自己实现 DataSetBase 的子类，这个类的 MakeIteratorInternal() 方法 要构建迭代器。
+要自己实现 DatasetBase 的子类，这个类的 MakeIteratorInternal() 方法 要构建迭代器。
 
 - DatasetIterator 的子类
 
@@ -1329,7 +1339,7 @@ def pb_to_pbtxt(pbtxt_filename, pb_filename):
 ```
 
 下面是构建serving pb-variable文件的过程：
-```
+```python
 tf.saved_model.builder.SavedModelBuilder
 
 tf.saved_model.utils.build_tensor_info
@@ -1350,7 +1360,7 @@ builder.save()
 
 tf.train.get_checkpoint_state   输入路径必须是绝对路径
 
-```
+```python
 # 保存
 saver = tf.train.Saver() #什么参数都不输入，则保存all saveable objects，存储形式为ckpt
 save_path = saver.save(sess, model_path) 
@@ -1368,7 +1378,7 @@ saver.restore(sess, model_path)
 2. 第二种：是比较新颖的 tf.saved_model.builder.SavedModelBuilder 类的builder保存和loader文件里的load恢复方法。
 这种方法将模型保存为pb-variable格式。
 
-```
+```python
 # 保存
 builder = tf.saved_model.builder.SavedModelBuilder(export_path)
 builder.add_meta_graph_and_variables(...)
