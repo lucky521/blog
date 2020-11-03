@@ -245,7 +245,10 @@ kafka 中数据都是以二进制 byte 形式存储的。读到 Flink 系统中�
 一直以来SQL都是用来处理关系型批量数据的，而不是处理流式数据。尽管存在这些差异，但是使用关系查询和 SQL 处理流并不是不可能的。
 
 查询动态表将生成一个 连续查询 。一个连续查询永远不会终止，结果会生成一个动态表。查询不断更新其(动态)结果表，以反映其(动态)输入表上的更改。
-https://ci.apache.org/projects/flink/flink-docs-master/zh/dev/table/streaming/dynamic_tables.html
+
+动态表 (Dynamic Table): https://ci.apache.org/projects/flink/flink-docs-master/zh/dev/table/streaming/dynamic_tables.html
+
+Flink SQL 工作机制: https://zhuanlan.zhihu.com/p/150473300
 
 
 ## Flink 单点恢复
