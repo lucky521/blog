@@ -58,3 +58,6 @@ https://github.com/AxeldeRomblay/MLBox
 ## auto-sklearn
 
 https://github.com/automl/auto-sklearn
+
+## google-automl
+https://github.com/google/automl/tree/master/efficientdet

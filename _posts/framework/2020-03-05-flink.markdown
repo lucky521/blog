@@ -43,8 +43,8 @@ Task slot
 
 
 Checkpoint 和 Savepoint
-Checkpoint 是增量做的，每次的时间较短，数据量较小，只要在程序里面启用后会自动触发，用户无须感知；Checkpoint 是作业 failover 的时候自动使用，不需要用户指定。
-Savepoint 是全量做的，每次的时间较长，数据量较大，需要用户主动去触发。Savepoint 一般用于程序的版本更新，Bug 修复，A/B Test 等场景，需要用户指定。
+* Checkpoint 是增量做的，每次的时间较短，数据量较小，只要在程序里面启用后会自动触发，用户无须感知；Checkpoint 是作业 failover 的时候自动使用，不需要用户指定。
+* Savepoint 是全量做的，每次的时间较长，数据量较大，需要用户主动去触发。Savepoint 一般用于程序的版本更新，Bug 修复，A/B Test 等场景，需要用户指定。
 概念比较 https://www.ververica.com/blog/differences-between-savepoints-and-checkpoints-in-flink
 
 Failover

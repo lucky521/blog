@@ -57,7 +57,10 @@ relay
 
 ## TFlite
  https://www.tensorflow.org/lite/guide
- 
+
+
+## TorchServe
+https://github.com/pytorch/serve
 
 ## Clipper
  https://github.com/ucbrise/clipper
