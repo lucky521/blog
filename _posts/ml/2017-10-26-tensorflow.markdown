@@ -55,7 +55,7 @@ predictor = tf.estimator.Estimator(
             'config': config,
             'args': args,
         },
-        model_dir=config.model_path,
+        model_dir=config.model_path,  如果该目录下有之前的checkpoints，会自动继续上一次的模型开始 训练。
         log_dir =config.tensorboard_dir,
         config=run_config,  # tf.estimator.RunConfig
         warm_start_from=ws  # tf.estimator.WarmStartSettings
@@ -63,7 +63,7 @@ predictor = tf.estimator.Estimator(
 ```
 其中的 params["feature_columns"]是在模型中的所有FeatureColumns组成的列表或字典。后面会有一章单独讲Feature Columns。
 
-### model_fn Spec
+### model_fn 和 EstimatorSpec
 
 我们需要实现 model_fn 方法来创建EstimatorSpec并返回。模型网络的结构体现在该函数中。
 在训练时，以下参数将传递给该函数。
@@ -86,18 +86,20 @@ tf.estimator.EstimatorSpec 用来定义Estimator的操作。该对象会作为 m
 1. 如果是train任务，需要输入loss和train_op来构建 EstimatorSpec
 train_op指的就是优化器进行最优化求解所对应的op。
 2. 如果是eval任务，需要输入loss和eval_metric_ops 来构建 EstimatorSpec
-eval_metric_ops由若干tf.metrics指标模块所组成的字典，比如tf.metrics.accuracy,tf.metrics.precision,tf.metrics.recall,tf.metrics.auc.
+eval_metric_ops 由若干tf.metrics指标模块所组成的字典，比如tf.metrics.accuracy, tf.metrics.precision, tf.metrics.recall, tf.metrics.auc.
 3. 如果是predict任务，需要输入predictions 来构建 EstimatorSpec
 
 
 ### tf.estimator.train_and_evaluate 函数
 
-这个方法是真正去训练模型。它的输入是 Estimator对象 + TrainSpec对象 + EvalSpec对象。
+这个方法是真正去训练模型。它的输入是 ` Estimator对象 + TrainSpec对象 + EvalSpec对象 `。
 
 ```python
 # 上一节代码里创建有 estimator
-train_spec = tf.estimator.TrainSpec(input_fn=train_input_fn, max_steps=1000)
-eval_spec = tf.estimator.EvalSpec(input_fn=eval_input_fn)
+train_spec = tf.estimator.TrainSpec(input_fn=train_input_fn, hooks=train_hooks, max_steps=1000)
+
+eval_spec = tf.estimator.EvalSpec(input_fn=eval_input_fn, hooks=eval_hooks, steps=eval_config.eval_steps)
+
 tf.estimator.train_and_evaluate(estimator, train_spec, eval_spec)
 ```
 
@@ -105,9 +107,13 @@ tf.estimator.train_and_evaluate(estimator, train_spec, eval_spec)
 
 我们需要实现 input_fn 方法来创建TrainSpec和EvalSpec并返回，用于tf.estimator.train_and_evaluate.
 
-tf.estimator.TrainSpec  用来定义输入的训练数据，需要传入 input_fn=train_input_fn.
+tf.estimator.TrainSpec  用来定义输入的训练数据，需要传入 input_fn=train_input_fn.  
+  * max_steps如果是None，训练就会持续进行，如果是x，就会拿训练数据训练x次(分布式训练时每个worker都训练x次)。 
+  * train_hooks.append(tf.train.StopAtStepHook(num_steps=config.stop_at_steps))的作用是
 
 tf.estimator.EvalSpec  用来定义eval部分的配置，需要传入 input_fn=eval_input_fn.
+  * hooks=eval_hooks, 它是eval_hooks.append(添加一个tf.train.SessionRunHook的子类)
+  * steps=eval_config.eval_steps 调用evaluate的step周期
 
 input_fn 作为TrainSpec/EvalSpec最重要的输入参数，它是一个方法，该方法最终应该返回是数据。可以支持的类型有两种：
 
@@ -1392,7 +1398,7 @@ tf.saved_model.loader.load(sess, ["tag"], export_dir)
 tf.estimator.Estimator.export_savedmodel
 这种方法将模型也保存为pb-variable格式。
 
-```
+```python
 export_savedmodel(
     export_dir_base,
     serving_input_receiver_fn,
