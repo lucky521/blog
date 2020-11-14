@@ -1117,7 +1117,7 @@ tf.data.Dataset 协助我们完成数据从文件形式到灌入Tensor的处理�
 tf.data.Dataset.from_tensor_slices
 
 
-下面的七行代码，我们使用tf.data.Dataset来完成ETL三个过程。
+下面的七行代码，我们使用tf.data.Dataset（不管是内置Dataset还是Custom Dataset）来完成ETL三个过程。
 ```python
 with tf.name_scope("tf_record_reader"):
     # 1.Extract
@@ -1144,6 +1144,17 @@ with tf.name_scope("tf_record_reader"):
     dataset = dataset.prefetch(buffer_size=self.batch_size)
 
     return dataset.make_one_shot_iterator()
+```
+
+```python
+  with tf.Session() as sess:
+    iterator = MyReaderDataset().make_one_shot_iterator()
+    next_element = iterator.get_next()
+    try:
+      while True:
+        print(sess.run(next_element))
+    except tf.errors.OutOfRangeError:
+      pass
 ```
 
 1. Dataset的map方法
@@ -1174,7 +1185,7 @@ apply方法和map方法是什么区别？https://stackoverflow.com/questions/470
 
 - MakeDataset 方法要返回一个 DatasetBase 的子类
 
-要自己实现 DatasetBase 的子类，这个类的 MakeIteratorInternal() 方法 要构建迭代器。
+要自己实现 DatasetBase 的子类，这个类的 MakeIteratorInternal() 方法要构建`迭代器对象`。
 
 - DatasetIterator 的子类
 
@@ -1184,6 +1195,7 @@ GetNextInternal 定义了怎样从文件中实际读取记录，并用一个或�
 
 GetNextInternal 可能会被并发调用，所以推荐用一个互斥量来保护迭代器的状态。
 
+```sh
     EnsureRunnerThreadStarted
 
       RunnerThread  通过StartThread开启的线程函数
@@ -1193,7 +1205,7 @@ GetNextInternal 可能会被并发调用，所以推荐用一个互斥量来保�
       ProcessResult
 
     CallCompleted 释放锁
-
+```
 
 ## 缺失值的处理
 
