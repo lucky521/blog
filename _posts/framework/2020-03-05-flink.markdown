@@ -6,6 +6,15 @@ layout: post
 
 # 流式数据处理概念
 
+## 为什么选Flink？
+
+如果你对大数据流式处理有以下需求，
+* 乱序数据流有序化处理
+* 处理过程有状态
+* 处理过程容错，需无缝从失败中恢复
+* 超大数据规模(需分布式支持)
+
+那么可供你选择的成熟框架并不多。
 
 
 ## 基本概念
@@ -74,7 +83,6 @@ Key Group是Flink状态机制中的一个重要设计. Key Group是Keyed State�
 
 
 
-
 # Flink功能
 
 ## StreamExecutionEnvironment
@@ -111,10 +119,20 @@ getSideOutput 侧输出
 
 
 
-### join 和 coGroup
+### join 和 coGroup 和 intervalJoin
+
+join：是一个流join另一个流，需要设置窗口，2个流join需要的key字段。使用的是innerJoin。对Processing Time和Event Time都支持。
+
+coGroup：和join类似，不过CoGroupFunction和JoinFunction的参数不一样。coGroup是需要自己组装数据。
+
+intervalJoin：是一个流join另一个流，不需要设置窗口，但是需要设置流join的时间范围（需要时间字段），仅支持Event Time的计算。
+
 
 > Join转换使用来自两个输入的匹配记录对调用JoinFunction,这两个输入具有相同的键字段值.此行为与相等的内部联接非常相似.
 > CoGroup转换在具有相同键值字段的两个输入的所有记录上调用带有迭代器的CoGroupFunction.如果输入没有某个键值的记录,则传递空迭代器.除了别的以外,CoGroup转换可以用于内部和外部的相等连接.因此它比Join变换更通用.
+> intervalJoin
+
+https://developer.aliyun.com/article/778485
 
 
 ## StatusBackend
@@ -448,6 +466,11 @@ env.execute("MySourceMysql");
 
 # 参考
 
+最权威的使用文档是：https://flink.apache.org/
+
+最权威的底层实现文档是： Flink Internals https://cwiki.apache.org/confluence/display/FLINK/Flink+Internals
+
+
 flink基本概念介绍 https://www.jianshu.com/p/2ee7134d7373
 
 如何正确使用 flink connector https://yq.aliyun.com/articles/716838
@@ -459,5 +482,3 @@ idea+maven打jar包  https://blog.csdn.net/branwel/article/details/79918018
 Flink如何支持特征工程、在线学习、在线预测等AI场景？ https://mp.weixin.qq.com/s/C2Uft-IuzgiKa1aDlROIng
 
 快手的Flink实践 https://new.qq.com/omn/20190717/20190717A0HNBE00.html
-
-Flink Internals https://cwiki.apache.org/confluence/display/FLINK/Flink+Internals
