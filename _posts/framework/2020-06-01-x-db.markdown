@@ -21,6 +21,13 @@ http://ifeve.com/redis-multiget-hole/
 
 ## 缓存雪崩
 
+同一时刻大量cache时效，导入对底层数据库的冲击。
+
+## 缓存穿透
+
+
+## 缓存预热
+
 ## 分布式哈希寻址
 
 https://www.jianshu.com/p/fe7b7800473e
@@ -28,9 +35,9 @@ https://www.jianshu.com/p/fe7b7800473e
 
 
 
+# X_DB
 
-
-# Redis
+## Redis
 
 pipeline命令
 
@@ -46,9 +53,9 @@ pipeline命令
 发生场景 : 此时要查询的数据不存在,缓存无法命中所以需要查询完数据库,但是数据是不存在的,此时数据库肯定会返回空,也就无法将该数据写入到缓存中,那么每次对该数据的查询都会去查询一次数据库
 
 
-# rocksDB
+## rocksDB
 
-## RocksDB Column Family
+### RocksDB Column Family
 
 每一个KV对都会关联一个Column Family, 其中默认的Column Family是 “default”. 
 Column Family主要是提供给RocksDB一个逻辑的分区.
@@ -58,12 +65,22 @@ RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数
 当用户发出读取请求时，RocksDB 先从 MemTable 查找；如果没找到，再查找不可变的 MemTable，随后再磁盘上进行逐级查找
 
 
-# levelDB
+## levelDB
+
+## MongoDB
+
+## Cassandra
+
+## etcd
 
 
-# MongoDB
+# X_FS
 
-# Cassandra
+## ChubaoFS
+ChubaoFS（CFS）是京东开发的分布式文件系统和对象存储系统
 
+## CephFS
 
-# etcd
+## HDFS
+
+## GlusterFS
