@@ -11,6 +11,11 @@ layout: post
 
 算法的目的是解决真实世界的问题，而算法本身又是数学抽象的，在特征工程里就必须要把现实世界的数据抽象、转换、整理为可以被算法所利用的特征数据。再好的算法，没有给它提供适合、足够的特征，也不会是一个好模型。
 
+* 深度学习是否弱化了特征工程？
+特征工程的本质是把现实世界的数据转变为可容易被模型使用的特征，传统的机器学习模型往往不擅长做这件事。
+而深度学习模型，似乎会，因此深度学习的模型结构内部往往有特征工程的痕迹。
+https://www.quora.com/Does-deep-learning-reduce-the-importance-of-feature-engineering
+
 
 # 特征
 
@@ -97,7 +102,6 @@ z = (x-μ)/σ.
 
 x = (2x - max - min)/(max - min).    
 线性放缩到[-1,1]
-
 
 在sklearn中对应的方法是preprocessing.MinMaxScaler
 
