@@ -7,7 +7,7 @@ layout: post
 
 大数据和分布式这两个概念总是会混在一起。本文主要以大数据为主题，会有意识的不谈分布式系统。
 
-大数据的大有两个角度，一种是静态数据数据量巨大；一种是流失数据数据永无止境。
+大数据的大有两个角度，一种是静态数据数据量巨大；一种是流式数据数据永无止境。
 
 
 ## Storing
@@ -39,3 +39,7 @@ Storm
 Spark
 
 Flink
+
+# 参考
+
+https://github.com/wangzhiwubigdata/God-Of-BigData
