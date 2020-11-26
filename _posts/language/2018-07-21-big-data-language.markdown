@@ -86,6 +86,10 @@ https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-py
 
 ## Spark SQL
 
+```java
+    Dataset<Row> df = sparkSession.sql(cmdLine.getSql());
+```
+
 
 
 # Presto
