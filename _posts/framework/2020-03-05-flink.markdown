@@ -462,6 +462,7 @@ env.execute("MySourceMysql");
 
 组件间通信 akka ，JobManager和TaskManager之间的控制通信
 数据传输 netty， 比如Operator之间的传输数据
+https://github.com/wangzhiwubigdata/God-Of-BigData/tree/master/Netty
 
 
 # 参考
