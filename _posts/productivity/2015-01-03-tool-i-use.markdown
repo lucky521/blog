@@ -49,6 +49,22 @@ VS Code 文本编辑，全平台支持。经常用的插件有
 	Remote-SSH 官网插件，直接像本地代码库一样访问远端的代码库。要创建好本地和远端的ssh-tunnel，然后remote-ssh插件会通过我根据.ssh/config配置好的配置项来连接到tunnel的本地端口。
 	Remote VSCode 结合远端rmate脚本使用。（淘汰）
 
+	vscode对本地的ssh 配置支持的也很好，完全可以用它作为terminal使用。
+	```
+		Host jps
+		User lucky
+		Port 80
+		Hostname jps.xxx.com
+		IdentitiesOnly yes
+		
+		Host remote_dev
+		User admin
+		Port 22
+		Hostname 11.11.11.11
+		IdentitiesOnly yes
+		ProxyCommand ssh lucky@jps -W %h:%p
+	```
+
 
 Chrome 浏览器，全平台支持。经常用的插件有
 
