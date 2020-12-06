@@ -75,11 +75,10 @@ stream application
 
 ## keygroup
 
-Flink的状态分为两类：Keyed State和Operator State。前者与每个键相关联，后者与每个算子的并行实例（即Sub-Task）相关联
+Flink的状态分为两类：Keyed State和Operator State。前者与每个键相关联，后者与每个算子的并行实例（即Sub-Task）相关联。
 
 
 Key Group是Flink状态机制中的一个重要设计. Key Group是Keyed State分配的原子单位，且Flink作业内Key Group的数量与最大并行度相同，也就是说Key Group的索引位于[0, maxParallelism - 1]的区间内
-
 
 
 
@@ -339,7 +338,10 @@ apus.slotmanager.slot-placement-policy  SLOT
 
 设置parallelism的防范优先级是：算子(operator)级别 > 运行环境级别 > 客户端级别 > 系统级别
 
-setMaxParallelism
+
+setParallelism 设置一个job或一个算子op的并发度。
+
+setMaxParallelism 控制的是keyed-state可以被分配的task最大个数。
 
 
 

@@ -116,6 +116,8 @@ ProcessExplorer 查看进程线程运行库信息。
 
 Clover 以Tab方式的管理文件夹窗口。
 
+Powertoys 微软开发的开源效率工具。
+
 
 ### Mac Only
 
@@ -147,7 +149,8 @@ OmniDiskSweeper 有助于系统空间清理。
 
 移动硬盘
 
----
+
+# 链接
 My ToolNotes have more details [here][mygithub].
 
 [mygithub]: https://github.com/lucky521/LuckyToolNotes
