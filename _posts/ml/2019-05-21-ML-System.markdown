@@ -127,6 +127,8 @@ categories: [MachineLearning]
 
 # 开源工业实践
 
+## 各层组件的开源实施
+
 基础设施层方案
 - yarn
 - k8s
@@ -148,12 +150,15 @@ categories: [MachineLearning]
 - https://github.com/pachyderm/pachyderm
 - https://github.com/tensorflow/transform
 
-训练层组件
+模型训练层组件
 - 分布式的Tensorflow：https://github.com/tensorflow/examples/blob/master/community/en/docs/deploy/distributed.md
 - Horovod: https://eng.uber.com/horovod/
 - oneflow: https://docs.oneflow.org/basics_topics/essentials_of_oneflow.html
 
-核心内核组件：
+模型抽象层
+- https://eng.uber.com/introducing-neuropod/
+
+模型核心内核组件
 - https://zhuanlan.zhihu.com/p/121834310
 
 模型分析层组件
@@ -168,19 +173,19 @@ categories: [MachineLearning]
 - https://github.com/tensorflow/hub , https://tfhub.dev/
 
 
+
 ## 完整方案
 - TFX by google : https://github.com/tensorflow/tfx
 - FBLearner Flow by facebook: https://engineering.fb.com/core-data/introducing-fblearner-flow-facebook-s-ai-backbone/
 - Michelangelo by uber: https://eng.uber.com/michelangelo/
 
-
-## TFX
+### TFX
 
 全称 Tensorflow Extended
 
 数据预处理组件 https://github.com/tensorflow/transform
 
-## Alink
+### Alink
 
 Alink是基于Flink的通用算法平台
 

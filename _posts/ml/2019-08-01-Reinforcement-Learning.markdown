@@ -5,6 +5,8 @@ subtitle: ""
 categories: [MachineLearning]
 ---
 
+# 强化学习基本概念
+
 强化学习任务通常用马尔科夫决策过程 MDP 来描述，机器处于环境E，状态空间为X，机器能采取的动作空间为A，状态迁移函数P，奖赏函数R.
 
 强化学习系统的四个要素：策略、收益信号、价值函数、对环境建立的模型。
@@ -28,6 +30,9 @@ categories: [MachineLearning]
 - 蒙特卡洛
 - 时序差分
 
+
+
+
 # 传统强化学习
 
 
@@ -40,6 +45,11 @@ DQN 算法 Deep Q-network
 
 
 
+# 开源项目
+
+# 
+
+https://docs.ray.io/en/master/rllib.html
 
 
 
