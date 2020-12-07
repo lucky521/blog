@@ -95,6 +95,10 @@ SLAP 抽象层次一致性原则
 
 ## SQL
 
+* 存储符合 ISO-8601 标准的日期格式（YYYY-MM-DD HH:MM:SS.SSSSS）
+* 在 SQL 代码中加入注释。优先使用 C 语言式的以 /* 开始以 */ 结束的块注释，或使用以 -- 开始的行注释，并在末尾换行。
+* 关键字总是大写，如 SELECT 和 WHERE。
+
 ## Python
 
 ## Javascript
