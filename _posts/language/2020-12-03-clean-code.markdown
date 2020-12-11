@@ -97,6 +97,11 @@ hive.merge.size.per.task = 256*1000*1000
 
 
 set hive.exec.parallel=true;
+set hive.exec.compress.output=true
+set hive.exec.compress.intermediate=true
+set mapreduce.map.memory
+set mapreduce.reduce
+set hive.exec.mode.local.auto
 
 
 
@@ -105,6 +110,8 @@ https://www.jianshu.com/p/6970c47eec5c
 https://developer.aliyun.com/article/741117
 
 https://blog.csdn.net/scgaliguodong123_/article/details/45477323
+
+https://www.cnblogs.com/frankdeng/p/9463897.html
 
 ## Shell
 

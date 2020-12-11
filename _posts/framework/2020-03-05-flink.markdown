@@ -113,9 +113,9 @@ keyby DataStream → KeyedStream
 
 key Agg
 
-
 getSideOutput 侧输出
 
+Evictor：可以译为“驱逐者”。在Trigger触发之后，在窗口被处理之前，Evictor（如果有Evictor的话）会用来剔除窗口中不需要的元素，相当于一个filter。
 
 
 ### join 和 coGroup 和 intervalJoin
