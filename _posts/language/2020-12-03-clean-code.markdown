@@ -66,6 +66,7 @@ SLAP 抽象层次一致性原则
 * 怎么样join数据？ 数据量少的表放左边，在 Join 操作的 Reduce 阶段，位于 Join 操作符左边的表的内容会被加载进内存（在join操作的每一个mapred程序中，hive都会把出现在join语句中相对靠后的表的数据stream化，相对靠前的变的数据缓存在内存中）。在进行 join 操作的条件过滤的时候，应该将过滤条件放在 on 关键词里面，提高查询的效率。由于join操作是在where操作之前执行，所以当你在执行join时，where条件并不能起到减少join数据的作用。
 * 怎么去重数据？ 尽量使用group by替代distinct。
 * 避免数据倾斜：无效key导致的倾斜；不同数据类型join产生的倾斜；
+* 怎么发现数据倾斜？reduce卡到99%不动或者某几个reduce长时间的执行
 
 
 ### 优化选项
@@ -92,6 +93,10 @@ hive.merge.mapredfiles = false
 // 合并文件的大小
 hive.merge.size.per.task = 256*1000*1000
 ```
+
+
+
+set hive.exec.parallel=true;
 
 
 
