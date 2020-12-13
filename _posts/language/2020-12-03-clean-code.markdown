@@ -66,6 +66,7 @@ SLAP 抽象层次一致性原则
 * 怎么样join数据？ 数据量少的表放左边，在 Join 操作的 Reduce 阶段，位于 Join 操作符左边的表的内容会被加载进内存（在join操作的每一个mapred程序中，hive都会把出现在join语句中相对靠后的表的数据stream化，相对靠前的变的数据缓存在内存中）。在进行 join 操作的条件过滤的时候，应该将过滤条件放在 on 关键词里面，提高查询的效率。由于join操作是在where操作之前执行，所以当你在执行join时，where条件并不能起到减少join数据的作用。
 * 怎么去重数据？ 尽量使用group by替代distinct。
 * 避免数据倾斜：无效key导致的倾斜；不同数据类型join产生的倾斜；
+* 怎么发现数据倾斜？reduce卡到99%不动或者某几个reduce长时间的执行
 
 
 ### 优化选项
@@ -74,6 +75,32 @@ SLAP 抽象层次一致性原则
 job会通过input文件产生一个或者多个map数，主要的决定因素是input文件数和input文件大小。
 mapper过多会有更多初始化和创建开销，产出小文件也过多；mapper过少并发度会不够。
 
+map过多的原因：1、给map输入的数量较大；2、给map输入的文件数量过多；
+
+```
+// MAP YARN 申请内存
+set mapreduce.map.memory.mb=4096;
+// MAP JVM 内存
+set mapreduce.map.java.opts=-Xmx3572M;
+
+set hive.map.aggr=
+
+
+// 减少job的map数量，有以下两个方式：
+方式一：增加split大小，使单个map处理更多数据
+set mapred.max.split.size=536870912;
+set mapred.min.split.size.per.node=536870912;
+set mapred.min.split.size.per.rack=536870912;
+set mapreduce.input.fileinputformat.split.minsize=536870912;
+
+方式二：map启动前先对小文件进行合并，添加以下参数
+set hive.input.format = org.apache.hadoop.hive.ql.io.CombineHiveInputFormat;
+set hive.hadoop.supports.splittable.combineinputformat = true;
+set mapreduce.input.fileinputformat.split.maxsize = 256000000;
+set mapreduce.input.fileinputformat.split.minsize.per.node=256000000;
+set mapreduce.input.fileinputformat.split.minsize.per.rack=256000000;
+```
+
 * 合理的reducer数量
 reducer过多会使得最终输出的小文件多，影响下游；reducer过少每个文件会很大易OOM，且容易数据倾斜。
 
@@ -81,6 +108,12 @@ reducer过多会使得最终输出的小文件多，影响下游；reducer过少
 hive.exec.reducers.bytes.per.reducer ＃这个参数控制一个job会有多少个reducer来处理，依据的是输入文件的总大小。默认1GB。
 hive.exec.reducers.max ＃这个参数控制最大的reducer的数量， 如果 input / bytes per reduce > max 则会启动这个参数所指定的reduce个数。 这个并不会影响mapre.reduce.tasks参数的设置。默认的max是999。
 mapred.reduce.tasks ＃这个参数如果指定了，hive就不会用它的estimation函数来自动计算reduce的个数，而是用这个参数来启动reducer。默认是-1。
+
+
+// REDUCE YARN 申请内存
+set mapreduce.reduce.memory.mb=5120;
+// REDUCE JVM 内存
+set mapreduce.reduce.java.opts=-Xmx4096M;
 ```
 
 * 合并小文件
@@ -93,6 +126,13 @@ hive.merge.mapredfiles = false
 hive.merge.size.per.task = 256*1000*1000
 ```
 
+set hive.exec.parallel=true;
+set hive.exec.compress.output=true
+set hive.exec.compress.intermediate=true
+set mapreduce.map.memory
+set mapreduce.reduce
+set hive.exec.mode.local.auto
+
 
 
 https://www.jianshu.com/p/6970c47eec5c
@@ -100,6 +140,8 @@ https://www.jianshu.com/p/6970c47eec5c
 https://developer.aliyun.com/article/741117
 
 https://blog.csdn.net/scgaliguodong123_/article/details/45477323
+
+https://www.cnblogs.com/frankdeng/p/9463897.html
 
 ## Shell
 

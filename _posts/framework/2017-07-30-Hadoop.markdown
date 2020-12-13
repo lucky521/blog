@@ -8,7 +8,9 @@ layout: post
 
 分布式。数据存储。数据处理。
 
-
+## speculative execution
+Hadoop 前端页面可以看到一个 speculate 按钮。
+https://data-flair.training/forums/topic/what-is-speculative-execution-in-hadoop/
 
 # Linux下安装和启动Hadoop
 
@@ -212,3 +214,4 @@ mapred-queue-acls.xml
 # HDFS文件系统
 是一个虚拟的文件系统。
 home目录叫做" /user/hduser"（hduser是为hadoop专门添加的一个用户）
+
