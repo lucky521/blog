@@ -82,6 +82,8 @@ Key Group是Flink状态机制中的一个重要设计. Key Group是Keyed State�
 
 
 
+
+
 # Flink功能
 
 ## StreamExecutionEnvironment
@@ -485,3 +487,20 @@ idea+maven打jar包  https://blog.csdn.net/branwel/article/details/79918018
 Flink如何支持特征工程、在线学习、在线预测等AI场景？ https://mp.weixin.qq.com/s/C2Uft-IuzgiKa1aDlROIng
 
 快手的Flink实践 https://new.qq.com/omn/20190717/20190717A0HNBE00.html
+
+
+## Flink Forward China 2019
+
+## Flink Forward China 2020
+
+failover单点恢复而不进行全局恢复
+
+实时数仓
+
+hudi 支持基于主键的upsert/delete
+
+数据湖框架
+
+PyFlink
+
+Flink AL Extended

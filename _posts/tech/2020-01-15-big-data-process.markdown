@@ -10,7 +10,17 @@ layout: post
 大数据的大有两个角度，一种是静态数据数据量巨大；一种是流式数据数据永无止境。
 
 
-## Storing
+
+# Yarn
+
+yarn application -list -appStates ALL | grep "rank"  | wc -l
+
+yarn application -status  application_9173934103802_23474815
+
+hadoop job -list   | grep "rank" |  awk '{split($0,a,"\t"); print a[1],a[5],a[7],a[9],a[12]}'
+
+
+# Storing
 
 Redis
 
@@ -18,7 +28,7 @@ HBase
 
 Pika  https://github.com/Qihoo360/pika
 
-## Streaming
+# Streaming
 
 flume - 把来自不同源头不同节点的大量数据发送到中心存储。
 
@@ -32,13 +42,14 @@ MQ
 
 
 
-## Computing
+# Computing
 
 Storm
 
 Spark
 
 Flink
+
 
 # 参考
 

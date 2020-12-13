@@ -8,14 +8,6 @@ layout: post
 本篇想要总结一下在Hadoop集群上处理大数据文件的方法，主要从应用层面去看我们有多少种、怎么样的方式（写什么样的程序、越简单越好的程序）去读写大数据进行增删查改，不打算关注大数据概念，也不关注框架的实现部分。
 
 
-# Yarn
-
-yarn application -list -appStates ALL | grep "rank"  | wc -l
-
-yarn application -status  application_9173934103802_23474815
-
-hadoop job -list   | grep "rank" |  awk '{split($0,a,"\t"); print a[1],a[5],a[7],a[9],a[12]}'
-
 
 # Hive
 
@@ -74,7 +66,7 @@ def my_function(key_sku, similar_sku_list, nn_sku_list):
 https://hadoop.apache.org/docs/r1.2.1/streaming.html
 
 
-## Run Python script
+# Python MapReduce
 
 https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/
 
