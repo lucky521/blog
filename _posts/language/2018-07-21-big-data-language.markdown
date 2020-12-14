@@ -30,6 +30,8 @@ Row object –> Serializer –> <key, value> –> OutputFileFormat –> HDFS fil
 Hive SQL背后的原理： https://tech.meituan.com/2014/02/12/hive-sql-to-mapreduce.html
 
 
+## 开窗函数
+
 # Pig
 
 
