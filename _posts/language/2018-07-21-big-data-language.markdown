@@ -27,6 +27,8 @@ Row object –> Serializer –> <key, value> –> OutputFileFormat –> HDFS fil
 
 列式存储和压缩
 
+Hive SQL背后的原理： https://tech.meituan.com/2014/02/12/hive-sql-to-mapreduce.html
+
 
 # Pig
 
