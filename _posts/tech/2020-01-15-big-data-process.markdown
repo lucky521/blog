@@ -54,11 +54,21 @@ Flink
 
 # OLAP
 
-ClickHouse
+ClickHouse https://clickhouse.tech/
 
-druid
+Doris https://doris.apache.org/master/en/
 
+druid https://druid.apache.org/
 
+kylin http://kylin.apache.org/
+
+https://www.hologres.io/
+
+https://kudu.apache.org/
+
+https://iceberg.apache.org/
+
+TiDB https://github.com/pingcap/tidb
 
 # 参考
 
