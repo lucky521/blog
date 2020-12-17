@@ -256,6 +256,8 @@ basic linear algebra subroutines 利用cuda加速矩阵运算的库
 
 - BytePS - https://github.com/bytedance/byteps
 
+- 分布式应用框架 https://github.com/ray-project/ray
+
 
 
 ## tf.distribute.Strategy 
