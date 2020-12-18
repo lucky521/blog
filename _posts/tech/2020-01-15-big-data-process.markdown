@@ -10,8 +10,8 @@ layout: post
 大数据的大有两个角度，一种是静态数据数据量巨大；一种是流式数据数据永无止境。
 
 
-
-# Yarn
+# Schedule
+## Yarn
 
 yarn application -list -appStates ALL | grep "rank"  | wc -l
 
@@ -53,6 +53,8 @@ Flink
 
 
 # OLAP
+
+ES https://www.elastic.co/start
 
 ClickHouse https://clickhouse.tech/
 
