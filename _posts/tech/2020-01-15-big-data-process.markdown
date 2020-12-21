@@ -11,6 +11,8 @@ layout: post
 
 
 # Schedule
+## MR
+
 ## Yarn
 
 yarn application -list -appStates ALL | grep "rank"  | wc -l
@@ -22,11 +24,31 @@ hadoop job -list   | grep "rank" |  awk '{split($0,a,"\t"); print a[1],a[5],a[7]
 
 # Storing
 
+Data lake vs data warehouse， 数据湖和数据仓库的比较
+数据湖的一个特点是，存储的数据没有预先设定schema，保存原始数据。
+注意数据湖不是个项目，而是一个概念和思想。
+
 Redis
 
 HBase
 
 Pika  https://github.com/Qihoo360/pika
+
+https://github.com/delta-io/delta
+
+
+Hudi
+
+* 快速upsert，可插入索引
+* 可原子操作
+* 有savepoint
+* 管理文件大小
+
+用spark-shell访问hudi
+
+
+
+
 
 # Streaming
 
@@ -52,6 +74,8 @@ Spark
 Flink
 
 
+
+
 # OLAP
 
 ES https://www.elastic.co/start
@@ -71,6 +95,8 @@ https://kudu.apache.org/
 https://iceberg.apache.org/
 
 TiDB https://github.com/pingcap/tidb
+
+
 
 # 参考
 
