@@ -299,9 +299,8 @@ tensorflow::Session是训练或预测过程的会话载体。
 这里的tensor在形式上就是 dense tensor.
 
 把原始数据转变为tensor
-```
-def read_tensor_from_image_file(file_name, input_height=299, input_width=299,
-				input_mean=0, input_std=255):
+```python
+def read_tensor_from_image_file(file_name, input_height=299, input_width=299, input_mean=0, input_std=255):
   input_name = "file_reader"
   file_reader = tf.read_file(file_name, input_name)
   image_reader = tf.image.decode_jpeg(file_reader, channels = 3, name='jpeg_reader')
@@ -390,7 +389,7 @@ Returns an initializer performing "Xavier" initialization for weights.
 
 推荐使用的初始化方法为
 
-```
+```python
 W = tf.get_variable("W", shape=[784, 256],
        initializer=tf.contrib.layers.xavier_initializer())
 ```
@@ -631,7 +630,6 @@ The value returned by run() has the same shape as the fetches argument, where th
 
 feed_dict中添加真实数据用来填充tf.placeholder，这样才能更新网络权值。
 
-
 https://www.tensorflow.org/api_docs/python/tf/Session#run
 
 
@@ -640,16 +638,15 @@ https://www.tensorflow.org/api_docs/python/tf/Session#run
 
 tf.app.run是TensorFlow程序的入口。
 
-```
+```python
 import tensorflow as tf
-#导入命令行解析模块
-import argparse
+import argparse #导入命令行解析模块
 import sys
- 
+
 FLAGS=None
 def main(_):
     print(sys.argv[0])
- 
+
 if __name__=="__main__": #用这种方式保证了，如果此文件被其他文件import的时候，不会执行main中的代码
     #创建对象
     parse=argparse.ArgumentParser()
@@ -775,7 +772,7 @@ tf.nn.l2_normalize
 
 https://www.tensorflow.org/api_guides/python/array_ops
 
-```
+```python
 tf.cast
 
 tf.expand_dims 增加一个维度，被增加的维度的数据长度就是1.
@@ -962,9 +959,9 @@ tf.train.Supervisor
 
 # 特征处理 Feature Columns
 
-特征预处理是要将样本的原始数据变换为同模型适配的 Tensor向量 形式。
+特征预处理是要将样本的 `原始数据` 变换为同模型适配的 `Tensor向量` 形式。
 
-Feature Columns是Tensorflow中 原始数据 和 Estimator 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns其实就是在做特征预处理。
+Feature Columns是Tensorflow中 原始数据 和 Estimator 的中间转换，这一过程是把换数据转换为适合Estimators使用的形式。机器学习模型用数值表示所有特征，而原始数据有数值型、类别型等各种表示形式。Feature Columns作为高阶API，其实就是在做特征预处理。
 
 ## 如何使用 Feature Columns？
 
@@ -1042,6 +1039,11 @@ Applies weight values to a CategoricalColumn
 
 # 样本文件/数据的格式化处理
 
+我们需要关心，预测阶段的特征数据和训练阶段的样本数据，是以怎么样的形式进入到模型结构的Tensor当中的。 
+
+## place_holder and feed_dict
+
+
 tf.Example messages to and from tfrecord files
 
 ## 数据输入流
@@ -1050,10 +1052,9 @@ tf.Example messages to and from tfrecord files
 - Transform是在内存中进行格式转换，比如从 protobuf 到 tf.data.Dataset.
 - Load是将batch规模的样本加载到GPU加速设备上.
 
-
 ## tf.Example
 
-TFRecord是文件形态，tf.Example / tf.train.example 是内存对象形态.
+TFRecord是文件形态， 而tf.Example / tf.train.example 是内存对象形态.
 
 tf.Example is a {"string": tf.train.Feature} mapping.
 
@@ -1238,12 +1239,12 @@ pb-variable文件是用来让tensorflow serving加载并进行远程预测的。
 The .ckpt is the model given by tensorflow which includes all the 
 weights/parameters in the model.
 
-check_point文件，包含三个主要文件，meta, index, data。
+checkpoints，包含三个主要文件，meta, index, data。
 meta主要有各种def，一个很重要的就是graph_def，而data保存真正的weight。
 
 checkpoints, which are versions of the model created during training. 存储的为最近的几次迭代保存的模型名称以及路径：
 
-		meta file: 在meta文件中保存的是模型的图。describes the saved graph structure, includes GraphDef, SaverDef, and so on; then apply tf.train.import_meta_graph('/tmp/model.ckpt.meta'), will restore Saver and Graph.
+    meta file: 在meta文件中保存的是模型的图。describes the saved graph structure, includes GraphDef, SaverDef, and so on; then apply tf.train.import_meta_graph('/tmp/model.ckpt.meta'), will restore Saver and Graph.
 	
 		index file: 在index文件中保存的为模型参数的名称以及具体属性。it is a string-string immutable table(tensorflow::table::Table). Each key is a name of a tensor and its value is a serialized BundleEntryProto. Each BundleEntryProto describes the metadata of a tensor: which of the "data" files contains the content of a tensor, the offset into that file, checksum, some auxiliary data, etc.
 	
