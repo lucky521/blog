@@ -77,8 +77,8 @@ stream application
 
 Flink的状态分为两类：Keyed State和Operator State。前者与每个键相关联，后者与每个算子的并行实例（即Sub-Task）相关联。
 
-
-Key Group是Flink状态机制中的一个重要设计. Key Group是Keyed State分配的原子单位，且Flink作业内Key Group的数量与最大并行度相同，也就是说Key Group的索引位于[0, maxParallelism - 1]的区间内
+Key Group是Flink状态机制中的一个重要设计. Key Group是Keyed State分配的原子单位，且Flink作业内Key Group的数量与最大并行度相同，也就是说Key Group的索引位于[0, maxParallelism - 1]的区间内。 
+从这里可以看到key-group与最大并发数有关系，如果key-group分配不均匀的话，状态分配也会不均匀。
 
 
 
@@ -295,6 +295,7 @@ mac环境下: 用brew安装flink， $ brew install apache-flink
 * Master Container 中会启动 Flink Master Process，包含 Flink-Container ResourceManager、JobManager 和 Program Runner。
 * Worker Container 会启动 TaskManager，并向负责资源管理的 ResourceManager 进行注册，注册完成之后，由 JobManager 将具体的任务分给 Container，再由 Container 去执行。
 
+
 # Flink数据监控
 
 ## Flink自带的dashboard
@@ -331,7 +332,6 @@ TaskManager个数
 每个任务槽可以在同一时间执行一个Task，而TaskManager可以拥有一个或者多个任务槽。
 任务槽可以实现TaskManager中不同Task的资源隔离，不过是逻辑隔离，并且只隔离内存，亦即在调度层面认为每个任务槽“应该”得到taskmanager.heap.size的N分之一大小的内存。CPU资源不算在内。
 
-
 apus.slotmanager.slot-placement-policy  SLOT
 
 
@@ -340,10 +340,9 @@ apus.slotmanager.slot-placement-policy  SLOT
 
 设置parallelism的防范优先级是：算子(operator)级别 > 运行环境级别 > 客户端级别 > 系统级别
 
-
 setParallelism 设置一个job或一个算子op的并发度。
 
-setMaxParallelism 控制的是keyed-state可以被分配的task最大个数。
+setMaxParallelism 控制的是状态后端中keyed-state可以被分配的task最大个数。
 
 
 
