@@ -12,6 +12,10 @@ layout: post
 
 # Schedule
 ## MR
+https://www.netjstech.com/p/hadoop-framework-tutorial.html
+
+map运行阶段分为:Read、Map、Collect、Spill、Merge五个阶段。
+reduce 运行阶段分为shuflle(copy) merge  sort    reduce write五个阶段。
 
 ## Yarn
 
