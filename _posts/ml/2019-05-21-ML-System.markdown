@@ -155,10 +155,11 @@ categories: [MachineLearning]
 模型分析层组件
 - https://github.com/tensorflow/model-analysis , https://github.com/tensorflow/model-analysis/blob/master/g3doc/get_started.md
 
+模型可视化
+- https://github.com/dair-ai/ml-visuals
 
-服务层组件
+预估服务层组件
 - https://github.com/tensorflow/serving
-
 
 模型仓库
 - https://github.com/tensorflow/hub , https://tfhub.dev/
