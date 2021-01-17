@@ -15,11 +15,9 @@ categories: [MachineLearning]
 
 ## 深度学习模型有哪些超参数
 
-Hyperparameter optimization
-learning rate, regularization, momentum
+* Hyperparameter optimization: learning rate, regularization, momentum
 
-Neural architecture search
-网络结构
+* Neural architecture search: 网络结构
 
 
 
@@ -61,3 +59,14 @@ https://github.com/automl/auto-sklearn
 
 ## google-automl
 https://github.com/google/automl/tree/master/efficientdet
+
+## google-automl_zero
+
+https://github.com/google-research/google-research/tree/master/automl_zero
+
+
+
+
+# Reference
+
+[AutoML-Zero](https://ai.googleblog.com/2020/07/automl-zero-evolving-code-that-learns.html)
