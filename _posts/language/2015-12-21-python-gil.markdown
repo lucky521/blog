@@ -22,21 +22,3 @@ GIL可以翻译为`全局解释器锁`，用于python解释器对多线程的序
 # GIL必须取缔吗？
 虽然GIL使得一个Python进程中的多线程不可以使用多核。但是Python的多进程`multiprocessing`程序是可以是用多核的。Python主线程fork多个子进程，然后一个核运行一个进程是可以的。
 
-
-<!--
-这里是注释区
-
-
-{% highlight python %}
-print "hello, Lucky!"
-{% endhighlight %}
-
-![My image]({{ site.baseurl }}/images/emule.png)
-
-My Github is [here][mygithub].
-
-[mygithub]: https://github.com/lucky521
-
-
-
--->

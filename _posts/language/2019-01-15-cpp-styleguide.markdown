@@ -1,5 +1,5 @@
 ---
-title: "C++编码风格"
+title: "C++编码风格和准则"
 categories: [Language]
 layout: post
 ---
@@ -52,3 +52,9 @@ std::move(t) 用来表明对象t 是可以moved from的,它允许高效的从t�
 std::unique_lock<std::mutex>
 
 std::lock_guard<std::mutex>
+
+
+
+# Reference
+
+[C++ Template 进阶指南](https://github.com/wuye9036/CppTemplateTutorial/blob/master/ReadMe.md)
