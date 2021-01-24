@@ -293,7 +293,7 @@ https://datascience.stackexchange.com/questions/57435/how-is-the-cross-product-t
 
 # 可解释的机器学习
 
-https://github.com/christophM/interpretable-ml-book 
+https://github.com/christophM/interpretable-ml-book ， https://github.com/MingchaoZhu/InterpretableMLBook
 这本书提到了一种概念，帮我们去解释机器学习模型的黑盒。关于可解释有两个术语，interpretable和explainable.
 
 什么情况下需要可解释？有些模型的应用场景，我们不仅仅只需要预测结果，还需要结果背后的原因。
