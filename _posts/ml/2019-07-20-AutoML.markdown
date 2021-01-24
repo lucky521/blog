@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "机器学习模型自动调参"
+title:  "AutoML - 机器学习模型自动调参"
 subtitle: "Auto ML"
 categories: [MachineLearning]
 ---
@@ -13,11 +13,13 @@ categories: [MachineLearning]
 超参数需要人为预先设置，而每组超参数会产生结构不同的模型；
 超参数需要一定的调整去适应不同的应用场景；
 
-## 深度学习模型有哪些超参数
+## 学习什么样的超参
 
 * Hyperparameter optimization: learning rate, regularization, momentum
 
-* Neural architecture search: 网络结构
+* Meta-learning: 学习怎么样去学习
+
+* Neural Architecture Search: 网络结构
 
 
 
@@ -72,3 +74,5 @@ https://github.com/google-research/google-research/tree/master/automl_zero
 [AutoML-Zero](https://ai.googleblog.com/2020/07/automl-zero-evolving-code-that-learns.html)
 
 [AUTOML: METHODS, SYSTEMS, CHALLENGES](https://www.automl.org/)
+
+[meta-learning one blog](https://wei-tianhao.github.io/blog/2019/09/17/meta-learning.html)
