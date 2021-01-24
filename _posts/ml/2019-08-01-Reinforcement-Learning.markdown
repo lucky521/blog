@@ -64,7 +64,7 @@ https://github.com/mgbellemare/Arcade-Learning-Environment
 - 这个baseline库里面有好多注明的强化学习算法实现
 https://github.com/openai/baselines 中你所了解的强化学习算法
 
-- 深度强化学习综述
+- 深度强化学习综述 Deep Reinforcement Learning: An Overview
 https://arxiv.org/pdf/1810.06339.pdf
 
 - Reinforcement Learning : An introduction

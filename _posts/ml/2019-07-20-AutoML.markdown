@@ -70,3 +70,5 @@ https://github.com/google-research/google-research/tree/master/automl_zero
 # Reference
 
 [AutoML-Zero](https://ai.googleblog.com/2020/07/automl-zero-evolving-code-that-learns.html)
+
+[AUTOML: METHODS, SYSTEMS, CHALLENGES](https://www.automl.org/)
