@@ -274,6 +274,18 @@ Flink SQL 工作机制: https://zhuanlan.zhihu.com/p/150473300
 https://segmentfault.com/a/1190000025168779
 
 
+## Table API/SQL UDF
+
+- Scalar 函数， 将一个标量数据 转换成 一个标量数据。
+- Table 函数， 将一个标量数据 转换成 数据。
+- Aggregate 函数， 将多行的标量数据 聚合成为一个标量数据。
+- Table aggregate 函数， 将多行的标量数据 聚合成 行数据。 
+- Async table 函数， lookup。
+
+
+## DataStreamAPI UDF
+
+
 
 # Flink部署
 
