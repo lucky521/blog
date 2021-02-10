@@ -285,6 +285,8 @@ https://segmentfault.com/a/1190000025168779
 
 ## DataStreamAPI UDF
 
+- 最基础的方式就是 implements MapFunction去实现一个新的类，或者是data.map(后面直接new MapFunction出一个匿名的类)
+- Rich Function， 附加了open, close， getRuntimeContext, setRuntimeContext 四个方法。
 
 
 # Flink部署
@@ -485,7 +487,6 @@ https://github.com/wangzhiwubigdata/God-Of-BigData/tree/master/Netty
 最权威的使用文档是：https://flink.apache.org/
 
 最权威的底层实现文档是： Flink Internals https://cwiki.apache.org/confluence/display/FLINK/Flink+Internals
-
 
 flink基本概念介绍 https://www.jianshu.com/p/2ee7134d7373
 
