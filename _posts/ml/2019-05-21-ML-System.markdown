@@ -123,6 +123,7 @@ categories: [MachineLearning]
 - k8s
 
 数据流方案（airflow argo kubeflow）、资源调度
+- oozie: https://oozie.apache.org/
 - jenkins ?
 - 数据流批处理框架：kubeflow.org
 - 数据流程化处理系统：https://github.com/apache/airflow
