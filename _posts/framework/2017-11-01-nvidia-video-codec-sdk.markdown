@@ -37,7 +37,7 @@ NvIFR的全程是NVIDIA Inband Frame Readback，所以它是用来抓取应用�
 
 ## NvFBC 用法
 
-```
+```cpp
 #include <NvFBCLibrary.h>
 #include <NvFBC/nvFBCHwEnc.h>
 

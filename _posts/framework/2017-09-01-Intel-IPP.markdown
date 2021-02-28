@@ -38,7 +38,7 @@ IPP wavelet decomposition and reconstruction use fast polyphase algorithm, which
 As source ROIs do not include border pixels required to computations, the application program have to apply a border extension model (symmetrical, wraparound or another) to ROIs of all source images filling the neighboring memory locations. Note the border sizes may be different for different source images.
 
 
-{% highlight cpp %}
+```cpp
 /* /////////////////////////////////////////////////////////////////////////////
 //          Wavelet Transform Fucntions for User Filter Banks
 ///////////////////////////////////////////////////////////////////////////// */
@@ -306,4 +306,4 @@ IPPAPI(IppStatus, ippsWTInv_32f16s, (const Ipp32f* pSrcLow, const Ipp32f* pSrcHi
 IPPAPI(IppStatus, ippsWTInv_32f16u, (const Ipp32f* pSrcLow, const Ipp32f* pSrcHigh, int srcLen, Ipp16u* pDst, IppsWTInvState_32f16u* pState))
 IPPAPI(IppStatus, ippsWTInv_32f,    (const Ipp32f* pSrcLow, const Ipp32f* pSrcHigh, int srcLen, Ipp32f* pDst, IppsWTInvState_32f*    pState))
 
-{% endhighlight %}
+```
