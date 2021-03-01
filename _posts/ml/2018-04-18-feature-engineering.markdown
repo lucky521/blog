@@ -266,12 +266,13 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 # 采样
 
+采样的英文单词和样本的英文单词很类似，一个是动词一个是名词。
 ## 处理数据倾斜/不平衡
 
-类不平衡（class-imbalance）是指在训练分类器中所使用的训练集的类别分布不均。比如说一个二分类问题，1000个训练样本，比较理想的情况是正类、负类样本的数量相差不多；而如果正类样本有995个、负类样本仅5个，就意味着存在类不平衡。
+分类不均衡（class-imbalance）是指在训练分类器中所使用的训练集的类别分布不均。比如说一个二分类问题，1000个训练样本，比较理想的情况是正类、负类样本的数量相差不多；而如果正类样本有995个、负类样本仅5个，就意味着存在类不平衡。
 
 
-解决思路：
+不均衡样本集的解决思路：
 
     1. 对较多的那个类别进行欠采样(under-sampling)，舍弃一部分数据，使其与较少类别的数据相当
     2. 对较少的类别进行过采样(over-sampling)，重复使用一部分数据，使其与较多类别的数据相当
@@ -279,8 +280,7 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
     4. 在损失函数中使用类权重：本质上，代表性不足的类在损失函数中获得更高的权重，因此对该特定类的任何错误分类将导致损失函数中的非常高的误差。
 
 
-
-解决办法：
+不均衡样本集的解决办法：
 
     1. 对数据进行采样的过程中通过相似性同时生成并插样“少数类别数据”，叫做SMOTE过采样算法
     2. 对数据先进行聚类，再将大的簇进行随机欠采样或者小的簇进行数据生成
@@ -298,6 +298,7 @@ Context-Specific Sampling
 Generic Sampling
 
 参考 https://www.tensorflow.org/extras/candidate_sampling.pdf
+
 
 
 # 从特征到样本(训练集)

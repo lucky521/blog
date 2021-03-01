@@ -79,7 +79,7 @@ A bigram is an n-gram for n=2.
 
 ### Word Embedding
 
-word2vec model 这不是一个特定的模型，而是一类模型。
+word2vec model 这不是一个特定的模型，而是一类模型。该内容在另一篇博客《Data Embedding》中也有体现。
 word2vec is a group of related models that are used to produce word embeddings. 
 
 模型的输入是一段语料，输出是词向量空间（real-valued word feature vector）。
@@ -215,7 +215,7 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
 https://code.google.com/archive/p/word2vec/
 这个工具把一个文本语录集合作为输入，输出word vector。
 
-word2vec提出两种加快训练速度的方式，一种是Hierarchical softmax，另一种是Negative Sampling
+由于Softmax激活函数，在迭代过程会遍历词表所有单词，因此迭代过程会非常慢。为此word2vec提出两种加快训练速度的方式，一种是Hierarchical softmax，另一种是Negative Sampling
 
 demo scripts: ./demo-word.sh and ./demo-phrases.sh
 

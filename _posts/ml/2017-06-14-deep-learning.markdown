@@ -153,7 +153,7 @@ A = 2/(1+e^(-2x)) - 1 = 2sigmoid(2x) - 1
 
 ### SoftMax
 
-Softmax 是一个泛化的Sigmoid函数，,当我们要处理多个类。所有输出值都在范围 (0, 1) ，其总和为 1, 因此可以将输出解释为概率。
+Softmax 是一个泛化的Sigmoid函数，当我们要处理多个类。所有输出值都在范围 (0, 1) ，其总和为 1, 因此可以将输出解释为概率。 它称作是归一化指数函数。
 
 ![](https://wikimedia.org/api/rest_v1/media/math/render/svg/e348290cf48ddbb6e9a6ef4e39363568b67c09d3)
 
