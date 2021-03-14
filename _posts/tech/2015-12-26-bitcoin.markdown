@@ -202,22 +202,3 @@ peer-to-peer架构是创新式的网络系统架构，去中心化，不要中�
 
 [比特币协议说明](https://zh-cn.bitcoin.it/wiki/%E5%8D%8F%E8%AE%AE%E8%AF%B4%E6%98%8E)
 
-
-
-
-<!--
-这里是注释区
-
-
-{% highlight python %}
-print "hello, Lucky!"
-{% endhighlight %}
-
-![My image]({{ site.baseurl }}/images/emule.png)
-
-My Github is [here][mygithub].
-
-[mygithub]: https://github.com/lucky521
-
-
--->
