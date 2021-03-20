@@ -79,6 +79,8 @@ Storm
 ## Spark
 
 spark是怎么工作的？
+RDD
+Lazy Evaluation
 
 
 ## Flink
