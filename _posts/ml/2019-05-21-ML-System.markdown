@@ -148,7 +148,7 @@ categories: [MachineLearning]
 - oneflow: https://docs.oneflow.org/basics_topics/essentials_of_oneflow.html
 
 模型抽象层
-- https://eng.uber.com/introducing-neuropod/
+- https://eng.uber.com/introducing-neuropod/ , https://github.com/uber/neuropod
 
 模型核心内核组件
 - https://zhuanlan.zhihu.com/p/121834310
@@ -210,6 +210,8 @@ https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-syst
 https://storage.googleapis.com/pub-tools-public-publication-data/pdf/aad9f93b86b7addfea4c419b9100c6cdd26cacea.pdf
 
 [美团搜索的模型系统实践](toutiao.com/i6850045815361110535)
+
+[爱奇艺的机器学习平台建设](https://www.infoq.cn/article/uu6drwtuliqgmdbdjc9m)
 
 [machine-learning-systems-design](https://github.com/chiphuyen/machine-learning-systems-design)
 
