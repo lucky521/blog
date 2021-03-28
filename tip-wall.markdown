@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Contact Me 与我联系
+title: Contact Me - 与我联系
 ---
 
-# Contact Me 与我联系
+# Contact Me - 与我联系
 
 Thanks for reading my [Blog](https://lucky521.github.io/blog/). Apart from my [FrontPage](https://lucky521.github.io/), you can also find me in some other social media platforms.
 
