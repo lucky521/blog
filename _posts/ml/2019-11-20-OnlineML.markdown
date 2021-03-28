@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "在线学习"
+title:  "OnlineML - 在线机器学习"
 subtitle: "Online Machine Learning"
 categories: [MachineLearning]
 ---
