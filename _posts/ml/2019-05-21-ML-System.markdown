@@ -191,8 +191,10 @@ https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/libs/ml/index.ht
 
 
 ### EasyDL
-https://ai.baidu.com/easydl/
 
+百度推出的机器学习平台。
+https://ai.baidu.com/easydl/
+https://ai.baidu.com/bml/
 
 
 
