@@ -178,7 +178,7 @@ categories: [MachineLearning]
 
 数据预处理组件 https://github.com/tensorflow/transform
 
-### Alink
+### PAI / Alink
 
 Alink是基于Flink的通用算法平台
 
@@ -190,7 +190,7 @@ FlinkML是1.8之前的一个机器学习组件，在1.9开始已经不存在了�
 https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/libs/ml/index.html
 
 
-### EasyDL
+### EasyDL / BML
 
 百度推出的机器学习平台。
 https://ai.baidu.com/easydl/
