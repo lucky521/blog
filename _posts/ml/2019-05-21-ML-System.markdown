@@ -227,3 +227,5 @@ https://storage.googleapis.com/pub-tools-public-publication-data/pdf/aad9f93b86b
 [A Guide to Production Level Deep Learning](https://github.com/alirezadir/Production-Level-Deep-Learning)
 
 [为什么需要机器学习平台？](https://insights.thoughtworks.cn/why-machine-learning-platform/)
+
+[算法与数据中台 知乎文章](https://zhuanlan.zhihu.com/p/245162802)
