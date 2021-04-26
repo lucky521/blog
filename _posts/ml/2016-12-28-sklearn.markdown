@@ -8,13 +8,13 @@ Scikit-learn，简称sklearn，是一个非常完整的机器学习库。虽然�
 
 # sklearn中机器学习的基本要素
 
-## Sample, Data
+## 样本 Sample, Data
 
     feature
 
     label, class, response
 
-## estimator
+## 模型 estimator
 
 estimator指的是算法模型，比如classifier、regression estimator、cluster estimator、transformer。
 其中transformer比较特殊，它不是监督或非监督学习算法，而是进行数据特征清洗、数据特征降维、数据扩展（核估计）、特征提取。
@@ -28,12 +28,21 @@ estimator指的是算法模型，比如classifier、regression estimator、clust
 ### classifier
 
 
+### fit 操作
+
+fit(X, y)方法总是接受数据的feature向量和类别label。
+对于无监督学习，可以没有label。
 
 
-## parameter
+### predict 操作
+
+predict（T）方法总是接受一个新的feature向量。
 
 
-## Metric
+## 超参 parameter
+
+
+## 模型指标 Metric
 
 ```
 >>> import numpy as np
@@ -45,18 +54,10 @@ estimator指的是算法模型，比如classifier、regression estimator、clust
 ```
 
 
-
+## 预处理操作 Preprocessing 
 ### transform 操作
 
 
-### fit 操作
-
-fit(X, y)方法总是接受数据的feature向量和类别label。
-
-
-### predict 操作
-
-predict（T）方法总是接受一个新的feature向量。
 
 
 
@@ -110,7 +111,7 @@ pipe中的最后一个estimator可以是transformer, classifier。之前的estim
 线性回归
 LinearRegression这个名字已经说明了是X->y的1次函数，所以自然的X向量的纬度是多少，所求的参数个数也就是多少。
 
-```
+```python
 >>> from sklearn import linear_model   //导入库
 >>> regr = linear_model.LinearRegression()   //  指明算法模型，是一个对象。
 >>> regr.fit(X_train, y_train)   // 用训练数据进行模型训练。
@@ -123,7 +124,7 @@ LinearRegression这个名字已经说明了是X->y的1次函数，所以自然�
 
 SVM
 
-```
+```python
 >>> classifier = svm.SVC(gamma=0.001)
 >>> classifier.fit(train_X, train_y)
 >>> classifier.decision_function(np.c_[X1.ravel(), X2.ravel()])
@@ -135,10 +136,32 @@ SVM
 Kmeans
 输入是若干个抽象空间的坐标点位置。输出是这些点的标签。
 
-```
+```python
 >>> import sklearn  #引入库
 >>> kmeans = sklearn.cluster.KMeans(n_clusters=cluster_num, n_init=10) #算法模型
 >>> kmeans.fit(train_data)  #训练
 >>> labels = kmeans.labels_   #输出聚类标签
 >>> cluster = kmeans.predict(new_data) #用这个模型进行聚类
 ```
+
+
+DBSCAN
+fit方法进行聚类。fit_predict方法进行新数据类别结果预测。
+
+```python
+>>> from sklearn.cluster import DBSCAN
+>>> import numpy as np
+>>> X = np.array([[1, 2], [2, 2], [2, 3],
+...               [8, 7], [8, 8], [25, 80]])
+>>> clustering = DBSCAN(eps=3, min_samples=2).fit(X)
+>>> clustering.labels_
+array([ 0,  0,  0,  1,  1, -1])
+>>> clustering
+DBSCAN(eps=3, min_samples=2)
+```
+
+
+
+# API 索引
+
+https://scikit-learn.org/stable/modules/classes.html
