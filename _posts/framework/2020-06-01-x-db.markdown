@@ -37,6 +37,10 @@ https://www.jianshu.com/p/fe7b7800473e
 
 # X_DB
 
+kv存储：
+行式存储：MySQL、Postgres和MS SQL Server。
+列式存储：常见的列式数据库有 Vertica、 Paraccel (Actian Matrix，Amazon Redshift)、 Sybase IQ、 Exasol、 Infobright、 InfiniDB、 MonetDB (VectorWise， Actian Vector)、 LucidDB、 SAP HANA、 Google Dremel、 Google PowerDrill、 Druid、 kdb+。
+
 ## Redis
 
 pipeline命令
@@ -72,6 +76,7 @@ RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数
 ## Cassandra
 
 ## etcd
+
 
 
 # X_FS
