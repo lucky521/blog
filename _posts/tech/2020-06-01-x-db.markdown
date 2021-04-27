@@ -1,6 +1,6 @@
 ---
 title: "X_DB"
-categories: [framework]
+categories: [Tech]
 layout: post
 ---
 
