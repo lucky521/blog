@@ -65,7 +65,8 @@ kafka
 http://kafka.apache.org/quickstart
 
 原生版本： https://github.com/edenhill/librdkafka
-C++版本： https://github.com/mfontanini/cppkafka
+C++版本：  https://github.com/mfontanini/cppkafka
+Python:   https://github.com/confluentinc/confluent-kafka-python
 
 MQ
 

@@ -6,7 +6,9 @@ layout: post
 
 # 机器学习领域的基础理论书籍推荐
 
-    Machine Learning:A Probabilistic Perspective
+    Probabilistic Machine Learning: An Introduction
+
+    Machine Learning: A Probabilistic Perspective
 
     Pattern Recognition and Machine Learning
 
@@ -17,7 +19,6 @@ layout: post
     An Introduction to Statistical Learning with Application in R
 
     An Introduction to Computational Learning Theory
-
 
 # Probability & Statistics 概率vs统计
 

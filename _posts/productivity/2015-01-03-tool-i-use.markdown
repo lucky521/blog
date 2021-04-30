@@ -51,18 +51,21 @@ VS Code 文本编辑，全平台支持。经常用的插件有
 
 	vscode对本地的ssh 配置支持的也很好，完全可以用它作为terminal使用。
 	```
+		Host *
+			ServerAliveInterval 60
+	
 		Host jps
-		User lucky
-		Port 80
-		Hostname jps.xxx.com
-		IdentitiesOnly yes
+			User lucky
+			Port 80
+			Hostname jps.xxx.com
+			IdentitiesOnly yes
 		
 		Host remote_dev
-		User admin
-		Port 22
-		Hostname 11.11.11.11
-		IdentitiesOnly yes
-		ProxyCommand ssh lucky@jps -W %h:%p
+			User admin
+			Port 22
+			Hostname 11.11.11.11
+			IdentitiesOnly yes
+			ProxyCommand ssh lucky@jps -W %h:%p
 	```
 
 
