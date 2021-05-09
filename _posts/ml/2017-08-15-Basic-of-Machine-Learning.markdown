@@ -91,7 +91,7 @@ MLE只考虑样本集，样本集完全决定了参数估计结果。
 
 ## Frequentist Statistics
 
-?
+
 
 
 ## 贝叶斯统计 Bayesian Statistics
@@ -304,14 +304,13 @@ https://github.com/christophM/interpretable-ml-book ， https://github.com/Mingc
 
 
 
-# 参考资料
+# 参考链接
 
 - 统计学习理论的数理基础 http://blog.codinglabs.org/articles/statistical-learning-theory.html
 
 - 判定模型”和“生成模型”有什么区别 https://www.zhihu.com/question/20446337
 
-
-- Algebra, Topology, Differential Calculus, and Optimization Theory For Computer Science and Machine Learning 这本书1900页，涵盖了计算机科学所需的线性代数、微分和最优化理论等问题
+- 《Algebra, Topology, Differential Calculus, and Optimization Theory For Computer Science and Machine Learning》 这本书1900页，涵盖了计算机科学所需的线性代数、微分和最优化理论等问题
 
 - 斯坦福 CS229: Machine Learning http://cs229.stanford.edu/
 
