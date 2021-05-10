@@ -6,6 +6,7 @@ categories: [MachineLearning]
 ---
 
 不管是模型、策略、规则，我们都希望用灰度发布、AB实验的方式验证它的实际效果，并且用到一些统计指标来量化效果的好坏。
+AB Testing是决策理论（Decision theory）的一种方法。
 
 # AA实验 vs AB实验
 
