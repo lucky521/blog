@@ -159,6 +159,15 @@ MPI，openMPI，openMP
 - rabid -  https://github.com/dmlc/rabit
 
 
+## PS
+
+基于参数服务器的分布式
+
+
+
+
+
+
 
 # 分布式机器学习算法
 
