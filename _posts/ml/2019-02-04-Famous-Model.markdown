@@ -111,9 +111,7 @@ FNN: 利用FM的结果进行网络初始化 https://arxiv.org/pdf/1601.02376.pdf
 
 DNN-YouTube: https://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/45530.pdf
 
-DCN: https://arxiv.org/pdf/1708.05123.pdf
-DCN介绍： https://zhuanlan.zhihu.com/p/43364598
-
+DCN: https://arxiv.org/pdf/1708.05123.pdf ， DCN介绍： https://zhuanlan.zhihu.com/p/43364598
 
 GBDT+LR: http://quinonero.net/Publications/predicting-clicks-facebook.pdf
 
