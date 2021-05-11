@@ -221,24 +221,3 @@ NVDEC 是NVIDIA的硬件加速H264解码器。能够解码H.264, HEVC (H.265), V
 https://developer.nvidia.com/capture-sdk
 
 https://developer.nvidia.com/nvidia-video-codec-sdk
-
-
-<!--
-这里是注释区
-
-```
-print "hello"
-```
-
-***Stronger***
-
-{% highlight python %}
-print "hello, Lucky!"
-{% endhighlight %}
-
-![My image]({{ site.baseurl }}/images/emule.png)
-
-My Github is [here][mygithub].
-[mygithub]: https://github.com/lucky521
-
--->

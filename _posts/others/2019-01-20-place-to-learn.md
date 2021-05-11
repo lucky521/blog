@@ -10,7 +10,7 @@ categories: [other]
 
 网易公开课
 
-Coursera
+Coursera公开课
 
 
 # 电子书 纸质书

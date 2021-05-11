@@ -7,7 +7,7 @@ layout: post
 # X_DB需解决的问题
 
 * 数据接口以如何形式组织
-* 内部存储数据以如何行使组织
+* 内部存储数据以如何形式组织
 * 数据如何更新
 * 如何扩容
 * 最大可存储的数据量
@@ -38,7 +38,7 @@ https://www.jianshu.com/p/fe7b7800473e
 # X_DB
 
 kv存储：
-行式存储：MySQL、Postgres和MS SQL Server。
+行式存储：常见的行式数据库有MySQL、Postgres、MS SQL Server。
 列式存储：常见的列式数据库有 Vertica、 Paraccel (Actian Matrix，Amazon Redshift)、 Sybase IQ、 Exasol、 Infobright、 InfiniDB、 MonetDB (VectorWise， Actian Vector)、 LucidDB、 SAP HANA、 Google Dremel、 Google PowerDrill、 Druid、 kdb+。
 
 ## Redis

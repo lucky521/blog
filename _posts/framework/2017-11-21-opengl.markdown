@@ -63,23 +63,3 @@ OpenGL蓝宝书（OpenGL SuperBible）
 
 官方指南 https://www.khronos.org/registry/OpenGL/specs/gl/
 
-
-<!--
-这里是注释区
-
-```
-print "hello"
-```
-
-***Stronger***
-
-{% highlight python %}
-print "hello, Lucky!"
-{% endhighlight %}
-
-![My image]({{ site.baseurl }}/images/emule.png)
-
-My Github is [here][mygithub].
-[mygithub]: https://github.com/lucky521
-
--->

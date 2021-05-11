@@ -303,6 +303,8 @@ Seq2Slate
 
 ## Elasticsearch
 
+基于Lucene的全文搜索服务器。
+
 Rest API
 
 Status
@@ -336,9 +338,11 @@ Search
 
 ## solr
 
+基于Lucene的全文搜索服务器，Solr是传统搜索应用的有力解决方案，但Elasticsearch更适用于新兴的实时搜索应用。
 
 
-# 开源排序框架
+
+# 开源排序算法框架
 
 
 ## RankLib
