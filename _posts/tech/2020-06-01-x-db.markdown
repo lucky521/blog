@@ -77,6 +77,14 @@ RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数
 
 ## etcd
 
+## OPENTSDB
+
+ Time Series Database， 对比传统数据库仅仅记录了数据的当前值，时序数据库则记录了所有的历史数据。同时时序数据的查询也总是会带上时间作为过滤条件。
+
+## InfluxDB
+
+ InfluxDB是一个由InfluxData开发的开源时序型数据。它由Go写成，着力于高性能地查询与存储时序型数据。InfluxDB被广泛应用于存储系统的监控数据，IoT行业的实时数据等场景。
+
 
 
 # X_FS
