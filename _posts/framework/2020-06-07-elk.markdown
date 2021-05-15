@@ -1,0 +1,25 @@
+---
+title: "ELK Stack"
+categories: [framework]
+layout: post
+---
+
+# ELK 是什么？
+这个名称是由三个开源项目的首字母组成  Elasticsearch、Logstash 和 Kibana。
+
+* L是数据处理管道 。 filebeat是logstash的替代项目。
+* E是搜索引擎和分析引擎。
+* K是可视化展示工具。
+
+
+# 应用限制
+
+总数据量
+单条数据量
+单行数据结构
+
+
+# Refer
+
+https://www.elastic.co/
+
