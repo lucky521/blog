@@ -1,5 +1,5 @@
 ---
-title: "Go语言"
+title: "Go语言使用手册"
 categories: [Language]
 layout: post
 ---
@@ -13,6 +13,97 @@ Go是静态类型的编译型语言。
 # Go的语法
 
 http://docscn.studygolang.com/ref/spec
+
+* package main 定义包名，这和java语言有点类似。 每个 Go 应用程序都包含一个名为 main 的包。
+    * 文件名与包名没有直接关系，不一定要将文件名与包名定成同一个。
+    * 文件夹名与包名没有直接关系，并非需要一致。
+    * 同一个文件夹下的文件只能有一个包名，否则编译报错。
+* import "fmt" 引用其他包，这个fmt是go标准库的一个实现了标准化IO的包。
+* func main() 是程序入口主函数。
+
+## 变量和基本类型
+
+指明类型
+```
+var age int
+age = 5 
+```
+
+编译器自动判断类型
+```
+age := 5
+```
+
+## 数组
+
+```
+var ages [10] int
+ages[1] = 5
+```
+
+## 指针
+
+```
+var fp *int
+fp = &age
+fmt.Println(*fp)
+```
+
+## 接口
+```
+package main
+
+import (
+    "fmt"
+)
+
+type Phone interface {
+    call()
+}
+
+type NokiaPhone struct {
+}
+
+func (nokiaPhone NokiaPhone) call() {
+    fmt.Println("I am Nokia, I can call you!")
+}
+
+type IPhone struct {
+}
+
+func (iPhone IPhone) call() {
+    fmt.Println("I am iPhone, I can call you!")
+}
+
+func main() {
+    var phone Phone
+
+    phone = new(NokiaPhone)
+    phone.call()
+
+    phone = new(IPhone)
+    phone.call()
+
+}
+```
+
+
+
+# 开发环境
+
+源代码以go结尾，如果直接运行使用go run命令
+
+go run hello.go
+
+如果先编译就使用 go build，就编译打包为二进制可执行程序。
+
+
+
+# 并发
+
+使用 go 语句开启一个新的运行期线程， 即 goroutine，以一个不同的、新创建的 goroutine 来执行一个函数。
+
+
 
 
 # Go的标准库

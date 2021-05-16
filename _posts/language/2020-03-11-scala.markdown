@@ -12,9 +12,26 @@ layout: post
 
 
 # 安装和使用
-和java一样，scala的程序也运行在JVM上。scala的官方编译工具是SBT。
 
+scala代码以scala为文件扩展名。
+
+和java一样，scala的程序也运行在JVM上。scala的官方编译工具是SBT。可支持交互式运行。
 sbt把scala源代码编译成java字节码，这样在任何jvm中运行。
+
+
+scalac命令 把源代码编译为jvm字节码，产生hello.class
+scalac hello.scala
+
+scala命令 将字节码运行在jvm中
+scala hello
+
+
+# 语法
+
+* 对于所有的类名的第一个字母要大写。
+* 所有的方法名称的第一个字母用小写。
+* 程序文件的名称建议与对象名称完全匹配。
+
 
 
 # 函数
