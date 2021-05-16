@@ -10,6 +10,8 @@ layout: post
 
 和Java是一家。它比Java的语言复杂度低很多。
 
+Spark是Scala实现的，用Scala可以写Spark上的程序。
+
 
 # 安装和使用
 
