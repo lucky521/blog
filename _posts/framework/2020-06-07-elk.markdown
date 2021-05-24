@@ -4,6 +4,9 @@ categories: [framework]
 layout: post
 ---
 
+# 分布式系统的链路跟踪
+
+Google在2010年发表了论文《Dapper, a Large-Scale Distributed Systems Tracing Infrastructure》，这篇文章是业内实现链路追踪的标杆和理论基础。
 # ELK 是什么？
 这个名称是由三个开源项目的首字母组成  Elasticsearch、Logstash 和 Kibana。
 
@@ -18,6 +21,16 @@ layout: post
 单条数据量
 单行数据结构
 
+
+
+# zipkin
+
+Zipkin 是一个根据 Google 发表的论文“ Dapper” 进行开源实现的分布式跟踪系统.
+
+zipkin主要有四个组件：collector，storage，API，web UI。
+* collector用于收集各服务发送到zipkin的数据，
+* storage用于存储这些链路数据，目前支持Cassandra，ElasticSearch（推荐使用，易于大规模扩展）和MySQL，
+* API用来查找和检索跟踪链，提供给界面UI展示。
 
 # Refer
 
