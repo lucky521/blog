@@ -289,6 +289,11 @@ https://segmentfault.com/a/1190000025168779
 - Rich Function， 附加了open, close， getRuntimeContext, setRuntimeContext 四个方法。
 
 
+## DataSet API
+
+1.12版本开始DataSetAPI正在废弃中。
+
+
 # Flink部署
 
 ## standalone mode
