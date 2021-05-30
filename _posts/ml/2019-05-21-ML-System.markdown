@@ -24,6 +24,10 @@ categories: [MachineLearning]
 
 # 机器学习系统的组成
 
+如果硬要先做一个大题的划分，可以有以下几种划分方式
+* 离线系统 vs 在线系统
+* 特征系统 vs 模型系统
+
 ## 离线功能部分(Train)
 样本数据相关：
 - 标签接收、特征接收
@@ -70,6 +74,7 @@ categories: [MachineLearning]
 资源是指images、cpu、内存、gpu、磁盘。在训练和预测的时候，都存在资源调度的需要。
 - 灵活的部署训练资源，执行训练任务。
 - 安全稳定的部署预测任务，发布线上预测服务。
+
 
 
 
@@ -230,3 +235,7 @@ https://storage.googleapis.com/pub-tools-public-publication-data/pdf/aad9f93b86b
 [为什么需要机器学习平台？](https://insights.thoughtworks.cn/why-machine-learning-platform/)
 
 [算法与数据中台 知乎文章](https://zhuanlan.zhihu.com/p/245162802)
+
+[feature store](https://docs.featurestore.org/feature-store-comparison)
+
+[特征平台需求分层](https://yiksanchan.com/posts/feature-stores-a-hierarchy-of-needs)

@@ -369,7 +369,7 @@ The data format of LIBFFM is:
 
 
 
-# 特征的在线和离线服务形式
+# 特征的在线和离线的服务形式
 
 特征一致性
 
@@ -390,3 +390,5 @@ http://scikit-learn.org/stable/modules/classes.html
 https://elitedatascience.com/feature-engineering
 
 Best Practices for Feature Engineering  https://elitedatascience.com/feature-engineering-best-practices
+
+https://docs.featurestore.org/feature-store-comparison
