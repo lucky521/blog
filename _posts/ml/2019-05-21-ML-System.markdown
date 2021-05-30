@@ -15,7 +15,7 @@ categories: [MachineLearning]
 - 和其他软件系统一样，机器学习系统随着规模的扩大、对性能要求的提高，也会面临性能挑战。
 - 和其他软件系统一样，机器学习系统需要足够的可扩展性，运行更多新的功能被开发出来。
 
-# 机器学习系统和其他软件系统有什么差别？
+## 机器学习系统和其他软件系统有什么差别？
 
 机器学习系统中“错误”这一概念要更模糊一些。
 
@@ -38,6 +38,8 @@ categories: [MachineLearning]
 
 
 ## 在线功能部分(Inference)
+在线指的是用户即时请求模型预估时所需要执行到的功能。
+
 特征数据相关：
 - 特征数据服务（Feature Flow、Feature Service）
 - 在线特征生成框架
@@ -99,7 +101,7 @@ categories: [MachineLearning]
 模型管理的设计
 
 
-## 实时性、大量级的挑战
+## 实时性、超大量级的挑战
 
 特征实时性
 
@@ -110,6 +112,8 @@ categories: [MachineLearning]
 分布式训练
 
 分布式预测
+
+响应速度
 
 
 
@@ -165,9 +169,13 @@ categories: [MachineLearning]
 模型仓库
 - https://github.com/tensorflow/hub , https://tfhub.dev/
 
+版本控制
+- https://dvc.org/
 
 
-## 完整方案
+
+## 工业界完整方案
+
 - TFX by google : https://github.com/tensorflow/tfx
 - FBLearner Flow by facebook: https://engineering.fb.com/core-data/introducing-fblearner-flow-facebook-s-ai-backbone/
 - Michelangelo by uber: https://eng.uber.com/michelangelo/
@@ -179,6 +187,9 @@ categories: [MachineLearning]
 数据预处理组件 https://github.com/tensorflow/transform
 
 ### PAI
+PAI-DSW（Data Science Workshop）是为算法开发者量身打造的云端深度学习开发环境，集成JupyterLab，插件化深度定制化开发，无需任何运维配置，沉浸式体验Notebook编写、调试及运行Python代码。支持开源框架的安装，并提供阿里巴巴深度优化的Tensorflow框架，通过编译优化提升训练性能。
+https://help.aliyun.com/product/30347.html
+
 
 ### EasyDL / BML
 
