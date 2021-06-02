@@ -184,7 +184,7 @@ categories: [MachineLearning]
 - TFX by google : https://github.com/tensorflow/tfx
 - FBLearner Flow by facebook: https://engineering.fb.com/core-data/introducing-fblearner-flow-facebook-s-ai-backbone/
 - Michelangelo by uber: https://eng.uber.com/michelangelo/
-
+- BigHead by airbnb :
 ### TFX
 
 全称 Tensorflow Extended
