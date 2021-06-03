@@ -224,6 +224,9 @@ SourceFunction为所有flink中source的根接口，其定义了run()方法和ca
 
 addSource(sourceFunction)
 
+SourceFunction、ParallelSourceFunction、RichParallelSourceFunction
+
+
 
 ## sink
 
