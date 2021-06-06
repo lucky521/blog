@@ -56,6 +56,7 @@ Gradient Boosting = Gradient Descent + Boosting
 
         https://en.wikipedia.org/wiki/Gradient_boosting
         https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3885826/
+        XGBoost算法最佳解析: https://zhuanlan.zhihu.com/p/335181661
 
 
 梯度提升算法是通过对弱预测模型(比如决策树)的集成产生预测模型。
