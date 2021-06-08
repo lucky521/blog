@@ -30,7 +30,7 @@ LLDB Debugger
 
 
 
-# Static Code Analysis
+## Static Code Analysis
 
 Lint
 
@@ -52,9 +52,14 @@ http://www.brendangregg.com/linuxperf.html
 http://www.brendangregg.com/linuxperf.html
 
 
+火焰图 Flame Graph
+https://github.com/brendangregg/FlameGraph
+
 
 
 
 # Reference
 
 https://en.wikipedia.org/wiki/Debugging
+
+[Brendan Gregg](http://www.brendangregg.com/)

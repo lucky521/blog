@@ -228,6 +228,9 @@ SourceFunction为所有flink中source的根接口，其定义了run()方法和ca
 
 addSource(sourceFunction)
 
+SourceFunction、ParallelSourceFunction、RichParallelSourceFunction
+
+
 
 ## sink
 
@@ -494,6 +497,8 @@ https://github.com/wangzhiwubigdata/God-Of-BigData/tree/master/Netty
 Alink是基于Flink的通用算法平台
 
 https://github.com/alibaba/Alink
+
+
 
 FlinkML
 FlinkML是1.8之前的一个机器学习组件，在1.9开始已经不存在了。
