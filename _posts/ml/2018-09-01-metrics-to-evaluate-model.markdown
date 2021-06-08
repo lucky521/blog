@@ -150,6 +150,11 @@ ROC曲线越靠拢(0,1)点，越偏离45度对角线越好，Sensitivity、Speci
 
 AUC(Area under Curve)：Roc曲线下的面积，显然这个面积的数值不会大于1。
 
+
+## P-R 曲线
+
+P：查准率 ， R：查全率， 以R为横坐标，P为纵坐标，随着阈值改变，我们将得到P-R曲线。
+
 ## Classification Accuracy
 
 
