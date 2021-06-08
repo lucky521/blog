@@ -81,6 +81,10 @@ Key Group是Flink状态机制中的一个重要设计. Key Group是Keyed State�
 从这里可以看到key-group与最大并发数有关系，如果key-group分配不均匀的话，状态分配也会不均匀。
 
 
+## Catalog
+
+Catalog 提供了元数据信息，例如数据库、表、分区、视图以及数据库或其他外部系统中存储的函数和信息。
+
 
 
 
