@@ -87,6 +87,20 @@ GBDT（Gradient Boosting Decision Tree，梯度提升决策树）
 预测的时候可以并行的。训练的时候下一轮的目标值依赖上一轮的结果，需要iteratively fits，不能并行。而预测的时候每棵树都已经建好，输入是原始数据，输出是把每棵树的预测值加在一起，这也MART(muliple additive regression trees)得名的由来，预测过程树之间并没有依赖，不存在先算后算的问题，所以可以并行。
 
 
+## GBDT与RF的区别
+相同点： 
+
+    1、GBDT与RF都是采用多棵树组合作为最终结果；这是两者共同点。 
+
+不同点： 
+
+    1、RF的树可以是回归树也可以是分类树，而GBDT只能是回归树。 
+    2、RF中树是独立的，相互之间不影响，可以并行；而GBDT树之间有依赖，是串行。 
+    3、RF最终的结果是有多棵树表决决定，而GBDT是有多棵树叠加组合最终的结果。 
+    4、RF对异常值不敏感，原因是多棵树表决，而GBDT对异常值比较敏感，原因是当前的错误会延续给下一棵树。 
+    5、RF是通过减少模型的方差来提高性能，而GBDT是减少模型的偏差来提高性能的。
+    6、RF不需要进行数据预处理，即特征归一化。而GBDT则需要进行特征归一化。
+
 
 # 训练 Gradient Boosting 模型的框架
 
@@ -299,21 +313,18 @@ qid - 标识了一个query。它其实是一个特征。
 
 ## 评估模型的效果
 
-eval_metric
-该参数是Booster参数，这一项可以自己指明评价指标，用来在验证集上进行评价。
+    eval_metric：该参数是Booster参数，这一项可以自己指明评价指标，用来在验证集上进行评价。
 默认情况下是制定了训练目标objective，会有默认分配一个eval_metric。
 默认metric为：rmse for regression, and error for classification, mean average precision for ranking
 
 自己选metric的话，可以一次填写多个metric，以list的形式放在一起，
 
-“ndcg@n”,”map@n”: n can be assigned as an integer to cut off the top positions in the lists for evaluation.
-“ndcg-”,”map-”,”ndcg@n-”,”map@n-”: In XGBoost, NDCG and MAP will evaluate the score of a list without any positive samples as 1. By adding “-” in the evaluation metric XGBoost will evaluate these score as 0 to be consistent under some conditions. training repeatedly
+    “ndcg@n”,”map@n”: n can be assigned as an integer to cut off the top positions in the lists for evaluation.
+    “ndcg-”,”map-”,”ndcg@n-”,”map@n-”: In XGBoost, NDCG and MAP will evaluate the score of a list without any positive samples as 1. By adding “-” in the evaluation metric XGBoost will evaluate these score as 0 to be consistent under some conditions. training repeatedly
 
-evals
-该参数是task参数，这一项是在train的时候就可以指明一个或多个验证集，然后在evals_result参数就会返回评估结果。
+    evals：该参数是task参数，这一项是在train的时候就可以指明一个或多个验证集，然后在evals_result参数就会返回评估结果。
 
-evals_result
-该参数是task参数，用来输出metric计算结果。
+    evals_result：该参数是task参数，用来输出metric计算结果。
 
 
 ## Feature Importance

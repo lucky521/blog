@@ -79,7 +79,7 @@ UpSampling 是要插入一些样本，以加强一些信号。
 
 误差分析(Error Analysis) ​​指的是检查被算法误分类的开发集样本的过程，以便帮助你找到造成这些误差的原因。
 
-学习算法的预测误差, 或者说泛化误差(generalization error)可以分解为三个部分: 偏差(bias), 方差(variance) 和噪声(noise).
+学习算法的预测误差, 或者说泛化误差(generalization error)可以分解为三个部分: 偏差(bias), 方差(variance) ，噪声(noise).
 
 偏差和方差是误差的两大来源。总误差=偏差+方差。
 
