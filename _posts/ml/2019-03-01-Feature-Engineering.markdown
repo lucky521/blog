@@ -404,3 +404,5 @@ https://elitedatascience.com/feature-engineering
 Best Practices for Feature Engineering  https://elitedatascience.com/feature-engineering-best-practices
 
 https://docs.featurestore.org/feature-store-comparison
+
+[特征平台需求层次理论](https://yiksanchan.com/posts/feature-stores-a-hierarchy-of-needs)

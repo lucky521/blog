@@ -163,9 +163,11 @@ http://www.jeyzhang.com/understand-attention-in-rnn.html
 LSTM with attention 
 
 
-## 意图分类
+## 意图分类 Problem
 
 输入为词序列，输出为一个意图。
+
+宽泛理解也可以认为是一种分类问题。
 
 
 
