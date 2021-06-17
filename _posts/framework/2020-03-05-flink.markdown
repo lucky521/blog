@@ -51,13 +51,28 @@ Task slot
 任务槽可以实现TaskManager中不同Task的资源隔离，不过是逻辑隔离，并且只隔离内存，亦即在调度层面认为每个任务槽“应该”得到taskmanager.heap.size的N分之一大小的内存。CPU资源不算在内。
 
 
-Checkpoint 和 Savepoint
+### Checkpoint 和 Savepoint
+这两者都是用于恢复作用。尤其是checkpoint用于恢复异常失败的作业。
 * Checkpoint 是增量做的，每次的时间较短，数据量较小，只要在程序里面启用后会自动触发，用户无须感知；Checkpoint 是作业 failover 的时候自动使用，不需要用户指定。
 * Savepoint 是全量做的，每次的时间较长，数据量较大，需要用户主动去触发。Savepoint 一般用于程序的版本更新，Bug 修复，A/B Test 等场景，需要用户指定。
-概念比较 https://www.ververica.com/blog/differences-between-savepoints-and-checkpoints-in-flink
+- 概念比较 https://www.ververica.com/blog/differences-between-savepoints-and-checkpoints-in-flink
+- CP原理介绍 https://www.infoq.cn/article/pb8pxvssiw2evebhpz7e
 
-Failover
+Checkpoint的成本
+Checkpoint在生成和恢复的时候都会消耗资源。
+Checkpoint 里面存的是什么内容，太大了怎么办？
+
+作业 Failover
 Checkpoint 在作业failover的时候自动使用。
+Flink 的容错机制主要分为从 checkpoint 恢复状态和重流数据两步，这也是为什么 Flink 通常要求数据源的数据是可以重复读取的。对于重启后的新 Task 来说，它可以通过读取 checkpoint 很容易地恢复状态信息，但是却不能独立地重流数据，因为 checkpoint 是不包含数据的。
+
+checkpoint失败原因
+* 如果 Checkpoint 做的非常慢，超过了 timeout 还没有完成，则整个 Checkpoint 也会失败。 Checkpoint慢的原因需要细查。
+* 用户代码逻辑没有对于异常处理，让其直接在运行中抛出。比如解析 Json 异常，没有捕获，导致 Checkpoint 失败，或者调用 Dubbo 超时异常等等。
+* 依赖外部存储系统，在进行数据交互时，出错，异常没有处理。比如输出数据到 Kafka、Redis、HBase 等，客户端抛出了超时异常，没有进行捕获，Flink 任务容错机制会再次重启。
+* 内存不足，频繁 GC，超出了 GC 负载的限制。比如 OOM 异常
+* 网络问题、机器不可用问题等等。
+
 
 
 
@@ -93,7 +108,7 @@ Catalog 提供了元数据信息，例如数据库、表、分区、视图以及
 ## StreamExecutionEnvironment
 
 每一个flink应用都需要一个执行环境， 对于流处理程序，使用的执行环境类是 StreamExecutionEnvironment.
-当env.execute()方法执行之后，代码所设计的一张执行图就会被打包发送到Flink Master，进行任务拆解和并行化，分配到TaskManager执行。
+当 env.execute() 方法执行之后，代码所设计的一张执行图就会被打包发送到Flink Master，进行任务拆解和并行化，分配到TaskManager执行。
 
 ## 几种stream
 
@@ -148,10 +163,13 @@ Flink 提供了内存、文件系统、RocksDB 三种 StateBackends.
 - RocksDBStateBackend
 
 关于超大状态存储策略选择，生产环境状态存储 Backend 有两种方式： 
-FsStateBackend：State 存储在内存，Checkpoint 时持久化到 HDFS； 
-RocksDBStateBackend：State 存储在 RocksDB 实例，可增量 Checkpoint，适合超大 State。在推荐广告搜索等场景下展现流 20 分钟数据有 1 TB 以上。
+- FsStateBackend： State 存储在内存， Checkpoint 时持久化到 HDFS； 
+- RocksDBStateBackend： State 存储在 RocksDB 实例，可增量 Checkpoint ，适合超大 State。在推荐广告搜索等场景下展现流 20 分钟数据有 1 TB 以上。
 
 参考： https://cloud.tencent.com/developer/article/1592441
+
+Checkpointed Function
+
 
 
 

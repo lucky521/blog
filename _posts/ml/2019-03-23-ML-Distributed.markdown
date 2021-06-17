@@ -224,8 +224,6 @@ RDMA(RemoteDirect Memory Access)技术全称远程直接内存访问，就是为
 ## NVIDIA-SMI Driver
 
 
-
-
 ## CUDA
 
 CUDA是Nvidia GPU生态的软件基石。
@@ -380,9 +378,25 @@ example: https://github.com/horovod/horovod/tree/master/examples
 纯CPU版本的分布式训练： https://github.com/horovod/horovod/issues/945
 
 
+
+## DeepSpeed
+
+DeepSpeed是微软开源的分布式深度学习库。
+
+https://www.microsoft.com/en-us/research/project/deepspeed/
+
+
+## TensorNet
+
+
+
+
+
+
+
 # 分布式机器学习预测
 
-分布式预测目前还没有开源方案。
+分布式预测目前还没有成熟的开源方案。
 
 
 
