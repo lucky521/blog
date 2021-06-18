@@ -105,15 +105,16 @@ SingleOutputStreamOperator
 ## Operator算子 DataStream Transformations
 
 filter 过滤器，对数据流中的每个元素进行过滤判断，判断为true的元素进入下一个数据流
+  RichFilterFunction
 
 flatmap 可以理解为将元素摊平，每个元素可以变为0个、1个、或者多个元素。
+  RichFlatMapFunction
 
 map 可以理解为映射，对每个元素进行一定的变换后，映射为另一个元素。
 
 name 方法Sets the name of the current data stream.
 
 returns 方法Adds a type information hint about the return type of this operator.
-
 
 keyby DataStream → KeyedStream	
 
@@ -138,6 +139,11 @@ intervalJoin：是一个流join另一个流，不需要设置窗口，但是需�
 > intervalJoin
 
 https://developer.aliyun.com/article/778485
+
+
+## 数据重分布
+
+partitionCustom
 
 
 ## StatusBackend
@@ -174,6 +180,11 @@ PS:间隔关联目前只支持eventtime，只支持inner join.
 官网对window的介绍 https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/operators/joining.html
 
 中文介绍 https://blog.csdn.net/dafei1288/article/details/98919202
+
+
+### 窗口内处理
+
+ProcessWindowFunction
 
 ## Event Time
 
@@ -361,7 +372,6 @@ TaskManager个数
 apus.slotmanager.slot-placement-policy  SLOT
 
 
-
 ## 并行度设定
 
 设置parallelism的防范优先级是：算子(operator)级别 > 运行环境级别 > 客户端级别 > 系统级别
@@ -489,7 +499,6 @@ env.execute("MySourceMysql");
 组件间通信 akka ，JobManager和TaskManager之间的控制通信
 数据传输 netty， 比如Operator之间的传输数据
 https://github.com/wangzhiwubigdata/God-Of-BigData/tree/master/Netty
-
 
 
 # Alink

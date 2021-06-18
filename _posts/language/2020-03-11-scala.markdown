@@ -34,17 +34,30 @@ scala hello
 * 所有的方法名称的第一个字母用小写。
 * 程序文件的名称建议与对象名称完全匹配。
 
+val 是只读变量， var是可变变量
+
+: 单个冒号 用于连接变量名称和它的类型。
+
+[] 方括号 用于来定义类型参数
+
 _ 下划线， 主要用于通配、元素访问、遍历等代码偷懒用途
+
+=>
 
 implicit 的作用，可以用一句话来概括：在编译器出现错误的时候，可以通过隐式转换进行一次补救
 
 asInstanceOf 、 isInstanceOf  类类型的判断和转换
+
+classOf
+
+TraversableOnce
 
 
 # 值类型
 
 Unit = {}  表示无值，和其他语言中void等同。用作不返回任何结果的方法的结果类型。Unit只有一个实例值，写成()。
 
+Seq 用于表示按照一定顺序排列的元素序列。 用Java术语来说，Scala的Seq将是Java的List，而Scala的List将是Java的LinkedList。
 
 
 # 函数
