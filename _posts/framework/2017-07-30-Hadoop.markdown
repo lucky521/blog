@@ -4,9 +4,27 @@ categories: [framework]
 layout: post
 ---
 
-# Hadoop是做什么的？
+# Hadoop概念
 
 分布式。数据存储。数据处理。
+
+## NameNode 进程
+NameNode只有一个，它是整个HDFS的核心。分布式文件系统的管理者。当然也是HDFS的一个单点瓶颈，如果它挂掉，HDFS就会崩溃，所以对它的保护尤为重要。secondarynamenode进程是NameNode的冗余进程。
+
+## DataNode进程
+文件存储的基本单元。每个节点运行一个。应用程序才访问文件系统时，先由NameNode提供数据的位置，然后程序去访问对应的DataNode。
+
+## JobTracker进程
+1、应用程序将job提交给JobTracker
+2、JobTracker通知NameNode，让其确定数据的位置
+3、JobTracker确定TaskTacker节点，将work提交给确定好的TaskTracker
+4、TaskTracker一直被JobTracker监控着，如果不按时返回心跳信号或者主动返回失败，则认为是执行失败，将会转向其他TaskTracker。
+5、当work顺利执行完毕，JobTracker更新状态
+6、应用程序可以轮询JobTracker的状态
+
+## TaskTracker进程
+task指的是Map/Reduce/Shuffle操作。
+每个TaskTracker都有一个slot集来标记这个TaskTracker所能接受的task的个数。当JobTracker要分配一个task时，会在DataNode的就近节点中找一个空的slot，把task分配给对应的TaskTracker。当TaskTracker要处理一个task时，会产生一个新的进程来执行它。在执行期间不断向JobTracker发回心跳信号，执行完毕返回结果。
 
 ## speculative execution
 Hadoop 前端页面可以看到一个 speculate 按钮。
@@ -215,3 +233,8 @@ mapred-queue-acls.xml
 是一个虚拟的文件系统。
 home目录叫做" /user/hduser"（hduser是为hadoop专门添加的一个用户）
 
+
+
+# 参考
+
+[官方架构文档](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html)
