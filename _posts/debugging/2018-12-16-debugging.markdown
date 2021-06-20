@@ -56,6 +56,14 @@ http://www.brendangregg.com/linuxperf.html
 https://github.com/brendangregg/FlameGraph
 
 
+## 对一个机器进行快速体检
+
+http://www.brendangregg.com/Articles/Netflix_Linux_Perf_Analysis_60s.pdf
+
+10个命令，对一个机器的负载情况进行快速体检
+* uptime 指明过去1、5、15分钟CPU负载过的进程个数
+* dmesg | tail
+
 
 
 # Reference

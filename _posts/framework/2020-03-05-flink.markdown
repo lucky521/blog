@@ -17,6 +17,9 @@ layout: post
 那么可供你选择的成熟框架并不多。
 
 
+## Google Dataflow
+
+
 ## 基本概念
 
 本地状态，存储中间信息、缓存信息。
@@ -89,6 +92,8 @@ checkpoint失败原因
     （1）固定间隔策略 (Fixed delay)
     （2）失败率策略 (Failure rate)
     （3）无重启 (No restart)
+
+
 
 
 
@@ -345,10 +350,7 @@ Flink SQL 工作机制: https://zhuanlan.zhihu.com/p/150473300
 
 Flink SQL如何实现数据流的join： http://www.whitewood.me/2019/12/15/Flink-SQL-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84-Join/
 
-
-
-## Flink 单点恢复
-https://segmentfault.com/a/1190000025168779
+Streaming SQL
 
 
 ## Table API/SQL UDF
@@ -370,6 +372,9 @@ https://segmentfault.com/a/1190000025168779
 
 1.12版本开始DataSetAPI正在废弃中。
 
+
+## Flink 单点恢复
+https://segmentfault.com/a/1190000025168779
 
 
 
