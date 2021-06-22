@@ -1,0 +1,29 @@
+---
+title: "BRPC"
+categories: [framework]
+layout: post
+---
+
+
+
+brpc提供的可视化分析界面
+
+线程模型(Thread Module)：使用bthread 用户态协程，结合N:M的调度模型，以及work-steal 抢占式调度实现；为bthread打造的butex同步组件，为实现高性能的RPC框架提供了较为高效和简洁的并发编程基础。
+
+内存管理(Buffer & Memory Management)：buffer-ManangerMent通过IOBuf（非连续零拷贝缓存）方式减少数据传递处理过程中的拷贝。各种ThreadLocal的ResoucePool，Object Pool等来优化定长的短生命周期的申请和释放。
+
+执行队列(exec queue):多生产者单消费者无锁队列，实现了多生产者单消费者之间的的高效通信，在实现单TCP连接复用，高效发送-接收数据上发挥了很重要的作用。
+
+超时定时器(Timer Keeping): 使用高效的定时器管理超时的RPC，并进行回调。
+
+避免过多编码：将数据Body作为Attachment的方式，而不需要编解码
+baidu_std and hulu_pbrpc supports attachments which are sent along with messages and set by users to bypass serialization of protobuf.
+
+
+
+使用说明
+
+https://github.com/apache/incubator-brpc/blob/master/docs/cn/server.md
+
+
+https://github.com/apache/incubator-brpc/blob/master/docs/cn/client.md

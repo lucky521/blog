@@ -1,0 +1,20 @@
+---
+title: "PyTorch"
+categories: [MachineLearning]
+layout: post
+---
+
+
+
+## Tensor 操作
+
+生成：torch.empty, torch.tensor, torch.rand, torch.zeros
+
+Resize: torch.view
+
+CUDA Tensor:  tensor.to可以将一个tensor转移到指定的device上
+
+
+
+
+## 自动求导
