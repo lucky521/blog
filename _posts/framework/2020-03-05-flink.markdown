@@ -94,6 +94,23 @@ checkpoint失败原因
     （3）无重启 (No restart)
 
 
+## Flink 与 HDFS
+
+Flink和HDFS打交道主要有两类情况，一类是Checkpoint，一类是Hdfs-Sink
+
+flink的cp会备份到hdfs去，当作业并发量大（TM多）时，HDFS的压力会大：
+1）大量的 RPC 请求会影响 RPC 的响应时间；
+2）大量文件对 NameNode 内存造成很大压力；
+3) 大量产出小文件，其他任务读取小文件数据的成本也增加；
+
+### 减小Checkpointing对HDFS的压力
+参考：https://www.infoq.cn/article/OLlJNzQpTOHfyrgOG8xq
+
+### HDFS-Sink避免小文件过多
+* 减少并行度：回顾一下文件生成格式：part + subtaskIndex + connter，其中subtaskIndex代表着任务并行度的序号，也就是代表着当前的一个写task，越大的并行度代表着越多的subtaskIndex，数据就越分散，如果我们减小并行度，数据写入由更少的task来执行，写入就相对集中，这个在一定程度上减少的文件的个数，但是在减少并行的同时意味着任务的并发能力下降；
+* 增大checkpoint周期或者文件滚动周期：以parquet写分析为例，parquet写文件由processing状态变为pending状态发生在checkpoint的snapshotState阶段中，如果checkpoint周期时间较短，就会更快发生文件滚动，增大checkpoint周期，那么文件就能积累更多数据之后发生滚动，但是这种增加时间的方式带来的是数据的一定延时；
+* 下游任务合并处理：待Flink将数据写入hdfs后，下游开启一个hive或者spark定时任务，通过改变分区的方式，将文件写入新的目录中，后续任务处理读取这个新的目录数据即可，同时还需要定时清理产生的小文件，这种方式虽然增加了后续的任务处理成本，但是其即合并了小文件提升了后续任务分析速度，也将小文件清理了减小了对NameNode的压力，相对于上面两种方式更加稳定，因此也比较推荐这种方式。
+
 
 
 
@@ -121,23 +138,6 @@ Key Group是Flink状态机制中的一个重要设计. Key Group是Keyed State�
 
 Catalog 提供了元数据信息，例如数据库、表、分区、视图以及数据库或其他外部系统中存储的函数和信息。
 
-## Flink 与 HDFS
-
-Flink和HDFS打交道主要有两类情况，一类是Checkpoint，一类是Hdfs-Sink
-
-flink的cp会备份到hdfs去，当作业并发量大（TM多）时，HDFS的压力会大：
-1）大量的 RPC 请求会影响 RPC 的响应时间；
-2）大量文件对 NameNode 内存造成很大压力；
-3) 大量产出小文件，其他任务读取小文件数据的成本也增加；
-
-### 减小Checkpointing对HDFS的压力
-参考：https://www.infoq.cn/article/OLlJNzQpTOHfyrgOG8xq
-
-
-### HDFS-Sink避免小文件过多
-* 减少并行度：回顾一下文件生成格式：part + subtaskIndex + connter，其中subtaskIndex代表着任务并行度的序号，也就是代表着当前的一个写task，越大的并行度代表着越多的subtaskIndex，数据就越分散，如果我们减小并行度，数据写入由更少的task来执行，写入就相对集中，这个在一定程度上减少的文件的个数，但是在减少并行的同时意味着任务的并发能力下降；
-* 增大checkpoint周期或者文件滚动周期：以parquet写分析为例，parquet写文件由processing状态变为pending状态发生在checkpoint的snapshotState阶段中，如果checkpoint周期时间较短，就会更快发生文件滚动，增大checkpoint周期，那么文件就能积累更多数据之后发生滚动，但是这种增加时间的方式带来的是数据的一定延时；
-* 下游任务合并处理：待Flink将数据写入hdfs后，下游开启一个hive或者spark定时任务，通过改变分区的方式，将文件写入新的目录中，后续任务处理读取这个新的目录数据即可，同时还需要定时清理产生的小文件，这种方式虽然增加了后续的任务处理成本，但是其即合并了小文件提升了后续任务分析速度，也将小文件清理了减小了对NameNode的压力，相对于上面两种方式更加稳定，因此也比较推荐这种方式。
 
 
 
@@ -219,7 +219,19 @@ Flink 提供了内存、文件系统、RocksDB 三种 StateBackends.
 Checkpointed Function
 
 
+## Checkpoint 
 
+### Checkpoint 配置
+
+- checkpoint interval
+- checkpoint Timeout
+- pause between checkpoints
+- number of concurrent checkpoints
+
+### Checkpoint 状态
+
+- End to End Duration
+- Checkpoint Counts: 包含Triggered: 1018 In Progress: 1 Completed: 1016 Failed: 1 Restored: 1
 
 ## window
 
