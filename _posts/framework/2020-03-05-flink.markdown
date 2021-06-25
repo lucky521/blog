@@ -54,7 +54,7 @@ Task slot
 任务槽可以实现TaskManager中不同Task的资源隔离，不过是逻辑隔离，并且只隔离内存，亦即在调度层面认为每个任务槽“应该”得到taskmanager.heap.size的N分之一大小的内存。CPU资源不算在内。
 
 
-### Checkpoint 和 Savepoint
+## Checkpoint 和 Savepoint
 
 Flink中的每个方法或算子都可以是由状态的。
 
@@ -85,9 +85,9 @@ checkpoint失败原因
 * 网络问题、机器不可用问题等等。
 - 参考：[Flink Checkpoint 问题排查实用指南](https://www.jianshu.com/p/fc100f85a0fb)
 
+Checkpoint失败与作业失败的关联？
 
 如何从checkpoint恢复启动作业？
-
 常用的重启策略
     （1）固定间隔策略 (Fixed delay)
     （2）失败率策略 (Failure rate)
