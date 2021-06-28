@@ -8,7 +8,6 @@ layout: post
 本篇想要总结一下在Hadoop集群上处理大数据文件的方法，主要从应用层面去看我们有多少种、怎么样的方式（写什么样的程序、越简单越好的程序）去读写大数据进行增删查改，不打算关注大数据概念，也不关注框架的实现部分。
 
 
-
 # Hive
 
 ## hive SerDe
@@ -29,8 +28,14 @@ Row object –> Serializer –> <key, value> –> OutputFileFormat –> HDFS fil
 
 Hive SQL背后的原理： https://tech.meituan.com/2014/02/12/hive-sql-to-mapreduce.html
 
+## python udf
+
+https://florianwilhelm.info/2016/10/python_udf_in_hive/
 
 ## 开窗函数
+
+
+
 
 # Pig
 
@@ -70,7 +75,7 @@ def my_function(key_sku, similar_sku_list, nn_sku_list):
 https://hadoop.apache.org/docs/r1.2.1/streaming.html
 
 
-# Python MapReduce
+## Python MapReduce
 
 https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/
 
