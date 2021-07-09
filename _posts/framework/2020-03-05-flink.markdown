@@ -18,7 +18,7 @@ layout: post
 
 
 ## Google Dataflow
-
+批流一体的理论基石。
 
 ## 基本概念
 
@@ -75,6 +75,9 @@ Checkpoint 太大了怎么办？
 Checkpoint 在作业failover的时候自动使用。
 Flink 的容错机制主要分为从 checkpoint 恢复状态和重流数据两步，这也是为什么 Flink 通常要求数据源的数据是可以重复读取的。对于重启后的新 Task 来说，它可以通过读取 checkpoint 很容易地恢复状态信息，但是却不能独立地重流数据，因为 checkpoint 是不包含数据的。
 
+通过 Flink 配置文件 flink-conf.yaml 中的 jobmanager.execution.failover-strategy 配置项进行配置Failover策略：
+1. 全图重启 full
+2. 基于Region的局部重启 region
 
 
 checkpoint失败原因
@@ -321,6 +324,8 @@ Sink是流的重点，根接口是sinkFunction。
 其重要的方法是invoke()方法，用以实现结果数据的处理逻辑
 
 SinkFunction 是一个接口，类似于SourceFunction接口。SinkFunction中主要包含一个方法，那就是用于数据输出的invoke 方法,每条记录都会执行一次invoke方法，用于执行输出操作。
+
+addSink(sinkFunction)
 
 
 ## Connector 

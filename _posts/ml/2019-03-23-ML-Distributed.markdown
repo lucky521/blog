@@ -385,9 +385,12 @@ DeepSpeed是微软开源的分布式深度学习库。
 
 https://www.microsoft.com/en-us/research/project/deepspeed/
 
+https://www.deepspeed.ai/getting-started/#training
+
 
 ## TensorNet
 
+奇虎360开源的分布式训练框架。
 
 
 
