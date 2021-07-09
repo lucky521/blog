@@ -1344,6 +1344,20 @@ def pb_to_pbtxt(pbtxt_filename, pb_filename):
             g.write(str(saved_model))
 ```
 
+```python
+# pb 2 pbtxt
+import tensorflow as tf
+from tensorflow.core.protobuf import saved_model_pb2
+def graphdef_to_pbtxt(filename): 
+  with  tf.compat.v1.gfile.FastGFile(filename, 'rb') as f:
+    data = tf.compat.as_bytes(f.read())
+    sm = saved_model_pb2.SavedModel()
+    sm.ParseFromString(data)
+  with open('saved_model.pbtxt', 'w') as fp:
+    fp.write(str(sm))
+graphdef_to_pbtxt('saved_model.pb')
+```
+
 
 ### 构建模型的输入输出以及调用方式
 
