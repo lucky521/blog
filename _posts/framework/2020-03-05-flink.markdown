@@ -221,6 +221,8 @@ Flink 提供了内存、文件系统、RocksDB 三种 StateBackends.
 
 Checkpointed Function
 
+ReducingStateDescriptor
+
 
 ## Checkpoint 
 
