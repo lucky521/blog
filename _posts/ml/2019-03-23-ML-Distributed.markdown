@@ -209,6 +209,9 @@ AlexNet
 
 ## GPU间通信
 
+- h2d
+copy the data from cpu to gpu. 比如 data = data.cuda()
+
 - 单机多卡之间通信
 PCIe
 Nvlink

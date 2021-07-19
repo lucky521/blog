@@ -419,7 +419,7 @@ mac环境下: 用brew安装flink， $ brew install apache-flink
 * Worker Container 会启动 TaskManager，并向负责资源管理的 ResourceManager 进行注册，注册完成之后，由 JobManager 将具体的任务分给 Container，再由 Container 去执行。
 
 
-# Flink数据监控
+# Flink监控
 
 ## Flink自带的dashboard
 
@@ -435,6 +435,22 @@ flink metric类型分为Counter、Gauge、Histogram、Meter
 https://ci.apache.org/projects/flink/flink-docs-stable/monitoring/metrics.html
 
 ## Prometheus 监控flink metric
+
+
+## 日志
+
+JM日志
+
+
+TM日志
+
+flink custer log
+
+flink jobs log
+
+configuration trace log
+
+
 
 
 # Flink集群资源规划
@@ -465,6 +481,41 @@ apus.slotmanager.slot-placement-policy  SLOT
 setParallelism 设置一个job或一个算子op的并发度。
 
 setMaxParallelism 控制的是状态后端中keyed-state可以被分配的task最大个数。
+
+
+## 特殊配置项
+
+taskmanager.memory.task.off-heap.size 用于 Flink 应用的算计及用户代码的堆外内存（直接内存或本地内存）
+akka.ask.timeout 阻塞操作，可能因为机器繁忙或者网络堵塞导致timeout,可以尝试设置大一点
+akka.framesize   JM和TM之间传输的最大消息值
+heartbeat.timeout
+300000
+restart-strategy
+fixed-delay
+restart-strategy.fixed-delay.delay
+180s
+restart-strategy.fixed-delay.attempts
+1000
+state.backend.rocksdb.timer-service.factory
+ROCKSDB
+env.java.opts.taskmanager.additional
+-XX:MaxGCPauseMillis=300
+taskmanager.network.request-backoff.max
+60000
+apus.taskmanager.network.request.wait.ms
+30000
+taskmanager.network.request-backoff.initial
+20000
+apus.memory.incontainer.available.ratio
+0.9
+cluster.evenly-spread-out-slots
+true
+apus.slotmanager.slot.placement.policy
+slot
+jobmanager.execution.failover-strategy
+region
+apus.log.separate.enabled
+false
 
 
 
