@@ -371,6 +371,21 @@ Flink SQL如何实现数据流的join： http://www.whitewood.me/2019/12/15/Flin
 
 Streaming SQL
 
+## Flink SQL建表
+
+``` java
+tableEnv.connect(new FileSystem().path(filePath))
+.withFormat(new Csv()) //withFormat 是用来告诉flink我应该怎么处理来源用的每一条数据 比如按csv的格式,号分割
+.withSchema(new Schema() //withSchema 是声明创建表的表结构 要按照解析得到的数据的先后顺序对应
+.field("id", DataTypes.STRING())
+.field("time", DataTypes.BIGINT())
+.field("temp", DataTypes.DOUBLE()))
+.createTemporaryTable("inputTable");
+```
+
+https://www.cnblogs.com/21airuirui1123/p/14644933.html
+
+
 
 ## Table API/SQL UDF
 
