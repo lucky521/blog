@@ -76,13 +76,9 @@ Creates 4-dimensional blob from image. Optionally resizes and crops image from c
 
 
 
-# OpenCV常见的图像处理
+# OpenCV传统图像处理
 
 https://docs.opencv.org/master/d7/da8/tutorial_table_of_content_imgproc.html
-
-
-
-
 
 
 

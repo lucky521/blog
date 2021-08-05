@@ -154,21 +154,3 @@ if __name__ == "__main__":
 {% endhighlight %}
 
 
-
-<!--
-这里是注释区
-
-
-{% highlight python %}
-print "hello, Lucky!"
-{% endhighlight %}
-
-![My image]({{ site.baseurl }}/images/emule.png)
-
-My Github is [here][mygithub].
-
-[mygithub]: https://github.com/lucky521
-
-
-
--->

@@ -17,8 +17,6 @@ WinDgb
 
 ## Linux
 
-### GDB
-
 ```shell
 gdb binary corefile
 ```
@@ -27,6 +25,7 @@ gdb binary corefile
 
 LLDB Debugger
 
+## Java 
 
 
 

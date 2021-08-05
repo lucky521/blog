@@ -188,7 +188,7 @@ core-site.xml
 hdfs-site.xml
 - 设置dfs.replication，即hdfs数据块的复制份数，默认3。
 - 可以设置dfs.name.dir来改变Namenoode的存储位置，也可以不改，默认就在hadoop.tmp.dir下面。
--可以设置dfs.data.dir来改变Datanoode的存储位置，也可以不改，默认就在hadoop.tmp.dir下面。
+- 可以设置dfs.data.dir来改变Datanoode的存储位置，也可以不改，默认就在hadoop.tmp.dir下面。
 
 mapred-site.xml
 - 必须在所有master及slave上的conf/mapred-site.xml中设置mapred.job.tracker项。并且因为Hadoop架构是主master模式，所以在一个集群中的所有master及slave上设置的mapred.job.tracker的值应该是唯一一个JobTracker主服务器的地址。
@@ -198,6 +198,7 @@ mapred-queue-acls.xml
 - mapred.queue.<queue-name>.acl-administer-jobs， List of users and groups that can view job details, change the priority or kill jobs that have been submitted to the specified queue-name.
 
 /etc/hadoop/conf/hadoop-site.xml ？？？
+
 /etc/hadoop/conf/hadoop-env.xml ？？？
 
 

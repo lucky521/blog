@@ -36,7 +36,7 @@ Kubernetes和docker是什么关系？
 Kubernetes是Google的一个开源容器管理项目，他能利用Docker/其他技术部署/管理容器集群。
 
 Kubernetes和Yarn的区别？
-Kubernetes和Yarn的最大区别是前者主要负责long running service 任务，后者则是跑一些batch jobs
+Kubernetes和Yarn的在应用层面最大区别是前者主要负责long running service 任务，后者则是跑一些batch jobs。
 
 ## 概念
 

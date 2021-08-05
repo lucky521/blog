@@ -4,11 +4,12 @@ categories: [framework]
 layout: post
 ---
 
-# OpenGL 概述
+# OpenGL 简介
 
-OpenGL是一个硬件无关的接口。它是一套接口，实现部分可以由显卡硬件实现，也可以完全由软件实现，当然实现部分不是我们关心的。OpenGL使用Client-Server模式，应用程序是Client，调用OpenGL接口；显卡厂商是Server，实现OpenGL库然后被Client调用。
+OpenGL是一个硬件无关的接口。它是一套接口，实现部分可以由显卡硬件实现，也可以完全由软件实现，当然实现部分不是我们关心的。
+OpenGL使用Client-Server模式，应用程序是Client，调用OpenGL接口；显卡厂商是Server，实现OpenGL库然后被Client调用。
 
-## OpenGL不做的事情
+## OpenGL 不做的事情
 
     OpenGL不提供窗口任务相关的函数，不提供处理用户输入相关的函数。
     OpenGL没有用于表达3D物理模型的操作，没有关于读取图片文件的操作。
@@ -33,7 +34,7 @@ OpenGL是一个硬件无关的接口。它是一套接口，实现部分可以�
 
 # 词汇解释
 
-### Clipping Regions
+## Clipping Regions
 
 A clipping region is one of the graphic objects that an application can select into a device context (DC). It is typically rectangular.
 
