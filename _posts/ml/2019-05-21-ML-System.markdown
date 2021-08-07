@@ -53,11 +53,13 @@ categories: [MachineLearning]
 - 特征数据服务（Feature Flow、Feature Service）
 - 在线特征生成框架
 - 特征日志记录、事件埋点记录
+- 数据监控
 
 模型预测相关：
 - 模型热更新
 - 模型预测服务（本地预测、远端预测服务、在线学习）、
 - 模型灰度
+- 模型监控
 
 
 ## 人机交互

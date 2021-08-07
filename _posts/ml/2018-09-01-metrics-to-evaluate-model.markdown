@@ -324,6 +324,23 @@ DCG - Discounted cumulative gain
 
 
 
+# 模型稳定性监控
+
+对模型表现的监控指标：
+0、Confusion Matrix
+1、AUC(binary)
+2、KS(binary)
+3、PSI
+4、Lift & Gain
+5、MSE(Regression)
+
+对业务信息的监控指标：
+1、评分监控（评分模型）
+2、响应率监控
+3、模型变量监控（缺失值，平均值，最大值，最小值等，变量分布）
+4、模型调用次数
+
+
 
 
 # References

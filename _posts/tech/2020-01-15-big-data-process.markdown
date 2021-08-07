@@ -80,7 +80,8 @@ Storm
 ## Spark
 
 spark是怎么工作的？
-RDD
+RDD - Resilient Distributed Dataset
+lineage
 Lazy Evaluation
 
 
