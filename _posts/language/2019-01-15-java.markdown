@@ -78,7 +78,10 @@ Google开源的基础类库， 包含了对：集合,缓存,并发库,字符串�
 
 # py4j
 https://www.py4j.org/
-Py4J 使得 Python 程序可以利用 Python 解释器直接调用Java虚拟机中的 Java 对象，也可以让 Java 调用 Python 对象，有点像 Python 版的 JNI。
+https://www.cnblogs.com/xun-meng/p/12195854.html
+Py4J 使得 Python 程序可以利用 Python 解释器直接调用Java虚拟机中的 Java 对象，也可以让 Java 调用 Python 对象，有点像 Python 版的 JNI。 
+PySpark就是使用Py4J来进行Java和Python的互通。
+Java和Python分别运行在独立的进程中，通过RPC调用。
 
 下面是python代码访问java对象的例子。 在例子中Python借助GatewayServer来访问JVM。先启动java程序，后运行python程序。
 
@@ -153,4 +156,4 @@ if __name__ == "__main__":
 上面两个例子都是先启动java程序作为GateWayServer，然后让python主动发起调用的。
 第一个例子：让python访问了java实现的方法；
 第二个例子：让java访问python实现的方法。（通过回调接口）
-如果你想让java程序主动发起调用，可以直接让java程序开启一个shell进程去打开python脚本。
+如果你想让java程序主动"发起调用"，可以直接让java程序开启一个shell进程去打开python脚本。
