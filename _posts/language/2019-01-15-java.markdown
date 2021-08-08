@@ -4,8 +4,11 @@ categories: [Language]
 layout: post
 ---
 
-# JVM
+# 概念
 
+全限定名 = 包名 + 类型
+
+# JVM
 
 ## 类的生命周期
 
@@ -21,11 +24,22 @@ gradle
 ant
 
 
+## 有用的maven插件
+
+- maven-shade-plugin 将依赖的jar包也打包到当前jar包，对依赖的jar包进行重命名以隔离
+- maven-assembly-plugin 打jar包
+- maven-surefire-plugin 执行测试用例
+- os-maven-plugin 自动创建系统常用的属性变量
+- protobuf-maven-plugin 自动将proto生产代码
+
+
+
 
 # 强大的三方库
 
 ## guava
 
+Google开源的基础类库， 包含了对：集合,缓存,并发库,字符串处理, I/O等各个方面的支持
 
 本地缓存，guava提供的cache是一个简洁、高效，易于维护的。
 
@@ -34,21 +48,109 @@ ant
 新集合类型
 
 
+## MyBatis
+
+数据库（持久层）框架
+
+
+
 
 # snippets
 
 ```java
-ProcessBuilder pb = new ProcessBuilder("myCommand", "myArg1", "myArg2");
-Map<String, String> env = pb.environment();  // 环境变量 
-env.put("VAR1", "myValue");
-env.remove("OTHERVAR");
-env.put("VAR2", env.get("VAR1") + "suffix");
-pb.directory(new File("myDir"));  // 文件
-File log = new File("log");
-pb.redirectErrorStream(true);
-pb.redirectOutput(Redirect.appendTo(log));
-Process p = pb.start();  // 开始子进程
-assert pb.redirectInput() == Redirect.PIPE;
-assert pb.redirectOutput().file() == log;
-assert p.getInputStream().read() == -1;
+    ProcessBuilder pb = new ProcessBuilder("myCommand", "myArg1", "myArg2");
+    Map<String, String> env = pb.environment();  // 环境变量 
+    env.put("VAR1", "myValue");
+    env.remove("OTHERVAR");
+    env.put("VAR2", env.get("VAR1") + "suffix");
+    pb.directory(new File("myDir"));  // 文件
+    File log = new File("log");
+    pb.redirectErrorStream(true);
+    pb.redirectOutput(Redirect.appendTo(log));
+    Process p = pb.start();  // 开始子进程
+    assert pb.redirectInput() == Redirect.PIPE;
+    assert pb.redirectOutput().file() == log;
+    assert p.getInputStream().read() == -1;
 ```
+
+
+# jni
+
+# py4j
+https://www.py4j.org/
+Py4J 使得 Python 程序可以利用 Python 解释器直接调用Java虚拟机中的 Java 对象，也可以让 Java 调用 Python 对象，有点像 Python 版的 JNI。
+
+下面是python代码访问java对象的例子。 在例子中Python借助GatewayServer来访问JVM。先启动java程序，后运行python程序。
+
+```java
+import py4j.GatewayServer;
+import java.util.Random;
+public class EntryPoint {
+    private static final Random random = new Random();
+    public int randInt() { //这个是目标方法，我们让python调用它
+        return random.nextInt();
+    }
+    public static void main(String[] args) {
+        EntryPoint app = new EntryPoint();
+        GatewayServer gatewayServer = new GatewayServer(app); // 实例化entry_point， 允许 Python 程序通过本地网络套接字与 JVM 通信
+        gatewayServer.start();
+        System.out.println("Gateway Server Started");
+    }
+}
+```
+
+```python
+from py4j.java_gateway import JavaGateway
+gateway = JavaGateway()
+if __name__ == '__main__':
+    a = gateway.entry_point.randInt() # 从 Java-EntryPoint 入口点调用randInt函数
+    print(a)
+```
+
+
+下面这个例子是java回调python实现的方法。 在例子中用python代码去implement出java的interface。先启动java程序，后运行python程序。本质上是python调用java，然后java由回调了python方法。
+
+```java
+public interface FunInterface { // 这是java接口，我们希望用python实现它
+    Object fun(Object source);
+}
+```
+
+```java
+import py4j.GatewayServer;
+public class EntryPoint {
+    public String input = "xxx";
+    public void callFun(FunInterface obj) { // 这个是目标方法，我们让python调用它，但其实现却又是python实现
+        obj.fun(input)
+    } 
+    public static void main(String[] args) {
+        EntryPoint app = new EntryPoint();
+        GatewayServer gatewayServer = new GatewayServer(app); // 实例化entry_point，允许Python程序通过本地网络套接字与 JVM 通信
+        gatewayServer.start();
+        System.out.println("Gateway Server Started");
+    }
+}
+```
+
+```python
+class PythonListener(object):
+    def __init__(self, gateway): # 构造函数传入JavaGateway
+        self.gateway = gateway
+    class Java:
+        implements = ["Java接口全限定名.xx.xx.FunInterface"] # 实现一个java中定义的interface
+    def fun(self, input):
+        output = "this method is implemented by python"
+        return output
+
+if __name__ == "__main__":
+    gateway = JavaGateway(callback_server_parameters=CallbackServerParameters())
+    listener = PythonListener(gateway)
+    gateway.entry_point.callFun(listener) # 从 Java-EntryPoint 入口点调用callFun函数
+```
+
+
+
+上面两个例子都是先启动java程序作为GateWayServer，然后让python主动发起调用的。
+第一个例子：让python访问了java实现的方法；
+第二个例子：让java访问python实现的方法。（通过回调接口）
+如果你想让java程序主动发起调用，可以直接让java程序开启一个shell进程去打开python脚本。

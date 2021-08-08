@@ -63,6 +63,9 @@ Eigenvalue
 不管是图像像素、声音比特、汉语文字，还是表格数据，最后要交给机器学习算法来训练的“特征”总是一个矩阵，叫特征矩阵。其每一行是数据集的一条数据，叫作特征向量。其每一列是众多特征中的一个特征。
 
 
+## 数据分布
+
+在深度学习和机器学习中，我们通常希望数据的分布为正态分布
 
 
 
@@ -249,6 +252,10 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 
 
+
+
+
+
 # 流形学习 Manifold Learning
 
 流形学习方法是模式识别中的基本方法，分为线性流形学习算法和非线性流形学习算法。
@@ -261,8 +268,6 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 学习样本之间的相似程度。
 
-
-
 # 稀疏表示 Sparse representation 和 字典学习 Dictionary learning
 
 字典学习（Dictionary Learning）和稀疏表示（Sparse Representation）在学术界的正式称谓应该是稀疏字典学习（Sparse Dictionary Learning）。
@@ -273,6 +278,15 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 字典学习总是尝试学习蕴藏在样本背后最质朴的特征（假如样本最质朴的特征就是样本最好的特征）。
 
 
+
+
+
+
+# 数据可视化
+
+-   单变量可视化分析 110
+-   双变量可视化分析 113
+-   多变量可视化分析 118
 
 
 # 采样
@@ -355,7 +369,9 @@ svmlight是一种简化的文本格式。最早源自于libsvm。
 
 ## TFRecord格式
 
-TFRecord是Tensorflow和TFLearn所特有的二进制形式的样本文件格式。
+TFRecord 是Tensorflow和TFLearn所特有的二进制形式的样本文件格式。
+
+其内容是 tf.train.Example 的Protocol Buffer序列化后存储。
 
 
 

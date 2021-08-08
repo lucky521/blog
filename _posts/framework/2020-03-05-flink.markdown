@@ -170,6 +170,9 @@ flatmap 可以理解为将元素摊平，每个元素可以变为0个、1个、�
 
 map 可以理解为映射，对每个元素进行一定的变换后，映射为另一个元素。
 
+mapPartition 维护每个并行分区内记录的顺序，
+  RichMapPartitionFunction
+
 name 方法Sets the name of the current data stream.
 
 returns 方法Adds a type information hint about the return type of this operator.
@@ -456,7 +459,6 @@ https://ci.apache.org/projects/flink/flink-docs-stable/monitoring/metrics.html
 
 JM日志
 
-
 TM日志
 
 flink custer log
@@ -648,22 +650,26 @@ env.execute("MySourceMysql");
 
 # Flink背后的依赖库
 
-组件间通信 akka ，JobManager和TaskManager之间的控制通信
-数据传输 netty， 比如Operator之间的传输数据
-https://github.com/wangzhiwubigdata/God-Of-BigData/tree/master/Netty
+- 组件间通信 akka ，JobManager和TaskManager之间的控制通信
+- 数据传输 netty， 比如Operator之间的传输数据 https://github.com/wangzhiwubigdata/God-Of-BigData/tree/master/Netty
 
 
 # Alink
 
-Alink是基于Flink的通用算法平台
-
-https://github.com/alibaba/Alink
-
+Alink是基于Flink的通用算法平台 https://github.com/alibaba/Alink
 
 
 FlinkML
 FlinkML是1.8之前的一个机器学习组件，在1.9开始已经不存在了。
 https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/libs/ml/index.html
+
+
+## BatchOperator
+
+## FlatMapStreamOp
+
+## linkFrom && link
+
 
 
 # 参考
