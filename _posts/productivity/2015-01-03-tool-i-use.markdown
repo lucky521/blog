@@ -144,11 +144,11 @@ OmniDiskSweeper 有助于系统空间清理。
 
 ## 硬件
 
-电脑： MacBookPro
+电脑： MacBookPro, Thinkpad-T470
 
-键盘： HHKB
+键盘： HHKB type-s， Logitech K380
 
-接口转换器： USB，Typec，HDMI
+接口转换器： USB，TypeC，HDMI
 
 移动硬盘
 
