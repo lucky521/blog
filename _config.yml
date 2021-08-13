@@ -1,13 +1,13 @@
 # Site settings
-title: Lucky
-description: Lucky Blog. Welcome!
+title: Lu.dev
+description: Lu.dev Blog. Welcome!
 
 baseurl: /blog # the subpath of your site, e.g. /blog/
 abouturl: lucky521.github.io
 url: lucky521.github.io/blog # the base hostname & protocol for your site
 
 author:
-  fullname: Lucky
+  fullname: Lu.dev
   github: lucky521
   disqus: yes
 

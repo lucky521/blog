@@ -13,6 +13,17 @@ layout: post
 find ./-type f -mtime +30 -exec rm -f {} \; 
 
 
+### 并行执行（fork）
+
+```
+N=4
+(
+for thing in a b c d e f g h i g j k l m; do 
+   echo "i0=${i}"; ((i=i%N)); ((i++==0)) && echo "i1=${i}" && wait ; (echo "I am doing $thing i2=${i}"; sleep 1 ) &
+done
+)
+```
+
 
 ## HDFS
 
