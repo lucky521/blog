@@ -146,6 +146,10 @@ Catalog 提供了元数据信息，例如数据库、表、分区、视图以及
 
 
 
+
+
+
+
 # Flink功能
 
 ## StreamExecutionEnvironment
@@ -399,6 +403,15 @@ https://www.cnblogs.com/21airuirui1123/p/14644933.html
 - Async table 函数， lookup。
 
 
+## TableFactory
+TableFactory 用来创建与table相关的实例工厂接口，实例的来源来自字符串形式的properties。
+
+实现该接口的类应该被这样添加： Classes that implement this interface can be added to the "META_INF/services/org.apache.flink.table.factories.TableFactory" file of a JAR file in the current classpath to be found.
+
+TableSourceFactory
+tableSinkFactory
+
+
 ## DataStreamAPI UDF
 
 - 最基础的方式就是 implements MapFunction去实现一个新的类，或者是data.map(后面直接new MapFunction出一个匿名的类)
@@ -412,6 +425,10 @@ https://www.cnblogs.com/21airuirui1123/p/14644933.html
 
 ## Flink 单点恢复
 https://segmentfault.com/a/1190000025168779
+
+
+
+
 
 
 
