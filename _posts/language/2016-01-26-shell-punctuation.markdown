@@ -96,23 +96,3 @@ command1 && commmand2  command1先执行，只有当command1执行成功才会�
 # 参考
 https://stackoverflow.com/questions/31255699/double-parenthesis-with-and-without-dollar
 
-
-<!--
-这里是注释区
-
-```
-print "hello"
-```
-
-***Stronger***
-
-{% highlight python %}
-print "hello, Lucky!"
-{% endhighlight %}
-
-![My image]({{ site.baseurl }}/images/emule.png)
-
-My Github is [here][mygithub].
-[mygithub]: https://github.com/lucky521
-
--->
