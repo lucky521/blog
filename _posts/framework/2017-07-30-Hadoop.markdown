@@ -152,6 +152,8 @@ hadoop系统安装路径在
 ## 填写配置文件：
 三大配置文件，core-site.xml, hdfs-site.xml, mapred-site.xml (在0.2老版本中是三合一的一个xml)。要分别在里面填写name、jobtracker、replication的配置内容。
 
+默认的配置文件路径在 $HADOOP_CONF_DIR下。
+
 ## 格式化一个新的文件系统（在hadoop所有进程关闭的时候运行这个）
 ```
 $ hadoop namenode -format

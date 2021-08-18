@@ -10,6 +10,31 @@ layout: post
 
 # Hive
 
+## hive metastore
+
+hive依赖 Metastore 服务作为hadoop和用户接口的纽带。 Metastore本质上是一个提供Thrift服务的元信息服务器。
+
+https://cwiki.apache.org/confluence/display/Hive/AdminManual+Metastore+Administration
+
+## 其他hive services
+
+* Hive Services
+* HiveServer2
+* Hive Metastore
+* HCatalog + WebHcat
+* Beeline & Hive CLI
+* Thrift client
+* FileSystem :: HDFS and other compatible filesystems like S3
+* Execution engine :: MapReduce, Tez, Spark
+* Hive Web UI (added in Hive 2.x). Maybe also Tez or Spark UI, but not really*
+
+## python udf
+
+https://florianwilhelm.info/2016/10/python_udf_in_hive/
+
+## 开窗函数
+
+
 ## hive SerDe
 1、SerDe is a short name for “Serializer and Deserializer.”
 Hive uses SerDe (and !FileFormat) to read and write table rows.
@@ -28,12 +53,8 @@ Row object –> Serializer –> <key, value> –> OutputFileFormat –> HDFS fil
 
 Hive SQL背后的原理： https://tech.meituan.com/2014/02/12/hive-sql-to-mapreduce.html
 
-## python udf
 
-https://florianwilhelm.info/2016/10/python_udf_in_hive/
-
-## 开窗函数
-
+## hive-site.xml hive客户端配置和服务端配置都是这个文件
 
 
 
@@ -96,3 +117,7 @@ https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-py
 # Presto
 
 presto是Facebook开源的大数据查询引擎，为了解决hive查询慢产生
+
+# Impala
+
+impala使用hive的元数据, 完全在内存中计算。 使用上和Presto很接近。

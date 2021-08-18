@@ -53,6 +53,13 @@ classOf
 TraversableOnce
 
 
+class
+class就是一个普通的类，编译后只会生成一个文件；可以和object同名（此时class被称为伴生类，object被称为伴生对象）
+
+object
+在编译之后会生成两个.class文件，主要目的是为了模拟java的静态方法
+
+
 # 值类型
 
 Unit = {}  表示无值，和其他语言中void等同。用作不返回任何结果的方法的结果类型。Unit只有一个实例值，写成()。

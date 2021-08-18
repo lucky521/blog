@@ -8,6 +8,10 @@ layout: post
 
 全限定名 = 包名 + 类型
 
+对象拷贝:在 Java 中，除了基本数据类型（元类型）之外，还存在 类的实例对象 这个引用数据类型。而一般使用 『 = 』号做赋值操作的时候。对于基本数据类型，实际上是拷贝的它的值，但是对于对象而言，其实赋值的只是这个对象的引用，将原对象的引用传递过去，他们实际上还是指向的同一个对象。
+
+
+
 # JVM
 
 ## 类的生命周期
@@ -26,11 +30,13 @@ ant
 
 ## 有用的maven插件
 
+- maven-compiler-plugin 指定JDK的版本
 - maven-shade-plugin 将依赖的jar包也打包到当前jar包，对依赖的jar包进行重命名以隔离
 - maven-assembly-plugin 打jar包
 - maven-surefire-plugin 执行测试用例
 - os-maven-plugin 自动创建系统常用的属性变量
 - protobuf-maven-plugin 自动将proto生产代码
+- scala-maven-plugin scala和java两种代码混合编译
 
 
 
@@ -75,6 +81,8 @@ Google开源的基础类库， 包含了对：集合,缓存,并发库,字符串�
 
 
 # jni
+
+c/c++
 
 # py4j
 https://www.py4j.org/
