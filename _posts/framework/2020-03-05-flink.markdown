@@ -361,7 +361,7 @@ kafka 中数据都是以二进制 byte 形式存储的。读到 Flink 系统中�
 
 ## Flink SQL
 
-和传统SQL不同，Flink SQL设计成的是一个批流一体的SQL。
+和传统SQL不同，Flink SQL设计成的是一个批流一体的SQL。 使得查询对于批（DataSet）和流（DataStream）的输入有相同的语义，也会产生同样的计算结果。
 一直以来SQL都是用来处理关系型批量数据的，而不是处理流式数据。尽管存在这些差异，但是使用关系查询和 SQL 处理流并不是不可能的。
 
 查询动态表将生成一个 连续查询 。一个连续查询永远不会终止，结果会生成一个动态表。查询不断更新其(动态)结果表，以反映其(动态)输入表上的更改。
@@ -373,6 +373,33 @@ Flink SQL 工作机制: https://zhuanlan.zhihu.com/p/150473300
 Flink SQL如何实现数据流的join： http://www.whitewood.me/2019/12/15/Flink-SQL-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84-Join/
 
 Streaming SQL
+
+批式模型和流式模式
+
+- EnvironmentSettings.newInstance().useBlinkPlanner().inBatchMode().build()
+- EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build();
+
+Table API 和 SQL API使用的差别
+
+- Table table2 = tableEnv.from("table1").select(...); // create a Table object from a Table API query
+- Table table3 = tableEnv.sqlQuery("SELECT ... FROM table1 ... "); // create a Table object from a SQL query
+
+批流一体的概念中，SQL是真正一体的，Environment、Source、Sink并不是一体的。
+
+* 创建表(tablesource)：  
+* 查询表
+* 输出表(TableSink)： Table 通过写入 TableSink 输出。TableSink 是一个通用接口，用于支持多种文件格式（如 CSV、Apache Parquet、Apache Avro）、存储系统（如 JDBC、Apache HBase、Apache Cassandra、Elasticsearch）或消息队列系统（如 Apache Kafka、RabbitMQ）。批处理 Table 只能写入 BatchTableSink，而流处理 Table 需要指定写入 AppendStreamTableSink，RetractStreamTableSink 或者 UpsertStreamTableSink。
+
+
+将流式概念转为批流一体的Table概念
+不管流式数据源还是批式数据源，进入到Flink SQL里，都以table的概念来表达。
+- tableEnv.createTemporaryView: 在 TableEnvironment 中可以将 DataStream 或 DataSet 注册成视图。结果视图的 schema 取决于注册的 DataStream 或 DataSet 的数据类型
+- tableEnv.fromDataStream: DataStream 和 DataSet 还可以直接转换成 Table
+
+table概念还可以再转回datastream
+- tableEnv.toAppendStream
+- tableEnv.toRetractStream
+
 
 ## Flink SQL建表
 
@@ -389,8 +416,9 @@ tableEnv.connect(new FileSystem().path(filePath))
 https://www.cnblogs.com/21airuirui1123/p/14644933.html
 
 
+## UDF
 
-## Table API/SQL UDF
+### Table API/SQL UDF
 
 - Scalar 函数， 将一个标量数据 转换成 一个标量数据。
 - Table 函数， 将一个标量数据 转换成 数据。
@@ -399,7 +427,7 @@ https://www.cnblogs.com/21airuirui1123/p/14644933.html
 - Async table 函数， lookup。
 
 
-## DataStreamAPI UDF
+### DataStreamAPI UDF
 
 - 最基础的方式就是 implements MapFunction去实现一个新的类，或者是data.map(后面直接new MapFunction出一个匿名的类)
 - Rich Function， 附加了open, close， getRuntimeContext, setRuntimeContext 四个方法。
