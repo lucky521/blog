@@ -401,12 +401,10 @@ Flink SQL如何实现数据流的join： http://www.whitewood.me/2019/12/15/Flin
 Streaming SQL
 
 批式模型和流式模式
-
 - EnvironmentSettings.newInstance().useBlinkPlanner().inBatchMode().build()
 - EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build();
 
 Table API 和 SQL API使用的差别
-
 * executeSql
 * sqlQuery 特定于select sql语句，其返回值是一个Table
 
@@ -414,7 +412,6 @@ Table API 和 SQL API使用的差别
 - Table table3 = tableEnv.sqlQuery("SELECT ... FROM table1 ... "); // create a Table object from a SQL query
 
 批流一体的概念中，SQL是真正一体的，Environment、Source、Sink并不是一体的。
-
 * 创建表(tablesource)：  
 * 查询表
 * 输出表(TableSink)： Table 通过写入 TableSink 输出。TableSink 是一个通用接口，用于支持多种文件格式（如 CSV、Apache Parquet、Apache Avro）、存储系统（如 JDBC、Apache HBase、Apache Cassandra、Elasticsearch）或消息队列系统（如 Apache Kafka、RabbitMQ）。批处理 Table 只能写入 BatchTableSink，而流处理 Table 需要指定写入 AppendStreamTableSink，RetractStreamTableSink 或者 UpsertStreamTableSink。
