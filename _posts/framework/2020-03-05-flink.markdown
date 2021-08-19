@@ -134,6 +134,19 @@ process function api
 batch application
 stream application
 
+## Flink如何以Table的概念支持批流一体
+
+### 流到动态表的转换
+
+动态表 是 Flink 的支持流数据的Table的核心概念。动态表的查询是一种永不停止的查询，动态表的查询结果也是一种永在变更的结果。
+
+### 动态表到流的转换
+
+* Append-only 流
+* Retract 流
+* Upsert 流： 与 retract 流的主要区别在于 UPDATE 操作是用单个 message 编码的，因此效率更高。
+
+
 
 ## keygroup
 
