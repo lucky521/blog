@@ -16,6 +16,11 @@ https://www.infoq.cn/article/mnftt4ubk5pql3jpnt6m
 
 https://existek.com/blog/top-front-end-frameworks-2020/
 
+* react
+* vue
+* angular
+* flutter
+
 ## 前端可视化框架
 
 https://antv.vision/
@@ -25,3 +30,10 @@ https://antv.vision/
 # 技术栈
 
 * Play + Akka + Slick + PostgreSQL
+
+
+# 包管理
+
+* npm
+* yarn
+* cnpm

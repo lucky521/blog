@@ -54,34 +54,30 @@ SLAP 抽象层次一致性原则
 
 ## SQL/Hive
 
+https://ytluck.github.io/data-mining/my-dataming-post-42.html
 
   
 
-
-
-
-
-
 ### 优化选项
 
+* 选取执行引擎： mr tez spark  , set hive execution.engine=spark
+* 选取文件存储格式:
+* 选取优化器: set  hive.cbo.enable=true
 
-
-
-
-
-
-
-
-
+* 调整map数
+```
+    map读取文件的大小： set  dfs.block.size
+    map 的个数   set mapred.min.split.size
+            set mapred.max.split.size
+```
 
 * 合并小文件
 ```
-// 是否和并 Map 输出文件，默认为 True
-hive.merge.mapfiles = true
-// 是否合并 Reduce 输出文件，默认为 False
-hive.merge.mapredfiles = false
-// 合并文件的大小
-hive.merge.size.per.task = 256*1000*1000
+    hive.merg.mapfiles=true：合并map输出 
+    hive.merge.mapredfiles=false：合并reduce输出 
+    hive.merge.size.per.task=256*1000*1000：合并文件的大小 
+    hive.mergejob.maponly=true：如果支持CombineHiveInputFormat则生成只有Map的任务执行merge 
+    hive.merge.smallfiles.avgsize=16000000：文件的平均大小小于该值时，会启动一个MR任务执行merge。
 ```
 
 

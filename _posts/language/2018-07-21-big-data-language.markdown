@@ -58,6 +58,11 @@ Hive SQL背后的原理： https://tech.meituan.com/2014/02/12/hive-sql-to-mapre
 
 
 
+
+
+
+
+
 # Pig
 
 
