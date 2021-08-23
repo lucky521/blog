@@ -315,3 +315,5 @@ https://github.com/christophM/interpretable-ml-book ， https://github.com/Mingc
 - 斯坦福 CS229: Machine Learning http://cs229.stanford.edu/
 
 - 算法工程师的数学基础 https://mp.weixin.qq.com/s/_V-OzNNVL9tz119Z8qJOSw
+
+- 机器学习的数学

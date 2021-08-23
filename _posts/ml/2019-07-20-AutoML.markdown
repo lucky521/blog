@@ -5,6 +5,17 @@ subtitle: "Auto ML"
 categories: [MachineLearning]
 ---
 
+# 概念
+
+AutoML听起来好像只是把ML给自动化起来。那么机器学习的哪些环节，还做不到完全自动化？
+
+我们想象中的场景是：用户只需要提供数据，AutoML系统就可以通过数据学习到最佳表现的模型。
+* 不用自己筛选特征？ -> 自动化特征工程
+* 不用自己选算法（模型结构）？ -> 自动化模型选择
+* 不用自己构建优化目标和最优化算法？ -> 自动化模型选择
+* 不用自己调参？ -> 自动化超参调优
+
+
 # 模型参数和模型超参数的区别
 
 最优化算法的目标是求解模型的参数。而AutoML的目标是求解模型的超参数。
@@ -13,6 +24,7 @@ categories: [MachineLearning]
 超参数需要人为预先设置，而每组超参数会产生结构不同的模型；
 超参数需要一定的调整去适应不同的应用场景；
 这里宽泛意义上的超参数，可能是固定结构模型的传统意义超参，甚至可能是模型结构本身。
+
 
 ## 学习什么样的超参
 
@@ -24,16 +36,22 @@ categories: [MachineLearning]
 
 
 
+
+
 # 自动调参方法
+
+黑盒优化
 
 ## GridSearch
 
 ## RandomSearch
 
-## Multi-armed Bandit
-
 ## 贝叶斯优化
 
+* 高斯过程和贝叶斯优化的关系？ 高斯过程回归(GPR)对表达式位置的函数（黑盒函数）的一组函数值进行贝叶斯建模，以给出函数值的概率分布。
+
+
+## Multi-armed Bandit
 
 
 
@@ -70,10 +88,11 @@ https://github.com/google-research/google-research/tree/master/automl_zero
 
 
 
+
 # Reference
 
 [AutoML-Zero](https://ai.googleblog.com/2020/07/automl-zero-evolving-code-that-learns.html)
 
-[AUTOML: METHODS, SYSTEMS, CHALLENGES](https://www.automl.org/)
+[AUTOML: METHODS, SYSTEMS, CHALLENGES](https://www.automl.org/)  本书已经初版了中文译版
 
 [meta-learning one blog](https://wei-tianhao.github.io/blog/2019/09/17/meta-learning.html)
