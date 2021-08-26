@@ -97,7 +97,7 @@ Checkpoint失败与作业失败的关联？
     （3）无重启 (No restart)
 
 
-## Flink 单点恢复
+### Flink 单点恢复
 https://segmentfault.com/a/1190000025168779
 
 
@@ -175,7 +175,6 @@ Catalog 提供了元数据信息，例如数据库、表、分区、视图以及
 
 Metastore 即元数据服务，是Hive用来管理库表元数据的一个服务
 
-
 HiveCatalog(String catalogName, String defaultDatabase, String hiveConfDir, String hadoopConfDir, String hiveVersion) 
 
 
@@ -189,7 +188,7 @@ HiveCatalog(String catalogName, String defaultDatabase, String hiveConfDir, Stri
 
 ## StreamExecutionEnvironment
 
-每一个flink应用都需要一个执行环境， 对于流处理程序，使用的执行环境类是 StreamExecutionEnvironment.
+每一个flink应用都需要一个执行环境， 对于流处理程序，使用的执行环境类是 StreamExecutionEnvironment. 这是Flink单纯做流式处理所用的执行环境。
 当 env.execute() 方法执行之后，代码所设计的一张执行图就会被打包发送到Flink Master，进行任务拆解和并行化，分配到TaskManager执行。
 
 ## 几种stream
@@ -319,11 +318,11 @@ setStreamTimeCharacteristic
 
 ## watermark
 
-watermark是和Event Time一起使用的一个概念。由于消息自身的时间和消息被flink处理的时间往往是不同的，为了准备的表达数据的处理进度，出现了水印的概念。
+watermark是和Event Time一起使用的一个概念。由于消息自身的时间和消息被flink处理的时间往往是不同的，为了准确地表达数据的处理进度，出现了水印的概念。
 
 水印就是一个时间戳，可以给每个消息添加一个 允许一定延迟 的时间戳。
 
-watermark是用于处理乱序事件的，通常用watermark机制结合window来实现
+watermark是用于处理乱序事件的，通常用watermark机制结合window来实现。
 
 水印是Flink判断迟到数据的标准，同时也是窗口触发的标记。
 
@@ -343,10 +342,12 @@ BoundedOutOfOrdernessTimestampExtractor 的作用？
 BoundedOutOfOrdernessTimestampExtractor产生的时间戳和水印是允许“有界乱序”的，构造它时传入的参数maxOutOfOrderness就是乱序区间的长度，而实际发射的水印为通过覆写extractTimestamp()方法提取出来的时间戳减去乱序区间，相当于让水印把步调“放慢一点”。这是Flink为迟到数据提供的第一重保障。
 
 
-需要深刻理解这几个概念才行 https://www.jianshu.com/p/c612e95a5028
+需要深刻理解这几个概念才行： https://www.jianshu.com/p/c612e95a5028
 
 
 ## source
+
+### 流式source
 
 flink中的source作为整个stream中的入口，而sink作为整个stream的终点。
 
@@ -355,13 +356,21 @@ SourceFunction为所有flink中source的根接口，其定义了run()方法和ca
 - run方法的功能是核心功能，主要用于source往出emit元素
 - cancel方法时用于取消run方法的执行，一般来说run方法内部是一个循环，cancel方法中控制run方法的循环不满足条件，从而取消run方法的执行。
 
-
 addSource(sourceFunction)
 
 SourceFunction、ParallelSourceFunction、RichParallelSourceFunction
 
+### Source表
+source表的出处可能是 Kafka 的 topics，数据库，文件系统，或者任何其它 Flink 知道如何消费的系统。
+
+一个table必须被注册（createTemporaryView）到 TableEnvironment 里去才可以被后续查询使用。
+
+一个Table可以来自于 TableSource, Table, CREATE TABLE statement, DataStream. 或者可以register catalogs in a TableEnvironment to specify the location of the data sources.
+
 
 ## sink
+
+### 流式sink
 
 Sink是流的重点，根接口是sinkFunction。
 
@@ -371,14 +380,18 @@ SinkFunction 是一个接口，类似于SourceFunction接口。SinkFunction中�
 
 addSink(sinkFunction)
 
+### sink表
 
-## Connector 
+TableSink 是一个通用接口，用于支持以多种文件格式（如 CSV、Apache Parquet、Apache Avro），向不同存储系统（如 JDBC、Apache HBase、Apache Cassandra、Elasticsearch）或消息队列系统（如 Apache Kafka、RabbitMQ）输出。
+
+
+## Connector 与外部系统的连接器
 
 用于支持与其他组件数据连接的 source 和 sink。比如和kafka连接，比如和Hadoop连接，比如和RaddbitMQ连接。
 
-其中最为常用的当属Flink kafka connector。
+其中最为常用的当属Flink kafka connector。 此外，Apache Bahir 项目中也提供了更多连接器。
 
-此外，Apache Bahir 项目中也提供了更多连接器。
+针对不同的Flink API也有不同的连接器， Datastream Connector 和 Table API Connector。
 
 ### FlinkKafkaConsumer
 kafka 中数据都是以二进制 byte 形式存储的。读到 Flink 系统中之后，需要将二进制数据转化为具体的 java、scala 对象。所以需要实现一个 schema 类，定义如何序列化和反序列数据。
@@ -391,6 +404,16 @@ kafka 中数据都是以二进制 byte 形式存储的。读到 Flink 系统中�
   * SimpleStringSchema，按字符串方式进行序列化、反序列化。
   * TypeInformationSerializationSchema，它可根据 Flink 的 TypeInformation 信息来推断出需要选择的 schema。
   * JsonDeserializationSchema 使用 jackson 反序列化 json 格式消息，并返回 ObjectNode，可以使用 .get(“property”) 方法来访问相应字段。
+
+
+
+## TableFactory
+TableFactory 用来创建与table相关的实例工厂接口，实例的来源来自字符串形式的properties。
+
+实现该接口的类应该被这样添加： Classes that implement this interface can be added to the "META_INF/services/org.apache.flink.table.factories.TableFactory" file of a JAR file in the current classpath to be found.
+
+* TableSourceFactory
+* tableSinkFactory
 
 
 
@@ -441,12 +464,12 @@ table概念还可以再转回datastream
 
 ``` java
 tableEnv.connect(new FileSystem().path(filePath))
-.withFormat(new Csv()) //withFormat 是用来告诉flink我应该怎么处理来源用的每一条数据 比如按csv的格式,号分割
-.withSchema(new Schema() //withSchema 是声明创建表的表结构 要按照解析得到的数据的先后顺序对应
-.field("id", DataTypes.STRING())
-.field("time", DataTypes.BIGINT())
-.field("temp", DataTypes.DOUBLE()))
-.createTemporaryTable("inputTable");
+        .withFormat(new Csv()) //withFormat 是用来告诉flink我应该怎么处理来源用的每一条数据 比如按csv的格式,号分割
+        .withSchema(new Schema() //withSchema 是声明创建表的表结构 要按照解析得到的数据的先后顺序对应
+        .field("id", DataTypes.STRING())
+        .field("time", DataTypes.BIGINT())
+        .field("temp", DataTypes.DOUBLE()))
+        .createTemporaryTable("inputTable");
 ```
 
 https://www.cnblogs.com/21airuirui1123/p/14644933.html
@@ -471,13 +494,6 @@ https://www.cnblogs.com/21airuirui1123/p/14644933.html
 
 
 
-## TableFactory
-TableFactory 用来创建与table相关的实例工厂接口，实例的来源来自字符串形式的properties。
-
-实现该接口的类应该被这样添加： Classes that implement this interface can be added to the "META_INF/services/org.apache.flink.table.factories.TableFactory" file of a JAR file in the current classpath to be found.
-
-TableSourceFactory
-tableSinkFactory
 
 
 
@@ -582,6 +598,8 @@ setMaxParallelism 控制的是状态后端中keyed-state可以被分配的task�
 
 ## 特殊配置项
 
+## 集群配置项
+
 taskmanager.memory.task.off-heap.size 用于 Flink 应用的算计及用户代码的堆外内存（直接内存或本地内存）
 akka.ask.timeout 阻塞操作，可能因为机器繁忙或者网络堵塞导致timeout,可以尝试设置大一点
 akka.framesize   JM和TM之间传输的最大消息值
@@ -614,6 +632,10 @@ region
 apus.log.separate.enabled
 false
 
+### Table 环境配置项 
+
+https://ci.apache.org/projects/flink/flink-docs-release-1.13/zh/docs/dev/table/config/
+
 
 
 # Flink HelloWorld
@@ -631,7 +653,6 @@ cd /usr/local/Cellar/apache-flink/1.9.1 && ./libexec/bin/start-cluster.sh
 
 ./bin/flink cancel job_id
 ```
-
 
 
 ## scala code
