@@ -136,15 +136,28 @@ stream application
 
 ## Flink如何以Table的概念支持批流一体
 
+Flink 数据处理流水线开始于 source 表。source 表产生在查询执行期间可以被操作的行；它们是查询时 FROM 子句中引用的表。这些表可能是 Kafka 的 topics，数据库，文件系统，或者任何其它 Flink 知道如何消费的系统。
+
 ### 流到动态表的转换
 
 动态表 是 Flink 的支持流数据的Table的核心概念。动态表的查询是一种永不停止的查询，动态表的查询结果也是一种永在变更的结果。
+
+查询动态表将生成一个 连续查询 。一个连续查询永远不会终止，结果会生成一个动态表。查询不断更新其(动态)结果表，以反映其(动态)输入表上的更改。
+
+动态表 (Dynamic Table): https://ci.apache.org/projects/flink/flink-docs-master/zh/dev/table/streaming/dynamic_tables.html
+
+
+在创建Table和从Datatream转换为Table时，可以有一个处理时间字段（以 .proctime 为后缀），可以有一个事件时间字段（以 .rowtime 为后缀）。
+
 
 ### 动态表到流的转换
 
 * Append-only 流
 * Retract 流
 * Upsert 流： 与 retract 流的主要区别在于 UPDATE 操作是用单个 message 编码的，因此效率更高。
+
+
+
 
 
 
@@ -385,14 +398,10 @@ kafka 中数据都是以二进制 byte 形式存储的。读到 Flink 系统中�
 
 
 
-## Flink SQL
+## Flink SQL && Flink Table API
 
 和传统SQL不同，Flink SQL设计成的是一个批流一体的SQL。 使得查询对于批（DataSet）和流（DataStream）的输入有相同的语义，也会产生同样的计算结果。
 一直以来SQL都是用来处理关系型批量数据的，而不是处理流式数据。尽管存在这些差异，但是使用关系查询和 SQL 处理流并不是不可能的。
-
-查询动态表将生成一个 连续查询 。一个连续查询永远不会终止，结果会生成一个动态表。查询不断更新其(动态)结果表，以反映其(动态)输入表上的更改。
-
-动态表 (Dynamic Table): https://ci.apache.org/projects/flink/flink-docs-master/zh/dev/table/streaming/dynamic_tables.html
 
 Flink SQL 工作机制: https://zhuanlan.zhihu.com/p/150473300
 
@@ -476,11 +485,13 @@ tableSinkFactory
 
 ## DataSet API
 
-1.12版本开始DataSetAPI正在废弃中。
+从flink-1.12版本开始DataSetAPI正在废弃中。
 
 
 
+# Python API
 
+PythonAPI，就是 PyFlink， 换了开发语言，其API也分为 PyFlink Table API 和 PyFlink DataStream API 两种。
 
 
 
