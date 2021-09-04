@@ -612,37 +612,26 @@ setMaxParallelism 控制的是状态后端中keyed-state可以被分配的task�
 
 ## 集群配置项
 
-taskmanager.memory.task.off-heap.size 用于 Flink 应用的算计及用户代码的堆外内存（直接内存或本地内存）
-akka.ask.timeout 阻塞操作，可能因为机器繁忙或者网络堵塞导致timeout,可以尝试设置大一点
-akka.framesize   JM和TM之间传输的最大消息值
-heartbeat.timeout
-300000
-restart-strategy
-fixed-delay
-restart-strategy.fixed-delay.delay
-180s
-restart-strategy.fixed-delay.attempts
-1000
-state.backend.rocksdb.timer-service.factory
-ROCKSDB
-env.java.opts.taskmanager.additional
--XX:MaxGCPauseMillis=300
-taskmanager.network.request-backoff.max
-60000
-apus.taskmanager.network.request.wait.ms
-30000
-taskmanager.network.request-backoff.initial
-20000
-apus.memory.incontainer.available.ratio
-0.9
-cluster.evenly-spread-out-slots
-true
-apus.slotmanager.slot.placement.policy
-slot
-jobmanager.execution.failover-strategy
-region
-apus.log.separate.enabled
-false
+* taskmanager.memory.task.off-heap.size 用于 Flink 应用的算计及用户代码的堆外内存（直接内存或本地内存）
+* akka.ask.timeout 阻塞操作，可能因为机器繁忙或者网络堵塞导致timeout,可以尝试设置大一点
+* akka.framesize   JM和TM之间传输的最大消息值
+* heartbeat.timeout 300000
+* restart-strategy fixed-delay
+* restart-strategy.fixed-delay.delay 180s
+* restart-strategy.fixed-delay.attempts 1000
+* state.backend.rocksdb.timer-service.factory ROCKSDB
+* env.java.opts.taskmanager  -XX:MaxGCPauseMillis=300
+* env.java.opts.jobmanager
+* taskmanager.network.request-backoff.max 60000
+* apus.taskmanager.network.request.wait.ms 30000
+* taskmanager.network.request-backoff.initial 20000
+* apus.memory.incontainer.available.ratio 0.9
+* cluster.evenly-spread-out-slots true
+* apus.slotmanager.slot.placement.policy slot
+* jobmanager.execution.failover-strategy region
+* apus.log.separate.enabled false
+
+参考： https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/deployment/config.html
 
 ### Table 环境配置项 
 
