@@ -5,6 +5,8 @@ categories: [MachineLearning]
 layout: post
 ---
 
+如果说建模的过程是设计一个函数"模板"，那么最优化方法是在求解这个函数"模板"得到最优的函数。
+
 机器学习里模型训练的过程是在反复优化一个函数，使得其能做出理想的预测。而优化时又会设计一个Objective Function，用来衡量模型预测出来的值 h(θ) 与真实值 y 之间的差异。当然，差异越小且越稳定越好。我们所说的最优化方法，就是要优化这个Objective Function，使其取得一个极小值。
 
 # 目标函数和目标模型
@@ -257,11 +259,12 @@ https://maristie.com/blog/differences-between-normalization-standardization-and-
 
 近年来最流行的求数值解的优化方法就是小批量随机梯度下降算法。
 
+
 ## 无约束的优化问题
 
 无约束最优化问题是优化领域研究的基础性问题。
 
-常见的求解方法有梯度下降法（一阶法）、最速下降法、牛顿法（二阶法）、共轭梯度法（DFP法）和变尺度法（变度量法）。
+常见的求解方法有梯度下降法（一阶法）、最速下降法、牛顿法（二阶法）、拟牛顿法(二阶法)、共轭梯度法（DFP法）和变尺度法（变度量法）。
 
 对于特殊的最小二乘问题，即把均方误差作为最小化目标，有最小二乘法。
 
@@ -288,10 +291,6 @@ https://www.cnblogs.com/90zeng/p/Lagrange_duality.html
 
 
 
-
-
-
-
 ## 目标函数的凸性和光滑性
 
 目标函数的凸性会给优化带来很大方便，原因是凸函数的任何一个局部极小点都是全局最优解。
@@ -306,10 +305,14 @@ https://www.cnblogs.com/90zeng/p/Lagrange_duality.html
 
 ## 一阶确定性算法
 
-用到了目标函数在每一个状态的一阶导数信息。
+用到了目标函数在每一个状态的一阶导数信息
 
 
 ## 二阶确定性算法
+
+使用目标函数的二阶导数信息去求解。 步长更为精细，收敛速度比一阶更快。但是，计算量和存储量显著增大，在深度学习领域用的少。
+
+[为什么深度学习不使用牛顿法或拟牛顿法优化？](https://www.zhihu.com/question/483261712)
 
 
 ## 一阶随机优化算法
@@ -426,6 +429,8 @@ Adaptive Moment Estimation (Adam) combines ideas from both RMSProp and Momentum.
 ## Conjugate Gradients
 
 ## BFGS
+
+拟牛顿法的一种
 
 ## L-BFGS
 

@@ -5,6 +5,8 @@ categories: [MachineLearning]
 layout: post
 ---
 
+模型评价是机器学习最优化方法的对立面，去评价其效果。
+
 # 选择怎样的评估指标
 
 ## Online metrics vs Offline metrics

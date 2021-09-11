@@ -35,6 +35,15 @@ categories: [MachineLearning]
 “分布式”的形式：有多机器的分布式，也有单机多卡的分布式。
 
 
+## 集合通信 collective communication
+
+* broadcast，将参数从一个 node 发到多个 node 上
+* reduce，将参数从多个 node 收集到一个 node 上，同时对收集到的参数进行归并(求和，求积)。
+* allreduce，每个 node 都从其他 node 上面收集参数，同时对收集到的参数进行归并。
+
+对于数据并行方式来讲，通信的内容就是模型的权值和训练过程中的梯度。
+
+
 # 分布式机器学习(训练)的方式
 
 ## 计算并行
@@ -64,15 +73,7 @@ categories: [MachineLearning]
 
 
 
-# 通信的内容
 
-## 集合通信 collective communication
-
-* broadcast，将参数从一个 node 发到多个 node 上
-* reduce，将参数从多个 node 收集到一个 node 上，同时对收集到的参数进行归并(求和，求积)。
-* allreduce，每个 node 都从其他 node 上面收集参数，同时对收集到的参数进行归并。
-
-对于数据并行方式来讲，通信的内容就是模型的权值和训练过程中的梯度。
 
 
 
@@ -148,7 +149,7 @@ ring-base collectives
 
 
 
-# 分布式通信框架
+# 分布式通信拓扑框架
 
 ## MapReduce
 
@@ -171,7 +172,7 @@ MPI，openMPI，openMP
 
 
 
-# 分布式机器学习算法
+# 分布式机器学习(最优化)算法
 
 同步SGD
 
@@ -200,10 +201,16 @@ DistBelief
 AlexNet
 
 
+# 分布式机器学习预测的方式
+
+分布式预测目前还没有成熟的开源方案。
+当下主要流行的是模型中Embedding词表的分布式查询。
 
 
 
-# GPU 硬件和软件生态
+
+
+# 硬件和软件生态
 
 深度学习的大规模训练通常以线性增加的理想情况为基准（N个GPU应该比一个GPU快N倍）。 Horovod和NCCL库在保持高吞吐量方面做得很好，但是他们的性能与所使用的硬件有着千丝万缕的联系。高带宽和低延迟的要求导致了NVLink互连的开发。 NVIDIA DGX-2通过NVSwitch将这种互连又推进一步，该互连结构可以300GB/s的峰值双向带宽连接多达16个GPU。
 
@@ -251,6 +258,9 @@ CUDA Deep Neural Network library.
 ## cuBLAS
 
 basic linear algebra subroutines 利用cuda加速矩阵运算的库
+
+
+## infiniband
 
 
 
@@ -400,14 +410,10 @@ https://www.deepspeed.ai/getting-started/#training
 
 
 
-# 分布式机器学习预测
 
-分布式预测目前还没有成熟的开源方案。
 
 
 
 # 参考
-
-分布式训练的方案和效率对比 https://zhuanlan.zhihu.com/p/50116885
-
-分布式机器学习的论文综述 https://mp.weixin.qq.com/s/l90VsXKvcqDUvfQQe7BuRA
+* 分布式训练的方案和效率对比 https://zhuanlan.zhihu.com/p/50116885
+* 分布式机器学习的论文综述 https://mp.weixin.qq.com/s/l90VsXKvcqDUvfQQe7BuRA
