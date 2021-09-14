@@ -46,14 +46,19 @@ AutoML听起来好像只是把ML给自动化起来。那么机器学习的哪些
 
 ## RandomSearch
 
-## 贝叶斯优化
+## 贝叶斯优化(BO)
+基于高斯过程(Gaussian Process)的贝叶斯优化(Bayesian optimization)
 
 * 高斯过程和贝叶斯优化的关系？ 高斯过程回归(GPR)对表达式位置的函数（黑盒函数）的一组函数值进行贝叶斯建模，以给出函数值的概率分布。
+
+适用于维度比较低的调参场景，一般10-20维就差不多了
 
 
 ## Multi-armed Bandit
 
 
+
+## hyperband 算法
 
 
 

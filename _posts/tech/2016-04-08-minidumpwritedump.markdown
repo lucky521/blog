@@ -12,7 +12,7 @@ layout: post
 
 先用CreateToolhelp32Snapshot获取所有进程的snapshot，然后Process32Next进行遍历，比较每一个进程的名字找出目标名称，OpenProcess获取句柄，然后MiniDumpWriteDump抓取到自建的文件里面。
 
-```
+```cpp
 #include <windows.h>
 #include <DbgHelp.h>
 #include <tlhelp32.h>
@@ -57,7 +57,7 @@ CloseHandle(snapshot);
 
 
 
-```
+```cpp
 #include "stdafx.h"
 #include <windows.h>
 #include <DbgHelp.h>
@@ -103,25 +103,3 @@ int _tmain(int argc, _TCHAR* argv[])
 
 
 
-
-
-
-
-
-
-
-<!--
-这里是注释区
-
-```
-print "hello"
-```
-
-***Stronger***
-
-![My image]({{ site.baseurl }}/images/emule.png)
-
-My Github is [here][mygithub].
-[mygithub]: https://github.com/lucky521
-
--->

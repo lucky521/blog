@@ -62,7 +62,7 @@ categories: [MachineLearning]
 - 模型监控
 
 
-## 人机交互
+## 人机交互（UI）
 - 训练任务和可视化训练平台（可编写训练Workflow、实验模型可重载、训练任务可重载、训练结果历史库）
 - 多机多卡训练如单机单卡一样简单
 - 特征和样本管理平台
@@ -74,7 +74,7 @@ categories: [MachineLearning]
   - 对于数据的监控报警要与数据可视化配合
 
 
-## 监控
+## 监控(Monitor)
 - 各环节性能监控
 - 离线样本值监控
 - 在线特征值监控
@@ -214,8 +214,10 @@ https://ai.baidu.com/easydl/
 https://ai.baidu.com/bml/
 
 
+### mindspore
 
-
+华为推出的机器学习平台
+https://www.mindspore.cn/tutorials/zh-CN/master/distributed_training.html
 
 
 

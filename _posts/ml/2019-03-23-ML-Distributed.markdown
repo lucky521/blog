@@ -26,13 +26,22 @@ categories: [MachineLearning]
 
 错误处理能力不好
 
-## 怎么样的分布式？
+## 怎么样的分布式？ 划分方式
 
 “分布式”的阶段：有训练时的分布式，有预测时的分布式（Distributed TF-Serving）。
 
 “分布式”的内容：有模型分布式并行，有数据分布式并行。
 
 “分布式”的形式：有多机器的分布式，也有单机多卡的分布式。
+
+
+## 集合通信 collective communication
+
+* broadcast，将参数从一个 node 发到多个 node 上
+* reduce，将参数从多个 node 收集到一个 node 上，同时对收集到的参数进行归并(求和，求积)。
+* allreduce，每个 node 都从其他 node 上面收集参数，同时对收集到的参数进行归并。
+
+对于数据并行方式来讲，通信的内容就是模型的权值和训练过程中的梯度。
 
 
 # 分布式机器学习(训练)的方式
@@ -48,11 +57,11 @@ categories: [MachineLearning]
 
 数据并行会涉及到各个GPU之间同步模型参数，一般分为同步更新和异步更新。
 
-在目前实际应用中，单机多卡的同步式数据并行是最常用的。
-
 * 单机多GPU
 * 多机多GPU
 * 多机纯CPU
+
+在目前实际应用中，单机多卡的同步式数据并行是最常用的。
 
 
 ## 模型并行
@@ -60,19 +69,12 @@ categories: [MachineLearning]
 将机器学习模型切分为若干子模型（一部分模型参数对应于一个子模型），把每个子模型放在一个工作节点上进行计算。
 子模型之间必然要有依赖关系，因此子模型划分方法关键，好的划分方法应尽可能地降低通信强度。
 
-分布式系统中的不同GPU负责网络模型的不同部分。(例如，神经网络模型的不同网络层被分配到不同的GPU，或者同一层内部的不同参数被分配到不同GPU；)
+分布式系统中的不同GPU负责网络模型的不同部分。(例如，神经网络模型的不同网络层被分配到不同的GPU，或者同一层内部的不同参数被分配到不同GPU)
 
 
 
-# 通信的内容
 
-## 集合通信 collective communication
 
-* broadcast，将参数从一个 node 发到多个 node 上
-* reduce，将参数从多个 node 收集到一个 node 上，同时对收集到的参数进行归并(求和，求积)。
-* allreduce，每个 node 都从其他 node 上面收集参数，同时对收集到的参数进行归并。
-
-对于数据并行方式来讲，通信的内容就是模型的权值和训练过程中的梯度。
 
 
 
@@ -148,7 +150,7 @@ ring-base collectives
 
 
 
-# 分布式通信框架
+# 分布式通信拓扑框架
 
 ## MapReduce
 
@@ -171,7 +173,7 @@ MPI，openMPI，openMP
 
 
 
-# 分布式机器学习算法
+# 分布式机器学习(最优化)算法
 
 同步SGD
 
@@ -195,15 +197,21 @@ AdaptiveRevision
 
 带延迟补偿的异步SGD
 
-DistBelief
+DistBelief（模型并行算法）
 
-AlexNet
-
-
+AlexNet（模型并行算法）
 
 
+# 分布式机器学习预测的方式
 
-# GPU 硬件和软件生态
+分布式预测目前还没有成熟的开源方案。
+当下主要流行的是模型中Embedding词表的分布式查询。
+
+
+
+
+
+# 硬件和软件生态
 
 深度学习的大规模训练通常以线性增加的理想情况为基准（N个GPU应该比一个GPU快N倍）。 Horovod和NCCL库在保持高吞吐量方面做得很好，但是他们的性能与所使用的硬件有着千丝万缕的联系。高带宽和低延迟的要求导致了NVLink互连的开发。 NVIDIA DGX-2通过NVSwitch将这种互连又推进一步，该互连结构可以300GB/s的峰值双向带宽连接多达16个GPU。
 
@@ -251,6 +259,9 @@ CUDA Deep Neural Network library.
 ## cuBLAS
 
 basic linear algebra subroutines 利用cuda加速矩阵运算的库
+
+
+## infiniband
 
 
 
@@ -400,14 +411,10 @@ https://www.deepspeed.ai/getting-started/#training
 
 
 
-# 分布式机器学习预测
 
-分布式预测目前还没有成熟的开源方案。
 
 
 
 # 参考
-
-分布式训练的方案和效率对比 https://zhuanlan.zhihu.com/p/50116885
-
-分布式机器学习的论文综述 https://mp.weixin.qq.com/s/l90VsXKvcqDUvfQQe7BuRA
+* 分布式训练的方案和效率对比 https://zhuanlan.zhihu.com/p/50116885
+* 分布式机器学习的论文综述 https://mp.weixin.qq.com/s/l90VsXKvcqDUvfQQe7BuRA
