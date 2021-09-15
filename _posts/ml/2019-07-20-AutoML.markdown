@@ -47,11 +47,14 @@ AutoML听起来好像只是把ML给自动化起来。那么机器学习的哪些
 ## RandomSearch
 
 ## 贝叶斯优化(BO)
-基于高斯过程(Gaussian Process)的贝叶斯优化(Bayesian optimization)
+基于高斯过程(Gaussian Process)的贝叶斯优化(Bayesian optimization).贝叶斯调优的原理是建立在高斯过程回归上，而高斯过程回归则是在求解目标函数的后验分布
 
 * 高斯过程和贝叶斯优化的关系？ 高斯过程回归(GPR)对表达式位置的函数（黑盒函数）的一组函数值进行贝叶斯建模，以给出函数值的概率分布。
 
-适用于维度比较低的调参场景，一般10-20维就差不多了
+适用于维度比较低的调参场景，一般10-20维就差不多了.
+
+
+Acquisition Function，也就是收获函数
 
 
 ## Multi-armed Bandit
@@ -72,9 +75,6 @@ https://github.com/microsoft/nni
 
 https://github.com/tobegit3hub/advisor
 
-## tune
-https://github.com/ray-project/ray/tree/master/python/ray/tune
-
 ## MLBox
 
 https://github.com/AxeldeRomblay/MLBox
@@ -89,6 +89,14 @@ https://github.com/google/automl/tree/master/efficientdet
 ## google-automl_zero
 
 https://github.com/google-research/google-research/tree/master/automl_zero
+
+
+## Ray-Tune
+
+https://github.com/ray-project/ray/tree/master/python/ray/tune
+
+
+## optuna
 
 
 

@@ -35,6 +35,9 @@ DAG
 数据传递方式
 hash / rebalance / forward / shuffle / rescale
 
+广播变量
+getRuntimeContext().getBroadcastVariable / withBroadcastSet
+
 Exactly-Once
 Exactly-Once是流处理系统核心特性之一，它保证每一条消息只被流处理系统处理一次，通过借鉴Chandy和Lamport在1985年发表的一篇关于分布式快照的论文，Flink实现了Exactly-Once特性。
 
