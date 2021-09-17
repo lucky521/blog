@@ -25,7 +25,7 @@ TLS协议层是一套Web标准，所有的应用层报文按照这个通信标�
 
 ## 使用Openssl的一般过程
 
-```
+```cpp
 初始化工作
 客户端和服务器端很类似。
 #include <openssl/ssl.h>
@@ -83,7 +83,7 @@ void SSL_CTX_free(SSL_CTX *ctx); //释放SSL会话环境
 
 ## 服务器端例子
 
-```
+```cpp
 #include <errno.h>
 #include <unistd.h>
 #include <malloc.h>
@@ -258,7 +258,7 @@ int main(int count, char *strings[])
 
 ## 客户端例子
 
-```
+```cpp
 #include <stdio.h>
 #include <errno.h>
 #include <unistd.h>
@@ -378,7 +378,7 @@ int main(int count, char *strings[])
 
 ## 编译上面的例子
 
-```
+```makefile
 all: server.c client.c
 	gcc -Wall -o ssl-client client.c -L/usr/lib -lssl -lcrypto
 	gcc -Wall -o ssl-server server.c -L/usr/lib -lssl -lcrypto

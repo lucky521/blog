@@ -10,6 +10,10 @@ categories: [MachineLearning]
 
 # LR models
 
+逻辑回归模型简单，解释性好，使用极大似然估计对训练数据进行建模。
+
+采用梯度下降法对LR进行学习训练，LR的梯度下降法迭代公式非常简洁。
+LR适合离散特征，不适合特征空间大的情况。
 
 # GBM models
 
