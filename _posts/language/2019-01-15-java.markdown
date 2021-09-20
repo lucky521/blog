@@ -14,6 +14,8 @@ CMS GC: 避免在老年代垃圾收集时出现长时间的卡顿，主要通过
 1、不对老年代进行整理，而是使用空闲列表(free-lists)来管理内存空间的回收
 2、在 mark-and-sweep (标记-清除) 阶段的大部分工作和应用线程一起并发执行。
 
+happens-before, 指令重排
+
 
 垃圾回收
 * minor GC: 回收新生代（包括 Eden 和 Survivor 区域），因为 Java 对象大多都具备朝生夕灭的特性，所以 Minor GC 非常频繁，一般回收速度也比较快
@@ -24,9 +26,38 @@ class文件
 JVM 只认识 .class 文件，它不关心是何种语言生成了 .class 文件，只要 .class 文件符合 JVM 的规范就能运行。
 Class 文件是二进制文件，它的内容具有严格的规范，文件中没有任何空格，全都是连续的 0/1。Class 文件 中的所有内容被分为两种类型：无符号数、表。
 
+
+锁
+* 悲观锁、乐观锁
+* 自旋锁、适应性自旋锁
+* 偏向锁
+* 轻量级锁、重量级锁
+* 公平锁、非公平锁
+* 可重入锁、不可重入锁
+* 共享锁、排他锁
+
+synchronized
+ReentrantLock
+ReentrantReadWriteLock
+
+
 # 语法
 
-getResourceAsStream
+* getResourceAsStream
+
+* transient transient的作用就是把这个字段的生命周期仅存于调用者的内存中而不会写到磁盘里持久化。将不需要序列化的属性前添加关键字transient，序列化对象的时候，这个属性就不会序列化到指定的目的地中。例外是，若实现的是Externalizable接口，则没有任何东西可以自动序列化，需要在writeExternal方法中进行手工指定所要序列化的变量，这与是否被transient修饰无关。
+
+* finally 1、finally中的代码总会被执行。2、当try、catch中有return时，也会执行finally。return的时候，要注意返回值的类型，是否受到finally中代码的影响。3、finally中有return时，会直接在finally中退出，导致try、catch中的return失效。
+
+## 数据类型
+
+String：适用于少量的字符串操作的情况
+StringBuilder：适用于单线程下在字符缓冲区进行大量操作的情况
+StringBuffer：适用多线程下在字符缓冲区进行大量操作的情况
+
+HashTable
+HashMap
+ConcurrentHashMap
 
 
 # JVM
@@ -71,6 +102,11 @@ getResourceAsStream
 * -XX:SurvivorRatio 年轻代空间中Eden空间和Survivor空间的比值
 
 
+## jmap命令
+
+* jmap -heap pid 展示pid的整体堆信息
+* jmap -histo pid 展示class的内存情况
+* jmap -dump:live,format=b,file=a.log pid 将内存使用的详细情况输出到文件
 
 
 # 项目构建
@@ -86,12 +122,13 @@ ant
 
 - maven-compiler-plugin 指定JDK的版本
 - maven-shade-plugin 将依赖的jar包也打包到当前jar包，对依赖的jar包进行重命名以隔离
-- maven-assembly-plugin 打jar包
+- maven-assembly-plugin 打jar包, 自定义格式包assembly.xml
 - maven-surefire-plugin 执行测试用例
 - os-maven-plugin 自动创建系统常用的属性变量
 - protobuf-maven-plugin 自动将proto生产代码
 - scala-maven-plugin scala和java两种代码混合编译
 
+```xml
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-surefire-plugin</artifactId>
     <version>2.22.1</version>
@@ -99,6 +136,7 @@ ant
     <forkMode>once</forkMode>
     <argLine>-Xmx102400m -Xms51200m -XX:MaxDirectMemorySize=1024m</argLine>
     </configuration>
+```
 
 
 # 强大的三方库
@@ -119,7 +157,9 @@ Google开源的基础类库， 包含了对：集合,缓存,并发库,字符串�
 数据库（持久层）框架
 
 
-## Springboot
+## Spring
+
+Spring框架为开发Java应用程序提供了全面的基础架构支持。 Spring Boot基本上是Spring框架的扩展，它消除了设置Spring应用程序所需的XML配置，为更快，更高效的开发生态系统铺平了道路。
 
 
 
