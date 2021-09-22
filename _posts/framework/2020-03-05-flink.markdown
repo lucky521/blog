@@ -73,6 +73,9 @@ Checkpoint在生成和恢复的时候都会消耗资源。
 Checkpoint 里面存的是什么内容？ _metadata
 Checkpoint 太大了怎么办？
 
+异步快照
+在Flink做分布式快照过程中核心是Barriers的使用。这些Barriers是在数据接入到Flink之初就注入到数据流中，并随着数据流向每个算子。
+
 
 作业 Failover
 Checkpoint 在作业failover的时候自动使用。

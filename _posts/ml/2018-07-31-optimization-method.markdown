@@ -438,6 +438,8 @@ https://blog.csdn.net/dadouyawp/article/details/44179599
 
 
 
+
+
 ## 多种优化方法的结合使用
 
 比如通过切换从Adam到SGD。
@@ -445,7 +447,9 @@ Adam在一开始表现更好，而SGD最终达到更好的全局最小值。
 
 
 
+## 模拟退火算法
 
+## 
 
 
 

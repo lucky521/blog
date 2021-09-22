@@ -1,5 +1,5 @@
 ---
-title: "大数据处理的方法"
+title: "大数据处理的语言和方法"
 subtitle: "Working on Big Data"
 categories: [Language]
 layout: post

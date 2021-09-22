@@ -41,6 +41,17 @@ AutoML听起来好像只是把ML给自动化起来。那么机器学习的哪些
 # 自动调参方法
 
 黑盒优化
+* Grid search（网格搜索）
+* Random search（随机搜索）
+* Genetic algorithm（遗传算法）
+* Paticle Swarm Optimization（粒子群优化）
+* Bayesian Optimization（贝叶斯优化）
+* TPE
+* SMAC
+* 退火算法
+* Hyperband算法
+* Naive Evolution（进化算法）
+* ENAS算法
 
 ## GridSearch
 
@@ -62,6 +73,9 @@ Acquisition Function，也就是收获函数
 
 
 ## hyperband 算法
+
+
+
 
 
 
