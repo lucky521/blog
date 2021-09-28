@@ -163,6 +163,9 @@ categories: [MachineLearning]
 - https://github.com/tensorflow/transform
 
 模型训练层组件
+- PaddlePaddle
+- pytorch
+- mxnet
 - 分布式的Tensorflow：https://github.com/tensorflow/examples/blob/master/community/en/docs/deploy/distributed.md
 - Horovod: https://eng.uber.com/horovod/
 - oneflow: https://docs.oneflow.org/basics_topics/essentials_of_oneflow.html

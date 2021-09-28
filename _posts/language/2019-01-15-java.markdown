@@ -143,6 +143,9 @@ ant
     </configuration>
 ```
 
+- slf4j-api、slf4j-log4j12、log4j之间关系
+- lombok
+
 
 # 强大的三方库
 

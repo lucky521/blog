@@ -92,6 +92,8 @@ RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数
 
 # X_FS
 
+存储接口标准： AWS S3标准协议 (Amazon Simple Storage Service (Amazon S3) )
+
 ## ChubaoFS
 ChubaoFS（CFS）是京东开发的分布式文件系统和对象存储系统
 

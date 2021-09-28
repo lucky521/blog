@@ -9,7 +9,9 @@ layout: post
 分布式。数据存储。数据处理。
 
 ## NameNode 进程
-NameNode只有一个，它是整个HDFS的核心。分布式文件系统的管理者。当然也是HDFS的一个单点瓶颈，如果它挂掉，HDFS就会崩溃，所以对它的保护尤为重要。secondarynamenode进程是NameNode的冗余进程。
+NameNode只有一个，它是整个HDFS的核心。分布式文件系统的管理者。当然也是HDFS的一个单点瓶颈，如果它挂掉，HDFS就会崩溃，所以对它的保护尤为重要。
+secondarynamenode进程是NameNode的冗余进程。
+特殊的情况：配置多个NameNode，配置多个namenode的相当于配置了一个联邦集群，每个namenode之间都不会进行通信，各自管理各自的命名空间。
 
 ## DataNode进程
 文件存储的基本单元。每个节点运行一个。应用程序才访问文件系统时，先由NameNode提供数据的位置，然后程序去访问对应的DataNode。
