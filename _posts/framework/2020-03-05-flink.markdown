@@ -426,6 +426,24 @@ kafka 中数据都是以二进制 byte 形式存储的。读到 Flink 系统中�
   * JsonDeserializationSchema 使用 jackson 反序列化 json 格式消息，并返回 ObjectNode，可以使用 .get(“property”) 方法来访问相应字段。
 
 
+### From kafka to FileSystem
+
+读kafka重要的是设置offset:
+* flink消费了kafka数据后，不会更新offset到kafka，直到checkpoint完成。
+* flink在没有使用savepoint重启作业的时候，消费kafka的offset还是从kafka自身获取，存在重复消费数据的情况。
+* flink使用savepoint重启作业，不会重复消费kafka数据，也会正确更新kafka的offset。
+
+
+文件系统重要的是bucketassign和rollingPolicy
+* StreamingFileSink
+  * forBulkFormat
+  * withRollingPolicy
+  * withOutputFileConfig
+  * withBucketAssigner
+  * 使用 StreamingFileSink 时需要启用 Checkpoint ，每次做 Checkpoint 时写入完成。如果 Checkpoint 被禁用，部分文件（part file）将永远处于 'in-progress' 或 'pending' 状态，下游系统无法安全地读取。
+
+
+
 
 ## TableFactory
 TableFactory 用来创建与table相关的实例工厂接口，实例的来源来自字符串形式的properties。
