@@ -6,6 +6,10 @@ layout: post
 ---
 所谓标准库，是要满足一些比通用计算和操作而设计的库。必须访问操作系统接口、文件读写、复杂数学计算、网络传输等。
 
+# 语法
+
+with 语法
+
 # Python内置函数
 
 http://www.runoob.com/python/python-built-in-functions.html

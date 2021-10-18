@@ -31,6 +31,13 @@ Class 文件是二进制文件，它的内容具有严格的规范，文件中�
 Java中两种常见的动态代理方式：JDK原生动态代理和CGLIB动态代理。
 
 
+注解
+如果说注释是写给人看的，那么注解就是写给程序看的。它更像一个标签，贴在一个类、一个方法或者字段上。它的目的是为当前读取该注解的程序提供判断依据。比如程序只要读到加了@Test的方法，就知道该方法是待测试方法，又比如@Before注解，程序看到这个注解，就知道该方法要放在@Test方法之前执行。
+所谓元注解，就是加在注解上的注解。
+
+
+
+
 
 锁
 * 悲观锁、乐观锁
@@ -132,6 +139,7 @@ ant
 - os-maven-plugin 自动创建系统常用的属性变量
 - protobuf-maven-plugin 自动将proto生产代码
 - scala-maven-plugin scala和java两种代码混合编译
+- build-helper-maven-plugin 支持自定义的项目目录结构(相对于Maven默认目录结构来说)。
 
 ```xml
     <groupId>org.apache.maven.plugins</groupId>

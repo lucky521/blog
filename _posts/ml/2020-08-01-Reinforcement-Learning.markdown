@@ -43,7 +43,7 @@ categories: [MachineLearning]
 
 DQN 算法 Deep Q-network
 
-
+DDPG
 
 # 开源项目
 

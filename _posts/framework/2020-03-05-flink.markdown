@@ -86,16 +86,6 @@ Flink 的容错机制主要分为从 checkpoint 恢复状态和重流数据两�
 2. 基于Region的局部重启 region
 
 
-checkpoint失败原因
-* 如果 Checkpoint 做的非常慢，超过了 timeout 还没有完成，则整个 Checkpoint 也会失败。 Checkpoint慢的原因需要细查。
-* 用户代码逻辑没有对于异常处理，让其直接在运行中抛出。比如解析 Json 异常，没有捕获，导致 Checkpoint 失败，或者调用 Dubbo 超时异常等等。
-* 依赖外部存储系统，在进行数据交互时，出错，异常没有处理。比如输出数据到 Kafka、Redis、HBase 等，客户端抛出了超时异常，没有进行捕获，Flink 任务容错机制会再次重启。
-* 内存不足，频繁 GC，超出了 GC 负载的限制。比如 OOM 异常
-* 网络问题、机器不可用问题等等。
-- 参考：[Flink Checkpoint 问题排查实用指南](https://www.jianshu.com/p/fc100f85a0fb)
-
-Checkpoint失败与作业失败的关联？
-
 如何从checkpoint恢复启动作业？
 常用的重启策略
     （1）固定间隔策略 (Fixed delay)
@@ -355,11 +345,11 @@ DataStream.assignTimestampsAndWatermarks()方法来提取事件时间并同时�
 - 窗口执行计算时间由 水印时间 来触发，当接收到消息的 watermark >= endtime ，触发计算
 
 
-AscendingTimestampExtractor的作用？
-AscendingTimestampExtractor产生的时间戳和水印必须是单调非递减的，用户通过覆写extractAscendingTimestamp()方法抽取时间戳.
+AscendingTimestampExtractor 的作用？
+AscendingTimestampExtractor 产生的时间戳和水印必须是单调非递减的，用户通过覆写extractAscendingTimestamp()方法抽取时间戳.
 
 BoundedOutOfOrdernessTimestampExtractor 的作用？
-BoundedOutOfOrdernessTimestampExtractor产生的时间戳和水印是允许“有界乱序”的，构造它时传入的参数maxOutOfOrderness就是乱序区间的长度，而实际发射的水印为通过覆写extractTimestamp()方法提取出来的时间戳减去乱序区间，相当于让水印把步调“放慢一点”。这是Flink为迟到数据提供的第一重保障。
+BoundedOutOfOrdernessTimestampExtractor 产生的时间戳和水印是允许“有界乱序”的，构造它时传入的参数maxOutOfOrderness就是乱序区间的长度，而实际发射的水印为通过覆写extractTimestamp()方法提取出来的时间戳减去乱序区间，相当于让水印把步调“放慢一点”。这是Flink为迟到数据提供的第一重保障。
 
 
 需要深刻理解这几个概念才行： https://www.jianshu.com/p/c612e95a5028
@@ -542,8 +532,7 @@ https://www.cnblogs.com/21airuirui1123/p/14644933.html
 从flink-1.12版本开始DataSetAPI正在废弃中。
 
 
-
-# Python API
+## Python API
 
 PythonAPI，就是 PyFlink， 换了开发语言，其API也分为 PyFlink Table API 和 PyFlink DataStream API 两种。
 
@@ -551,6 +540,11 @@ PythonAPI，就是 PyFlink， 换了开发语言，其API也分为 PyFlink Table
 
 
 # Flink部署
+
+* Flink 镜像
+  * Flink 内核程序
+  * 依赖的包
+* Flink 程序
 
 ## standalone mode
 
@@ -666,14 +660,50 @@ setMaxParallelism 控制的是状态后端中keyed-state可以被分配的task�
 * apus.memory.incontainer.available.ratio 0.9
 * cluster.evenly-spread-out-slots true
 * apus.slotmanager.slot.placement.policy slot
-* jobmanager.execution.failover-strategy region
+* jobmanager.execution.failover-strategy region/apus-individual
 * apus.log.separate.enabled false
+* taskmanager.network.memory.fraction
+* classloader.resolve-order
+* web.checkpoints.history
+* taskmanager.memory.jvm-metaspace.size
+* apus.taskmanager.memory.task.off-heap.fraction
+* containerized.heap-cutoff-ratio
+* classloader.parent-first-patterns.default
+* state.backend rocksdb
+* state.backend.rocksdb.ttl.compaction.filter.enabled
+* state.backend.rocksdb.memory.managed
+* taskmanager.memory.managed.size
+* state.backend.rocksdb.localdir
+* state.backend.rocksdb.predefined-options SPINNING_DISK_OPTIMIZED_HIGH_MEM
+* state.backend.incremental 
+* 
 
 参考： https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/deployment/config.html
 
 ### Table 环境配置项 
 
 https://ci.apache.org/projects/flink/flink-docs-release-1.13/zh/docs/dev/table/config/
+
+
+
+# Flink调试
+
+checkpoint失败原因
+* 如果 Checkpoint 做的非常慢，超过了 timeout 还没有完成，则整个 Checkpoint 也会失败。 Checkpoint慢的原因需要细查。
+* 用户代码逻辑没有对于异常处理，让其直接在运行中抛出。比如解析 Json 异常，没有捕获，导致 Checkpoint 失败，或者调用 Dubbo 超时异常等等。
+* 依赖外部存储系统，在进行数据交互时，出错，异常没有处理。比如输出数据到 Kafka、Redis、HBase 等，客户端抛出了超时异常，没有进行捕获，Flink 任务容错机制会再次重启。
+* 内存不足，频繁 GC，超出了 GC 负载的限制。比如 OOM 异常
+* 网络问题、机器不可用问题等等。
+- 参考：[Flink Checkpoint 问题排查实用指南](https://www.jianshu.com/p/fc100f85a0fb)
+
+checkpoint慢/超时的原因
+* 背压导致chechkpoint超时: 缓冲区的数据处理不过来，barrier流动慢，导致checkpoint生成时间长, 出现超时的现象.
+* 在 task 端，所有的处理都是单线程的，数据处理和 barrier 处理都由主线程处理，如果主线程在处理太慢（比如使用 RocksDBBackend，state 操作慢导致整体处理慢），导致 barrier 处理的慢，也会影响整体 Checkpoint 的进度
+
+Checkpoint失败与作业失败的关联？
+
+背压的原因
+
 
 
 
@@ -720,7 +750,6 @@ object FlinkWordCount {
   }
 }
 ```
-
 
 
 ## java code
