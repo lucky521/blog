@@ -68,6 +68,8 @@ http://kafka.apache.org/quickstart
 C++版本：  https://github.com/mfontanini/cppkafka
 Python:   https://github.com/confluentinc/confluent-kafka-python
 
+生产者和消费者以极高的速度生产/消费大量数据或产生请求，从而占用broker上的全部资源，造成网络IO饱和。有了配额（Quotas）就可以避免这些问题。Kafka支持配额管理，从而可以对Producer和Consumer的produce&fetch操作进行流量限制，防止个别业务压爆服务器。
+
 MQ
 
 
