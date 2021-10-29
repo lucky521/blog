@@ -858,6 +858,14 @@ https://github.com/uncleguanghui/pyflink_learn/blob/master/examples/README.md
 PyFlink是 apache-flink项目里的一个还未成熟的部分。
 
 
+# flink-ai-extended 和 ai-flow
+
+Tensorflow 官方有java版本的调用库，JVM单机训练、单机预测都没问题。如何分布式训练是个问题。
+flink-ai-extended
+
+* TFConfig
+* MLContext
+
 # 参考学习
 
 最权威的使用文档是：https://flink.apache.org/
