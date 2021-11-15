@@ -368,7 +368,9 @@ SourceFunction为所有flink中source的根接口，其定义了run()方法和ca
 
 addSource(sourceFunction)
 
-SourceFunction、ParallelSourceFunction、RichParallelSourceFunction
+* SourceFunction
+* ParallelSourceFunction
+* RichParallelSourceFunction
 
 ### Source表
 source表的出处可能是 Kafka 的 topics，数据库，文件系统，或者任何其它 Flink 知道如何消费的系统。
@@ -389,6 +391,8 @@ Sink是流的重点，根接口是sinkFunction。
 SinkFunction 是一个接口，类似于SourceFunction接口。SinkFunction中主要包含一个方法，那就是用于数据输出的invoke 方法,每条记录都会执行一次invoke方法，用于执行输出操作。
 
 addSink(sinkFunction)
+
+* RichsinkFunction
 
 ### sink表
 

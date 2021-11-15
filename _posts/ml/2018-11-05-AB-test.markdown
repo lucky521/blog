@@ -115,3 +115,5 @@ AA实验的波动性 https://juejin.im/post/5bcd3cfcf265da0b001f69a9
 interleaving实验方法 https://zhuanlan.zhihu.com/p/68509372
 
 A/B Testing课程 https://www.udacity.com/course/ab-testing--ud257
+
+因果推断 uplift model https://zhuanlan.zhihu.com/p/343747851

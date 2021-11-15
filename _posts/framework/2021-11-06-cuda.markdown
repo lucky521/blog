@@ -1,0 +1,200 @@
+---
+title: "CUDA GPU编程"
+categories: [framework]
+layout: post
+---
+
+# HPC历史
+HPC高性能计算： 是一个很早就有的领域.
+
+冯诺依曼体系下的处理器。
+
+内存速度和时钟速度的比率是限制CPU、GPU吞吐量的重要因素。引入三级缓存来加速.
+
+## 克雷向量处理器
+一个操作处理多个操作数
+
+## 连接机并行指令集
+早期的并行指令集都是为解决图像处理、视频处理而设计出现的。
+
+SIMD: 一条指令处理多条数据，用于小碎数据的并行操作。比如i7是64位处理器，一次最多处理64位（8个字节）数据。早先处理这些数据只能用于他们的低８位，如果把64位寄存器拆成８个８位寄存器就能同时完成８个操作，计算效率提升了８倍．
+* MMX: MMX将64位寄存当作2X32或8X8来用，只能处理整形计算.
+* SSE: 1/2/3/4, Intel先出，然后AMD跟随
+* AVX: AMD抢先除了SSE5，随即表示，不会支持SSE5,转而发布AVX. 由于SSE5和AVX指令集功能类似，并且AVX包含更多的优秀特性，因此AMD决定支持AVX指令集，避免让软件开发者因为要面对两套不同指令集而徒增开发难度。
+
+![](https://pic3.zhimg.com/80/v2-94dff219fb39d2c2ccc0d2c38f08181a_720w.jpg)
+
+
+## CELL处理器： IBM、索尼、
+
+
+## 多点计算：
+主频太高，电力和散热成本上升，收益递减。使用多个单核实现集群并行处理，成本更低。
+
+
+
+
+# GPU产品线
+
+GPU 首字母 Graphics， 是为了图形处理而设计的处理器。
+
+GPU原先作为显卡的芯片处理器，随着并行计算的发展，发展到计算卡的领域。  GPU和显卡(图形卡) ->  GPU和计算卡
+
+显卡都有DVI接口、VGA接口、HDMI接口，而计算卡没有。
+
+## 三驾马车
+
+显卡市场： (2021Q2)intel以68.3%的绝对优势位居第一位，AMD和NVIDIA分列二三位。
+
+独立显卡市场： (2021Q2) Nvida占83%， AMD占17%。
+
+
+Nvida GPU
+* Tesla产品: 应用于深度学习、高性能计算
+* Quadro、RTX产品: 应用于专业可视化设计
+* NVS产品: 应用于商业级图像显卡
+* GeForce、TITAN 产品： 应用于消费级娱乐显卡 
+
+AMD GPU版本历史
+* AMD Instinct: 应用于计算卡
+* AMD Radeon: 应用于显示卡
+
+Intel GPU版本历史
+
+
+![显卡天梯图](https://pic1.zhimg.com/v2-15eb42faf46aaa34d7268edf8495f430_r.jpg)
+
+
+
+
+# CUDA的出现
+
+2007年，nvidia发现了一个能使得GPU进入主流的契机，那就是为GPU制定一个标准的编程接口，这就是CUDA. 
+
+CUDA编译模型使用了和java语言一样的编译原则：基于虚拟指令集的运行时编译。
+
+它使 NVIDIA GPU 能够执行使用 C、C++、Fortran、OpenCL、DirectCompute 和其他语言编写的程序.
+
+NVIDIA HPC SDK
+
+
+## 面向GPU编程思想上的差异
+程序中能够并行运行的代码占多大比例？
+
+
+单线程CPU程序员 vs GPU上的并行程序员
+大多数的程序还都是串行主导。
+并行处理带来复杂度的提高，设计GPU软件时程序员需要把并发性和局部性作为关键问题来考虑。
+
+
+CUDA的替代选择(通用并行计算平台和编程模型)
+* OpenCL 苹果
+* DirectCompute 微软
+* ROCm AMD
+* CPU下多核并行的的MPI
+* CPU下多核并行的OpenMP
+
+
+## CUDA 线程层次
+
+一个CUDA Kernel大概可以分为这么几层（从底层到顶层）：thread，warp，block，grid。
+
+* Grid： 一维或多维线程块(block)
+* Block: 一组线程(thread)
+* Thread： 一个CUDA的并行程序会有许多threads来执行
+* 
+
+
+适合一台计算机就能解决的问题，通常采用OpenMP,需要多机集群来解决的问题，采用MPI。
+线程模型较适合于OpenMP，进程模型较适合于MPI。
+
+
+## GPU 物理概念
+
+streaming processor(sp): 最基本的处理单元。GPU进行并行计算，也就是很多个sp同时做处理。现在SP的术语已经有点弱化了，而是直接使用thread来代替。一个SP对应一个thread
+
+
+Warp：warp是SM调度和执行的基础概念，通常一个SM中的SP(thread)会分成几个warp(也就是SP在SM中是进行分组的，物理上进行的分组)，一般每一个WARP中有32个thread.这个WARP中的32个thread(sp)是一起工作的，执行相同的指令，如果没有这么多thread需要工作，那么这个WARP中的一些thread(sp)是不工作的
+
+（每一个线程都有自己的寄存器内存和local memory，一个warp中的线程是同时执行的，也就是当进行并行计算时，线程数尽量为32的倍数，如果线程数不上32的倍数的话；假如是1，则warp会生成一个掩码，当一个指令控制器对一个warp单位的线程发送指令时，32个线程中只有一个线程在真正执行，其他31个 进程会进入静默状态。）
+
+
+streaming multiprocessor(sm)：多个sp加上其他的一些资源组成一个sm, 其他资源也就是存储资源，共享内存，寄储器等。可见，一个SM中的所有SP是先分成warp的，是共享同一个memory和instruction unit（指令单元）。从硬件角度讲，一个GPU由多个SM组成（当然还有其他部分），一个SM包含有多个SP（以及还有寄存器资源，shared memory资源，L1cache，scheduler，SPU，LD/ST单元等等）
+
+
+
+
+
+
+
+# 硬件架构
+
+## CPU 和 主板
+* Core微架构
+* Nehalem架构
+* SandyBridge微架构
+* Haswell
+* Skylake
+
+* FSB (Front Side Bus) 总线， 北桥高速，南桥低速
+* QPI(Quick Path Interconnect)直连式总线
+
+* PCI-E (Peripheral Communications Interconnect Express)，2010年PCIE3.0传输速度5GB, 2021年6.0传输速度64G
+  * 频宽
+
+
+## GPU
+
+* 内存
+* 流处理器簇
+* 流处理器
+* 流处理单元 
+
+
+
+截止2021年，发布时间离我们最近的8种NVIDIA GPU微架构是：
+
+* Tesla: 代表是G80
+* Fermi： 
+* Kepler
+* Maxwell
+* Pascal
+* Volta
+* Turing
+* Ampere
+
+
+## GPU vs CPU
+
+CPU 被设计为以尽可能快的速度执行称为线程(thread)的一系列操作，并且可以并行执行几十个这样的线程；
+GPU 被设计为并行执行数千个线程（摊销较慢的单线程性能以实现更大的吞吐量）, 将更多的晶体管用于数据处理而不是数据缓存和流量控制。
+
+
+## GPU 算力
+
+GPU 算力GPU的算力由版本号表示，有时也称为“SM 版本”。
+这个版本号被用来标识 GPU 硬件支持的功能，并在运行时由应用程序使用以确定当前 GPU 上可用的硬件功能和/或指令。
+算力包括主要修订号 X 和次要修订号 Y，并用 X.Y 表示。
+具有相同主要修订号的设备具有相同的核心架构：
+* 基于 Ampere 架构的设备主要修订号为 8；
+* 基于 Volta 架构的设备为 7；
+* 基于 Pascal 架构的设备为 6；
+* 基于 Maxwell 架构的设备为 5；
+* 基于 Kepler 架构的设备为 3；
+* 基于 Fermi 架构的设备为2 ；
+* 基于 Tesla 架构的设备为1；
+
+
+
+
+# 参考
+
+[CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html)
+
+https://www.bilibili.com/video/BV1kx411m7Fk?p=9
+
+[NVIDIA GPU架构梳理](https://zhuanlan.zhihu.com/p/394352476)
+
+[CUDA 等级概念](https://zhuanlan.zhihu.com/p/129375374)
+
+[GPU技术大会](https://www.nvidia.cn/gtc/keynote/)

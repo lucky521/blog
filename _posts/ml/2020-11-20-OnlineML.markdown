@@ -37,6 +37,13 @@ https://plushunter.github.io/2017/07/26/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%
 
 
 
+## 实时样本延迟问题
+
+转化率(CVR)预估是电商搜索、推荐和广告最关键任务之一。商业系统通常需要以在线学习的方式更新模型，以跟上不断变化的数据分布。但是，成交转化通常不会在用户单击商品后立即发生。这可能会导致label不准确，我们称之为延迟反馈问题。
+Capturing Delayed Feedback in Conversion Rate Prediction via Elapsed-Time Sampling
+
+
+
 
 # 工业实践
 在线学习在爱奇艺信息流推荐业务中的探索与实践
@@ -49,3 +56,8 @@ https://zhuanlan.zhihu.com/p/53530167
 1. embedding_lookup_sparse 改造
 2. 正则化优化
 3. 模型压缩：实现了完整简洁的图裁剪工具，在模型热导出时调用，将模型从原先的8GB左右压缩到几百兆大小，同时保证模型打分一致。
+
+
+
+阿里妈妈流式机器学习系统
+What Do We Need for Industrial Machine Learning Systems? Bernoulli, A Streaming System with Structured Designs

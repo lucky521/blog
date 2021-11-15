@@ -313,6 +313,8 @@ https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/ops/colle
 * OneDeviceStrategy
 * CollectiveAllReduceStrategy 用于多机多卡场景，通过 all-reduce 的方式融合梯度，只需要 worker 节点，不需要 PS 节点
 
+## mesh tensorflow 
+
 
 ## BytePS
 
