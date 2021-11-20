@@ -5,7 +5,7 @@ layout: post
 ---
 
 # HPC历史
-HPC高性能计算： 是一个很早就有的领域.
+HPC高性能计算：是一个很早就有的领域.
 
 冯诺依曼体系下的处理器。
 
@@ -19,10 +19,14 @@ HPC高性能计算： 是一个很早就有的领域.
 
 SIMD: 一条指令处理多条数据，用于小碎数据的并行操作。比如i7是64位处理器，一次最多处理64位（8个字节）数据。早先处理这些数据只能用于他们的低８位，如果把64位寄存器拆成８个８位寄存器就能同时完成８个操作，计算效率提升了８倍．
 * MMX: MMX将64位寄存当作2X32或8X8来用，只能处理整形计算.
-* SSE: 1/2/3/4, Intel先出，然后AMD跟随
+* SSE: 浮点数支持，1/2/3/4, 指令数越来越多, Intel先出，然后AMD跟随
 * AVX: AMD抢先除了SSE5，随即表示，不会支持SSE5,转而发布AVX. 由于SSE5和AVX指令集功能类似，并且AVX包含更多的优秀特性，因此AMD决定支持AVX指令集，避免让软件开发者因为要面对两套不同指令集而徒增开发难度。
 
 ![](https://pic3.zhimg.com/80/v2-94dff219fb39d2c2ccc0d2c38f08181a_720w.jpg)
+
+
+## ARM NEON 指令集
+ARM从v7版本开始引入高级SIMD，称之为NEON。GCC里面有个编译选项是-fpu=neon，当这个设置时，编译器就支持了ARM SIMD，也就是neon。
 
 
 ## CELL处理器： IBM、索尼、
@@ -30,6 +34,12 @@ SIMD: 一条指令处理多条数据，用于小碎数据的并行操作。比�
 
 ## 多点计算：
 主频太高，电力和散热成本上升，收益递减。使用多个单核实现集群并行处理，成本更低。
+
+
+## GPGPU编程
+使用GPU做通用目的的并行计算（而不是仅仅用于图形渲染）。 这已经跟CUDA的设计思想一致了
+http://graphics.stanford.edu/courses/cs148-10-fall/lectures/programmable.pdf
+
 
 
 
@@ -44,9 +54,11 @@ GPU原先作为显卡的芯片处理器，随着并行计算的发展，发展�
 
 ## 三驾马车
 
-显卡市场： (2021Q2)intel以68.3%的绝对优势位居第一位，AMD和NVIDIA分列二三位。
+显卡市场： (2021Q2)Intel以68.3%位居第一位，AMD和NVIDIA分列二三位。
 
 独立显卡市场： (2021Q2) Nvida占83%， AMD占17%。
+
+计算卡市场： 主要是云端AI芯片市场，GPU(50%)、FPGA(30%)、ASIC(20%)
 
 
 Nvida GPU
@@ -62,7 +74,78 @@ AMD GPU版本历史
 Intel GPU版本历史
 
 
-![显卡天梯图](https://pic1.zhimg.com/v2-15eb42faf46aaa34d7268edf8495f430_r.jpg)
+ARM GPU
+
+
+
+
+
+
+
+
+# 并行设计模式
+
+## 多核并发OpenMP标准
+
+单个节点内部实现并行处理，多核处理器共享存储并行(shared-memory parallel programming)。
+
+拆成了几个线程，然后使用事件对象等待所有线程结束。
+
+类似技术 GCD、TBB
+
+## 多机并发MPI标准
+
+多个节点间的并行处理，计算机集群共享通信并行。 
+
+其主要瓶颈在网络通信上(Ethernet、infiniband)。
+
+## 并行问题
+
+并发时资源共享，需要引入semaphore、mutex等机制。
+
+
+(X)PU计算单元
+* SISD: 单指令单数据流.   串行程序设计
+* SIMD: 单指令多数据流.   数据并行设计，同一时刻只运行一个指令流。单核可以做的更小，能耗更低。
+* MISD: 多指令单数据流.   把多条指令组合成一条指令，就能达到其效果。没有纯粹的MISD处理器。
+* MIMD: 多指令多数据流.   PC多核CPU，线程工作池，OS负责分配线程到N个CPU核上执行，每个线程具有一条独立的指令流，整个CPU对多个核的不同指令流同时解码执行(多条解码通路)。
+
+## 数据并行的简单描述： 
+对一个数据一个进行操作  -> 对一组数据进行一个操作。 
+* 对这组数据中每个元素所需的操作都是相同的，所以(X)PU访问程序存储区取指令然后译码这件事只需做一次。
+* 数据区间有界且连续，数据从内存读取也是一次全部取出。
+
+
+GPU 硬编码 实现 AES、H264
+
+## SIMT 
+Nvidia GPU版的SIMD又成为SIMT，单指令多线程，其指令操作码跟CPU的不同，需要程序通过一个内核程序指定每个线程的工作内容。
+
+SIMT 每一个core有自己的寄存器、自己的ALU、自己的data cache， 没有独立的instruction cache、没有独立的解码器、没有独立的程序计数器。
+
+SIMD是一个单独的线程，只是这个线程能同时进行多个计算而已. 比如SIMD单元128-bit宽，包含16个128-bit的寄存器，能够被用来当做32个64-bit寄存器。这些寄存器能被当做是同等数据类型的的vector。
+SIMT多个线程各有各的处理单元，和SIMD公用一个ALU不同。因而可以进行更为复杂的并行计算。
+
+
+## 面向GPU编程思想上的差异
+程序中能够并行运行的代码占多大比例？
+
+
+单线程CPU程序员 vs GPU上的并行程序员
+大多数的程序还都是串行主导。（分时复用达到并发效果，不算是真正的并行）
+并行处理带来复杂度的提高，设计GPU软件时程序员需要把并发性和局部性作为关键问题来考虑。
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -78,30 +161,20 @@ CUDA编译模型使用了和java语言一样的编译原则：基于虚拟指令
 NVIDIA HPC SDK
 
 
-## 面向GPU编程思想上的差异
-程序中能够并行运行的代码占多大比例？
-
-
-单线程CPU程序员 vs GPU上的并行程序员
-大多数的程序还都是串行主导。
-并行处理带来复杂度的提高，设计GPU软件时程序员需要把并发性和局部性作为关键问题来考虑。
-
-
 CUDA的替代选择(通用并行计算平台和编程模型)
 * OpenCL 苹果
 * DirectCompute 微软
 * ROCm AMD
-* CPU下多核并行的的MPI
-* CPU下多核并行的OpenMP
 
 
 ## CUDA 线程层次
 
 一个CUDA Kernel大概可以分为这么几层（从底层到顶层）：thread，warp，block，grid。
 
-* Grid： 一维或多维线程块(block)
-* Block: 一组线程(thread)
-* Thread： 一个CUDA的并行程序会有许多threads来执行
+* Grid 网格： 一维或多维线程块(block)
+* Block 线程块: 一组线程(thread)
+* warp 线程束: 以批处理方式运行的多个线程
+* Thread 线程： 一个CUDA的并行程序会有许多threads来执行
 * 
 
 
@@ -109,7 +182,9 @@ CUDA的替代选择(通用并行计算平台和编程模型)
 线程模型较适合于OpenMP，进程模型较适合于MPI。
 
 
-## GPU 物理概念
+## CUDA GPU 物理概念
+
+一张GPU卡由若干个流处理簇(SM)组成，一个SM配置若干个流处理器（SP），
 
 streaming processor(sp): 最基本的处理单元。GPU进行并行计算，也就是很多个sp同时做处理。现在SP的术语已经有点弱化了，而是直接使用thread来代替。一个SP对应一个thread
 
@@ -127,7 +202,7 @@ streaming multiprocessor(sm)：多个sp加上其他的一些资源组成一个sm
 
 
 
-# 硬件架构
+# GPU 硬件架构
 
 ## CPU 和 主板
 * Core微架构
@@ -154,7 +229,7 @@ streaming multiprocessor(sm)：多个sp加上其他的一些资源组成一个sm
 
 截止2021年，发布时间离我们最近的8种NVIDIA GPU微架构是：
 
-* Tesla: 代表是G80
+* Tesla: 代表是G80, 第一款支持 C 语言的 GPU, 使用标量线程处理器的 GPU，无需程序员手动管理向量寄存器
 * Fermi： 
 * Kepler
 * Maxwell
@@ -170,7 +245,7 @@ CPU 被设计为以尽可能快的速度执行称为线程(thread)的一系列�
 GPU 被设计为并行执行数千个线程（摊销较慢的单线程性能以实现更大的吞吐量）, 将更多的晶体管用于数据处理而不是数据缓存和流量控制。
 
 
-## GPU 算力
+## GPU 算力演进
 
 GPU 算力GPU的算力由版本号表示，有时也称为“SM 版本”。
 这个版本号被用来标识 GPU 硬件支持的功能，并在运行时由应用程序使用以确定当前 GPU 上可用的硬件功能和/或指令。
@@ -187,14 +262,19 @@ GPU 算力GPU的算力由版本号表示，有时也称为“SM 版本”。
 
 
 
+
+
+
 # 参考
 
 [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html)
-
-https://www.bilibili.com/video/BV1kx411m7Fk?p=9
 
 [NVIDIA GPU架构梳理](https://zhuanlan.zhihu.com/p/394352476)
 
 [CUDA 等级概念](https://zhuanlan.zhihu.com/p/129375374)
 
 [GPU技术大会](https://www.nvidia.cn/gtc/keynote/)
+
+[GPGPU](https://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units)
+
+[OpenMP最新标准](https://www.openmp.org/specifications/)
