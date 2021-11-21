@@ -4,7 +4,7 @@ categories: [framework]
 layout: post
 ---
 
-# HPC历史
+# GPU史前文明
 HPC高性能计算：是一个很早就有的领域. GPU和CPU的结合在HPC领域成为趋势。
 
 ## 冯诺依曼架构处理器
@@ -71,6 +71,10 @@ http://graphics.stanford.edu/courses/cs148-10-fall/lectures/programmable.pdf
 
 
 
+
+
+
+
 # GPU产品线
 
 GPU 首字母 Graphics， 是为了图形处理而设计的处理器。
@@ -80,11 +84,9 @@ GPU原先作为显卡的芯片处理器，随着并行计算的发展，发展�
 显卡都有DVI接口、VGA接口、HDMI接口，而计算卡没有。
 
 
-显卡市场： (2021Q2)Intel以68.3%位居第一位，AMD和NVIDIA分列二三位。
-
-独立显卡市场： (2021Q2) Nvida占83%， AMD占17%。
-
-计算卡市场： 主要是云端AI芯片市场，GPU(50%)、FPGA(30%)、ASIC(20%)
+* 显卡市场： (2021Q2)Intel以68.3%位居第一位，AMD和NVIDIA分列二三位。
+* 独立显卡市场： (2021Q2) Nvida占83%， AMD占17%。
+* 计算卡市场： 主要是云端AI芯片市场，GPU(50%)、FPGA(30%)、ASIC(20%)
 
 
 Nvida GPU
@@ -214,13 +216,14 @@ CUDA编译模型使用了和java语言一样的编译原则：基于虚拟指令
 
 它使 NVIDIA GPU 能够执行使用 C、C++、Fortran、OpenCL、DirectCompute 和其他语言编写的程序.
 
-NVIDIA HPC SDK
-
 
 CUDA的替代选择(通用并行计算平台和编程模型)
 * OpenCL 苹果
 * DirectCompute 微软DirectX的一部分。
 * ROCm AMD
+
+标准
+* OpenACC: 让并行程序员能够为编译器提供简单的提示，亦称「指令」，使编译器能够识别哪些代码部分需要加速，无需程序员修改或改编底层代码本身。
 
 
 ## CUDA 线程层次
@@ -256,6 +259,7 @@ Warp：warp是SM调度和执行的基础概念，通常一个SM中的SP(thread)�
 
 
 ## CUDA Library
+NVIDIA HPC SDK 生态
 
 * libcu++
   * https://github.com/nvidia/libcudacxx
