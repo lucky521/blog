@@ -81,7 +81,7 @@ GPU 首字母 Graphics， 是为了图形处理而设计的处理器。
 
 GPU原先作为显卡的芯片处理器，随着并行计算的发展，发展到计算卡的领域。  GPU和显卡(图形卡) ->  GPU和计算卡
 
-显卡都有DVI接口、VGA接口、HDMI接口，而计算卡没有。
+显卡都有DVI接口、VGA接口、HDMI接口，而计算卡/加速卡只有PCIE接口。
 
 
 * 显卡市场： (2021Q2)Intel以68.3%位居第一位，AMD和NVIDIA分列二三位。
@@ -149,7 +149,6 @@ Apple GPU
 * CPU设计上对软件程序员屏蔽这些事情。
 * GPU设计上，让软件程序员主动处理局部性问题，提前把数据加载到片内存储，程序员来控制写回缓存"脏数据"操作的时间。从而提升性能。
 
-
 ## 基于任务的并行
 这种并行模式将计算任务拆分成若干个小的但不同的任务，如有的运算单元负责取数，有的运算单元负责计算，有的负责...... 这样一个大的任务可以组成一道流水线。其瓶颈在于效率最低的运算单元。
 
@@ -174,7 +173,6 @@ Apple GPU
 对一个数据一个进行操作  -> 对一组数据进行一个操作。 
 * 对这组数据中每个元素所需的操作都是相同的，所以(X)PU访问程序存储区取指令然后译码这件事只需做一次。
 * 数据区间有界且连续，数据从内存读取也是一次全部取出。
-
 
 
 ## SIMT 
@@ -233,13 +231,13 @@ PS：core和kernel两个词，core指的是硬件核心，处理器；kernel指�
 
 * Grid 网格： 一维或多维线程块(block)
 * Block 线程块: 一组线程(thread)，包含若干个warp。
-* warp 线程束: 以批处理方式运行的多个线程， 一个SIMD处理中若干个线程是同时执行的。
+* warp 线程束: 以批处理方式运行的多个线程（32个）， 一个SIMD处理中若干个线程是同时执行的。
 * Thread 线程： 一个CUDA的并行程序会有许多threads来执行， 线程是GPU运算的最小执行单元。
 * Kernel definition:  使用__global__定义的C/C++函数。
   
 
 
-## CUDA GPU 物理概念
+## CUDA GPU 物理层次
 
 一张GPU卡由若干个流处理簇(SM)组成，一个SM配置若干个流处理器（SP），
 
@@ -261,7 +259,7 @@ Warp：warp是SM调度和执行的基础概念，通常一个SM中的SP(thread)�
 ## CUDA Library
 NVIDIA HPC SDK 生态
 
-* libcu++
+* libcu++: C++标准库
   * https://github.com/nvidia/libcudacxx
 * CuBLAS: 线性代数库
   * https://docs.nvidia.com/cuda/cublas/index.html
@@ -360,11 +358,13 @@ Nvidia GPU 算力（compute-capabilities）由版本号表示，有时也称为�
 
 [CUDA 等级概念](https://zhuanlan.zhihu.com/p/129375374)
 
-[GPU技术大会](https://www.nvidia.cn/gtc/keynote/)
+[GPU 技术大会](https://www.nvidia.cn/gtc/keynote/)
 
 [GPGPU](https://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units)
 
 [OpenMP最新标准](https://www.openmp.org/specifications/)
+
+[GPU 架构理解](https://cinwell.wordpress.com/2013/09/06/overview-of-gpu-architecture-fermi-based/)
 
 
 
