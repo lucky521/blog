@@ -1,5 +1,5 @@
 ---
-title: "X_DB"
+title: "x-DB"
 categories: [Tech]
 layout: post
 ---

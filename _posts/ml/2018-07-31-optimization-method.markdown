@@ -414,11 +414,13 @@ Adagrad其实是对学习率进行了一个约束。使得经常更新的参数�
 
 ## RMSprop
 
-RMSprop可以算作Adadelta的一个特例：
+RMSprop 可以算作 Adadelta 的一个特例：
 
 ## Adam
 
 Adaptive Moment Estimation (Adam) combines ideas from both RMSProp and Momentum.
+
+[如何理解Adam算法](https://www.zhihu.com/question/323747423)
 
 ## AdaMax
 

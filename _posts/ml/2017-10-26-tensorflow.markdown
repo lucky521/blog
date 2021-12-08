@@ -1563,7 +1563,7 @@ op: "ZerosLike"
 ## Multi-output
 
 
-## Multi-head / Multi-task DNN
+## Multi-head / Multi-task / Muti-target DNN
 
 比如把点击率和下单率作为两个目标，分别计算各自的loss function。DNN的前几层作为共享层，两个目标共享这几层的表达，在BP阶段根据两个目标算出的梯度共同进行参数更新。网络的最后用一个全连接层进行拆分，单独学习对应loss的参数。
 
@@ -1614,6 +1614,14 @@ tf.train.load_variable
 W = tf.get_variable(name="W", shape=embedding.shape, initializer=tf.constant_initializer(embedding), trainable=False)
 ```
 
+## 超大规模稀疏参数 recommenders-addons
+为了支持TF上进行超大稀疏特征所对应的稀疏参数训练，针对于搜索推荐广告领域的稀疏模型引入了动态Embedding技术
+https://github.com/tensorflow/recommenders-addons
+
+1. 原生TF的 tf.Variable 是固定长度，不支持动态新增和删除weight。
+2. 稀疏参数如果以kv形式存储在hash map里，没法直接训练。
+
+* 
 
 
 ## Transfer Learning - Retrained Model

@@ -83,6 +83,9 @@ categories: [MachineLearning]
 一般来讲，分布式同步训练是通过all-reduce来完成的。分布式异步训练是通过PS服务器来完成。
 当然这不意味着PS不可以做同步训练。
 
+Parameter Server
+Parameter Server的主要目的就是分布式并行进行梯度下降的计算完成参数的更新与最终收敛。
+
 ## 同步梯度更新策略 PS
 
 ps 会同时充当 reducer 的角色，等待所有 worker 都发来梯度和参数更新请求后，ps 会对梯度取平均(reduce mean)，并用平均过后的梯度更新一次参数。各个 worker 在从 ps 读取最新参数的过程中，以及等待 ps 更新参数的过程中，都是处于空闲状态。

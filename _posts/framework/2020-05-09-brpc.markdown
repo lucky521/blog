@@ -32,3 +32,10 @@ https://github.com/apache/incubator-brpc/blob/master/docs/cn/client.md
 
 
 源码学习
+
+::google::protobuf::Closure* done
+brpc::ClosureGuard done_guard(done);
+
+
+server.AddService
+server.Start

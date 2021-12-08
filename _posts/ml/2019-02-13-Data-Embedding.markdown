@@ -15,7 +15,10 @@ Embedding是一个行为，把离线形式的事物影响为实数向量。Embed
 An embedding is a mapping from discrete objects, such as words, to vectors of real numbers.
 
 An embedding is a relatively low-dimensional space into which you can translate high-dimensional vectors. Embeddings make it easier to do machine learning on large inputs like sparse vectors representing words. Ideally, an embedding captures some of the semantics of the input by placing semantically similar inputs close together in the embedding space. 
+
 An embedding can be learned and reused across models.
+
+An embedding 本质上是一个dense vector of floating point values (长度提前确定).
 
 
 它可以单独使用来学习一个单词嵌入，以后可以保存并在另一个模型中使用，比如作为特征。
@@ -66,7 +69,7 @@ tflearn.layers.embedding_ops.embedding(incoming,
 ```
 ## Embedding layer in Tensorflow
 在Tensorflow中也可以在网络结构中加入Embedding层：
-```
+```python
 embeddings = tf.Variable(tf.random_uniform([voc_size, embedding_size], -1.0, 1.0))
 ...
 embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table

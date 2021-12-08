@@ -54,6 +54,11 @@ std::unique_lock<std::mutex>
 std::lock_guard<std::mutex>
 
 
+#  final
+
+final 修饰一个类， 意味着继承该类会导致编译错误
+final 修饰是一个方法， 意味着重载该方法会导致编译错误
+
 
 # 三方库
 ## folly
