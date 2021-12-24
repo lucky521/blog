@@ -47,6 +47,8 @@ map函数 会根据提供的函数对指定序列做映射。第一个参数 fun
 
 ## locals 和 globals
 
+## yield  next
+
 
 
 

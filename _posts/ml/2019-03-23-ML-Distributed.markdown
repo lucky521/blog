@@ -232,8 +232,12 @@ Nvlink
 
 ## NUMA
 
-## RDMA
-RDMA(RemoteDirect Memory Access)技术全称远程直接内存访问，就是为了解决网络传输中服务器端数据处理的延迟而产生的
+## RDMA技术
+RDMA是一种概念，在两个或者多个计算机进行通讯的时候使用DMA， 从一个主机的内存直接访问另一个主机的内存。
+RDMA(RemoteDirect Memory Access)技术全称远程直接内存访问，就是为了解决网络传输中服务器端数据处理的延迟而产生的.
+* ibv_post_send和ibv_post_recv原语
+
+## Seastar
 
 ## NVIDIA-SMI Driver
 
@@ -289,6 +293,8 @@ basic linear algebra subroutines 利用cuda加速矩阵运算的库
 - ray 分布式应用框架 https://github.com/ray-project/ray
 
 - fiber - https://eng.uber.com/fiberdistributed/
+  
+- oneapi - 
 
 
 
