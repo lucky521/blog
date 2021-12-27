@@ -6,7 +6,7 @@ categories: [Language]
 ---
 
 # 编译器
-Common Lisp是Lisp的一种有名的方言，另外两种是Scheme和Clojure。此外还有一种是Emacs Lisp。
+Common Lisp是Lisp的一种有名的方言, 另外两种是Scheme和Clojure。此外还有一种是Emacs Lisp。
 
 ## 终端开发环境
 - sbcl: Mac下安装编译环境sbcl，使用brew安装。编译源码花了很长时间。
@@ -56,7 +56,14 @@ https://lailalife.wordpress.com/2010/11/26/my-first-hello-world-program-using-li
 - 不区分大小写的语言。
 
 
+什么是S表达式？
+
+
 # 基本操作符
+
+## 小括号
+* 列表被小括号括起来。
+* 操作被小括号括起来。
 
 ## quote
 有quote就是数据，没quote就是程序。它的缩写是’。
@@ -69,6 +76,8 @@ quote ‘将小写变为大写
 
 ## atom
 (atom x)当x是一个atom或者空的list时返回原子t，否则返回NIL。
+
+## null?
 
 ## eq
 (eq x y)当x和y指向相同的对象的时候返回t，否则返回NIL。
@@ -133,9 +142,9 @@ T
 
 最常见形式的列表。
 
-- cons函数构造列表，如果传入的第二个实参是列表，则返回由两个实参所构成的新列表，新列表为第一个实参加上第二个实参。
+- cons 函数构造列表，如果传入的第二个实参是列表，则返回由两个实参所构成的新列表，新列表为第一个实参加上第二个实参。
 - car 返回列表第一个元素。
-- cdr返回列表第一个元素之后的所有元素。
+- cdr 返回列表第一个元素之后的所有元素。
 - cons 可以理解为一个对象，第一个元素和剩余元素两大部分。而list列表，可以理解为list的多个cons连接在一起的形式。
 - listp 判定是否是一个列表。
 - consp 判断是否是一个cons对象。
@@ -316,3 +325,9 @@ Lisp程序是一些表达式树的集合，每个表达式都返回一个值。�
 
 [Garbage Collection](http://www.gnu.org/software/emacs/manual/html_node/elisp/Garbage-Collection.html)
 
+
+
+
+# The Little Schemer
+
+# The Seasoned Schemer

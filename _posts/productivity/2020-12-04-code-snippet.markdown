@@ -6,8 +6,14 @@ layout: post
 ---
 
 
+## Python
 
-## 本地文件
+### unicode转中文
+
+"\xe6\x82".encode('latin-1').decode('utf-8')
+
+
+## 本地文件Shell处理
 
 ### 删除本地老数据
 find ./-type f -mtime +30 -exec rm -f {} \; 
