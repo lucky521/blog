@@ -24,8 +24,41 @@ layout: post
 # 必备软件
 
 ## 基本命令
-
 有的新机器甚至连hostname都没有
+
+
+cmake
+cmake version 2.6-patch 4
+https://src.fedoraproject.org/repo/pkgs/cmake/cmake-2.6.4.tar.gz/
+Installing: /usr/local/bin/cmake
+
+
+gcc
+gcc (GCC) 4.4.7 20120313 (Red Hat 4.4.7-4)
+
+
+libstdc++
+libstdc++.so.6.0.13
+ $ strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
+
+
+make
+GNU Make 3.81
+
+
+libc
+libc-2.12.so
+
+
+vim
+version 7.4.944 (jd-dev)
+version 7.4.1689 (ubuntu16)
+youcompleteme need to update Vim 7.4.1578
+
+
+git
+git version 1.7.1
+
 
 ## oh-my-zsh
 先安装，然后把自己的.zshrc拷贝过来。

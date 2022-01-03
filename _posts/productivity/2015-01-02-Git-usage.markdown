@@ -84,7 +84,7 @@ $ git push origin remote-branch-name
 {% endhighlight %}
 
 
-#常用的需求
+# 常用的需求
 
 ## 显示commit的历史记录
 {% highlight ruby %}
@@ -138,7 +138,13 @@ $ git checkout commit-hash-id
 {% endhighlight %}
 
 
-
+## 手工给代码打tag（需要权限才可以）
+```
+rank全量代码，dev分支
+git pull --rebase
+git tag -a 201808241124rank -m 'manual as no staging' 1a23cd62fb9a8618f06674092e0a8d1405a7272d
+git push origin 201808241124rank
+```
 
 
 

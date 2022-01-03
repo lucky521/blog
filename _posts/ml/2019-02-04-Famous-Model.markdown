@@ -10,21 +10,37 @@ categories: [MachineLearning]
 
 # LR models
 
-逻辑回归模型简单，解释性好，使用极大似然估计对训练数据进行建模。
+逻辑回归模型简单，解释性好，使用极大似然估计对训练数据进行建模。 它由两部分构成： 线性回归 + 逻辑函数
 
 采用梯度下降法对LR进行学习训练，LR的梯度下降法迭代公式非常简洁。
 LR适合离散特征，不适合特征空间大的情况。
 
+
+
 # GBM models
+xgb、catboost、RandomForest
+
+
 
 
 # FM models
 
 对categorical类型进行独热编码变成数值特征（1变多）之后，特征会非常稀疏（非零值少），特征维度空间也变大。因此FM的思路是构建新的交叉特征。
 
-FM的表达式是在线性表达式后面加入了新的交叉项特征及对应的权值。
+FM的表达式是在线性表达式后面加入了新的交叉项特征及对应的权值。 相比于LR， FM引入了二阶特征， 增强了模型的学习能力和表达能力。
 
 https://www.cnblogs.com/wkang/p/9588360.html
+
+
+## FFM 
+Field-aware Factorization Machine
+
+
+
+
+
+
+
 
 
 # Deep-learning based CTR models
@@ -35,24 +51,24 @@ https://www.cnblogs.com/wkang/p/9588360.html
 
 
 
-## Wide and Deep learning 模型
+## Wide and Deep learning WDL模型
+
+可以看做是 LR + DNN
 
 - wide model (logistic regression with sparse features and transformations) 
 wide的部分具有较强的记忆能力，协同过滤、逻辑回归等简单模型的记忆能力较强。
 - deep model (feed-forward neural network with an embedding layer and several hidden layers)
 deep的部分具有较强的泛化能力，
 
-### DeepFM 模型
+## DeepFM 模型
 
-将LR替换为FM
+将LR替换为FM。 可以看做是 FM + DNN
 
-### Deep&Cross DCN 模型
+## Deep&Cross DCN 模型
 
 它和Wide&Deep的差异就是用cross网络替代wide的部分。
 
 Cross Layer
-
-
 
 
 
@@ -65,6 +81,12 @@ Cross Layer
 ## MOE
 
 
+
+
+
+
+
+
 # Deep-learning based NLP models
 
 ## Batch Negative
@@ -73,10 +95,19 @@ Cross Layer
 ## Transformer
 
 transformer layer的样子
-
-- 美团如何使用 Transformer 搜索排序 https://tech.meituan.com/2020/04/16/transformer-in-meituan.html
+通过这种自注意力机制层和普通非线性层来实现对输入信号的编码，得到信号的表示。
 
 - 介绍 http://jalammar.github.io/illustrated-transformer/
+
+
+美团如何使用 Transformer 搜索排序 
+https://tech.meituan.com/2020/04/16/transformer-in-meituan.html
+
+Nvidia的FasterTransformer是一个开源的高效Transformer实现
+https://github.com/NVIDIA/FasterTransformer
+
+字节开源的Effective Transformer
+https://github.com/bytedance/effective_transformer
 
 
 ## Attention
@@ -91,7 +122,11 @@ BERT的全称是Bidirectional Encoder Representation from Transformers，即双�
 https://mp.weixin.qq.com/s/mFRhp9pJRa9yHwqc98FMbg
 
 
-# Deep-learning based Gragh models
+
+
+
+
+# Deep-learning based CV models
 
 LeNet-5网络，AlexNet，VGG网络，GoogLeNet，残差网络
 
