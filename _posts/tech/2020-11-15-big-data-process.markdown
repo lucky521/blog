@@ -11,6 +11,7 @@ layout: post
 
 
 # Schedule
+纯离线调度数据任务。
 ## MR
 https://www.netjstech.com/p/hadoop-framework-tutorial.html
 
@@ -41,12 +42,20 @@ Pika  https://github.com/Qihoo360/pika
 https://github.com/delta-io/delta
 
 
-Hudi
+## Hudi
+
+Hudi 是 Uber 主导开发的开源数据湖框架.
+增量模型，简单来讲，是以 mini batch 的形式来跑准实时任务。Hudi 在增量模型中支持了两个最重要的特性，
+
+Hudi表的数据文件，可以使用操作系统的文件系统存储，也可以使用HDFS这种分布式的文件系统存储。为了后续分析性能和数据的可靠性，一般使用HDFS进行存储。
 
 * 快速upsert，可插入索引
 * 可原子操作
 * 有savepoint
 * 管理文件大小
+
+* Copy-On-Write Table
+* Merge-On-Read Table
 
 用spark-shell访问hudi
 
@@ -55,14 +64,11 @@ Hudi
 
 
 # Streaming
-
 ## streams && tables
-
 
 flume - 把来自不同源头不同节点的大量数据发送到中心存储。
 
-kafka 
-http://kafka.apache.org/quickstart
+kafka - http://kafka.apache.org/quickstart
 
 原生版本： https://github.com/edenhill/librdkafka
 C++版本：  https://github.com/mfontanini/cppkafka
@@ -77,7 +83,7 @@ MQ
 
 # Computing
 
-Storm
+## Storm
 
 ## Spark
 
@@ -90,6 +96,15 @@ Lazy Evaluation
 ## Flink
 
 
+
+
+# 数据湖(实时化、离线CRUD)
+
+hudi https://github.com/apache/hudi
+
+iceberg https://iceberg.apache.org/
+
+delta lake https://github.com/delta-io/delta
 
 
 # OLAP
@@ -122,8 +137,6 @@ kylin http://kylin.apache.org/
 https://www.hologres.io/
 
 https://kudu.apache.org/
-
-https://iceberg.apache.org/
 
 TiDB https://github.com/pingcap/tidb
 

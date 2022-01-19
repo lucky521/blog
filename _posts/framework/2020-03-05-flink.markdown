@@ -77,7 +77,7 @@ Checkpoint 太大了怎么办？
 在Flink做分布式快照过程中核心是Barriers的使用。这些Barriers是在数据接入到Flink之初就注入到数据流中，并随着数据流向每个算子。
 
 
-作业 Failover
+## 作业 Failover
 Checkpoint 在作业failover的时候自动使用。
 Flink 的容错机制主要分为从 checkpoint 恢复状态和重流数据两步，这也是为什么 Flink 通常要求数据源的数据是可以重复读取的。对于重启后的新 Task 来说，它可以通过读取 checkpoint 很容易地恢复状态信息，但是却不能独立地重流数据，因为 checkpoint 是不包含数据的。
 
@@ -119,23 +119,15 @@ flink的cp会备份到hdfs去，当作业并发量大（TM多）时，HDFS的压
 
 
 
-## 分层API
-
-data stream api
-process function api
-最高层 sql api
 
 ## 批处理和流处理都支持，批流一体
-
 batch application
 stream application
 
 ## Flink如何以Table的概念支持批流一体
-
 Flink 数据处理流水线开始于 source 表。source 表产生在查询执行期间可以被操作的行；它们是查询时 FROM 子句中引用的表。这些表可能是 Kafka 的 topics，数据库，文件系统，或者任何其它 Flink 知道如何消费的系统。
 
 ### 流到动态表的转换
-
 动态表 是 Flink 的支持流数据的Table的核心概念。动态表的查询是一种永不停止的查询，动态表的查询结果也是一种永在变更的结果。
 
 查询动态表将生成一个 连续查询 。一个连续查询永远不会终止，结果会生成一个动态表。查询不断更新其(动态)结果表，以反映其(动态)输入表上的更改。
@@ -147,7 +139,6 @@ Flink 数据处理流水线开始于 source 表。source 表产生在查询执�
 
 
 ### 动态表到流的转换
-
 * Append-only 流
 * Retract 流
 * Upsert 流： 与 retract 流的主要区别在于 UPDATE 操作是用单个 message 编码的，因此效率更高。
@@ -173,8 +164,6 @@ Metastore 即元数据服务，是Hive用来管理库表元数据的一个服务
 
 HiveCatalog(String catalogName, String defaultDatabase, String hiveConfDir, String hadoopConfDir, String hiveVersion) 
 
-
-
 Catalog 函数
 
 
@@ -198,14 +187,40 @@ Catalog 函数
 当 env.execute() 方法执行之后，代码所设计的一张执行图就会被打包发送到Flink Master，进行任务拆解和并行化，分配到TaskManager执行。
 
 ### TableEnvironment
+TableEnvironment是 Table/SQL API的运行环境。
+
+TableConfig 对象用于设置Table/SQL API程序的配置。
+
+StatementSet 对象，把几个sql 放到一个 statement 里面，以一个作业的方式去执行，能够实现节点的复用。
+Table （通过 StatementSet.addInsert() 输出给某个 Sink）和 INSERT 语句 （通过调用 StatementSet.addInsertSql()）会先被缓存到 StatementSet 中。
+
+
+真正的执行发生在sink时， 当 ？？ 执行之后， 执行图会发送到master端。
+StatementSet.execute() 方法被调用时，所有的 sink 会被优化成一张有向无环图。
 
 ### StreamTableEnvironment
+
+DataStream 和 Table 之间的转换(面向 StreamTableEnvironment )
+
+* toRetractStream : 任何情形都可以使用此模式。它使用 boolean 值对 INSERT 和 DELETE 操作的数据进行标记。
+* toAppendStream :  仅当动态 Table 仅通过INSERT更改进行修改时，才可以使用此模式，即，它仅是追加操作，并且之前输出的结果永远不会更新。
+* toDataStream
+* fromValues
+* fromDataStream
+
+一旦 Table 被转化为 DataStream，必须使用 StreamExecutionEnvironment 的 execute 方法执行该 DataStream 作业。
+
 
 ## 几种stream
 
 DataStream
 
 SingleOutputStreamOperator
+
+## Flink特有的数据结构
+
+* org.apache.flink.table.data.RowData
+* org.apache.flink.types.Row
 
 
 ## Operator算子 DataStream Transformations
@@ -449,8 +464,6 @@ TableFactory 用来创建与table相关的实例工厂接口，实例的来源�
 
 
 
-## Flink DDL
-
 
 
 ## Flink SQL && Flink Table API
@@ -462,14 +475,14 @@ Flink SQL 工作机制: https://zhuanlan.zhihu.com/p/150473300
 
 Flink SQL如何实现数据流的join： http://www.whitewood.me/2019/12/15/Flink-SQL-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84-Join/
 
-Streaming SQL
+ Streaming SQL
 
 批式模型和流式模式
-- EnvironmentSettings.newInstance().useBlinkPlanner().inBatchMode().build()
+- EnvironmentSettings.newInstance().useBlinkPlanner().inBatchMode().build();
 - EnvironmentSettings.newInstance().useBlinkPlanner().inStreamingMode().build();
 
 Table API 和 SQL API使用的差别
-* executeSql
+* executeSql 执行create drop select insert各种sql， 其返回值是TableResult对象
 * sqlQuery 特定于select sql语句，其返回值是一个Table
 
 - Table table2 = tableEnv.from("table1").select(...); // create a Table object from a Table API query
@@ -492,7 +505,7 @@ table概念还可以再转回datastream
 
 
 
-## Flink SQL建表
+### Flink SQL建表
 
 ``` java
 tableEnv.connect(new FileSystem().path(filePath))
@@ -519,7 +532,6 @@ https://www.cnblogs.com/21airuirui1123/p/14644933.html
 
 
 ### DataStreamAPI UDF
-
 
 - 最基础的方式就是 implements MapFunction去实现一个新的类，或者是data.map(后面直接new MapFunction出一个匿名的类)
 - Rich Function， 附加了open, close， getRuntimeContext, setRuntimeContext 四个方法。
@@ -690,7 +702,7 @@ https://ci.apache.org/projects/flink/flink-docs-release-1.13/zh/docs/dev/table/c
 
 
 
-# Flink调试
+# Flink程序调试
 
 checkpoint失败原因
 * 如果 Checkpoint 做的非常慢，超过了 timeout 还没有完成，则整个 Checkpoint 也会失败。 Checkpoint慢的原因需要细查。
@@ -825,7 +837,7 @@ env.execute("MySourceMysql");
 
 - 组件间通信 akka ，JobManager和TaskManager之间的控制通信
 - 数据传输 netty， 比如Operator之间的传输数据 https://github.com/wangzhiwubigdata/God-Of-BigData/tree/master/Netty
-
+- SQL解析 Calcite， Flink parses SQL using [Apache Calcite](https://calcite.apache.org/docs/reference.html), which supports standard ANSI SQL.
 
 # Alink
 
@@ -874,6 +886,8 @@ flink-ai-extended
 
 最权威的使用文档是：https://flink.apache.org/
 
+Flink社区： https://cwiki.apache.org/confluence/display/FLINK/Apache+Flink+Home
+
 最权威的底层实现文档是： Flink Internals https://cwiki.apache.org/confluence/display/FLINK/Flink+Internals
 
 flink基本概念介绍 https://www.jianshu.com/p/2ee7134d7373
@@ -906,3 +920,61 @@ hudi 支持基于主键的upsert/delete
 PyFlink
 
 Flink AL Extended
+
+## Flink Forward China 2021
+
+### 应用API
+14支持同一个应用中混合使用有界流和无界流
+
+批执行模式现在支持在同一应用中混合使用 DataStream API 和 SQL/Table API（此前仅支持单独使用 DataStream API 或 SQL/Table API）
+
+
+
+### 状态
+state-backend优化
+
+cp、snapshot优化:  不被流动缓慢的中间数据阻塞 unaligned checkpoint ； 更少的中间数据  buffer debloating； Log Based(类似WAL) 将snapshot和uploading剥离开， cp不再受限于具体的state backend； 
+
+容错处理：机器学习场景对数据一致性的要求是弱化的， Task-Local Recovery； rescaling vs failover 
+
+
+
+
+
+### 流批一体
+面向流批一体的 Flink Runtime： 流执行模式（增量处理）、批执行模式（算子逐级允许）
+
+流批一体API
+
+流批一体存储:  iceberg
+
+流批一体认知:  只实现流批计算统一、只实现流批存储统一、 计算和存储均统一
+
+插件化shuffle api, remote shuffle
+
+
+
+
+
+### flink connector
+
+
+
+
+
+### flink cdc(Change Data Capture)
+从各种数据库中获取变更流并接入到Flink
+
+上游 mysql、mongodb
+
+下游 clickhouse、hudi、iceberg
+
+实时物化视图
+
+
+
+
+
+### 实时数仓→流式数仓
+基于 Flink Dynamic Table 构建流批一体数仓
+
