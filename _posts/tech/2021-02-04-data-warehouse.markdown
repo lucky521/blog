@@ -25,3 +25,9 @@ layout: post
 * DWS - Data WareHouse Servce
 
 * APP - 数据应用层
+
+
+
+# 参考
+
+[终于有人将数据湖讲明白了](https://view.inews.qq.com/a/20210909A0ARO400)

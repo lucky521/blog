@@ -8,6 +8,11 @@ layout: post
 
 分布式。数据存储。数据处理。
 
+Hadoop主要由HDFS + YARN + MapReduce三个核心组件组成。
+* HDFS是一个文件系统，负责分布式存储；
+* YARN是Hadoop自带的一个通用的资源管理框架，用来对跑在集群上的Application进行资源分配及管理；
+* MapReduce是一个分布式计算框架，跑在YARN上，配合HDFS用来做分布式数据计算。
+
 ## NameNode 进程
 NameNode只有一个，它是整个HDFS的核心。分布式文件系统的管理者。当然也是HDFS的一个单点瓶颈，如果它挂掉，HDFS就会崩溃，所以对它的保护尤为重要。
 secondarynamenode进程是NameNode的冗余进程。

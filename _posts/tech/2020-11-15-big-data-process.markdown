@@ -10,13 +10,7 @@ layout: post
 大数据的大有两个角度，一种是静态数据数据量巨大；一种是流式数据数据永无止境。
 
 
-# Schedule
-纯离线调度数据任务。
-## MR
-https://www.netjstech.com/p/hadoop-framework-tutorial.html
-
-map运行阶段分为:Read、Map、Collect、Spill、Merge五个阶段。
-reduce 运行阶段分为shuflle(copy) merge  sort    reduce write五个阶段。
+# Resource
 
 ## Yarn
 
@@ -26,21 +20,49 @@ yarn application -status  application_9173934103802_23474815
 
 hadoop job -list   | grep "rank" |  awk '{split($0,a,"\t"); print a[1],a[5],a[7],a[9],a[12]}'
 
+## k8s
+
+
+# Schedule Computing
+纯离线调度数据任务。
+## MR
+https://www.netjstech.com/p/hadoop-framework-tutorial.html
+
+map运行阶段分为:Read、Map、Collect、Spill、Merge五个阶段。
+reduce 运行阶段分为shuflle(copy) merge  sort    reduce write五个阶段。
+
+
+## Tez
+
+
+## Spark
+
+
 
 # Storing
-
-Data lake vs data warehouse， 数据湖和数据仓库的比较
-数据湖的一个特点是，存储的数据没有预先设定schema，保存原始数据。
-注意数据湖不是个项目，而是一个概念和思想。
 
 Redis
 
 HBase
 
-Pika  https://github.com/Qihoo360/pika
+Pika Pika是一个可持久化的大容量redis存储服务  https://github.com/Qihoo360/pika
 
-https://github.com/delta-io/delta
+https://github.com/Netflix/EVCache
 
+
+## Storage Cache
+
+alluxio
+
+## Data Lake数据存储中间Table format层
+
+Data lake vs data warehouse， 数据湖和数据仓库的比较
+数据湖的一个特点是，存储的数据没有预先设定schema，保存原始数据。
+注意数据湖不是个项目，而是一个概念和思想。
+
+* hudi https://github.com/apache/hudi
+* iceberg https://iceberg.apache.org/
+* delta lake https://github.com/delta-io/delta
 
 ## Hudi
 
@@ -54,8 +76,8 @@ Hudi表的数据文件，可以使用操作系统的文件系统存储，也可�
 * 有savepoint
 * 管理文件大小
 
-* Copy-On-Write Table
-* Merge-On-Read Table
+* Copy-On-Write Table : 在写文件的时候就做了数据合并,因此写入数据的压力比较大, 对读数据比较友好.
+* Merge-On-Read Table : 在读数据的时候合并, 写入是数据采用append的方式,适合快速写入的场景
 
 用spark-shell访问hudi
 
@@ -81,7 +103,7 @@ MQ
 
 
 
-# Computing
+# Stream Computing
 
 ## Storm
 
@@ -98,13 +120,7 @@ Lazy Evaluation
 
 
 
-# 数据湖(实时化、离线CRUD)
 
-hudi https://github.com/apache/hudi
-
-iceberg https://iceberg.apache.org/
-
-delta lake https://github.com/delta-io/delta
 
 
 # OLAP
@@ -134,9 +150,12 @@ druid https://druid.apache.org/
 
 kylin http://kylin.apache.org/
 
-https://www.hologres.io/
+hologres https://www.hologres.io/
 
-https://kudu.apache.org/
+kudu https://kudu.apache.org/
+
+
+##  HTAP
 
 TiDB https://github.com/pingcap/tidb
 
