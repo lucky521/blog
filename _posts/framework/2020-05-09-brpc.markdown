@@ -8,9 +8,26 @@ layout: post
 
 brpc提供的可视化分析界面
 
-线程模型(Thread Module)：使用bthread 用户态协程，结合N:M的调度模型，以及work-steal 抢占式调度实现；为bthread打造的butex同步组件，为实现高性能的RPC框架提供了较为高效和简洁的并发编程基础。
+# 线程模型(Thread Module)
 
-内存管理(Buffer & Memory Management)：buffer-ManangerMent通过IOBuf（非连续零拷贝缓存）方式减少数据传递处理过程中的拷贝。各种ThreadLocal的ResoucePool，Object Pool等来优化定长的短生命周期的申请和释放。
+bthread是brpc实现的一套“协程”。传统意义上的协程是一个线程中开辟多个协程，也就是通常意义的N:1协程。而bthread是M:N的“协程”，每个bthread之间是平等的，所谓的M:N是指协程可以在线程间迁移。
+
+使用bthread 用户态协程，结合N:M的调度模型，以及work-steal 抢占式调度实现；为bthread打造的butex同步组件，为实现高性能的RPC框架提供了较为高效和简洁的并发编程基础。
+
+要实现M:N其中关键就是：工作窃取（Work Stealing）算法
+
+bthread_concurrency
+
+
+bthread-local
+
+
+https://github.com/apache/incubator-brpc/blob/master/docs/cn/bthread.md
+
+
+
+# 内存管理(Buffer & Memory Management)
+buffer-ManangerMent通过IOBuf（非连续零拷贝缓存）方式减少数据传递处理过程中的拷贝。各种ThreadLocal的ResoucePool，Object Pool等来优化定长的短生命周期的申请和释放。
 
 执行队列(exec queue):多生产者单消费者无锁队列，实现了多生产者单消费者之间的的高效通信，在实现单TCP连接复用，高效发送-接收数据上发挥了很重要的作用。
 
@@ -21,7 +38,7 @@ baidu_std and hulu_pbrpc supports attachments which are sent along with messages
 
 
 
-使用说明
+# 使用说明
 
 https://github.com/apache/incubator-brpc/blob/master/docs/cn/server.md
 
@@ -31,7 +48,7 @@ https://github.com/apache/incubator-brpc/blob/master/docs/cn/client.md
 
 
 
-源码学习
+# 源码学习
 
 ::google::protobuf::Closure* done
 brpc::ClosureGuard done_guard(done);
