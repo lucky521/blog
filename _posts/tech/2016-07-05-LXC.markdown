@@ -105,22 +105,8 @@ except-interface=lxcbr0
 
 
 
-<!--
-这里是注释区
+# 容器资源
 
-```
-print "hello"
-```
+一般一个核心对应了一个线程，而intel开发出了超线程技术，1个核心能够做到2个线程计算。
 
-***Stronger***
-
-{% highlight python %}
-print "hello, Lucky!"
-{% endhighlight %}
-
-![My image]({{ site.baseurl }}/images/emule.png)
-
-My Github is [here][mygithub].
-[mygithub]: https://github.com/lucky521
-
--->
+在CPU的配置信息里有一项"Hyper-Threading Technology"的开关。

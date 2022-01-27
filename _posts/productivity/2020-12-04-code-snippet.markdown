@@ -64,3 +64,35 @@ from touchstone_info limit 1
 
 dt=`date -d "$date_base -2 days" "+%Y-%m-%d"`
 `hive -e "use search; alter table  XXXXXXXXX  drop partition(dt='$dt_delete')"`
+
+
+
+## Java
+
+### 浮点数显示
+任何浮点数，当设计显示，一定就是以string来显示的。
+```java
+import java.text.DecimalFormat;
+
+public class Test {
+    private static String try_format(double d) {
+      return new DecimalFormat("0.00000000000000").format(d).replaceAll("(?<!\\.)[0]*$","");
+    }
+    
+    private static void try_print(double d) {
+        System.out.println(try_format(d));
+        System.out.println(d);
+        System.out.println("\n");
+    }
+    
+    public static void main(String[] args) {
+        liulu_print(-0.000000005454);
+        liulu_print(34534534.0);
+        liulu_print(0.50);
+        liulu_print(0.0);
+        liulu_print(-1.0);
+        liulu_print(-0.0843503);
+        liulu_print(-0.0423040);
+    }
+}
+```

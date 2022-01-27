@@ -57,9 +57,6 @@ kube-proxy： 写入规则到iptables实现服务映射
 etcd 存储
 
 
-
-# 具体
-
 ## 配置Pod的liveness和readiness探针
 
 Kubelet使用liveness probe（存活探针）来确定何时重启容器。

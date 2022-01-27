@@ -186,6 +186,8 @@ Catalog 函数
 每一个flink应用都需要一个执行环境， 对于流处理程序，使用的执行环境类是 StreamExecutionEnvironment. 这是Flink单纯做流式处理所用的执行环境。
 当 env.execute() 方法执行之后，代码所设计的一张执行图就会被打包发送到Flink Master，进行任务拆解和并行化，分配到TaskManager执行。
 
+env.setStateBackend 设置状态后端的存储机制
+
 ### TableEnvironment
 TableEnvironment是 Table/SQL API的运行环境。
 
@@ -291,6 +293,9 @@ ReducingStateDescriptor
 
 
 ## Checkpoint 
+
+* Aligned Checkpoint
+* Unaligned Checkpoint 
 
 ### Checkpoint 配置
 
@@ -667,6 +672,7 @@ setMaxParallelism 控制的是状态后端中keyed-state可以被分配的task�
 * restart-strategy fixed-delay
 * restart-strategy.fixed-delay.delay 180s
 * restart-strategy.fixed-delay.attempts 1000
+* state.backend.local-recovery 此选项配置此 state backend 的本地恢复。
 * state.backend.rocksdb.timer-service.factory ROCKSDB
 * env.java.opts.taskmanager  -XX:MaxGCPauseMillis=300
 * env.java.opts.jobmanager
