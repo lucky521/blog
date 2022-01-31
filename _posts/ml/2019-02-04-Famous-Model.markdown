@@ -165,3 +165,5 @@ deepFM: https://www.ijcai.org/proceedings/2017/0239.pdf
 深度学习推荐系统 https://www.zhihu.com/people/wang-zhe-58
 
 CTR深度模型总结 https://github.com/shenweichen/DeepCTR
+
+推荐系统多目标模型 https://www.cnblogs.com/eilearn/p/14746522.html

@@ -77,7 +77,7 @@ Checkpoint 太大了怎么办？
 在Flink做分布式快照过程中核心是Barriers的使用。这些Barriers是在数据接入到Flink之初就注入到数据流中，并随着数据流向每个算子。
 
 
-## 作业 Failover
+## 作业 Failover、 容错、 灾备
 Checkpoint 在作业failover的时候自动使用。
 Flink 的容错机制主要分为从 checkpoint 恢复状态和重流数据两步，这也是为什么 Flink 通常要求数据源的数据是可以重复读取的。对于重启后的新 Task 来说，它可以通过读取 checkpoint 很容易地恢复状态信息，但是却不能独立地重流数据，因为 checkpoint 是不包含数据的。
 
@@ -92,6 +92,11 @@ Flink 的容错机制主要分为从 checkpoint 恢复状态和重流数据两�
     （2）失败率策略 (Failure rate)
     （3）无重启 (No restart)
 
+
+What happens if a task manager is lost?
+https://ververica.zendesk.com/hc/en-us/articles/360002262919-What-happens-if-a-task-manager-is-lost-
+
+Task-Local Recovery
 
 ### Flink 单点恢复
 https://segmentfault.com/a/1190000025168779
