@@ -98,6 +98,8 @@ transformer layer的样子
 通过这种自注意力机制层和普通非线性层来实现对输入信号的编码，得到信号的表示。
 
 - 介绍 http://jalammar.github.io/illustrated-transformer/
+- https://nlp.seas.harvard.edu/2018/04/03/attention.html
+- https://zhuanlan.zhihu.com/p/49271699
 
 
 美团如何使用 Transformer 搜索排序 

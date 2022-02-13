@@ -713,6 +713,18 @@ https://ci.apache.org/projects/flink/flink-docs-release-1.13/zh/docs/dev/table/c
 
 
 
+## Flink 内存模型 (TM)
+
+* Framework Heap: taskmanager.memory.framework.heap.size 用于 Flink 框架的 JVM 堆内存
+* Task Heap: taskmanager.memory.task.heap.size 用于 Flink 应用的算子及用户代码的 JVM 堆内存
+* Managed Memory : taskmanager.memory.managed.size 由 Flink 管理的用于排序、哈希表、缓存中间结果及 RocksDB State Backend 的本地内存。
+* Framework Off-Heap : taskmanager.memory.framework.off-heap.size  用于 Flink 框架的堆外内存（直接内存或本地内存）
+* Task Off-Heap : taskmanager.memory.task.off-heap.size 用于 Flink 应用的算计及用户代码的堆外内存（直接内存或本地内存）
+* Network: 用于任务之间数据传输的直接内存（例如网络传输缓冲）。该内存部分为基于 Flink 总内存的受限的等比内存部分。
+* JVM Metaspace
+* JVM Overhead 用于其他 JVM 开销的本地内存，例如栈空间、垃圾回收空间等。该内存部分为基于进程总内存的受限的等比内存部分。
+
+
 # Flink程序调试
 
 checkpoint失败原因
