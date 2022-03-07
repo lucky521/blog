@@ -137,3 +137,8 @@ spark-sql
 ```java
     Dataset<Row> df = sparkSession.sql(cmdLine.getSql());
 ```
+
+
+# Ref
+
+[10 ways to query Hadoop with SQL](https://www.infoworld.com/article/2683729/10-ways-to-query-hadoop-with-sql.html)

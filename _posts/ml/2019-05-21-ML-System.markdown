@@ -145,6 +145,7 @@ categories: [MachineLearning]
 数据流方案（airflow argo kubeflow）、资源调度
 - oozie: https://oozie.apache.org/
 - jenkins ?
+- Quartz
 - 数据流批处理框架：kubeflow.org
 - 数据流程化处理系统：https://github.com/apache/airflow
 - DAG数据工作流框架： https://mlflow.org/
