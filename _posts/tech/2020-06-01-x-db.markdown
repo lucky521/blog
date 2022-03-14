@@ -38,6 +38,11 @@ https://www.jianshu.com/p/fe7b7800473e
 
 
 
+
+
+
+
+
 # X_DB
 
 kv存储：
@@ -92,6 +97,15 @@ RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数
 ## InfluxDB
 
  InfluxDB是一个由InfluxData开发的开源时序型数据。它由Go写成，着力于高性能地查询与存储时序型数据。InfluxDB被广泛应用于存储系统的监控数据，IoT行业的实时数据等场景。
+
+
+## elasticsearch
+
+
+
+
+
+
 
 
 

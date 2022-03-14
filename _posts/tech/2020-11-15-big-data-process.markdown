@@ -20,22 +20,9 @@ yarn application -status  application_9173934103802_23474815
 
 hadoop job -list   | grep "rank" |  awk '{split($0,a,"\t"); print a[1],a[5],a[7],a[9],a[12]}'
 
-## k8s
+## K8s
 
 
-# Schedule Computing
-纯离线调度数据任务。
-## MR
-https://www.netjstech.com/p/hadoop-framework-tutorial.html
-
-map运行阶段分为:Read、Map、Collect、Spill、Merge五个阶段。
-reduce 运行阶段分为shuflle(copy) merge  sort    reduce write五个阶段。
-
-
-## Tez
-
-
-## Spark
 
 
 
@@ -47,12 +34,25 @@ HBase
 
 Pika Pika是一个可持久化的大容量redis存储服务  https://github.com/Qihoo360/pika
 
-https://github.com/Netflix/EVCache
+EVCache https://github.com/Netflix/EVCache
 
+## Hbase
+HDFS是Hadoop的存储系统，它的优点是可以存储超大量数据，但是缺点是速度慢。
+HBase建立在HDFS之上，以KV的形式存储，提供实时访问。
+HBase 本身只提供了Java 的API 接口。
+snapshot是HBase非常核心的一个功能，使用snapshot的不同用法可以实现很多功能
 
 ## Storage Cache
 
 alluxio
+
+
+## Data Format
+
+数据格式： parquet, avro, orc, csv, json
+
+数据压缩： zstd, brotli, lz4, gzip, snappy, uncompressed
+
 
 ## Data Lake数据存储中间Table format层
 
@@ -62,7 +62,7 @@ Data lake vs data warehouse， 数据湖和数据仓库的比较
 
 * hudi https://github.com/apache/hudi
 * iceberg https://iceberg.apache.org/
-* delta lake https://github.com/delta-io/delta
+* deltalake https://github.com/delta-io/delta
 
 ## Hudi
 
@@ -77,11 +77,17 @@ Hudi表的数据文件，可以使用操作系统的文件系统存储，也可�
 * 管理文件大小
 
 * Copy-On-Write Table : 在写文件的时候就做了数据合并,因此写入数据的压力比较大, 对读数据比较友好.
-* Merge-On-Read Table : 在读数据的时候合并, 写入是数据采用append的方式,适合快速写入的场景
+* Merge-On-Read Table : 在读数据的时候合并, 写入是数据采用append的方式,适合快速写入的场景.
 
-用spark-shell访问hudi
+* preCombineField 属性用于在主键重复时合并数据。 若设置了该字段，upsert操作，有预合并， 当主键重复时，去重保留preCombineField字段最大的记录
 
 
+## Iceberg
+
+在不影响已存在数据使用体验的情况下支持以下特性：
+* Table Schema支持add、drop、rename、update type、reorder
+* Table Partition支持变更
+* Table Sort Order支持变更
 
 
 
@@ -102,12 +108,29 @@ MQ
 
 
 
+# Schedule Computing 批处理任务
+纯离线调度数据任务。
+## MR
+https://www.netjstech.com/p/hadoop-framework-tutorial.html
 
-# Stream Computing
+map运行阶段分为:Read、Map、Collect、Spill、Merge五个阶段。
+reduce 运行阶段分为shuflle(copy) merge  sort    reduce write五个阶段。
+
+
+## Tez
+本质上还是基于mr，算是对mr做了dag方向的优化
+
+
+## Spark
+
+
+
+
+# Stream Computing 流处理任务
 
 ## Storm
 
-## Spark
+## Spark Streaming
 
 spark是怎么工作的？
 RDD - Resilient Distributed Dataset

@@ -623,7 +623,7 @@ JM日志
 
 TM日志
 
-flink custer log
+flink cluster log
 
 flink jobs log
 

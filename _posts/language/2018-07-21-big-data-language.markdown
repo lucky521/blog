@@ -8,8 +8,19 @@ layout: post
 本篇想要总结一下在Hadoop集群上处理大数据文件(批式静态数据)的方法，主要从应用层面去看我们有多少种、怎么样的方式（写什么样的程序、越简单越好的程序）去读写大数据进行增删查改，不打算关注大数据概念，也不关注框架的实现部分。
 
 
+# Hadoop Streaming
+https://hadoop.apache.org/docs/r1.2.1/streaming.html
+
+## Python MapReduce
+https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/
+
+
+
 # Hive
 hive是Java实现的，由Facebook开源，目的是将特定的SQL语句编译为MapReduce jar包扔给hadoop去执行，本质上是一个代码转换编译的工具，简化mr的开发。
+
+## hive tblproperties 表属性
+向表中添加自定义或预定义的元数据属性，并设置它们的赋值。在hive建表时，可设置TBLPROPERTIES参数修改表的元数据，也能通过ALTER语句对其修改。
 
 ## hive metastore
 
@@ -29,7 +40,7 @@ https://cwiki.apache.org/confluence/display/Hive/AdminManual+Metastore+Administr
 * Execution engine :: MapReduce, Tez, Spark
 * Hive Web UI (added in Hive 2.x). Maybe also Tez or Spark UI, but not really*
 
-## python udf
+## hive python udf
 
 https://florianwilhelm.info/2016/10/python_udf_in_hive/
 
@@ -69,7 +80,7 @@ Hive SQL背后的原理： https://tech.meituan.com/2014/02/12/hive-sql-to-mapre
 Pig也是Java实现的，由雅虎开源，使用类似于python的语法。思想和Hive一致，都是运行前将pig语言转换为MR job来运行。
 
 ## pig udf
-```
+```python
 REGISTER 'my_udf.py' using jython as my_udf;
 data = LOAD '$eval_seq2seq_table' using org.apache.hcatalog.pig.HCatLoader();
 
@@ -83,7 +94,7 @@ result = FOREACH data generate my_udf.my_function(key_sku, similar_sku_list, nn_
 STORE result into '$result_filename' USING PigStorage('\t', '-schema');
 ```
 
-```
+```python
 @outputSchema("t:(key_sku:chararray,bad:int)")
 def my_function(key_sku, similar_sku_list, nn_sku_list):
     if len(nn_sku_list) <= 1:
@@ -106,37 +117,45 @@ def my_function(key_sku, similar_sku_list, nn_sku_list):
 
 presto是Java实现的， 由Facebook开源，为了解决hive查询慢产生。提供的用户语言也是SQL。
 
-# Impala
+## trino 
+2020年底，PrestoSQL更名为Trino
 
+
+# Impala
 impala由C++实现，提供的用户语言也是SQL。调用C语言层的libhdfs来直接访问HDFS处理数据。
 
 impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很接近。
 
 
-
-# Hadoop Streaming
-
-https://hadoop.apache.org/docs/r1.2.1/streaming.html
-
-
-## Python MapReduce
-
-https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/
-
-
-
 # Spark 
-
 
 ## PySpark
 
-## Spark SQL
 
-spark-sql
+## scala/java
+
+spark-shell
+
+## Spark SQL
+SparkSQL引擎
+Spark SQL can use existing Hive metastores, SerDes, and UDFs.
+
+> spark-sql
 
 ```java
     Dataset<Row> df = sparkSession.sql(cmdLine.getSql());
 ```
+
+## Hive on Spark
+HiveSQL引擎
+
+
+
+
+# Phoenix
+Phoenix 基于Hbase给面向业务的开发人员提供了以标准SQL的方式对Hbase进行查询操作，并支持标准SQL中大部分特性:条件运算,分组，分页，等高级查询语法。
+
+
 
 
 # Ref
