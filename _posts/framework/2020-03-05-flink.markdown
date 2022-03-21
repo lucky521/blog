@@ -383,7 +383,6 @@ BoundedOutOfOrdernessTimestampExtractor 产生的时间戳和水印是允许“�
 ## source
 
 ### 流式source
-
 flink中的source作为整个stream中的入口，而sink作为整个stream的终点。
 
 SourceFunction为所有flink中source的根接口，其定义了run()方法和cancel()方法。

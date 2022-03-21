@@ -28,11 +28,6 @@ hadoop job -list   | grep "rank" |  awk '{split($0,a,"\t"); print a[1],a[5],a[7]
 
 # Storing
 
-Redis
-
-HBase
-
-Pika Pika是一个可持久化的大容量redis存储服务  https://github.com/Qihoo360/pika
 
 EVCache https://github.com/Netflix/EVCache
 
@@ -80,6 +75,7 @@ Hudi表的数据文件，可以使用操作系统的文件系统存储，也可�
 * Merge-On-Read Table : 在读数据的时候合并, 写入是数据采用append的方式,适合快速写入的场景.
 
 * preCombineField 属性用于在主键重复时合并数据。 若设置了该字段，upsert操作，有预合并， 当主键重复时，去重保留preCombineField字段最大的记录
+
 
 
 ## Iceberg

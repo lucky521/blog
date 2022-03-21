@@ -117,3 +117,5 @@ interleaving实验方法 https://zhuanlan.zhihu.com/p/68509372
 A/B Testing课程 https://www.udacity.com/course/ab-testing--ud257
 
 因果推断 uplift model https://zhuanlan.zhihu.com/p/343747851
+
+因果启发的学习、推断和决策 https://tech.meituan.com/2022/03/17/causal-inference.html

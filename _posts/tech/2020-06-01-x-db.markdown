@@ -11,9 +11,11 @@ X_DB往往是在线系统和离线系统的边界。
 * 数据接口以如何形式组织
 * 内部存储数据以如何形式组织
 * 数据如何更新
+* 数据有效期
+* 数据如何版本回滚
 * 如何扩容
 * 最大可存储的数据量
-* 最大可服务的QPS
+* 最大可写的速度
 * 最大可服务的吞吐量
 * 最大可提供的吞吐速度
 
@@ -25,9 +27,11 @@ http://ifeve.com/redis-multiget-hole/
 ## 缓存雪崩
 
 同一时刻大量cache时效，导入对底层数据库的冲击。
+缓存雪崩发生场景 : 当Redis服务器重启或者大量缓存在同一时期失效时,此时大量的流量会全部冲击到数据库上面,数据库有可能会因为承受不住而宕机
 
 ## 缓存穿透
 
+缓冲穿透发生场景 : 此时要查询的数据不存在,缓存无法命中所以需要查询完数据库,但是数据是不存在的,此时数据库肯定会返回空,也就无法将该数据写入到缓存中,那么每次对该数据的查询都会去查询一次数据库。
 
 ## 缓存预热
 
@@ -36,9 +40,11 @@ http://ifeve.com/redis-multiget-hole/
 https://www.jianshu.com/p/fe7b7800473e
 
 
+## 数据一致性
 
+Raft
 
-
+Paxos
 
 
 
@@ -54,23 +60,24 @@ WAL 机制
 WAL(Write Ahead Log)预写日志，是数据库系统中常见的一种手段，用于保证数据操作的原子性和持久性。
 「修改并不直接写入到数据库文件中，而是写入到另外一个称为 WAL 的文件中；如果事务失败，WAL 中的记录会被忽略，撤销修改；如果事务成功，它将在随后的某个时间被写回到数据库文件中，提交修改。」
 
+## MySQL 关系数据库
+
+需要了解什么场景适合mysql，什么场景不合适mysql
+
+
 ## Redis
 
 pipeline命令
 
 允许client将多个请求依次发给服务器（redis的客户端，如jedisCluster，lettuce等都实现了对pipeline的封装），过程中而不需要等待请求的回复，在最后再一并读取结果即可。
 
-缓存雪崩
-
-发生场景 : 当Redis服务器重启或者大量缓存在同一时期失效时,此时大量的流量会全部冲击到数据库上面,数据库有可能会因为承受不住而宕机
+Pika Pika是一个可持久化的大容量redis存储服务  https://github.com/Qihoo360/pika
 
 
-缓冲穿透
-
-发生场景 : 此时要查询的数据不存在,缓存无法命中所以需要查询完数据库,但是数据是不存在的,此时数据库肯定会返回空,也就无法将该数据写入到缓存中,那么每次对该数据的查询都会去查询一次数据库
 
 
 ## rocksDB
+RocksDB 的核心数据结构是 LSM-Tree
 
 ### RocksDB Column Family
 
@@ -83,6 +90,8 @@ RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数
 
 
 ## levelDB
+单机数据库，一次只允许一个进程访问一个特定的数据库
+适合场景 高频写、低频读
 
 ## MongoDB
 
@@ -101,7 +110,21 @@ RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数
 
 ## elasticsearch
 
+## Hbase
+基于hdfs的kv数据库，性能差
 
+## Tair
+
+
+## Nebula Graph 图数据库
+https://xie.infoq.cn/article/e550a032bd421916b72dcca24
+
+
+## TiDB 分布式事务数据库
+
+## YugabyteDB
+
+## cockroachDB
 
 
 
@@ -121,3 +144,15 @@ ChubaoFS（CFS）是京东开发的分布式文件系统和对象存储系统
 ## HDFS
 
 ## GlusterFS
+
+
+
+# 参考
+
+[性能提升2.58倍！阿里最快KV存储引擎揭秘](https://developer.aliyun.com/article/749455?utm_content=g_1000107624)
+[百度信息流和搜索业务中的KV存储实践](https://zhuanlan.zhihu.com/p/414844474)
+[美团点评万亿级 KV 存储架构与实践](https://tech.meituan.com/2020/07/01/kv-squirrel-cellar.html)
+[两大10亿级的储存挑战，微信究竟是怎么扛住的？](https://dbaplus.cn/news-148-2740-1.html)
+[关于 TiDB 的正确使用姿势](https://zhuanlan.zhihu.com/p/25574778)
+[字节跳动自研强一致在线 KV &表格存储实践 - 上篇](https://mp.weixin.qq.com/s?__biz=MzI1MzYzMjE0MQ==&mid=2247485932&idx=1&sn=28394ff3b8ac272852f22105c3768d0f&chksm=e9d0c20edea74b18d6d8eaa0720c52351b4bfaeb0ebde24e08db4c899012d2ad90c2aa977806&token=911418867&lang=zh_CN&scene=21#wechat_redirect)
+[字节跳动自研强一致在线 KV &表格存储实践 - 下篇](https://mp.weixin.qq.com/s?__biz=MzI1MzYzMjE0MQ==&mid=2247485942&idx=1&sn=01192ff69299de3a007de789ac84564b&chksm=e9d0c214dea74b0245c5d4ac0854d23a113ccc55e3ee042fc1239e14d5860817f1d88fc9befa&token=1461619284&lang=zh_CN#rd)

@@ -207,6 +207,9 @@ Spring框架为开发Java应用程序提供了全面的基础架构支持。 Spr
 
 c/c++
 
+
+# Java SPI META-INF/services
+
 # py4j
 https://www.py4j.org/
 https://www.cnblogs.com/xun-meng/p/12195854.html
