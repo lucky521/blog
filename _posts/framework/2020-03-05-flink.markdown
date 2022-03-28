@@ -528,6 +528,28 @@ tableEnv.connect(new FileSystem().path(filePath))
 
 https://www.cnblogs.com/21airuirui1123/p/14644933.html
 
+### 自定义 SQL Connector
+1. 自定义Factory，根据需要实现StreamTableSourceFactory和StreamTableSinkFactory
+2. 根据需要继承 ConnectorDescriptorValidator ，定义自己的connector参数（with 后面跟的那些）
+3. Factory中的requiredContext、supportedProperties都比较重要，框架中对Factory的过滤和检查需要他们
+4. 需要自定义个TableSink，根据你需要连接的中间件选择是AppendStreamTableSink、Upsert、Retract,并重写consumeDataStream方法
+5. 自定义一个SinkFunction，在invoke方法中实现将数据写入到外部中间件。
+
+CollectionTableFactory
+
+https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/dev/table/sourcessinks/
+
+
+
+
+## DataSet API
+
+从flink-1.12版本开始DataSetAPI正在废弃中。
+
+
+## Python API
+
+PythonAPI，就是 PyFlink， 换了开发语言，其API也分为 PyFlink Table API 和 PyFlink DataStream API 两种。
 
 ## UDF
 
@@ -544,22 +566,6 @@ https://www.cnblogs.com/21airuirui1123/p/14644933.html
 
 - 最基础的方式就是 implements MapFunction去实现一个新的类，或者是data.map(后面直接new MapFunction出一个匿名的类)
 - Rich Function， 附加了open, close， getRuntimeContext, setRuntimeContext 四个方法。
-
-
-
-
-
-
-
-
-## DataSet API
-
-从flink-1.12版本开始DataSetAPI正在废弃中。
-
-
-## Python API
-
-PythonAPI，就是 PyFlink， 换了开发语言，其API也分为 PyFlink Table API 和 PyFlink DataStream API 两种。
 
 
 
@@ -926,7 +932,6 @@ Flink如何支持特征工程、在线学习、在线预测等AI场景？ https:
 
 
 ## Flink Forward
-
 https://www.flink-forward.org/
 
 ## Flink Forward China 2020
@@ -951,17 +956,12 @@ Flink AL Extended
 批执行模式现在支持在同一应用中混合使用 DataStream API 和 SQL/Table API（此前仅支持单独使用 DataStream API 或 SQL/Table API）
 
 
-
 ### 状态
 state-backend优化
 
 cp、snapshot优化:  不被流动缓慢的中间数据阻塞 unaligned checkpoint ； 更少的中间数据  buffer debloating； Log Based(类似WAL) 将snapshot和uploading剥离开， cp不再受限于具体的state backend； 
 
 容错处理：机器学习场景对数据一致性的要求是弱化的， Task-Local Recovery； rescaling vs failover 
-
-
-
-
 
 ### 流批一体
 面向流批一体的 Flink Runtime： 流执行模式（增量处理）、批执行模式（算子逐级允许）
@@ -975,15 +975,6 @@ cp、snapshot优化:  不被流动缓慢的中间数据阻塞 unaligned checkpoi
 插件化shuffle api, remote shuffle
 
 
-
-
-
-### flink connector
-
-
-
-
-
 ### flink cdc(Change Data Capture)
 从各种数据库中获取变更流并接入到Flink
 
@@ -992,10 +983,6 @@ cp、snapshot优化:  不被流动缓慢的中间数据阻塞 unaligned checkpoi
 下游 clickhouse、hudi、iceberg
 
 实时物化视图
-
-
-
-
 
 ### 实时数仓→流式数仓
 基于 Flink Dynamic Table 构建流批一体数仓

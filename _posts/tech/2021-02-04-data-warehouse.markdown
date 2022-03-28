@@ -28,6 +28,15 @@ layout: post
 
 
 
+
 # 参考
 
 [终于有人将数据湖讲明白了](https://view.inews.qq.com/a/20210909A0ARO400)
+
+数据湖的价值
+* 流批作业在数据层面做到进一步的统一
+  * 快速upsert
+  * table schema
+* Time Travel Query
+
+数据库、数据仓库、数据湖

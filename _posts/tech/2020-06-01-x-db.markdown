@@ -20,6 +20,13 @@ X_DB往往是在线系统和离线系统的边界。
 * 最大可提供的吞吐速度
 
 
+## 结合应用场景说话
+
+* OLTP 写多读少。 每次读都读极小数据。  读要求低延时， 要求高并发
+* OLAP 写少读多。 每次读会读大量数据。
+* HTAP
+* 机器学习场景离线对数据的要求是海量， 在线对数据的要求是低延迟
+
 ## 缓存无底洞
 
 http://ifeve.com/redis-multiget-hole/
@@ -35,6 +42,20 @@ http://ifeve.com/redis-multiget-hole/
 
 ## 缓存预热
 
+
+
+
+
+# X_DB 技术架构
+
+## 存储引擎
+B+ Tree模型
+
+LSM-Tree模型(log-structured merge-tree)
+
+## 分片
+分片在不同系统中有各自的别名，Spanner 和 YugabyteDB 中被称为 Tablet，在 HBase 和 TiDB 中被称为 Region，在 CockraochDB 中被称为 Range。
+
 ## 分布式哈希寻址
 
 https://www.jianshu.com/p/fe7b7800473e
@@ -47,28 +68,53 @@ Raft
 Paxos
 
 
+## MVCC 
+(Multi-Version Concurrency Control)：多版本并发控制
 
 
-# X_DB
+## 事务处理能力
+分布式kv存储具备海量的存储和服务能力，但没有事务能力。
+## NewSQL
+NewSQL的基础是NoSQL. 在架构设计上倾向计算节点与存储节点分离。
+Google的分布式数据库，有怎么样的特性。
+* 关系型数据库，支持SQL、ACID事务
+* 无论schema变更、主从同步，都保持99.999%以上可用率
+* 根据请求负载和数据大小自动分片
 
-kv存储：
-行式存储：常见的行式数据库有MySQL、Postgres、MS SQL Server。
-列式存储：常见的列式数据库有 Vertica、 Paraccel (Actian Matrix，Amazon Redshift)、 Sybase IQ、 Exasol、 Infobright、 InfiniDB、 MonetDB (VectorWise， Actian Vector)、 LucidDB、 SAP HANA、 Google Dremel、 Google PowerDrill、 Druid、 kdb+。
+
+## PostgreSQL-XC
+从单体数据库出发进行拓展分布式化，最大程度复用了单体数据库的工程实现，通过协调节点来协调大量的数据节点（单体数据库）。
 
 
 WAL 机制
 WAL(Write Ahead Log)预写日志，是数据库系统中常见的一种手段，用于保证数据操作的原子性和持久性。
 「修改并不直接写入到数据库文件中，而是写入到另外一个称为 WAL 的文件中；如果事务失败，WAL 中的记录会被忽略，撤销修改；如果事务成功，它将在随后的某个时间被写回到数据库文件中，提交修改。」
 
+
+
+
+
+
+# X_DB
+
+键值存储：常见的键值存储数据库有Redis、Memcached、leveldb、rocksdb、tair、etcd
+行式存储：常见的行式数据库有MySQL、PostgreSQL、MS SQL Server。
+列式存储：常见的列式数据库有 Hbase、Kudu、ClickHouse、 Vertica、 Paraccel (Actian Matrix，Amazon Redshift)、 Sybase IQ、 Exasol、 Infobright、 InfiniDB、 MonetDB (VectorWise， Actian Vector)、 LucidDB、 SAP HANA、 Google Dremel、 Google PowerDrill、 Druid、 kdb+。
+
+
 ## MySQL 关系数据库
 
 需要了解什么场景适合mysql，什么场景不合适mysql
 
 
-## Redis
+## Redis 
+出于访问性能，将数据库放在内存。
+
+redis 实现高并发主要依靠主从架构，一主多从
+
+哨兵模式 Sentinel
 
 pipeline命令
-
 允许client将多个请求依次发给服务器（redis的客户端，如jedisCluster，lettuce等都实现了对pipeline的封装），过程中而不需要等待请求的回复，在最后再一并读取结果即可。
 
 Pika Pika是一个可持久化的大容量redis存储服务  https://github.com/Qihoo360/pika
@@ -109,6 +155,7 @@ RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数
 
 
 ## elasticsearch
+你说它是搜索引擎也好，也是有很多场景把ELK作为数据库的。
 
 ## Hbase
 基于hdfs的kv数据库，性能差
@@ -156,3 +203,5 @@ ChubaoFS（CFS）是京东开发的分布式文件系统和对象存储系统
 [关于 TiDB 的正确使用姿势](https://zhuanlan.zhihu.com/p/25574778)
 [字节跳动自研强一致在线 KV &表格存储实践 - 上篇](https://mp.weixin.qq.com/s?__biz=MzI1MzYzMjE0MQ==&mid=2247485932&idx=1&sn=28394ff3b8ac272852f22105c3768d0f&chksm=e9d0c20edea74b18d6d8eaa0720c52351b4bfaeb0ebde24e08db4c899012d2ad90c2aa977806&token=911418867&lang=zh_CN&scene=21#wechat_redirect)
 [字节跳动自研强一致在线 KV &表格存储实践 - 下篇](https://mp.weixin.qq.com/s?__biz=MzI1MzYzMjE0MQ==&mid=2247485942&idx=1&sn=01192ff69299de3a007de789ac84564b&chksm=e9d0c214dea74b0245c5d4ac0854d23a113ccc55e3ee042fc1239e14d5860817f1d88fc9befa&token=1461619284&lang=zh_CN#rd)
+
+https://db-engines.com/en/
