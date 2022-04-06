@@ -53,7 +53,7 @@ B+ Tree模型
 
 LSM-Tree模型(log-structured merge-tree)
 
-## 分片
+## 分片 和 弹性伸缩
 分片在不同系统中有各自的别名，Spanner 和 YugabyteDB 中被称为 Tablet，在 HBase 和 TiDB 中被称为 Region，在 CockraochDB 中被称为 Range。
 
 ## 分布式哈希寻址
@@ -66,6 +66,8 @@ https://www.jianshu.com/p/fe7b7800473e
 Raft
 
 Paxos
+
+Gossip 弱
 
 
 ## MVCC 
@@ -80,7 +82,6 @@ Google的分布式数据库，有怎么样的特性。
 * 关系型数据库，支持SQL、ACID事务
 * 无论schema变更、主从同步，都保持99.999%以上可用率
 * 根据请求负载和数据大小自动分片
-
 
 ## PostgreSQL-XC
 从单体数据库出发进行拓展分布式化，最大程度复用了单体数据库的工程实现，通过协调节点来协调大量的数据节点（单体数据库）。
@@ -119,6 +120,8 @@ pipeline命令
 
 Pika Pika是一个可持久化的大容量redis存储服务  https://github.com/Qihoo360/pika
 
+
+## Tair
 
 
 
@@ -160,7 +163,6 @@ RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数
 ## Hbase
 基于hdfs的kv数据库，性能差
 
-## Tair
 
 
 ## Nebula Graph 图数据库

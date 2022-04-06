@@ -28,9 +28,6 @@ hadoop job -list   | grep "rank" |  awk '{split($0,a,"\t"); print a[1],a[5],a[7]
 
 # Storing
 
-
-EVCache https://github.com/Netflix/EVCache
-
 ## Hbase
 HDFS是Hadoop的存储系统，它的优点是可以存储超大量数据，但是缺点是速度慢。
 HBase建立在HDFS之上，以KV的形式存储，提供实时访问。
@@ -40,6 +37,8 @@ snapshot是HBase非常核心的一个功能，使用snapshot的不同用法可�
 ## Storage Cache
 
 alluxio
+
+EVCache https://github.com/Netflix/EVCache
 
 
 ## Data Format
@@ -54,6 +53,8 @@ alluxio
 Data lake vs data warehouse， 数据湖和数据仓库的比较
 数据湖的一个特点是，存储的数据没有预先设定schema，保存原始数据。
 注意数据湖不是个项目，而是一个概念和思想。
+
+具备 ACID 能力的表格式中间件:
 
 * hudi https://github.com/apache/hudi
 * iceberg https://iceberg.apache.org/
@@ -110,8 +111,9 @@ MQ
 https://www.netjstech.com/p/hadoop-framework-tutorial.html
 
 map运行阶段分为:Read、Map、Collect、Spill、Merge五个阶段。
-reduce 运行阶段分为shuflle(copy) merge  sort    reduce write五个阶段。
+reduce 运行阶段分为shuflle(copy) merge  sort reduce write五个阶段。
 
+每个阶段的数据都要落磁盘，因而数据量无论多大都能搞，因此也特别慢。
 
 ## Tez
 本质上还是基于mr，算是对mr做了dag方向的优化
@@ -162,6 +164,8 @@ OLAP场景的关键特征
 ES https://www.elastic.co/start
 
 ClickHouse https://clickhouse.tech/
+* SETTINGS storage_policy = 'jdob_ha';
+* ENGINE = Distributed(xxx, xxx, xxx, rand());
 
 Doris https://doris.apache.org/master/en/
 

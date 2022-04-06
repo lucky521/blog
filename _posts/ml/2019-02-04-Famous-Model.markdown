@@ -50,6 +50,11 @@ Field-aware Factorization Machine
 ![]({{site.baseurl}}/images/dnnmodels-2.jpg)
 
 
+搜推广场景的特点:
+* Sparse model
+* Discrete features
+
+
 
 ## Wide and Deep learning WDL模型
 

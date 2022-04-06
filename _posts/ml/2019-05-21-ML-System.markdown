@@ -170,6 +170,8 @@ categories: [MachineLearning]
 - 分布式的Tensorflow：https://github.com/tensorflow/examples/blob/master/community/en/docs/deploy/distributed.md
 - Horovod: https://eng.uber.com/horovod/
 - oneflow: https://docs.oneflow.org/basics_topics/essentials_of_oneflow.html
+- DeepRec https://github.com/alibaba/DeepRec 搜推广稀疏模型
+- HugeCTR https://github.com/NVIDIA-Merlin/HugeCTR 搜推广稀疏模型
 
 模型抽象层
 - https://eng.uber.com/introducing-neuropod/ , https://github.com/uber/neuropod
