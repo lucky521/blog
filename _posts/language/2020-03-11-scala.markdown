@@ -58,6 +58,7 @@ TraversableOnce
 
 class
 class就是一个普通的类，编译后只会生成一个文件；可以和object同名（此时class被称为伴生类，object被称为伴生对象）
+case class 样例类(case class)适合用于不可变的数据
 
 object
 在编译之后会生成两个.class文件，主要目的是为了模拟java的静态方法

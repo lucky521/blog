@@ -128,13 +128,49 @@ impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很
 
 
 # Spark 
+当前最流行的批处理计算引擎应该就是spark了。
 
-## PySpark
+* spark-shell 命令行交互开发
+* spark-submit 提交jar包运行
+* spark-sql 直接用sql交互开发
 
+* Dataset API
+* SQL API
 
 ## scala/java
 
-spark-shell
+
+SparkConf
+
+SparkSession
+
+getOrCreate
+
+```scala
+    import org.apache.spark.sql.SparkSession
+
+    val conf = new SparkConf().setAppName(getClassName)
+    conf.set("spark.driver.cores","4")
+    conf.set("spark.streaming.clean.shuffle.enabled","true")
+    conf.set("spark.serializer","org.apache.spark.serializer.KryoSerializer")
+    conf.set("spark.executor.extraJavaOption","-XX:+UseG1GC")
+
+    val spark = SparkSession
+      .builder
+      .enableHiveSupport()
+      .config(conf)
+      .getOrCreate
+
+    spark.sql("")
+         .repartition(100)
+         .createOrReplaceTempView("xxx")
+
+    spark.udf.register("xxx", )
+```
+
+createOrReplaceTempView
+
+## PySpark
 
 ## Spark SQL
 SparkSQL引擎
@@ -148,6 +184,39 @@ Spark SQL can use existing Hive metastores, SerDes, and UDFs.
 
 ## Hive on Spark
 HiveSQL引擎
+
+
+## Structured Streaming
+***Structured Streaming provides fast, scalable, fault-tolerant, end-to-end exactly-once stream processing without the user having to reason about streaming.***
+
+spark希望你以表达批式计算的方式一样去表达出流式计算。SQL引擎负责增量的、持续的去更新结果。其内部使用的是micro-batch处理方式。
+
+```java
+Dataset<Row> lines = spark
+  .readStream()
+  .format("socket")
+  .option("host", "localhost")
+  .option("port", 9999)
+  .load();
+
+// Split the lines into words
+Dataset<String> words = lines
+  .as(Encoders.STRING())
+  .flatMap((FlatMapFunction<String, String>) x -> Arrays.asList(x.split(" ")).iterator(), Encoders.STRING());
+
+// Generate running word count
+Dataset<Row> wordCounts = words.groupBy("value").count();
+
+StreamingQuery query = wordCounts.writeStream()
+  .outputMode("complete")
+  .format("console")
+  .start();
+
+query.awaitTermination();
+```
+
+
+## Spark Streaming
 
 
 
