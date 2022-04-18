@@ -139,12 +139,15 @@ impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很
 
 ## scala/java
 
-
 SparkConf
 
 SparkSession
 
 getOrCreate
+
+registerKryoClasses
+
+createOrReplaceTempView
 
 ```scala
     import org.apache.spark.sql.SparkSession
@@ -168,7 +171,9 @@ getOrCreate
     spark.udf.register("xxx", )
 ```
 
-createOrReplaceTempView
+
+sparkContext
+
 
 ## PySpark
 
