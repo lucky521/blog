@@ -138,8 +138,15 @@ https://mp.weixin.qq.com/s/mFRhp9pJRa9yHwqc98FMbg
 LeNet-5网络，AlexNet，VGG网络，GoogLeNet，残差网络
 
 
+# GAN models
 
-
+* CGAN
+* LAPGAN
+* DCGAN
+  * https://github.com/carpedm20/DCGAN-tensorflow
+* infoGAN
+* LSGAN
+* WGAN
 
 # References
 

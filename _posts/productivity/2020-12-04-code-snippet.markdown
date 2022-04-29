@@ -89,6 +89,12 @@ hadoop fs -ls hdfs://ns1012/xxx/xxxx/*    |   tr -s " "    |    cut -d' ' -f6-8 
 
 ## Hive
 
+
+### 获取建表语句
+```
+SHOW CREATE TABLE table_name;
+```
+
 ### 获取hive表最新分区
 ```shell
 hive -e "set hive.cli.print.header=false;show partitions app.app_query_attr_feature;" | tail -1 | cut -d'=' -f2
