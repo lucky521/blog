@@ -88,7 +88,7 @@ Hudi表的数据文件，可以使用操作系统的文件系统存储，也可�
 
 
 
-# Streaming
+# Streaming 数据流动
 ## streams && tables
 
 flume - 把来自不同源头不同节点的大量数据发送到中心存储。
@@ -181,6 +181,8 @@ kudu https://kudu.apache.org/
 ##  HTAP
 
 TiDB https://github.com/pingcap/tidb
+
+
 
 
 

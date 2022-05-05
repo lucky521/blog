@@ -82,7 +82,7 @@ Pig也是Java实现的，由雅虎开源，使用类似于python的语法。思�
 ## pig udf
 ```python
 REGISTER 'my_udf.py' using jython as my_udf;
-data = LOAD '$eval_seq2seq_table' using org.apache.hcatalog.pig.HCatLoader();
+data = LOAD '$eval_table' using org.apache.hcatalog.pig.HCatLoader();
 
 data = foreach data generate
    key_sku as key_sku,

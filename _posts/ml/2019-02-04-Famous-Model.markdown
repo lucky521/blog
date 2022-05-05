@@ -148,6 +148,16 @@ LeNet-5网络，AlexNet，VGG网络，GoogLeNet，残差网络
 * LSGAN
 * WGAN
 
+# RNN models
+
+* 基本 RNN 单元 
+* LSTM
+* GRU
+* 双向GRU
+
+
+Seq2Seq
+
 # References
 
 wide&deep: https://arxiv.org/pdf/1606.07792.pdf
