@@ -8,13 +8,16 @@ layout: post
 
 ## 常见linux命令
 
-
+```shell
+ curl -d 'username=lu.dev' -d 'tableName=db.tablename' -X POST  http://xxx.com/api/v1/table/detail
 ```
+
+```shell
 ps -eo pid,lstart,etime,cmd | grep bash | grep 2019 | awk '{print $1}' | xargs kill -9
 ```
 
 
-```
+```shell
 #!/bin/bash
 function cpu(){
     
@@ -56,7 +59,7 @@ tcp_status
 
 ### unicode转中文
 ```python
-"\xe6\x82".encode('latin-1').decode('utf-8')
+"\xe8\xaf\xb7\xe6\xb1\x82\xe6\x88\x90\xe5\x8a\x9f".encode('latin-1').decode('utf-8')
 ```
 
 ## 本地文件Shell处理

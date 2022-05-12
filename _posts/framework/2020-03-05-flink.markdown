@@ -732,6 +732,23 @@ https://ci.apache.org/projects/flink/flink-docs-release-1.13/zh/docs/dev/table/c
 
 # Flink程序调试
 
+背压/反压的原因
+* 定位反压节点：
+  * 解决反压首先要做的是定位到造成反压的节点: 借助反压面板，寻找第一个出现反压的节点，那么反压根源要么是就这个节点，要么是它紧接着的下游节点。
+* 确定反压原因：
+  * 数据倾斜造成
+  * 用户代码的执行效率问题（频繁被阻塞或者性能问题）
+  * TaskManager 的内存以及 GC 问题也可能会导致反压
+  * 观察 Task Thread 阻塞在哪里，可能是用户函数本身有些同步的调用，可能是 checkpoint 或者 GC 等系统活动导致的暂时系统暂停
+
+反压和checkpoint的关联
+* 反压会影响到两项指标: checkpoint 时长和 state 大小。
+  * 前者是因为 checkpoint barrier 是不会越过普通数据的，数据处理被阻塞也会导致 checkpoint barrier 流经整个数据管道的时长变长，因而 checkpoint 总体时间（End to End Duration）变长。
+  * 后者是因为为保证 EOS（Exactly-Once-Semantics，准确一次），对于有两个以上输入管道的 Operator，checkpoint barrier 需要对齐（Alignment），接受到较快的输入管道的 barrier 后，它后面数据会被缓存起来但不处理，直到较慢的输入管道的 barrier 也到达，这些被缓存的数据会被放到state 里面，导致 checkpoint 变大。
+* 为了缓解反压给 checkpoint 造成的压力，社区提出了 FLIP-76: Unaligned Checkpoints 来解耦反压和 checkpoint
+
+
+
 checkpoint失败原因
 * 如果 Checkpoint 做的非常慢，超过了 timeout 还没有完成，则整个 Checkpoint 也会失败。 Checkpoint慢的原因需要细查。
 * 用户代码逻辑没有对于异常处理，让其直接在运行中抛出。比如解析 Json 异常，没有捕获，导致 Checkpoint 失败，或者调用 Dubbo 超时异常等等。
@@ -746,7 +763,6 @@ checkpoint慢/超时的原因
 
 Checkpoint失败与作业失败的关联？
 
-背压的原因
 
 
 
@@ -861,11 +877,14 @@ env.execute("MySourceMysql");
 
 
 
-# Flink背后的依赖库
+# Flink背后的依赖
 
 - 组件间通信 akka ，JobManager和TaskManager之间的控制通信
 - 数据传输 netty， 比如Operator之间的传输数据 https://github.com/wangzhiwubigdata/God-Of-BigData/tree/master/Netty
 - SQL解析 Calcite， Flink parses SQL using [Apache Calcite](https://calcite.apache.org/docs/reference.html), which supports standard ANSI SQL.
+
+## Flink流控机制
+https://www.jianshu.com/p/c8b3e32a9fa3
 
 # Alink
 
