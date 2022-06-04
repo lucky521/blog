@@ -74,7 +74,7 @@ Flink中的每个方法或算子都可以是由状态的。
 - CP使用介绍： https://ci.apache.org/projects/flink/flink-docs-master/zh/docs/dev/datastream/fault-tolerance/checkpointing/ , https://nightlies.apache.org/flink/flink-docs-master/zh/docs/ops/state/checkpoints/
 
 
-
+问题：Failover启动之后的再一次Checkpoint时间是怎么确定？
 问题：Checkpoint的成本是什么？Checkpoint在生成和恢复的时候都会消耗资源。
 问题：Checkpoint 里面存的是什么内容？ _metadata
 问题：Checkpoint 太大了怎么办？
@@ -187,6 +187,8 @@ Catalog 函数
 
 # Flink功能
 
+官网是最好的，你会发现百分之99的网页内容其实都出自于官网：https://nightlies.apache.org/flink/flink-docs-master/zh/
+
 ## Environment
 不管是本地执行还是集群执行，不管是流式模式还是批式模式，都需要特定的environment
 
@@ -237,6 +239,63 @@ SingleOutputStreamOperator
 * org.apache.flink.types.Row
 
 
+## 数据重分布
+
+keyBy、broadcast、rebalance、rescale、shuffle、global
+
+partitionCustom
+
+
+## StatusBackend
+
+Flink 提供了内存、文件系统、RocksDB 三种 StateBackends.
+- MemoryStateBackend: 状态信息是存储在 TaskManager 的堆内存中的，checkpoint 的时候将状态保存到 JobManager 的堆内存中。
+- FsStateBackend: TaskManager会定期地把state存到HDFS上。也就是checkpoint 的时候将状态保存到指定的文件中 (HDFS 等文件系统)。
+- RocksDBStateBackend：状态信息存储在 RocksDB 数据库 (key-value 的数据存储服务)， 最终保存在本地文件中。checkpoint 的时候将状态保存到指定的文件中 (HDFS 等文件系统)。
+
+关于超大状态存储策略选择，生产环境状态存储 Backend 有两种方式： 
+- FsStateBackend： State 存储在内存， Checkpoint 时持久化到 HDFS； 
+- RocksDBStateBackend： State 存储在 RocksDB 实例，可增量 Checkpoint ，适合超大 State。在推荐广告搜索等场景下展现流 20 分钟数据有 1 TB 以上。
+
+参考： https://cloud.tencent.com/developer/article/1592441
+
+参考: https://ci.apache.org/projects/flink/flink-docs-master/zh/docs/dev/datastream/fault-tolerance/checkpointing/
+
+Checkpointed Function
+
+import org.apache.flink.api.common.state.ReducingStateDescriptor
+
+import org.apache.flink.api.common.state.MapState;
+import org.apache.flink.api.common.state.MapStateDescriptor;
+import org.apache.flink.api.common.state.ValueState;
+import org.apache.flink.api.common.state.ValueStateDescriptor;
+
+
+## Checkpoint 
+
+* Aligned Checkpoint
+* Unaligned Checkpoint 
+
+* 本地（局部）checkpoint
+* 远端（完整）checkpoint
+
+### Checkpoint 配置
+
+- checkpoint interval
+- checkpoint Timeout
+- pause between checkpoints
+- number of concurrent checkpoints
+
+* cp失败的时候是否抛异常？setFailOnCheckpointingErrors
+
+### Checkpoint 状态
+
+- End to End Duration
+- Checkpoint Counts: 包含Triggered: 1018 In Progress: 1 Completed: 1016 Failed: 1 Restored: 1
+
+
+
+
 ## Operator算子 DataStream Transformations
 
 filter 过滤器，对数据流中的每个元素进行过滤判断，判断为true的元素进入下一个数据流
@@ -276,50 +335,8 @@ Evictor：可以译为“驱逐者”。在Trigger触发之后，在窗口被处
 https://developer.aliyun.com/article/778485
 
 
-## 数据重分布
-
-partitionCustom
 
 
-## StatusBackend
-
-Flink 提供了内存、文件系统、RocksDB 三种 StateBackends.
-- MemoryStateBackend: 状态信息是存储在 TaskManager 的堆内存中的，checkpoint 的时候将状态保存到 JobManager 的堆内存中。
-- FsStateBackend: TaskManager会定期地把state存到HDFS上。也就是checkpoint 的时候将状态保存到指定的文件中 (HDFS 等文件系统)。
-- RocksDBStateBackend：状态信息存储在 RocksDB 数据库 (key-value 的数据存储服务)， 最终保存在本地文件中。checkpoint 的时候将状态保存到指定的文件中 (HDFS 等文件系统)。
-
-关于超大状态存储策略选择，生产环境状态存储 Backend 有两种方式： 
-- FsStateBackend： State 存储在内存， Checkpoint 时持久化到 HDFS； 
-- RocksDBStateBackend： State 存储在 RocksDB 实例，可增量 Checkpoint ，适合超大 State。在推荐广告搜索等场景下展现流 20 分钟数据有 1 TB 以上。
-
-参考： https://cloud.tencent.com/developer/article/1592441
-
-参考: https://ci.apache.org/projects/flink/flink-docs-master/zh/docs/dev/datastream/fault-tolerance/checkpointing/
-
-Checkpointed Function
-
-ReducingStateDescriptor
-
-
-## Checkpoint 
-
-* Aligned Checkpoint
-* Unaligned Checkpoint 
-
-* 本地（局部）checkpoint
-* 远端（完整）checkpoint
-
-### Checkpoint 配置
-
-- checkpoint interval
-- checkpoint Timeout
-- pause between checkpoints
-- number of concurrent checkpoints
-
-### Checkpoint 状态
-
-- End to End Duration
-- Checkpoint Counts: 包含Triggered: 1018 In Progress: 1 Completed: 1016 Failed: 1 Restored: 1
 
 ## window
 
@@ -358,6 +375,26 @@ setStreamTimeCharacteristic
 数据进入到Flink的时间
 
 
+### 窗口的触发器
+Trigger抽象类，定义了窗口是何时被触发并同时决定触发行为（对窗口进行清理或者计算）
+* onElement：每个元素到达触发的回调方法；
+* onProcessingTime：基于处理时间定时器触发的回调方法；
+* onEventTime：基于事件时间定时器触发的回调方法；
+* onMerge：窗口在合并时触发的回调方法（会话窗口分配器assigner）；
+
+TriggerContext接口（定义在Trigger类中），用于维持状态，注册定时器等：
+* registerXXXTimeTimer：注册（处理/事件）时间定时器；
+* deleteXXXTimeTimer：删除（处理/事件）时间定时器；
+* getPartitionedState：从Flink状态存储终端获取状态；
+
+TriggerResult枚举类，用于决定窗口在触发后的行为：
+* CONTINUE：不作任何处理；
+* FIRE_AND_PURGE：触发窗口计算并输出结果同时清理并释放窗口（该值只会被清理触发器PurgingTrigger使用）；
+* FIRE：触发窗口计算并输出结果，但窗口并没有被释放并且数据仍然保留；
+* PURGE：不触发窗口计算，不输出结果，只清除窗口中的所有数据并释放窗口
+
+
+
 ## watermark
 
 watermark是和Event Time一起使用的一个概念。由于消息自身的时间和消息被flink处理的时间往往是不同的，为了准确地表达数据的处理进度，出现了水印的概念。
@@ -383,8 +420,9 @@ AscendingTimestampExtractor 产生的时间戳和水印必须是单调非递减�
 BoundedOutOfOrdernessTimestampExtractor 的作用？
 BoundedOutOfOrdernessTimestampExtractor 产生的时间戳和水印是允许“有界乱序”的，构造它时传入的参数maxOutOfOrderness就是乱序区间的长度，而实际发射的水印为通过覆写extractTimestamp()方法提取出来的时间戳减去乱序区间，相当于让水印把步调“放慢一点”。这是Flink为迟到数据提供的第一重保障。
 
-
 需要深刻理解这几个概念才行： https://www.jianshu.com/p/c612e95a5028
+
+
 
 
 ## source
@@ -431,6 +469,10 @@ addSink(sinkFunction)
 TableSink 是一个通用接口，用于支持以多种文件格式（如 CSV、Apache Parquet、Apache Avro），向不同存储系统（如 JDBC、Apache HBase、Apache Cassandra、Elasticsearch）或消息队列系统（如 Apache Kafka、RabbitMQ）输出。
 
 
+
+
+
+
 ## Connector 与外部系统的连接器
 
 用于支持与其他组件数据连接的 source 和 sink。比如和kafka连接，比如和Hadoop连接，比如和RaddbitMQ连接。
@@ -451,14 +493,22 @@ kafka 中数据都是以二进制 byte 形式存储的。读到 Flink 系统中�
   * TypeInformationSerializationSchema，它可根据 Flink 的 TypeInformation 信息来推断出需要选择的 schema。
   * JsonDeserializationSchema 使用 jackson 反序列化 json 格式消息，并返回 ObjectNode，可以使用 .get(“property”) 方法来访问相应字段。
 
+问题：kafka生产限速的时候，flink sink是什么效果？
 
-### From kafka to FileSystem
+### kafka offset checkpoint
 
 读kafka重要的是设置offset:
 * flink消费了kafka数据后，不会更新offset到kafka，直到checkpoint完成。
 * flink在没有使用savepoint重启作业的时候，消费kafka的offset还是从kafka自身获取，存在重复消费数据的情况。
 * flink使用savepoint重启作业，不会重复消费kafka数据，也会正确更新kafka的offset。
 
+Flink的kafka consumer一共有三种offset commit模式： 
+* 1. OffsetCommitMode.DISABLED: 完全disable offset的commit 
+* 2. OffsetCommitMode.ON_CHECKPOINTS: Flink的默认行为，只有当Flink checkpoint完成时，才会将offset commit到Kafka 
+* 3. OffsetCommitMode.KAFKA_PERIODIC: 使用Kafka的internal client的默认行为，周期性将offset commit到kafka 如果不想借助checkpoint来重置kafka的offset，可以利用 FlinkKafkaConsumerBase 设置 setCommitOffsetsOnCheckpoints(false)，以及在kakfa properties里面设置 “auto.commit.enable” 为false，这样就相当于没有commit offset，作业恢复的时候，如果你们设置是从kafka consume from latest，既可以恢复checkpoint中的state（你们应该是想要主要恢复keyed state相关吧），也可以从最新的offset消费。
+
+
+### StreamingFileSink checkpoint
 
 文件系统重要的是bucketassign和rollingPolicy
 * StreamingFileSink
@@ -469,7 +519,6 @@ kafka 中数据都是以二进制 byte 形式存储的。读到 Flink 系统中�
   * 使用 StreamingFileSink 时需要启用 Checkpoint ，每次做 Checkpoint 时写入完成。如果 Checkpoint 被禁用，部分文件（part file）将永远处于 'in-progress' 或 'pending' 状态，下游系统无法安全地读取。
 
 
-问题：kafka生产限速的时候，flink sink是什么效果？
 
 
 
@@ -581,6 +630,9 @@ PythonAPI，就是 PyFlink， 换了开发语言，其API也分为 PyFlink Table
 
 
 
+
+
+
 # Flink部署
 
 * Flink 镜像
@@ -611,6 +663,10 @@ mac环境下: 用brew安装flink， $ brew install apache-flink
 * Worker Container 会启动 TaskManager，并向负责资源管理的 ResourceManager 进行注册，注册完成之后，由 JobManager 将具体的任务分给 Container，再由 Container 去执行。
 
 ## java/python/sql 任务提交方式
+
+
+
+
 
 
 
