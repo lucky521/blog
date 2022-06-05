@@ -190,6 +190,7 @@ Catalog 函数
 # Flink功能
 
 官网是最好的，你会发现百分之99的网页内容其实都出自于官网：https://nightlies.apache.org/flink/flink-docs-master/zh/
+不过请注意，不同大版本之间（比如1.12/1.13/1.14/1.15）之间的API可能有明显差异，版本对应的官方文档内容也有差异。
 
 ## Environment
 不管是本地执行还是集群执行，不管是流式模式还是批式模式，都需要特定的environment
@@ -276,7 +277,13 @@ import org.apache.flink.api.common.state.ValueStateDescriptor;
 ## Checkpoint 
 
 * Aligned Checkpoint
-* Unaligned Checkpoint 
+* Unaligned Checkpoint : 如果您的 Checkpointing 由于背压导致周期非常的长，您应该使用非对齐 Checkpoint。这样，Checkpointing 时间基本上就与 端到端延迟无关。请注意，非对齐 Checkpointing 会增加状态存储的 I/O，因此当状态存储的 I/O 是 整个 Checkpointing 过程当中真 正的瓶颈时，您不应当使用非对齐 Checkpointing。
+
+* 增量快照 : 
+  * 不同于产生一个包含所有数据的全量备份，增量快照中只包含自上一次快照完成之后被修改的记录，因此可以显著减少快照完成的耗时。一个增量快照是基于（通常多个）前序快照构建的。由于 RocksDB 内部存在 compaction 机制对 sst 文件进行合并，Flink 的增量快照也会定期重新设立起点（rebase），因此增量链条不会一直增长，旧快照包含的文件也会逐渐过期并被自动清理。
+  * 和基于全量快照的恢复时间相比，如果网络带宽是瓶颈，那么基于增量快照恢复可能会消耗更多时间，因为增量快照包含的 sst 文件之间可能存在数据重叠导致需要下载的数据量变大；而当 CPU 或者 IO 是瓶颈的时候，基于增量快照恢复会更快，因为从增量快照恢复不需要解析 Flink 的统一快照格式来重建本地的 RocksDB 数据表，而是可以直接基于 sst 文件加载。
+  * 需要注意的是，一旦启用了增量快照，网页上展示的 Checkpointed Data Size 只代表增量上传的数据量，而不是一次快照的完整数据量。
+
 
 * 本地（局部）checkpoint
 * 远端（完整）checkpoint
@@ -503,6 +510,8 @@ TableSink 是一个通用接口，用于支持以多种文件格式（如 CSV、
 针对不同的Flink API也有不同的连接器， Datastream Connector 和 Table API Connector。
 
 ### FlinkKafkaConsumer
+1.12官方文档: https://nightlies.apache.org/flink/flink-docs-release-1.12/zh/dev/connectors/kafka.html
+
 kafka 中数据都是以二进制 byte 形式存储的。读到 Flink 系统中之后，需要将二进制数据转化为具体的 java、scala 对象。所以需要实现一个 schema 类，定义如何序列化和反序列数据。
 
 反序列化时需要实现 DeserializationSchema 接口，并重写 deserialize(byte[] message) 函数。
@@ -526,7 +535,7 @@ kafka 中数据都是以二进制 byte 形式存储的。读到 Flink 系统中�
 Flink的kafka consumer一共有三种offset commit模式： 
 * 1. OffsetCommitMode.DISABLED: 完全disable offset的commit 
 * 2. OffsetCommitMode.ON_CHECKPOINTS: Flink的默认行为，只有当Flink checkpoint完成时，才会将offset commit到Kafka 
-* 3. OffsetCommitMode.KAFKA_PERIODIC: 使用Kafka的internal client的默认行为，周期性将offset commit到kafka 如果不想借助checkpoint来重置kafka的offset，可以利用 FlinkKafkaConsumerBase 设置 setCommitOffsetsOnCheckpoints(false)，以及在kakfa properties里面设置 “auto.commit.enable” 为false，这样就相当于没有commit offset，作业恢复的时候，如果你们设置是从kafka consume from latest，既可以恢复checkpoint中的state（你们应该是想要主要恢复keyed state相关吧），也可以从最新的offset消费。
+* 3. OffsetCommitMode.KAFKA_PERIODIC: 使用Kafka的internal client的默认行为，周期性将offset commit到kafka 如果不想借助checkpoint来重置kafka的offset，可以利用 FlinkKafkaConsumerBase 设置 setCommitOffsetsOnCheckpoints(false)，以及在kafka properties里面设置 “auto.commit.enable” 为false，这样就相当于没有commit offset，作业恢复的时候，如果你们设置是从kafka consume from latest，既可以恢复checkpoint中的state（你们应该是想要主要恢复keyed state相关吧），也可以从最新的offset消费。
 
 
 ### StreamingFileSink checkpoint
