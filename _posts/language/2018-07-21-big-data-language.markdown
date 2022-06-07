@@ -7,6 +7,8 @@ layout: post
 
 本篇想要总结一下在Hadoop集群上处理大数据文件(批式静态数据)的方法，主要从应用层面去看我们有多少种、怎么样的方式（写什么样的程序、越简单越好的程序）去读写大数据进行增删查改，不打算关注大数据概念，也不关注框架的实现部分。
 
+不同引擎虽虽然可能都是SQL，但底层执行方法是有一定差异的，比如spark/presto直接读取文件解析，hive根据元数据mapping解压；比如spark/hive对空值、空字符串的判断处理和presto不一样。
+
 
 # Hadoop Streaming
 https://hadoop.apache.org/docs/r1.2.1/streaming.html

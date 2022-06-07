@@ -54,7 +54,7 @@ https://data-flair.training/forums/topic/what-is-speculative-execution-in-hadoop
 
 
 ### Disable IPV6
-```
+```s
 > sudo vim /etc/sysctl.conf
 add
 # disable ipv6
@@ -65,7 +65,7 @@ net.ipv6.conf.lo.disable_ipv6 = 1
 
 ### 安装hadoop
 
-```
+```s
 > sudo add-apt-repository ppa:hadoop-ubuntu/stable
 > sudo apt-get update && sudo apt-get upgrade  
 > sudo apt-get install hadoop
@@ -74,7 +74,7 @@ net.ipv6.conf.lo.disable_ipv6 = 1
 
 ### 设置环境变量
 
-```
+```s
 > sudo vim /home/hduser/.bashrc
 # Set Hadoop-related environment variables   设置hadoop程序的路径，这样程序找自带jar包也容易。
 export HADOOP_HOME=/usr/lib/hadoop
@@ -84,7 +84,7 @@ export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 
 ### 修改conf/hadoop-env.sh
 
-```
+```s
 $ sudo vim /etc/hadoop/conf/hadoop-env.sh
 add
 export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
@@ -93,7 +93,7 @@ export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 ### 给HDFS文件系统创建一个目录
 
 HDFS文件系统的权限属于hduser
-```
+```s
 $ sudo mkdir -p /app/hadoop/tmp
 $ sudo chown hduser:hadoop /app/hadoop/tmp
 # ...and if you want to tighten up security, chmod from 755 to 750...
@@ -102,14 +102,14 @@ $ sudo chmod 750 /app/hadoop/tmp
 
 ### 填写conf/core-site.xml
 
-```
+```s
 $ sudo vim /etc/hadoop/conf/core-site.xml
 ```
 填写了hadoop.tmp.dir的path， fs.default.name的link
 
 ### 填写conf/mapred-site.xml
 
-```
+```s
 $ sudo vim /etc/hadoop/conf/mapred-site.xml
 ```
 填写了mapred.job.tracker的link地址（唯一的JobTracker主服务器地址）
@@ -141,7 +141,7 @@ $ hadoop namenode -format
 看到5个进程都启动起来了。
 
 
-# MacOSX下安装Hadoop
+# MacOSX下安装和启动Hadoop
 
 - 1、先安装java （上官网下载安装包）
 - 2、已经自带了ssh。
@@ -174,7 +174,7 @@ $ hadoop namenode -format
 # Hadoop的启动与配置
 
 ## hadoop启动与关闭
-```
+```s
 > start-all.sh  全体node启动
 启动hadoop的五个默认进程，
 > stop-all.sh 关闭hadoop的五个默认进程，他们都运行在JVM之上。
@@ -239,9 +239,23 @@ mapred-queue-acls.xml
 
 
 
+# 管理接口
+
+| 50010 | dfs.datanode.address，DataNode的数据传输端口 |
+
+https://intl.cloud.tencent.com/zh/document/product/1026/36880#hdfs-datanode
+
+
+
+
+
+
+
 # HDFS文件系统
 是一个虚拟的文件系统。
 home目录叫做" /user/hduser"（hduser是为hadoop专门添加的一个用户）
+
+
 
 
 
