@@ -258,3 +258,5 @@ https://storage.googleapis.com/pub-tools-public-publication-data/pdf/aad9f93b86b
 [feature store](https://docs.featurestore.org/feature-store-comparison)
 
 [特征平台需求分层](https://yiksanchan.com/posts/feature-stores-a-hierarchy-of-needs)
+
+[openmlsys](https://openmlsys.github.io/)

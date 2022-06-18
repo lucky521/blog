@@ -355,6 +355,7 @@ Evictor：可以译为“驱逐者”。在Trigger触发之后，在窗口被处
 
 ### 数据关联算子 join / coGroup / intervalJoin
 
+* connect
 * join：是一个流join另一个流，需要设置窗口，2个流join需要的key字段。使用的是innerJoin。对Processing Time和Event Time都支持。
 * coGroup：和join类似，不过CoGroupFunction和JoinFunction的参数不一样。coGroup是需要自己组装数据。
 * intervalJoin：是一个流join另一个流，不需要设置窗口，但是需要设置流join的时间范围（需要时间字段），仅支持Event Time的计算。
