@@ -261,4 +261,6 @@ home目录叫做" /user/hduser"（hduser是为hadoop专门添加的一个用户�
 
 # 参考
 
+[不同hadoop版本最权威的文档](https://hadoop.apache.org/docs/)
+
 [官方架构文档](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html)

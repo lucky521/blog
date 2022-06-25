@@ -178,6 +178,8 @@ categories: [MachineLearning]
 
 模型核心内核组件
 - https://zhuanlan.zhihu.com/p/121834310
+- 编译器前端
+- 编译器后端
 
 模型分析层组件
 - https://github.com/tensorflow/model-analysis , https://github.com/tensorflow/model-analysis/blob/master/g3doc/get_started.md

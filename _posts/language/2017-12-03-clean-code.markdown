@@ -52,7 +52,7 @@ SLAP 抽象层次一致性原则
 
 ## Java
 
-## SQL/Hive
+## HiveSQL
 
 https://ytluck.github.io/data-mining/my-dataming-post-42.html
 

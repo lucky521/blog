@@ -59,7 +59,7 @@ tcp_status
 
 ### unicode转中文
 ```python
-"\xe5\x90\xaf\xe5\x8a\xa8\xe4\xbb\xbb\xe5\x8a\xa1\xe5\xa4\xb1\xe8\xb4\xa5,\xe5\xbd\x93\xe5\x89\x8d\xe4\xbb\xbb\xe5\x8a\xa1\xe6\x89\x80\xe5\x9c\xa8\xe7\x9a\x84\xe9\x9b\x86\xe7\xbe\xa4\xe7\x8a\xb6\xe6\x80\x81\xe4\xb8\xba\xe6\x93\x8d\xe4\xbd\x9c\xe4\xb8\xad,\xe5\x90\xaf\xe5\x8a\xa8\xe5\xa4\xb1\xe8\xb4\xa5".encode('latin-1').decode('utf-8')
+"\xe9\x9b\x86\xe7\xbe\xa4ID 32613 \xe4\xb8\x8d\xe5\xb1\x9e\xe4\xba\x8e\xe5\xba\x94\xe7\x94\xa8".encode('latin-1').decode('utf-8')
 ```
 
 ## 本地文件Shell处理
@@ -87,7 +87,7 @@ hadoop fs -rm -r `hadoop fs -ls  /user/recsys/rank/arch/checkpoint/sample_join/ 
 
 
 ### 删除一天之前的数据
-hadoop fs -ls hdfs://ns1012/xxx/xxxx/*    |   tr -s " "    |    cut -d' ' -f6-8    |     grep "^[0-9]"    |    awk 'BEGIN{ MIN=1440; LAST=60*MIN; "date +%s" | getline NOW } { cmd="date -d'\''"$1" "$2"'\'' +%s"; cmd | getline WHEN; DIFF=NOW-WHEN; if(DIFF > LAST){ print "Deleting: "$3; system("hadoop fs -rm -r "$3) }}'
+hadoop fs -ls hdfs://ns1012/xxx/xxxx/* | tr -s " " | cut -d' ' -f6-8 | grep "^[0-9]" | awk 'BEGIN{ MIN=1440; LAST=60*MIN; "date +%s" | getline NOW } { cmd="date -d'\''"$1" "$2"'\'' +%s"; cmd | getline WHEN; DIFF=NOW-WHEN; if(DIFF > LAST){ print "Deleting: "$3; system("hadoop fs -rm -r "$3) }}'
 
 
 ## Hive
@@ -97,6 +97,17 @@ hadoop fs -ls hdfs://ns1012/xxx/xxxx/*    |   tr -s " "    |    cut -d' ' -f6-8 
 ```
 SHOW CREATE TABLE table_name;
 ```
+
+### 查询特定的分区
+```shell
+show partitions tmpr.rec_feature_log_data partition(dt='2022-06-20',pid='660000');
+```
+
+### 按条件范围删除旧分区
+```shell
+alter table tmp.feature_log_origin drop partition (dt<'2022-01-01')
+```
+
 
 ### 获取hive表最新分区
 ```shell
