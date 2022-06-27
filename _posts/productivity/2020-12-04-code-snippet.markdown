@@ -79,6 +79,9 @@ done
 )
 ```
 
+### 去除字符串左侧的0
+
+hour="01" &&  hour_int=$(echo $hour | sed 's/^0//') && echo $hour_int
 
 ## HDFS
 

@@ -21,6 +21,10 @@ https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-py
 # Hive
 hive是Java实现的，由Facebook开源，目的是将特定的SQL语句编译为MapReduce jar包扔给hadoop去执行，本质上是一个代码转换编译的工具，简化mr的开发。
 
+https://ytluck.github.io/data-mining/my-dataming-post-42.html
+
+
+
 ## hive tblproperties 表属性
 向表中添加自定义或预定义的元数据属性，并设置它们的赋值。在hive建表时，可设置TBLPROPERTIES参数修改表的元数据，也能通过ALTER语句对其修改。
 
@@ -68,11 +72,24 @@ Row object –> Serializer –> <key, value> –> OutputFileFormat –> HDFS fil
 Hive SQL背后的原理： https://tech.meituan.com/2014/02/12/hive-sql-to-mapreduce.html
 
 
-## hive-site.xml hive客户端配置和服务端配置都是这个文件
+## Hive优化选项
+hive-site.xml  :hive客户端配置和服务端配置都是这个文件
+
+配置项： https://blog.csdn.net/u013760453/article/details/84580012
+
+官网配置项大全： https://cwiki.apache.org/confluence/display/Hive/Configuration+Properties
+
+* 选取执行引擎： mr tez spark  , set hive execution.engine=spark
+  * Options are: mr (Map Reduce, default), tez (Tez execution, for Hadoop 2 only), or spark (Spark execution, for Hive 1.1.0 onward).
+* 选取文件存储格式:
+* 选取优化器: set  hive.cbo.enable=true
 
 
 
+## Map join
+sql中涉及到多张表的join，当有一张表的大小小于1G时，使用Map Join可以明显的提高SQL的效率。如果最小的表大于1G，使用Map Join会出现OOM的错误。
 
+## skew join
 
 
 
