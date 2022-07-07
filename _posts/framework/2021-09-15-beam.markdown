@@ -1,0 +1,26 @@
+---
+title: "Apache Beam"
+categories: [framework]
+layout: post
+---
+
+# Beam是什么?
+大数据平台？
+Apache Beam is a library for parallel data processing. 
+
+
+# 概念
+
+Pipeline  A pipeline is a sequence of data transformations
+
+PCollection 可并发的无序集合, PCollection elements might live in multiple worker machines.
+
+PTransform  处理函数
+
+
+
+# 部署运行
+
+directrunner: A PipelineRunner that executes a Pipeline within the process that constructed the Pipeline. 用于运行小数据量进行测试联调。
+
+DataflowRunner:  提交到GCP

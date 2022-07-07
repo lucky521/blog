@@ -47,6 +47,8 @@ EVCache https://github.com/Netflix/EVCache
 
 数据压缩： zstd, brotli, lz4, gzip, snappy, uncompressed
 
+不同压缩方式的比较： https://blog.csdn.net/weixin_40040107/article/details/87885210
+
 
 ## Data Lake数据存储中间Table format层
 

@@ -28,6 +28,13 @@ LLDB Debugger
 ## Java 
 
 
+HotSpot VM的Native Memory Tracking
+
+java8给HotSpot VM引入了Native Memory Tracking (NMT)特性，可以用于追踪JVM的内部内存使用
+
+使用-XX:NativeMemoryTracking=summary可以用于开启NMT，其中该值默认为off，可以设置summary、detail来开启；开启的话，大概会增加5%-10%的性能消耗；使用-XX:+UnlockDiagnosticVMOptions -XX:+PrintNMTStatistics可以在jvm shutdown的时候输出整体的native memory统计；其他的可以使用jcmd pid VM.native_memory相关命令进行查看、diff、shutdown等
+
+
 
 ## Static Code Analysis
 

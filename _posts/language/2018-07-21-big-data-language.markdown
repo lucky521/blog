@@ -194,6 +194,13 @@ createOrReplaceTempView
 sparkContext
 
 
+
+* coalesce
+* repartition
+  * https://stackoverflow.com/questions/31610971/spark-repartition-vs-coalesce
+
+
+
 ## PySpark
 
 ## Spark SQL

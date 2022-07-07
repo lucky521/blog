@@ -956,6 +956,11 @@ tf.train.exponential_decay
 tf.train.Supervisor
 
 
+## tf.slim
+
+import tensorflow.contrib.slim as slim
+slim是一个使构建，训练，评估神经网络变得简单的库。slim主要包括learning.py, evaluation.py, summary.py, queue.py和model_analyzer.py，分别对应模型的训练，测试，日志记录，队列管理和模型分析部分。
+
 
 # 特征处理 Feature Columns
 
