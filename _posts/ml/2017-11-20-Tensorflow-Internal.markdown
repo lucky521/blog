@@ -227,3 +227,7 @@ wheel -
 MKL - Intel出的数学计算库Math kernel library（MKL)
 
 GEMM - 线性代数库。
+
+sycl
+
+rdma

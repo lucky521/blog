@@ -928,8 +928,9 @@ train_step = my_opt.minimize(loss) # 其中的loss是自己经过网络之后又
 ```python
 train_op = optim.minimize(loss, global_step=self.global_step, var_list=train_vars)
 ```
-var_list 参数指明了本次优化中可以被更新的权值。
-global_step 参数是训练迭代的计数器，比如说在Tensorboard画loss和 accuracy的横坐标即是global_step。优化器op每执行一次，该值就会自增1.
+* var_list 参数指明了本次优化中可以被更新的权值。
+* global_step 参数是训练迭代的计数器，比如说在Tensorboard画loss和 accuracy的横坐标即是global_step。优化器op每执行一次，该值就会自增1.
+* gate_gradients  梯度计算的同步或异步
 
 
 tf.GradientTape怎么用？

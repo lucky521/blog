@@ -133,6 +133,19 @@ categories: [MachineLearning]
 
 
 
+## 性能调优
+
+* CPU加速
+  * 指令级优化： 比如使用AVX2、AVX512指令集
+  * 使用加速库: 比如 使用加速库（TVM、OpenVINO）
+    * 算子融合： 将模型网络中的多层算子进行统一线性融合，以降低算子调度开销和算子间的数据访存开销
+    * 精度压缩：推理的过程中不需要反向传播，完全可以适当降低数据精度，比如降为FP16或INT8的精度，从而使得内存占用更小，推理延迟更低
+* GPU加速
+  * 异构计算拆分：访存密集型算子适用（比如Embedding相关操作）CPU，计算密集型算子（比如MLP）适用GPU。
+    * 比如CTR模型网络结构整体抽象为三部分：Embedding层、Attention层和MLP层。 其中Embedding层用于数据获取，适合CPU；Attention层包含较多逻辑运算和轻量级的网络计算，MLP层则重网络计算，而这些计算可以并行进行，适合GPU，可以充分利用GPU Core(Cuda Core、Tensor Core)，提高并行度。
+  * GPU侧的加速引擎使用TensorRT
+
+
 
 # 工业开源实践
 
