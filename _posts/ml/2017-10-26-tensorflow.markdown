@@ -2477,8 +2477,11 @@ TF中的数据并行训练又叫做 复制训练。
 这两种方式中更常用的是Between-graph方式.
 
 使用tf.train.replica_device_setter可以自动把Graph中的Variables放到ps上，而同时将Graph的计算部分放置在当前worker上，省去了很多麻烦。由于ps往往不止一个，这个函数在为各个Variable分配ps时默认采用简单的round-robin方式，就是按次序将参数挨个放到各个ps上，但这个方式可能不能使ps负载均衡，如果需要更加合理，可以采用tf.contrib.training.GreedyLoadBalancingStrategy策略。
+`By default, only Variable ops are placed on ps tasks, and the placement strategy is round-robin over all ps tasks. A custom ps_strategy may be used to do more intelligent placement, such as tf.contrib.training.GreedyLoadBalancingStrategy.`
 
+[How does "tf.train.replica_device_setter" work?](https://stackoverflow.com/questions/39666845/how-does-tf-train-replica-device-setter-work)
 
+[数据并行时两种图复制模式的比较](https://stackoverflow.com/questions/41600321/distributed-tensorflow-the-difference-between-in-graph-replication-and-between)
 
 ## PS in Tensorflow
 
@@ -2505,33 +2508,7 @@ https://www.tensorflow.org/tutorials/distribute/input
 
 
 
-# Tensorflow 机器学习模型
 
-https://github.com/aymericdamien/TensorFlow-Examples/tree/master/examples/2_BasicModels
-
-	SVM
-	kmeans
-	线性回归
-	逻辑回归
-	KNN
-	随机森林
-
-例子教程:
-https://github.com/aymericdamien/TensorFlow-Examples
-https://github.com/nlintz/TensorFlow-Tutorials
-https://codelabs.developers.google.com/?cat=TensorFlow
-https://github.com/tensorflow/models
-
-
-
-## 神经网络模型
-
-tf.nn.bidirectional_dynamic_rnn
-dynamic version of bidirectional recurrent neural network. 
-
-
-tf.nn.rnn_cell.GRUCell
-Gated Recurrent Unit cell (cf. http://arxiv.org/abs/1406.1078).
 
 
 
@@ -2547,6 +2524,12 @@ Gated Recurrent Unit cell (cf. http://arxiv.org/abs/1406.1078).
 
 
 # Tensorflow 训练示例
+
+例子教程:
+https://github.com/aymericdamien/TensorFlow-Examples
+https://github.com/nlintz/TensorFlow-Tutorials
+https://codelabs.developers.google.com/?cat=TensorFlow
+https://github.com/tensorflow/models
 
 本节贴出了一些Tensorflow在常见训练集数据下的训练过程。
 

@@ -59,10 +59,10 @@ tcp_status
 
 ### unicode转中文
 ```python
-"\xe9\x9b\x86\xe7\xbe\xa4ID 32613 \xe4\xb8\x8d\xe5\xb1\x9e\xe4\xba\x8e\xe5\xba\x94\xe7\x94\xa8".encode('latin-1').decode('utf-8')
+"\xe5\x90\xaf\xe5\x8a\xa8\xe4\xbb\xbb\xe5\x8a\xa1\xe5\xa4\xb1\xe8\xb4\xa5,\xe5\xbd\x93\xe5\x89\x8d\xe4\xbb\xbb\xe5\x8a\xa1\xe6\x89\x80\xe5\x9c\xa8\xe7\x9a\x84\xe9\x9b\x86\xe7\xbe\xa4\xe7\x8a\xb6\xe6\x80\x81\xe4\xb8\xba\xe5\xbc\x82\xe5\xb8\xb8,\xe5\x90\xaf\xe5\x8a\xa8\xe5\xa4\xb1\xe8\xb4\xa5".encode('latin-1').decode('utf-8')
 ```
 
-## 本地文件Shell处理
+## 本地Shell
 
 ### 删除本地老数据
 find ./-type f -mtime +30 -exec rm -f {} \; 
@@ -96,7 +96,7 @@ hadoop fs -ls hdfs://ns1012/xxx/xxxx/* | tr -s " " | cut -d' ' -f6-8 | grep "^[0
 ## Hive
 
 
-### 获取建表语句
+### 获取一个表的建表语句
 ```
 SHOW CREATE TABLE table_name;
 ```
@@ -137,6 +137,42 @@ from touchstone_info limit 1
 dt=`date -d "$date_base -2 days" "+%Y-%m-%d"`
 `hive -e "use search; alter table  XXXXXXXXX  drop partition(dt='$dt_delete')"`
 
+
+### 控制MR工作量分配的参数
+如果输入原始小文件过多，容易出现map数过多，每个map处理时间太短的时间，大量开销花费在资源分配上了。
+
+hive_para="
+    set mapreduce.map.memory.mb=5120;
+    set mapreduce.map.java.opts=-Xmx4096M;
+    set mapreduce.map.cpu.vcores = 4;
+    set mapreduce.job.reduce.slowstart.completedmaps=1;
+    set mapreduce.reduce.memory.mb=8192;
+    set mapreduce.reduce.java.opts=-Xmx7168M;
+    set mapreduce.reduce.cpu.vcores = 8;
+    set hive.input.format=org.apache.hadoop.hive.ql.io.CombineHiveInputFormat;
+    set hive.hadoop.supports.splittable.combineinputformat = true;
+    set mapreduce.input.fileinputformat.split.maxsize = 1073741824;
+    set mapreduce.input.fileinputformat.split.minsize.per.node=1073741824;
+    set mapreduce.input.fileinputformat.split.minsize.per.rack=1073741824; 
+    set hive.exec.reducers.bytes.per.reducer = 2147483648;
+    set hive.merge.mapfiles = true;
+    set hive.merge.mapredfiles = true;
+    set hive.merge.size.per.task = 256000000;
+    set hive.merge.smallfiles.avgsize = 256000000;
+    set hive.exec.dynamic.partition=true;
+    set hive.exec.dynamic.partition.mode=nonstrict;
+    set hive.exec.max.dynamic.partitions.pernode = 1000;
+    set hive.exec.max.dynamic.partitions=1000;
+    set hive.optimize.skewjoin=true;
+    set hive.skewjoin.key=100000;
+    set hive.map.aggr=true;
+    set hive.groupby.mapaggr.checkinterval = 100000;
+    set hive.map.aggr.hash.min.reduction=0.5;
+    set hive.exec.max.created.files=2000000;
+    set mapreduce.job.split.metainfo.maxsize=-1;
+    set mapreduce.map.speculative=false;
+    set mapreduce.reduce.speculative=false;
+"
 
 
 ## Java

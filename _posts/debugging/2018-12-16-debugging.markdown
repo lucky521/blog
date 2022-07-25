@@ -77,3 +77,5 @@ http://www.brendangregg.com/Articles/Netflix_Linux_Perf_Analysis_60s.pdf
 https://en.wikipedia.org/wiki/Debugging
 
 [Brendan Gregg](http://www.brendangregg.com/)
+
+[最全的Java服务问题排查套路](https://mp.weixin.qq.com/s?__biz=MzUzODQ0MDY2Nw==&mid=2247483975&idx=1&sn=14dad1cf52a4407456eaf32395902bb7)

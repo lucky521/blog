@@ -182,6 +182,9 @@ LSTM with attention
 
 ## Seq2Seq
 
+Seq2Seq模型：预测两个时间序列数据之间的映射关系。
+
+代码：https://github.com/tensorflow/models/tree/r1.4.0/tutorials/rnn/translate
 
 ## attention 机制
 
@@ -193,6 +196,7 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
 
 具体计算c_i的方法有很多，比如：我们用 a_{ij} 衡量Encoder中第j阶段的h_j和解码时第i阶段的相关性，最终Decoder中第i阶段的输入的上下文信息 c_i 就来自于所有 h_j 对 a_{ij} 的加权和。
 
+[深度学习中Attention与全连接层的区别何在？](https://www.zhihu.com/question/320174043)
 
 ## LSTM Networks
 

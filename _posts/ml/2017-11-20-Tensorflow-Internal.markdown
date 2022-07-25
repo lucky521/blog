@@ -33,15 +33,12 @@ https://gist.github.com/dustinvtran/cf34557fb9388da4c9442ae25c2373c9
 
 # 源代码组织结构
 
-tensorflow/core  核心代码由C++实现。
-
-　　core/ops/ contains the "signatures" of the operations
-　　core/kernels/ contains the "implementations" of the operations (including CPU and CUDA kernels)
-　　core/framework/ contains the main abstract graph computation and other useful libraries
-　　core/platform/ contains code that abstracts away the platform and other imported libraries (protobuf, etc)
-
-
-tensorflow/contrib
+* tensorflow/core  核心代码由C++实现。
+  * core/ops/ contains the "signatures" of the operations
+  * core/kernels/ contains the "implementations" of the operations (including CPU and CUDA kernels)
+  * core/framework/ contains the main abstract graph computation and other useful libraries
+  * core/platform/ contains code that abstracts away the platform and other imported libraries (protobuf, etc)
+* tensorflow/contrib
 
 
 
@@ -206,8 +203,7 @@ XLA技术的总体流程是将Tensorflow的数据流图转换为XLA图，再由�
 
 
 
-# 幕后英雄 Thirdparty
-
+# 幕后英雄 Thirdparty 
 在 third_party 下包含了tensorflow依赖的第三方库，有些是Google自己的开源项目，有的是外部的项目。
 
 Protobuffer - 数据格式定义
