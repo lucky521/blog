@@ -218,5 +218,4 @@ ChubaoFS（CFS）是京东开发的分布式文件系统和对象存储系统
 [关于 TiDB 的正确使用姿势](https://zhuanlan.zhihu.com/p/25574778)
 [字节跳动自研强一致在线 KV &表格存储实践 - 上篇](https://mp.weixin.qq.com/s?__biz=MzI1MzYzMjE0MQ==&mid=2247485932&idx=1&sn=28394ff3b8ac272852f22105c3768d0f&chksm=e9d0c20edea74b18d6d8eaa0720c52351b4bfaeb0ebde24e08db4c899012d2ad90c2aa977806&token=911418867&lang=zh_CN&scene=21#wechat_redirect)
 [字节跳动自研强一致在线 KV &表格存储实践 - 下篇](https://mp.weixin.qq.com/s?__biz=MzI1MzYzMjE0MQ==&mid=2247485942&idx=1&sn=01192ff69299de3a007de789ac84564b&chksm=e9d0c214dea74b0245c5d4ac0854d23a113ccc55e3ee042fc1239e14d5860817f1d88fc9befa&token=1461619284&lang=zh_CN#rd)
-
 https://db-engines.com/en/

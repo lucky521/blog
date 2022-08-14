@@ -195,6 +195,11 @@ SIMT多个线程各有各的处理单元，和SIMD公用一个ALU不同。因而
 
 
 
+# 参考
+
+[CUDA的四种主机存储访问方式](https://kaibaoom.tw/2020/07/21/cuda-four-memory-access/)
+
+
 
 
 

@@ -145,6 +145,14 @@ SessionFactory
 
 
 
+# Runtime
+
+common_runtime
+
+distributed_runtime
+
+
+
 
 
 
@@ -165,7 +173,6 @@ GradientDef 定义了一个函数对应的梯度函数。
 
 
 
-# Runtime
 
 
 
