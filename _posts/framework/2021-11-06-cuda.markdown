@@ -195,9 +195,7 @@ SIMT多个线程各有各的处理单元，和SIMD公用一个ALU不同。因而
 
 
 
-# 参考
 
-[CUDA的四种主机存储访问方式](https://kaibaoom.tw/2020/07/21/cuda-four-memory-access/)
 
 
 
@@ -361,6 +359,8 @@ Nvidia GPU 算力（compute-capabilities）由版本号表示，有时也称为�
 
 [NVIDIA GPU架构梳理](https://zhuanlan.zhihu.com/p/394352476)
 
+[CUDA的四种主机存储访问方式](https://kaibaoom.tw/2020/07/21/cuda-four-memory-access/)
+
 [CUDA 等级概念](https://zhuanlan.zhihu.com/p/129375374)
 
 [GPU 技术大会](https://www.nvidia.cn/gtc/keynote/)
@@ -371,7 +371,9 @@ Nvidia GPU 算力（compute-capabilities）由版本号表示，有时也称为�
 
 [GPU 架构理解](https://cinwell.wordpress.com/2013/09/06/overview-of-gpu-architecture-fermi-based/)
 
+[NVIDIA GPU 架构演进](https://jcf94.com/2020/05/24/2020-05-24-nvidia-arch/)
 
+[Intel 处理器架构演进](https://jcf94.com/2018/02/13/2018-02-13-intel/)
 
 
 ## ARM NEON 指令集

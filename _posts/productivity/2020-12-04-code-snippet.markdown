@@ -108,7 +108,7 @@ show partitions tmpr.rec_feature_log_data partition(dt='2022-06-20',pid='660000'
 
 ### 按条件范围删除旧分区
 ```shell
-alter table tmp.feature_log_origin drop partition (dt<'2022-01-01')
+alter table search.search_rank_feature_log_v1_remote_parquet drop partition (dt<'2022-01-01',topic='jxpp')
 ```
 
 
