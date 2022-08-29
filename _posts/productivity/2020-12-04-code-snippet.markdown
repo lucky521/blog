@@ -138,6 +138,10 @@ dt=`date -d "$date_base -2 days" "+%Y-%m-%d"`
 `hive -e "use search; alter table  XXXXXXXXX  drop partition(dt='$dt_delete')"`
 
 
+### 过滤空字段
+
+https://stackoverflow.com/questions/18432925/handling-null-values-in-hive
+
 ### 控制MR工作量分配的参数
 如果输入原始小文件过多，容易出现map数过多，每个map处理时间太短的时间，大量开销花费在资源分配上了。
 

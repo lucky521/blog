@@ -1621,13 +1621,23 @@ W = tf.get_variable(name="W", shape=embedding.shape, initializer=tf.constant_ini
 ```
 
 ## 超大规模稀疏参数 recommenders-addons
-为了支持TF上进行超大稀疏特征所对应的稀疏参数训练，针对于搜索推荐广告领域的稀疏模型引入了动态Embedding技术。
+为了支持TF上进行超大稀疏特征所对应的稀疏参数训练，针对于搜索、推荐、广告领域的稀疏模型引入了动态Embedding技术。
 https://github.com/tensorflow/recommenders-addons
 
 1. 原生TF的 tf.Variable 是固定长度，不支持动态新增和删除weight。
 2. 稀疏参数如果以kv形式存储在hash map里，没法直接训练。
 
-* 
+```python
+features = tf.parse_example(...)
+...
+col0 = tf.contrib.layers.sparse_column_with_hash_bucket(column_name = "col0",
+                                                        hash_bucket_size = 10000)
+feature_columns = [tf.feature_column.embedding_column(categorical_column = col0,
+                                                      dimension = 16)]
+input_data = tf.contrib.layers.input_from_feature_columns(columns_to_tensors = features,
+                                                          feature_columns = feature_columns)
+...
+```
 
 
 ## Transfer Learning - Retrained Model
@@ -2306,12 +2316,12 @@ optimized_graph_def = TransformGraph(
 
 有两个运行时的参数用于 Session parallelism。默认这两项配置是自动选择的。
 
-intra_op_parallelism_threads 一个OP内的并行
+intra_op_parallelism_threads 一个OP的并行, 每一个OP节点有多少个线程来支持并行
 
   - controls maximum number of threads to be used for parallel execution of a single operation.
   - used to parallelize operations that have sub-operations that are inherently independent by nature.
 
-inter_op_parallelism_threads  相互独立的不同OP的并行
+inter_op_parallelism_threads  相互独立的不同OP的并行， 最多有多少个线程来支持(不同op的节点)
 
   - controls maximum number of threads to be used for parallel execution of independent different operations.
   - operations on Tensorflow Graph that are independent from each other and thus can be run on different threads.

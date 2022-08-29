@@ -155,11 +155,16 @@ x[:, 0] = labelencoder.fit_transform(x[:, 0])
 
 另一种方法叫 One Hot Encoder：为了不加入类别编号的偏序关系，对每一个类别都加一列，是这个类别则为1，非这个类别则为0.
 
-```
+```python
 from sklearn.preprocessing import OneHotEncoder
 onehotencoder = OneHotEncoder(categorical_features = [0])
 x = onehotencoder.fit_transform(x).toarray()
 ```
+
+## 高维特征的hash化 Feature Hashing
+
+https://zhuanlan.zhihu.com/p/161058660
+https://leoncuhk.gitbooks.io/feature-engineering/content/feature-extracting02.html
 
 ## 特征离散化
 

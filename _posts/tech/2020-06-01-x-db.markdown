@@ -138,6 +138,11 @@ Pika Pika是一个可持久化的大容量redis存储服务  https://github.com/
 
 
 
+## levelDB
+单机数据库，一次只允许一个进程访问一个特定的数据库
+适合场景 高频写、低频读
+
+
 ## rocksDB
 RocksDB 的核心数据结构是 LSM-Tree
 
@@ -151,9 +156,7 @@ RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数
 当用户发出读取请求时，RocksDB 先从 MemTable 查找；如果没找到，再查找不可变的 MemTable，随后再磁盘上进行逐级查找
 
 
-## levelDB
-单机数据库，一次只允许一个进程访问一个特定的数据库
-适合场景 高频写、低频读
+
 
 ## MongoDB
 

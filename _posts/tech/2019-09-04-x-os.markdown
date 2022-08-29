@@ -7,6 +7,26 @@ layout: post
 
 ![](https://pic4.zhimg.com/v2-fd6b96bd23ec8286c3bf83e6fa425d6c_r.jpg)
 
+# 操作系统原理
+## 线程模型
+线程机制是现代编程中常用的一种抽象概念。在多处理器系统上，它能保证真正的并行处理。
+* pthread  https://www.cs.cmu.edu/afs/cs/academic/class/15492-f07/www/pthreads.html
+* std::thread
+* boost::thread
+* bthread
+* Eigen::ThreadPool  底层是 std::thread
+
+
+线程本地存储：thread local storage（简称TLS）。也叫线程特有存储：thread specific storage（简称TSS）或线程私有存储：thread private storage  https://www.homedt.net/283433.html
+
+
+[写给大忙人看的进程和线程](https://mp.weixin.qq.com/s?__biz=MzkwMDE1MzkwNQ==&mid=2247496008&idx=1&sn=b4c6bfc75abfa8a45843bc3c2221b6ad&chksm=c04ae616f73d6f00808860bf6312f4377d07695626bc4530a74e0f2f343d910a5101d55e535c&scene=178&cur_album_id=1758297326189625351#rd)
+
+## 内存模型
+
+
+
+
 # Android
 
 # Google 的新操作系统 Fuchsia

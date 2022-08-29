@@ -143,6 +143,10 @@ tensorflow/core/ops
 
 SessionFactory
 
+DirectSession
+
+GrpcSession
+
 
 
 # Runtime
@@ -150,6 +154,12 @@ SessionFactory
 common_runtime
 
 distributed_runtime
+
+## 线程模型
+
+thread::ThreadPool 由 Eigen::ThreadPoolTempl 支持
+
+https://www.twblogs.net/a/5ee63d2cd28323b15556716f
 
 
 # 通信原理

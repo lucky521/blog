@@ -1,6 +1,6 @@
 ---
 title: "什么是Debugging"
-categories: [debugging]
+categories: [Tech]
 layout: post
 ---
 
