@@ -9,11 +9,34 @@ layout: post
 
 不同引擎虽虽然可能都是SQL，但底层执行方法是有一定差异的，比如spark/presto直接读取文件解析，hive根据元数据mapping解压；比如spark/hive对空值、空字符串的判断处理和presto不一样。
 
+# 原生 MapReduce 接口
+https://hadoop.apache.org/docs/r2.10.2/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html
+
+Mapper - setMapperClass
+
+Reducer - setReducerClass
+* 有三个主要阶段
+  * shuffle
+  * sort
+  * reduce
+
+
+Partitioner - setPartitionerClass
+
+
+setCombinerClass
+* Combiner的作用就是对map端的输出先做一次合并，以减少在map和reduce节点之间的数据传输量。 它相当于是一个“迷你reduce”过程，它只处理单台机器生成的数据。
+* 你要确定你的处理逻辑是否允许这样的局部提前聚合。默认情况下是不做的。
+* 有些场景下combiner实现类可以跟reducer实现类相同
+
 
 # Hadoop Streaming
 https://hadoop.apache.org/docs/r1.2.1/streaming.html
+用户编写读写终端stream的单机程序，由 Hadoop Streaming 框架将其组合成MR分布式程序。
+stdin、stdout中的每一行表示一个key-value数据，默认由tab符间隔。
 
-## Python MapReduce
+
+Python MapReduce
 https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/
 
 
