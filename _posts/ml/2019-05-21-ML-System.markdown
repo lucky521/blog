@@ -176,6 +176,10 @@ categories: [MachineLearning]
 - https://github.com/pachyderm/pachyderm
 - https://github.com/tensorflow/transform
 
+特征服务组件：
+- openmldb
+- Tidb
+
 模型训练层组件
 - PaddlePaddle
 - pytorch

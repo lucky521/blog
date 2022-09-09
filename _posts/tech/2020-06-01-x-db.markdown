@@ -21,7 +21,6 @@ X_DB往往是在线系统和离线系统的边界。
 
 
 ## 结合应用场景说话
-
 * OLTP 写多读少。 每次读都读极小数据。  读要求低延时， 要求高并发
 * OLAP 写少读多。 每次读会读大量数据。
 * HTAP
@@ -60,7 +59,6 @@ LSM-Tree模型(log-structured merge-tree)
 分片在不同系统中有各自的别名，Spanner 和 YugabyteDB 中被称为 Tablet，在 HBase 和 TiDB 中被称为 Region，在 CockraochDB 中被称为 Range。
 
 ## 分布式哈希寻址
-
 https://www.jianshu.com/p/fe7b7800473e
 
 
@@ -90,9 +88,9 @@ Google的分布式数据库，有怎么样的特性。
 从单体数据库出发进行拓展分布式化，最大程度复用了单体数据库的工程实现，通过协调节点来协调大量的数据节点（单体数据库）。
 
 
-WAL 机制
+## WAL 机制
 WAL(Write Ahead Log)预写日志，是数据库系统中常见的一种手段，用于保证数据操作的原子性和持久性。
-「修改并不直接写入到数据库文件中，而是写入到另外一个称为 WAL 的文件中；如果事务失败，WAL 中的记录会被忽略，撤销修改；如果事务成功，它将在随后的某个时间被写回到数据库文件中，提交修改。」
+修改并不直接写入到数据库文件中，而是写入到另外一个称为 WAL 的文件中；如果事务失败，WAL 中的记录会被忽略，撤销修改；如果事务成功，它将在随后的某个时间被写回到数据库文件中，提交修改。
 
 
 
@@ -109,12 +107,24 @@ SSD
 
 
 
-# X_DB 开源
 
-键值存储：常见的键值存储数据库有Redis、Memcached、leveldb、rocksdb、tair、etcd
-行式存储：常见的行式数据库有MySQL、PostgreSQL、MS SQL Server。
-列式存储：常见的列式数据库有 Hbase、Kudu、ClickHouse、 Vertica、 Paraccel (Actian Matrix，Amazon Redshift)、 Sybase IQ、 Exasol、 Infobright、 InfiniDB、 MonetDB (VectorWise， Actian Vector)、 LucidDB、 SAP HANA、 Google Dremel、 Google PowerDrill、 Druid、 kdb+。
 
+
+
+
+
+
+
+# X_DB 开源实现
+
+数据库的实现类型非常之多，没有最好的数据库，只有最适合的数据库，一定要根据业务的特点进行选择。
+
+* 键值存储：常见的键值存储数据库有Redis、Memcached、leveldb、rocksdb、tair、etcd
+* 行式存储：常见的行式数据库有MySQL、PostgreSQL、MS SQL Server。
+* 列式存储：常见的列式数据库有 Hbase、Kudu、ClickHouse、 Vertica、 Paraccel (Actian Matrix，Amazon Redshift)、 Sybase IQ、 Exasol、 Infobright、 InfiniDB、 MonetDB (VectorWise， Actian Vector)、 LucidDB、 SAP HANA、 Google Dremel、 Google PowerDrill、 Druid、 kdb+。
+
+
+## InnoDB
 
 ## MySQL 关系数据库
 
@@ -138,22 +148,29 @@ Pika Pika是一个可持久化的大容量redis存储服务  https://github.com/
 
 
 
-## levelDB
+## LevelDB
 单机数据库，一次只允许一个进程访问一个特定的数据库
 适合场景 高频写、低频读
 
+* Memtable内存结构: 跳表结构，新数据首先写入这里
+* Immutable Memtable内存结构：  写入数数据逐渐变为不可写入的数据
+* SST文件：磁盘数据存储文件
 
-## rocksDB
+Arena内存池
+
+
+## RocksDB
 RocksDB 的核心数据结构是 LSM-Tree
 
-### RocksDB Column Family
+PinnableSlice 零拷贝方式的读
 
+### RocksDB Column Family
 每一个KV对都会关联一个Column Family, 其中默认的Column Family是 “default”. 
-Column Family主要是提供给RocksDB一个逻辑的分区.
+Column Family主要是提供给RocksDB一个逻辑的分区. 从实现上来看不同的Column Family共享WAL，而都有自己的Memtable和SST
 
 RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数据以 ColumnFamily（列族，亦有译为列簇）为逻辑单位进行存储.
 
-当用户发出读取请求时，RocksDB 先从 MemTable 查找；如果没找到，再查找不可变的 MemTable，随后再磁盘上进行逐级查找
+当用户发出读取请求时，RocksDB 先从 MemTable 查找；如果没找到，再查找不可变的 MemTable，随后再磁盘上进行逐级查找.
 
 
 
@@ -164,13 +181,13 @@ RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数
 
 ## etcd
 
-## OPENTSDB
+## OPENTSDB 时序数据库
 
- Time Series Database， 对比传统数据库仅仅记录了数据的当前值，时序数据库则记录了所有的历史数据。同时时序数据的查询也总是会带上时间作为过滤条件。
+Time Series Database， 对比传统数据库仅仅记录了数据的当前值，时序数据库则记录了所有的历史数据。同时时序数据的查询也总是会带上时间作为过滤条件。
 
-## InfluxDB
+## InfluxDB 时序数据库
 
- InfluxDB是一个由InfluxData开发的开源时序型数据。它由Go写成，着力于高性能地查询与存储时序型数据。InfluxDB被广泛应用于存储系统的监控数据，IoT行业的实时数据等场景。
+InfluxDB是一个由InfluxData开发的开源时序型数据。它由Go写成，着力于高性能地查询与存储时序型数据。InfluxDB被广泛应用于存储系统的监控数据，IoT行业的实时数据等场景。
 
 
 ## elasticsearch
@@ -179,7 +196,12 @@ RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数
 ## Hbase
 基于hdfs的kv数据库，性能差
 
+HDFS是Hadoop的存储系统，它的优点是可以存储超大量数据，但是缺点是速度慢。
+HBase建立在HDFS之上，以KV的形式存储，提供实时访问。
+HBase 本身只提供了Java 的API 接口。
+snapshot是HBase非常核心的一个功能，使用snapshot的不同用法可以实现很多功能
 
+[HBase架构介绍](https://zhuanlan.zhihu.com/p/159052841)
 
 ## Nebula Graph 图数据库
 https://xie.infoq.cn/article/e550a032bd421916b72dcca24
@@ -191,6 +213,28 @@ https://xie.infoq.cn/article/e550a032bd421916b72dcca24
 
 ## cockroachDB
 
+
+## OpenMLDB
+OpenMLDB 致力于融合离线数据库和在线数据库。亮点在于一致性执行引擎。
+[openmldb的技术博客]https://www.zhihu.com/column/c_1417199590352916480
+
+一致性执行引擎：内部去把 SQL 做了一个转换，转换成线上的执行计划和线下的执行计划，保证这两个值是从定义和执行逻辑上都是一致的。
+性能：在线支持毫秒级别延迟的取数+计算！
+计算语义：SQL， 提供C++语言的UDF方式来支持用户实现复杂的处理逻辑
+
+Tablet 是 OpenMLDB 用来执行 SQL 和数据存储的模块，也是整个 OpenMLDB 功能实现的核心以及资源占用的瓶颈。Tablet 从功能上来看，进一步包含了 SQL engine 和 storage engine 两个模块。Tablet 也是 OpenMLDB 部署资源的可调配的最小粒度，一个 tablet 不能被拆分到多个物理节点；但是一个物理节点上可以有多个 tablets。
+
+* SQL Engine
+  * SQL engine 负责执行 SQL 查询计算。SQL 引擎通过 ZetaSQL 把 SQL 解析成AST语法树。因为我们加入了 LAST JOIN，WINDOW UNION 等针对特征工程扩展的特殊 SQL 语法，所以对开源的 ZetaSQL 做了优化。经过如上图一系列的编译转化、优化，以及基于 LLVM 的 codegen 之后，最终生成执行计划。
+* Compute Engine
+  * SQL 引擎基于执行计划，通过 catalog 获取存储层数据做最终的 SQL 执行运算。在分布式版本中，会生成分布式的执行计划，会把执行任务发到其他 tablet 节点上执行。目前 OpenMLDB 的 SQL 引擎采用 push 的模式，将任务分发到数据所在的节点执行，而不是将数据拉回来。这样做的好处可以减少数据传输。
+  * 离线
+  * 在线
+* Storage Engine
+  * Storage engine 负责 OpenMLDB 数据的存储。 
+    * 内存存储引擎是自研的(MemTable), 内部它是一个双层的跳表结构，这有利于我们去高效地拿到窗口化的数据。
+      * 双层跳表:在第一层跳表中key是对应索引列的值，value指向二级跳表。二级跳表中的key是时间戳，value是一行数据编码后的值。二级跳表是按时间排好序的，这样就很容易查询一段时间内的数据。
+    * 磁盘存储引擎是rocksdb(DiskTable)
 
 
 

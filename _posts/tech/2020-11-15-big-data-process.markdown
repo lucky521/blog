@@ -28,12 +28,6 @@ hadoop job -list   | grep "rank" |  awk '{split($0,a,"\t"); print a[1],a[5],a[7]
 
 # Storing
 
-## Hbase
-HDFS是Hadoop的存储系统，它的优点是可以存储超大量数据，但是缺点是速度慢。
-HBase建立在HDFS之上，以KV的形式存储，提供实时访问。
-HBase 本身只提供了Java 的API 接口。
-snapshot是HBase非常核心的一个功能，使用snapshot的不同用法可以实现很多功能
-
 ## Storage Cache
 
 alluxio

@@ -50,10 +50,12 @@ JobManager 相当于整个集群的 Master 节点，且整个集群有且只有�
 ### TaskManager 
 TaskManager 相当于整个集群的 Slave 节点，负责具体的任务执行和对应任务在每个节点上的资源申请和管理。一个TM对应一个JVM。
 
-t
+
 任务槽是Flink计算资源的基本单位. Task Manager 的一个 Slot 代表一个可用线程，该线程具有固定的内存，注意 Slot 只对内存隔离，没有对 CPU 隔离。
 每个任务槽可以在同一时间执行一个Task，而TaskManager可以拥有一个或者多个任务槽。
 任务槽可以实现TaskManager中不同Task的资源隔离，不过是逻辑隔离，并且只隔离内存，亦即在调度层面认为每个任务槽“应该”得到taskmanager.heap.size的N分之一大小的内存。CPU资源不算在内。
+
+
 
 
 ## Checkpoint 和 Savepoint
@@ -759,9 +761,7 @@ TaskManager个数
 
 ## Task slot
 
-任务槽是Flink计算资源的基本单位. Task Manager 的一个 Slot 代表一个可用线程，该线程具有固定的内存，注意 Slot 只对内存隔离，没有对 CPU 隔离。
-每个任务槽可以在同一时间执行一个Task，而TaskManager可以拥有一个或者多个任务槽。
-任务槽可以实现TaskManager中不同Task的资源隔离，不过是逻辑隔离，并且只隔离内存，亦即在调度层面认为每个任务槽“应该”得到taskmanager.heap.size的N分之一大小的内存。CPU资源不算在内。
+每个Flink TaskManager在集群中提供处理槽。 插槽的数量通常与每个TaskManager的可用CPU内核数成比例。一般情况下你的slot数是你每个TM的cpu的核数。
 
 apus.slotmanager.slot-placement-policy  SLOT
 
@@ -824,7 +824,7 @@ setMaxParallelism 控制的是状态后端中keyed-state可以被分配的task�
 * execution.checkpointing.externalized-checkpoint-retention: RETAIN_ON_CANCELLATION  /  DELETE_ON_CANCELLATION
 * execution.checkpointing.tolerable-failed-checkpoints
 * execution.checkpointing.unaligned   默认是false，如果设置true：非对齐checkpoint，以提升性能
-
+* pipeline.max-parallelism  The program-wide maximum parallelism used for operators which haven't specified a maximum parallelism
 
 参考： https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/deployment/config.html
 参考： https://nightlies.apache.org/flink/flink-docs-master/zh/docs/deployment/config/
