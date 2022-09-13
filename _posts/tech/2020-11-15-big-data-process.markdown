@@ -10,8 +10,7 @@ layout: post
 大数据的大有两个角度，一种是静态数据数据量巨大；一种是流式数据数据永无止境。
 
 
-# Resource
-
+# Resource 大数据必然需要大量机器资源，资源的管理调度是最基础的课题
 ## Yarn
 
 yarn application -list -appStates ALL | grep "rank"  | wc -l
@@ -26,8 +25,9 @@ hadoop job -list   | grep "rank" |  awk '{split($0,a,"\t"); print a[1],a[5],a[7]
 
 
 
-# Storing
 
+
+# Storing 大数据落盘的存储形式
 ## Storage Cache
 
 alluxio
@@ -140,7 +140,7 @@ Lazy Evaluation
 
 
 
-# OLAP
+# OLTP && OLAP
 
 OLAP场景的关键特征
 * 绝大多数是读请求
@@ -183,5 +183,4 @@ TiDB https://github.com/pingcap/tidb
 
 
 # 参考
-
 https://github.com/wangzhiwubigdata/God-Of-BigData

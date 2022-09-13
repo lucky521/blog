@@ -71,6 +71,9 @@ Paxos
 Gossip 弱
 
 
+## 2PL两阶段锁
+
+
 ## MVCC 
 (Multi-Version Concurrency Control)：多版本并发控制
 
@@ -107,7 +110,25 @@ SSD
 
 
 
+## SQL引擎 query planner
 
+SQL是一种查询语言，是对数据库查询的抽象。SQL不仅可用于简单的查询，借助UDF、UDAF、UDTF的能力，可以完成复杂的计算逻辑，因而就成了一门编程语言。
+
+sql数据库的服务端，可以划分为执行器 (Execution Engine) 和存储引擎 (Storage Engine) 两部分。
+
+* 执行器
+  * 输入是SQL
+  * 把SQL解析构建成AST 抽象语法树 
+  * 把AST解析成plan逻辑执行计划
+* 存储引擎
+
+https://github.com/google/zetasql
+https://github.com/apache/calcite
+
+执行计划定义了：
+1. 访问存储表的顺序
+2. 用于从每个表提取数据的方法
+3. 用于计算的方法
 
 
 
@@ -123,6 +144,16 @@ SSD
 * 行式存储：常见的行式数据库有MySQL、PostgreSQL、MS SQL Server。
 * 列式存储：常见的列式数据库有 Hbase、Kudu、ClickHouse、 Vertica、 Paraccel (Actian Matrix，Amazon Redshift)、 Sybase IQ、 Exasol、 Infobright、 InfiniDB、 MonetDB (VectorWise， Actian Vector)、 LucidDB、 SAP HANA、 Google Dremel、 Google PowerDrill、 Druid、 kdb+。
 
+
+## SQLite
+https://sqlite.org/arch.html
+
+SQLite的工作方式是将SQL语句转换为字节码，然后执行该字节码。
+
+* sqlite3_prepare_v()接口是一个将SQL语句转换为字节码的编译器
+* sqlite3_step()接口 是负责运行含有预处理语句的字节码的虚拟机
+
+VDBE实现了以虚拟机语言运行程序的虚拟计算机。每个程序的目标是询问或更改数据库。为此，VDBE实现的机器语言专门用于搜索，读取和修改数据库。
 
 ## InnoDB
 
@@ -237,6 +268,18 @@ Tablet 是 OpenMLDB 用来执行 SQL 和数据存储的模块，也是整个 Ope
     * 磁盘存储引擎是rocksdb(DiskTable)
 
 
+
+```cpp
+
+PlanAPI::CreatePlanTreeFromScript
+  zetasql::ParseScript
+  auto planner_ptr = std::make_unique<SimplePlannerV2>(node_manager, is_batch_mode, is_cluster,
+                                                         enable_batch_window_parallelization, extra_options);
+  status = planner_ptr->CreateASTScriptPlan(script, plan_trees);
+    ConvertASTScript
+    CreatePlanTree
+
+```
 
 
 

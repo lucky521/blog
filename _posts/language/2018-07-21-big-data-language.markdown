@@ -9,6 +9,7 @@ layout: post
 
 不同引擎虽虽然可能都是SQL，但底层执行方法是有一定差异的，比如spark/presto直接读取文件解析，hive根据元数据mapping解压；比如spark/hive对空值、空字符串的判断处理和presto不一样。
 
+
 # 原生 MapReduce 接口
 https://hadoop.apache.org/docs/r2.10.2/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html
 
