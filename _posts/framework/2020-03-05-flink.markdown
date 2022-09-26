@@ -1007,7 +1007,7 @@ env.execute("MySourceMysql");
 # Flink源码剖析
 
 ## 从 StreamGraph 转化为 JobGrpah 的过程 : 节点(StreamNode)合并，避免无意义的跨节点通信
-StreamingJobGraphGenerator生成 JobGraph
+StreamingJobGraphGenerator: 生成 JobGraph
 
 
 # Flink背后的依赖

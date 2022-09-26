@@ -280,9 +280,9 @@ Tensorflow属于大而全的功能框架，我有另一篇[Blog文章](https://l
 
 # Reference
 
-Sequence Tagging with Tensorflow https://guillaumegenthial.github.io/sequence-tagging-with-tensorflow.html
+[Sequence Tagging with Tensorflow](https://guillaumegenthial.github.io/sequence-tagging-with-tensorflow.html)
 
-斯坦福的CS224n Deep Learning for Natural Language Processing  http://web.stanford.edu/class/cs224n/
+[斯坦福的CS224n Deep Learning for Natural Language Processing](http://web.stanford.edu/class/cs224n/)
 
 https://www.tensorflow.org/tutorials/word2vec
 
@@ -290,4 +290,4 @@ https://github.com/graykode/nlp-tutorial
 
 [Notes on Deep Learning for NLP](https://arxiv.org/pdf/1808.09772.pdf)
 
-NLP深度学习发展历史 https://ruder.io/a-review-of-the-recent-history-of-nlp/
+[NLP深度学习发展历史](https://ruder.io/a-review-of-the-recent-history-of-nlp/)

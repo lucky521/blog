@@ -1620,7 +1620,8 @@ tf.train.load_variable
 W = tf.get_variable(name="W", shape=embedding.shape, initializer=tf.constant_initializer(embedding), trainable=False)
 ```
 
-## 超大规模稀疏参数 recommenders-addons
+## 超大规模稀疏参数 
+recommenders-addons
 为了支持TF上进行超大稀疏特征所对应的稀疏参数训练，针对于搜索、推荐、广告领域的稀疏模型引入了动态Embedding技术。
 https://github.com/tensorflow/recommenders-addons
 
@@ -1638,6 +1639,10 @@ input_data = tf.contrib.layers.input_from_feature_columns(columns_to_tensors = f
                                                           feature_columns = feature_columns)
 ...
 ```
+
+借助阿里的DeepRec项目
+* 使用get_embedding_variable接口
+* 使用categorical_column_with_embedding接口
 
 
 ## Transfer Learning - Retrained Model

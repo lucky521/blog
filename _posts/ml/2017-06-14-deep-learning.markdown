@@ -408,6 +408,8 @@ def attention(queries, keys, keys_length):
   return outputs
 ```
 
+### Encoder-Decoder Attention
+这个层能帮助解码器聚焦于输入句子的相关部分（类似于 seq2seq 模型 中的 Attention）
 
 ### 残差单元 Residual Unit
 

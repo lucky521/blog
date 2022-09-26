@@ -41,6 +41,15 @@ http://ifeve.com/redis-multiget-hole/
 
 ## 缓存预热
 
+## 并发控制
+* 悲观并发控制: 使用锁
+  * 读写锁
+  * 两阶段锁协议（2PL）
+* 乐观并发控制
+  * 基于时间戳的协议:每一个事务都会具有一个全局唯一的时间戳，它即可以使用系统的时钟时间，也可以使用计数器，只要能够保证所有的时间戳都是唯一并且是随时间递增的就可以。
+  * 基于验证的协议
+* MVCC
+
 
 
 
@@ -63,19 +72,21 @@ https://www.jianshu.com/p/fe7b7800473e
 
 
 ## 数据一致性
+Paxos
 
 Raft
-
-Paxos
+[寻找一种易于理解的一致性算法](https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md)
 
 Gossip 弱
 
 
 ## 2PL两阶段锁
+两阶段锁协议（2PL）是一种能够保证事务可串行化的协议，它将事务的获取锁和释放锁划分成了增长（Growing）和缩减（Shrinking）两个不同的阶段。在增长阶段，一个事务可以获得锁但是不能释放锁；而在缩减阶段事务只可以释放锁，并不能获得新的锁.
 
 
 ## MVCC 
 (Multi-Version Concurrency Control)：多版本并发控制
+每一个写操作都会创建一个新版本的数据，读操作会从有限多个版本的数据中挑选一个最合适的结果直接返回；在这时，读写操作之间的冲突就不再需要被关注，而管理和快速挑选数据的版本就成了 MVCC 需要解决的主要问题。
 
 
 ## 事务处理能力
@@ -109,7 +120,6 @@ SSD
 
 
 
-
 ## SQL引擎 query planner
 
 SQL是一种查询语言，是对数据库查询的抽象。SQL不仅可用于简单的查询，借助UDF、UDAF、UDTF的能力，可以完成复杂的计算逻辑，因而就成了一门编程语言。
@@ -124,11 +134,14 @@ sql数据库的服务端，可以划分为执行器 (Execution Engine) 和存储
 
 https://github.com/google/zetasql
 https://github.com/apache/calcite
+https://github.com/antlr/antlr4
 
 执行计划定义了：
 1. 访问存储表的顺序
 2. 用于从每个表提取数据的方法
 3. 用于计算的方法
+
+
 
 
 
@@ -240,6 +253,21 @@ https://xie.infoq.cn/article/e550a032bd421916b72dcca24
 
 ## TiDB 分布式事务数据库
 
+在线场景
+* TiKV Server 存储引擎
+  * 分布式事务
+* TiDB Server 查询引擎(OLTP)
+  * SQL -> KV操作
+
+离线场景
+* TiFlash Server 存储引擎
+  * 列式存储，异步复制，一致性
+  * TiFlash 以低消耗不阻塞 TiKV 写入的方式，实时复制 TiKV 集群中的数据，并同时提供与 TiKV 一样的一致性读取，且可以保证读取到最新的数据。TiFlash 中的 Region 副本与 TiKV 中完全对应，且会跟随 TiKV 中的 Leader 副本同时进行分裂与合并。
+  * 当前的设计是TiFlash只读不写，任何数据必须先写入 TiKV 再同步到 TiFlash。
+* TiSpark 查询引擎(OLAP)
+  * Most of the TiSpark logic is inside a thin layer, namely, the tikv-client library.
+  * tidb_catalog
+
 ## YugabyteDB
 
 ## cockroachDB
@@ -259,8 +287,8 @@ Tablet 是 OpenMLDB 用来执行 SQL 和数据存储的模块，也是整个 Ope
   * SQL engine 负责执行 SQL 查询计算。SQL 引擎通过 ZetaSQL 把 SQL 解析成AST语法树。因为我们加入了 LAST JOIN，WINDOW UNION 等针对特征工程扩展的特殊 SQL 语法，所以对开源的 ZetaSQL 做了优化。经过如上图一系列的编译转化、优化，以及基于 LLVM 的 codegen 之后，最终生成执行计划。
 * Compute Engine
   * SQL 引擎基于执行计划，通过 catalog 获取存储层数据做最终的 SQL 执行运算。在分布式版本中，会生成分布式的执行计划，会把执行任务发到其他 tablet 节点上执行。目前 OpenMLDB 的 SQL 引擎采用 push 的模式，将任务分发到数据所在的节点执行，而不是将数据拉回来。这样做的好处可以减少数据传输。
-  * 离线
-  * 在线
+  * 离线 spark
+  * 在线 hybridse
 * Storage Engine
   * Storage engine 负责 OpenMLDB 数据的存储。 
     * 内存存储引擎是自研的(MemTable), 内部它是一个双层的跳表结构，这有利于我们去高效地拿到窗口化的数据。
@@ -284,7 +312,11 @@ PlanAPI::CreatePlanTreeFromScript
 
 
 
+
+
+
 # X_FS
+广义上讲，文件系统是数据库系统的一种形式。
 
 存储接口标准： AWS S3标准协议 (Amazon Simple Storage Service (Amazon S3) )
 
@@ -299,8 +331,9 @@ ChubaoFS（CFS）是京东开发的分布式文件系统和对象存储系统
 
 
 
-# 参考
 
+
+# 参考
 [性能提升2.58倍！阿里最快KV存储引擎揭秘](https://developer.aliyun.com/article/749455?utm_content=g_1000107624)
 [百度信息流和搜索业务中的KV存储实践](https://zhuanlan.zhihu.com/p/414844474)
 [美团点评万亿级 KV 存储架构与实践](https://tech.meituan.com/2020/07/01/kv-squirrel-cellar.html)
@@ -309,3 +342,4 @@ ChubaoFS（CFS）是京东开发的分布式文件系统和对象存储系统
 [字节跳动自研强一致在线 KV &表格存储实践 - 上篇](https://mp.weixin.qq.com/s?__biz=MzI1MzYzMjE0MQ==&mid=2247485932&idx=1&sn=28394ff3b8ac272852f22105c3768d0f&chksm=e9d0c20edea74b18d6d8eaa0720c52351b4bfaeb0ebde24e08db4c899012d2ad90c2aa977806&token=911418867&lang=zh_CN&scene=21#wechat_redirect)
 [字节跳动自研强一致在线 KV &表格存储实践 - 下篇](https://mp.weixin.qq.com/s?__biz=MzI1MzYzMjE0MQ==&mid=2247485942&idx=1&sn=01192ff69299de3a007de789ac84564b&chksm=e9d0c214dea74b0245c5d4ac0854d23a113ccc55e3ee042fc1239e14d5860817f1d88fc9befa&token=1461619284&lang=zh_CN#rd)
 https://db-engines.com/en/
+[浅谈数据库并发控制 - 锁和 MVCC](https://draveness.me/database-concurrency-control/)

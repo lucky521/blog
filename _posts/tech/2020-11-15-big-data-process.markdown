@@ -117,6 +117,20 @@ reduce 运行阶段分为shuflle(copy) merge  sort reduce write五个阶段。
 
 ## Spark
 
+spark是怎么工作的？
+* DAG scheduler
+* Task Scheduler
+* Worker/Slave
+* transformations
+  * Narrow transformation
+  * Wide transformation
+
+RDD - Resilient Distributed Dataset
+RDD lineage
+Lazy Evaluation
+
+[How Spark works internally](https://stackoverflow.com/questions/30691385/how-spark-works-internally/30691654#30691654)
+[SQL执行优化器 - Catalyst](https://www.databricks.com/blog/2015/04/13/deep-dive-into-spark-sqls-catalyst-optimizer.html)
 
 
 
@@ -125,11 +139,6 @@ reduce 运行阶段分为shuflle(copy) merge  sort reduce write五个阶段。
 ## Storm
 
 ## Spark Streaming
-
-spark是怎么工作的？
-RDD - Resilient Distributed Dataset
-lineage
-Lazy Evaluation
 
 
 ## Flink
@@ -140,7 +149,7 @@ Lazy Evaluation
 
 
 
-# OLTP && OLAP
+# OLTP && OLAP && HTAP
 
 OLAP场景的关键特征
 * 绝大多数是读请求
