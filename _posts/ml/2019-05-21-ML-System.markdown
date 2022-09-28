@@ -194,9 +194,11 @@ categories: [MachineLearning]
 - https://eng.uber.com/introducing-neuropod/ , https://github.com/uber/neuropod
 
 模型核心内核组件
-- https://zhuanlan.zhihu.com/p/121834310
-- 编译器前端
-- 编译器后端
+- [深度学习框架的灵魂](https://zhuanlan.zhihu.com/p/121834310)
+- 编译器前端: 将源程序解析成中间表示，支持自动微分，前端优化, 静态计算图和动态计算图
+  - 编译优化: 无用与不可达代码消除; 常量传播、常量折叠; 公共子表达式消除
+- 编译器后端： 编译器后端处于前端和硬件驱动层中间，主要负责计算图优化、算子选择和内存分配的任务
+  - 闭包后端
 
 模型分析层组件
 - https://github.com/tensorflow/model-analysis , https://github.com/tensorflow/model-analysis/blob/master/g3doc/get_started.md
@@ -216,13 +218,11 @@ categories: [MachineLearning]
 
 
 ## 工业界完整方案
-
 - TFX by google : https://github.com/tensorflow/tfx
 - FBLearner Flow by facebook: https://engineering.fb.com/core-data/introducing-fblearner-flow-facebook-s-ai-backbone/
 - Michelangelo by uber: https://eng.uber.com/michelangelo/
 - BigHead by airbnb :
 ### TFX
-
 全称 Tensorflow Extended
 
 数据预处理组件 https://github.com/tensorflow/transform
@@ -233,14 +233,12 @@ https://help.aliyun.com/product/30347.html
 
 
 ### EasyDL / BML
-
 百度推出的机器学习平台。
 https://ai.baidu.com/easydl/
 https://ai.baidu.com/bml/
 
 
 ### mindspore
-
 华为推出的机器学习平台
 https://www.mindspore.cn/tutorials/zh-CN/master/distributed_training.html
 

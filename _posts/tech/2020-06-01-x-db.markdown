@@ -8,6 +8,7 @@ layout: post
 
 X_DB往往是在线系统和离线系统的边界。
 
+* 存储的数据类型(table/kv/graph/file/embedding)
 * 数据接口以如何形式组织
 * 内部存储数据以如何形式组织
 * 数据如何更新

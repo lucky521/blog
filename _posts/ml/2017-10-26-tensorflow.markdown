@@ -1643,6 +1643,7 @@ input_data = tf.contrib.layers.input_from_feature_columns(columns_to_tensors = f
 借助阿里的DeepRec项目
 * 使用get_embedding_variable接口
 * 使用categorical_column_with_embedding接口
+* 进阶功能： 特征淘汰、特征准入、动态维度
 
 
 ## Transfer Learning - Retrained Model

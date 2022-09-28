@@ -68,8 +68,13 @@ Eigenvalue
 在深度学习和机器学习中，我们通常希望数据的分布为正态分布
 
 
-
-
+## 图像数据格式
+无论逻辑表达上是几维的数据，在计算机中存储时都是按照1D来存储的。
+逻辑上，数据一般是4D，按NCHW 或 NHWC表达
+* N - Batch
+* C - Channel
+* H - Height
+* W - Width
 
 
 # 特征提取 Feature Extraction
