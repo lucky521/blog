@@ -793,16 +793,16 @@ setMaxParallelism 控制的是状态后端中keyed-state可以被分配的task�
 * taskmanager.network.request-backoff.max 60000
 * apus.taskmanager.network.request.wait.ms 30000
 * taskmanager.network.request-backoff.initial 20000
-* apus.memory.incontainer.available.ratio 0.9
-* cluster.evenly-spread-out-slots true
+* apus.memory.incontainer.available.ratio 0.9   表示Flink内存占TM内存的比例
 * apus.slotmanager.slot.placement.policy slot
-* jobmanager.execution.failover-strategy region/apus-individual
+* apus.taskmanager.memory.task.off-heap.fraction
 * apus.log.separate.enabled false
+* cluster.evenly-spread-out-slots true
+* jobmanager.execution.failover-strategy
 * taskmanager.network.memory.fraction
 * classloader.resolve-order
 * web.checkpoints.history
 * taskmanager.memory.jvm-metaspace.size
-* apus.taskmanager.memory.task.off-heap.fraction
 * containerized.heap-cutoff-ratio
 * classloader.parent-first-patterns.default
 * state.backend rocksdb
