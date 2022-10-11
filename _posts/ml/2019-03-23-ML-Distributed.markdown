@@ -11,20 +11,16 @@ categories: [MachineLearning]
 
 ## 为什么需要分布式机器学习？
 
-计算量太大
-
-训练数据太多
-
-模型规模太大
+* 计算量太大
+* 训练数据太多
+* 模型规模太大
 
 
 ## 分布式机器学习容易遇到的问题
 
-训练框架复杂化、分布式程序复杂（交互复杂、部署复杂）
-
-对分布式集群资源的利用率不高（尽管对单个模型的训练速度提高了）
-
-错误处理能力不好
+* 训练框架复杂化、分布式程序复杂（交互复杂、部署复杂）
+* 对分布式集群资源的利用率不高（尽管对单个模型的训练速度提高了）
+* 错误处理能力不好
 
 ## 怎么样的分布式？ 划分方式
 
@@ -122,14 +118,12 @@ Worker和Server的交互：
   - 每个Server只负责一部分模型参数的更新。分工方式采用一致性哈希环，按模型参数的key进行哈希分配。
 
 
-https://zhuanlan.zhihu.com/p/69010949
+[浅谈Tensorflow分布式架构：parameter server及优化策略](https://zhuanlan.zhihu.com/p/69010949)
 
 
-## 同步梯度更新策略 Ring Allreduce
+## 同步梯度更新策略 Ring-Allreduce
 
-AllReduce算法，是用于分布式深度学习的通信运算.
-
-每个 GPU 只从左邻居接受数据、并发送数据给右邻居。
+AllReduce算法，是用于分布式深度学习的通信运算. 每个 GPU 只从左邻居接受数据、并发送数据给右邻居。
 
 https://zhuanlan.zhihu.com/p/69806200
 
@@ -138,11 +132,11 @@ https://zhuanlan.zhihu.com/p/79030485
 https://blog.csdn.net/qq_35799003/article/details/85016537
 
 
-communication primitive
-
-    Point-to-point communication
-    
-    Collective communication
+通信原语 communication primitive
+* Point-to-point communication
+  * 点对点通信 只有一个sender和一个receiver
+* Collective communication
+  * 包含多个sender多个receiver，一般的通信原语包括broadcast，gather,all-gather,scatter,reduce,all-reduce,reduce-scatter,all-to-all等
 
 
 ring-base collectives

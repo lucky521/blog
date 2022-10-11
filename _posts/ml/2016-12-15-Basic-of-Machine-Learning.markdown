@@ -47,7 +47,7 @@ STATISTICS
 
 
 
-probabilistic method or model:
+probabilistic method or modeling:
 
 
 

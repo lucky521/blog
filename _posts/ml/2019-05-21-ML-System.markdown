@@ -179,6 +179,7 @@ categories: [MachineLearning]
 特征服务组件：
 - openmldb
 - Tidb
+- https://github.com/feathr-ai/feathr
 
 模型训练层组件
 - PaddlePaddle

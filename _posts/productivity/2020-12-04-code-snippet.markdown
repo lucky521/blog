@@ -6,7 +6,7 @@ layout: post
 ---
 
 
-## 常见linux命令
+## linux命令
 
 ```shell
  curl -d 'username=lu.dev' -d 'tableName=db.tablename' -X POST  http://xxx.com/api/v1/table/detail

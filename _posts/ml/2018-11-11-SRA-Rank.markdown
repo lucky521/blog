@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "搜索推荐广告论文赏析"
-subtitle: ""
+subtitle: "搜推广论文集"
 categories: [MachineLearning]
 ---
 

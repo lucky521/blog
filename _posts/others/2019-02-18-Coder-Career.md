@@ -16,19 +16,15 @@ categories: [other]
 什么属于通用技能？第一大一定是学习技能，第二大属于行业岗位中任何位置都需要的技能.
 
 - 快速学习新代码
-
 - Debugging 动态跟踪调试
-
 - 写代码来分析代码问题
-
 - 软件设计哲学
-
 - 数学
 
 ## 习惯
 
 - 一篇好文不放收藏夹，应该及时读完；字典类型的链接才收藏。
-- TODO记录待办， Calendar记录在办，Notes记录总结。
+- TODO记录待办，Calendar记录在办，Notes记录总结。
 - 面对难题不钻牛角尖(浪费时间)，该休息时就放心的去休息。休息一阵子，之前的难题就会很快解决
 
 
@@ -36,23 +32,16 @@ categories: [other]
 
 ## 技术分类
 
-游戏开发 - https://github.com/miloyip/game-programmer
+* 中间件 -
+* 游戏开发 - https://github.com/miloyip/game-programmer
+* 机器学习 - https://github.com/chris-chris/ml-engineer-roadmap
+* 后端 - 
+* 前端 - 
+* 移动端 - 
+* 安全 - 
+* 大数据 - https://github.com/datastacktv/data-engineer-roadmap
+* 嵌入式 -
 
-机器学习 - https://github.com/chris-chris/ml-engineer-roadmap
-
-后端 - 
-
-前端 - 
-
-移动端 - 
-
-安全 - 
-
-大数据 - https://github.com/datastacktv/data-engineer-roadmap
-
-嵌入式 -
-
-中间件 -
 
 ## 业务领域
 
@@ -95,9 +84,9 @@ write tools to help our work.
 
 > 废掉一个人最隐蔽的方式，是让他忙到没有时间成长。
 
-避免看不见的重复劳动：并不是说用代码自动化一个事情就不叫重复劳动，总是在写类似的代码，也叫重复劳动。
+避免看不见的重复劳动：并不是说用代码自动化一个事情就不叫重复劳动。总是在写类似的代码，也叫重复劳动。
 
-
+结合长期目标分配时间：不要仅仅以短期目标来分配时间
 
 
 # 沟通和协作
@@ -114,17 +103,13 @@ write tools to help our work.
 
 了解社会运转的本质
 
+> 被动的棋子 -> 主动 
 
 # 工作心态
 
-- 保持创新力
-
 - 目标不要拘泥于局部，而要远大
-
 - 必须脚踏实地，做好脚下的事情
-
 - 把握团队的方向，而不是被牵着走
-
 - 适当的压力能促进学习进步
 
 
@@ -133,15 +118,14 @@ write tools to help our work.
 
 # 核心竞争力
 
-创造看得见的价值
+* 创造看得见的价值
+* 不可替代性
+* 未来贡献预期
+* 保持创新力
 
-不可替代性
-
-未来贡献预期
 
 ## 发现路线
-深度和广度都重要。不要纠结哪个相对重要了。
-T型人才的抗风险能力是最大的。
+深度和广度都重要。不要纠结哪个相对重要了。T型人才的抗风险能力是最大的。
 
 ## 员工晋级
 
@@ -158,12 +142,12 @@ KPI OKR 绩效考核
 
 # 相关链接
 
-https://mp.weixin.qq.com/s?__biz=MjM5MzA0ODkyMA==&mid=405639492&idx=1&sn=e358964a7e1f6782ecc7eb421f00074e&scene=5&srcid=0221nkmjoFmJSLeK8UMqDmnK%23rd
+[如何成为一名优秀的全栈工程师](https://mp.weixin.qq.com/s?__biz=MjM5MzA0ODkyMA==&mid=405639492&idx=1&sn=e358964a7e1f6782ecc7eb421f00074e&scene=5&srcid=0221nkmjoFmJSLeK8UMqDmnK%23rd)
 
-https://mp.weixin.qq.com/s?__biz=MzI5NjE3NzA4Mg==&mid=2650359943&idx=1&sn=b2558b3371a03701067f63d3d00110f8
+[从996.icu来谈一谈如何高效支配时间](https://mp.weixin.qq.com/s?__biz=MzI5NjE3NzA4Mg==&mid=2650359943&idx=1&sn=b2558b3371a03701067f63d3d00110f8)
 
-https://www.zhihu.com/question/27180582
+[程序员的核心竞争力是什么？为什么？](https://www.zhihu.com/question/27180582)
 
-https://mp.weixin.qq.com/s/4JHG5Tq7l4lC8fRn3s6cmw
+[算法工程师技术路线图](https://mp.weixin.qq.com/s/4JHG5Tq7l4lC8fRn3s6cmw)
 
 [如何提升职业工作效率](https://mp.weixin.qq.com/s/zH9kFjJQ5zE9mKGEiwEYAA)

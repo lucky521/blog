@@ -28,11 +28,6 @@ hadoop job -list   | grep "rank" |  awk '{split($0,a,"\t"); print a[1],a[5],a[7]
 
 
 # Storing 大数据落盘的存储形式
-## Storage Cache
-
-alluxio
-
-EVCache https://github.com/Netflix/EVCache
 
 
 ## Data Format
@@ -51,7 +46,6 @@ Data lake vs data warehouse， 数据湖和数据仓库的比较
 注意数据湖不是个项目，而是一个概念和思想。
 
 具备 ACID 能力的表格式中间件:
-
 * hudi https://github.com/apache/hudi
 * iceberg https://iceberg.apache.org/
 * deltalake https://github.com/delta-io/delta
@@ -83,6 +77,13 @@ Hudi表的数据文件，可以使用操作系统的文件系统存储，也可�
 * Table Sort Order支持变更
 
 
+## Storage Cache
+
+alluxio https://github.com/Alluxio/alluxio
+
+EVCache https://github.com/Netflix/EVCache
+
+
 
 # Streaming 数据流动
 ## streams && tables
@@ -91,13 +92,13 @@ flume - 把来自不同源头不同节点的大量数据发送到中心存储。
 
 kafka - http://kafka.apache.org/quickstart
 
-原生版本： https://github.com/edenhill/librdkafka
-C++版本：  https://github.com/mfontanini/cppkafka
-Python:   https://github.com/confluentinc/confluent-kafka-python
+* 原生版本： https://github.com/edenhill/librdkafka
+* C++版本：  https://github.com/mfontanini/cppkafka
+* Python:   https://github.com/confluentinc/confluent-kafka-python
 
 生产者和消费者以极高的速度生产/消费大量数据或产生请求，从而占用broker上的全部资源，造成网络IO饱和。有了配额（Quotas）就可以避免这些问题。Kafka支持配额管理，从而可以对Producer和Consumer的produce&fetch操作进行流量限制，防止个别业务压爆服务器。
 
-MQ
+ZeroMQ - 点对点消息队列
 
 
 
@@ -128,6 +129,7 @@ spark是怎么工作的？
 RDD - Resilient Distributed Dataset
 RDD lineage
 Lazy Evaluation
+shared variables - broadcast variables, accumulators
 
 [How Spark works internally](https://stackoverflow.com/questions/30691385/how-spark-works-internally/30691654#30691654)
 [SQL执行优化器 - Catalyst](https://www.databricks.com/blog/2015/04/13/deep-dive-into-spark-sqls-catalyst-optimizer.html)
@@ -140,14 +142,16 @@ Lazy Evaluation
 
 ## Spark Streaming
 
-
 ## Flink
 
 
 
 
-
-
+# Graph Computing 图计算
+* GraphX ：Apache 基金会基于 Spark 实现的图计算框架，社区活跃度较高。
+* GraphLab: A New Framework for Parallel Machine Learning. 商业软件，不开源。已被苹果收购
+* Pregel: a system for large-scale graph processing. Google 在 2009 年提出，是图计算模型的开山祖师，后续很多工作都受到它的思想影响。不开源。
+* Giraph: Facebook 基于 Pregel 思想的开源实现。
 
 # OLTP && OLAP && HTAP
 

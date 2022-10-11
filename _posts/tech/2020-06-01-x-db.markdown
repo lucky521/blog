@@ -153,11 +153,17 @@ https://github.com/antlr/antlr4
 # X_DB 开源实现
 
 数据库的实现类型非常之多，没有最好的数据库，只有最适合的数据库，一定要根据业务的特点进行选择。
+2021年，开源数据库的Popularity首次超越了商用数据库。https://db-engines.com/en/ranking_osvsc
 
 * 键值存储：常见的键值存储数据库有Redis、Memcached、leveldb、rocksdb、tair、etcd
 * 行式存储：常见的行式数据库有MySQL、PostgreSQL、MS SQL Server。
 * 列式存储：常见的列式数据库有 Hbase、Kudu、ClickHouse、 Vertica、 Paraccel (Actian Matrix，Amazon Redshift)、 Sybase IQ、 Exasol、 Infobright、 InfiniDB、 MonetDB (VectorWise， Actian Vector)、 LucidDB、 SAP HANA、 Google Dremel、 Google PowerDrill、 Druid、 kdb+。
 
+
+* 关系型数据库 : mysql
+* 时序数据库: InfluxDB
+* 键值数据库: redis
+* 图数据库: neo4j
 
 ## SQLite
 https://sqlite.org/arch.html
@@ -248,9 +254,16 @@ snapshot是HBase非常核心的一个功能，使用snapshot的不同用法可�
 
 [HBase架构介绍](https://zhuanlan.zhihu.com/p/159052841)
 
-## Nebula Graph 图数据库
-https://xie.infoq.cn/article/e550a032bd421916b72dcca24
 
+## Neo4j
+https://github.com/neo4j/neo4j
+
+## NebulaGraph 图数据库
+https://github.com/vesoft-inc/nebula
+https://docs.nebula-graph.io/3.2.0/
+
+## Dgraph 图数据库
+https://github.com/dgraph-io/dgraph
 
 ## TiDB 分布式事务数据库
 
@@ -268,10 +281,6 @@ https://xie.infoq.cn/article/e550a032bd421916b72dcca24
 * TiSpark 查询引擎(OLAP)
   * Most of the TiSpark logic is inside a thin layer, namely, the tikv-client library.
   * tidb_catalog
-
-## YugabyteDB
-
-## cockroachDB
 
 
 ## OpenMLDB
@@ -295,6 +304,8 @@ Tablet 是 OpenMLDB 用来执行 SQL 和数据存储的模块，也是整个 Ope
     * 内存存储引擎是自研的(MemTable), 内部它是一个双层的跳表结构，这有利于我们去高效地拿到窗口化的数据。
       * 双层跳表:在第一层跳表中key是对应索引列的值，value指向二级跳表。二级跳表中的key是时间戳，value是一行数据编码后的值。二级跳表是按时间排好序的，这样就很容易查询一段时间内的数据。
     * 磁盘存储引擎是rocksdb(DiskTable)
+  * 导数：
+    * OpenMLDB本身不提供离线存储引擎，但需要指定离线存储的地址，即taskmanager配置项offline.data.prefix，可以是本地目录、hdfs、s3等存储介质。
 
 
 
@@ -312,7 +323,9 @@ PlanAPI::CreatePlanTreeFromScript
 
 
 
+## YugabyteDB
 
+## cockroachDB
 
 
 

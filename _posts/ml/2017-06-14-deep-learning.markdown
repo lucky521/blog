@@ -236,7 +236,6 @@ Learning rate 用于控制每次更新参数时参数变化的程度。表示更
 
 
 ## 正规化 Regularization method
-
 Regularization 的目的是要避免过拟合。减少真实数据生成错误（不是样本数据训练错误），避免训练数据过于片面，避免模型过于贴合训练样本而不能反映数据的真实规律。
 
 下面有四种Regularization方法，
@@ -271,7 +270,6 @@ L2 正规化是附加权重的平方之和，L1是附加权重的绝对值之和
 
 
 ## 归一化 Normalization
-
 Normalization 的目的是为了加快训练效率（训练速度）。
 
 ### Batch Normalization
@@ -412,7 +410,6 @@ def attention(queries, keys, keys_length):
 这个层能帮助解码器聚焦于输入句子的相关部分（类似于 seq2seq 模型 中的 Attention）, 我们在transformer模型的decoder中有这一层。
 
 ### 残差单元 Residual Unit
-
 避免网络太深而梯度消失。如果某一层的输出已经较好的拟合了期望结果，那么之后的层会被短链而跳过。
 
 输入过两层MLP之后再和原输入进行按位加操作。
@@ -472,7 +469,7 @@ def cross_layer(x0, x, name):
 
 激活函数使用sigmoid。要训练的模型是sigmoid(np.dot(l0,syn0))，其中l0是输入层数据，syn0是要训练的参数。
 
-```
+```python
 import numpy as np
 
 # The simplest nerual network
@@ -546,7 +543,7 @@ l2是输出层，运算参数syn1是4X1的矩阵，输出结果是一个整数�
 
 在反向传播计算误差时，某一层的误差是用后一层的"误差 * 斜率"来算的。
 
-```
+```python
 import numpy as np
 
 # Simplest nerual network
