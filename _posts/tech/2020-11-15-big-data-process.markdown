@@ -13,6 +13,10 @@ layout: post
 # Resource 大数据必然需要大量机器资源，资源的管理调度是最基础的课题
 ## Yarn
 
+* resource manager
+* node manager
+* application master
+
 yarn application -list -appStates ALL | grep "rank"  | wc -l
 
 yarn application -status  application_9173934103802_23474815
@@ -125,11 +129,18 @@ spark是怎么工作的？
 * transformations
   * Narrow transformation
   * Wide transformation
+* driver
+  * cluster mode： driver执行在yarn的application master进程内
+  * client mode: driver执行在client进程中
+* worker, executor
+
 
 RDD - Resilient Distributed Dataset
 RDD lineage
 Lazy Evaluation
 shared variables - broadcast variables, accumulators
+
+
 
 [How Spark works internally](https://stackoverflow.com/questions/30691385/how-spark-works-internally/30691654#30691654)
 [SQL执行优化器 - Catalyst](https://www.databricks.com/blog/2015/04/13/deep-dive-into-spark-sqls-catalyst-optimizer.html)

@@ -188,12 +188,15 @@ Spring框架为开发Java应用程序提供了全面的基础架构支持。 Spr
 
 # snippets
 
+创建线程池
 ```java
 import java.util.concurrent.Executor;
 创建一个可重用固定线程数的线程池，以共享的无界队列方式来运行这些线程。
 
 ```
 
+创建子进程
+https://zetcode.com/java/processbuilder/
 ```java
     ProcessBuilder pb = new ProcessBuilder("myCommand", "myArg1", "myArg2");
     Map<String, String> env = pb.environment();  // 环境变量 

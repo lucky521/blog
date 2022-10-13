@@ -38,6 +38,7 @@ categories: [MachineLearning]
 - 标签接收、特征接收
 - 样本验证框架（数据验证、ExampleGen、StatisticsGen、SchemaGen）
 - 样本预处理框架（DataTransform）
+- 特征的离线存储 （批查询，一般是大数据数仓, hive, hudi
 
 模型训练相关：
 - 模型训练（Trainer、分布式训练、自动调参、增量学习、调度器）
@@ -50,6 +51,8 @@ categories: [MachineLearning]
 在线指的是用户即时请求模型预估时所需要执行到的功能。
 
 特征数据相关：
+- 特征的在线存储 （点查询，要求读速度
+  - 有趋势拉近离线存储和在线存储的gap
 - 特征数据服务（Feature Flow、Feature Service）
 - 在线特征生成框架
 - 特征日志记录、事件埋点记录
@@ -152,6 +155,7 @@ categories: [MachineLearning]
 ## 各层组件的开源实施
 
 基础设施层方案
+- mesos
 - yarn
 - k8s
 
@@ -176,7 +180,7 @@ categories: [MachineLearning]
 - https://github.com/pachyderm/pachyderm
 - https://github.com/tensorflow/transform
 
-特征服务组件：
+特征服务组件
 - openmldb
 - Tidb
 - https://github.com/feathr-ai/feathr
@@ -209,6 +213,7 @@ categories: [MachineLearning]
 
 预估服务层组件
 - https://github.com/tensorflow/serving
+- https://github.com/facebookincubator/AITemplate
 
 模型仓库
 - https://github.com/tensorflow/hub , https://tfhub.dev/

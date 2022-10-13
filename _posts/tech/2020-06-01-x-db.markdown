@@ -245,12 +245,19 @@ InfluxDB是一个由InfluxData开发的开源时序型数据。它由Go写成，
 你说它是搜索引擎也好，也是有很多场景把ELK作为数据库的。
 
 ## Hbase
-基于hdfs的kv数据库，性能差
+Hbase，其实是Hadoop Database的简称，本质上来说就是Hadoop系统的数据库，为Hadoop框架当中的结构化数据提供存储服务，是面向列的分布式数据库。
 
 HDFS是Hadoop的存储系统，它的优点是可以存储超大量数据，但是缺点是速度慢。
 HBase建立在HDFS之上，以KV的形式存储，提供实时访问。
-HBase 本身只提供了Java 的API 接口。
+HBase原生只提供了Java 的API 接口。
 snapshot是HBase非常核心的一个功能，使用snapshot的不同用法可以实现很多功能
+
+* Region Server
+  * HBase 表（Table）根据 rowkey 的范围被水平拆分成若干个 region。每个 region 都包含了这个region 的 start key 和 end key 之间的所有行（row）
+  * HFile 文件
+    * KeyValues 有序存储， 文件内部是append形式顺序写的。
+* HBase Master
+  * 负责 Region 的分配，DDL（创建，删除表）等操作
 
 [HBase架构介绍](https://zhuanlan.zhihu.com/p/159052841)
 

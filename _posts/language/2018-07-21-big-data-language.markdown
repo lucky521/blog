@@ -184,13 +184,16 @@ impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很
 
 SparkConf
 
-SparkSession
+sparkContext , SparkSession 
 
 getOrCreate
 
 registerKryoClasses
 
 createOrReplaceTempView
+
+Dataset 
+DataFrame 执行SparkSession.sql("...")返回数据的类型， 等价于table的概念
 
 ```scala
     import org.apache.spark.sql.SparkSession
@@ -215,7 +218,6 @@ createOrReplaceTempView
 ```
 
 
-sparkContext
 
 
 
