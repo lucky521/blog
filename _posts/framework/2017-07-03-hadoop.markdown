@@ -16,12 +16,16 @@ Hadoop主要由HDFS + YARN + MapReduce三个核心组件组成。
 ## NameNode 进程
 NameNode只有一个，它是整个HDFS的核心。分布式文件系统的管理者。当然也是HDFS的一个单点瓶颈，如果它挂掉，HDFS就会崩溃，所以对它的保护尤为重要。
 secondarynamenode进程是NameNode的冗余进程。
+此节点的内存配置要高，因为存储元信息都直接加载在内存里。
 特殊的情况：配置多个NameNode，配置多个namenode的相当于配置了一个联邦集群，每个namenode之间都不会进行通信，各自管理各自的命名空间。
 
 ## DataNode进程
 文件存储的基本单元。每个节点运行一个。应用程序才访问文件系统时，先由NameNode提供数据的位置，然后程序去访问对应的DataNode。
+datanode启动时，每个datanode对本地磁盘进行扫描，将本datanode上保存的block信息汇报给namenode, namenode在接收到的block信息以及该block所在的datanode信息等保存在内存中。
+此类节点的硬盘配置要大，因为真实的数据都存在这里。
 
 ## JobTracker进程
+在MR1中有个jobtracker的进程，运行在单独的节点。 MR2中被ResourceManager/ApplicationMaster替代。
 1、应用程序将job提交给JobTracker
 2、JobTracker通知NameNode，让其确定数据的位置
 3、JobTracker确定TaskTacker节点，将work提交给确定好的TaskTracker
@@ -30,12 +34,23 @@ secondarynamenode进程是NameNode的冗余进程。
 6、应用程序可以轮询JobTracker的状态
 
 ## TaskTracker进程
+MR2中被Node Manager替代。
 task指的是Map/Reduce/Shuffle操作。
 每个TaskTracker都有一个slot集来标记这个TaskTracker所能接受的task的个数。当JobTracker要分配一个task时，会在DataNode的就近节点中找一个空的slot，把task分配给对应的TaskTracker。当TaskTracker要处理一个task时，会产生一个新的进程来执行它。在执行期间不断向JobTracker发回心跳信号，执行完毕返回结果。
+
+
+## Container
+Yarn将计算资源（cpu、内存）封装成一个个的容器。容器由NodeManager管理。被ResourceManager调度。
+
+
+
+
 
 ## speculative execution
 Hadoop 前端页面可以看到一个 speculate 按钮。
 https://data-flair.training/forums/topic/what-is-speculative-execution-in-hadoop/
+
+
 
 # Linux下安装和启动Hadoop
 
@@ -256,6 +271,9 @@ https://intl.cloud.tencent.com/zh/document/product/1026/36880#hdfs-datanode
 home目录叫做" /user/hduser"（hduser是为hadoop专门添加的一个用户）
 
 
+## 文件的组织
+
+data block，  HDFS文件会被切成一般128MB的块。
 
 
 

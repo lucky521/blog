@@ -184,34 +184,11 @@ Google开源的基础类库， 包含了对：集合,缓存,并发库,字符串�
 Spring框架为开发Java应用程序提供了全面的基础架构支持。 Spring Boot基本上是Spring框架的扩展，它消除了设置Spring应用程序所需的XML配置，为更快，更高效的开发生态系统铺平了道路。
 
 
+## Spring Data JPA
 
 
-# snippets
 
-创建线程池
-```java
-import java.util.concurrent.Executor;
-创建一个可重用固定线程数的线程池，以共享的无界队列方式来运行这些线程。
 
-```
-
-创建子进程
-https://zetcode.com/java/processbuilder/
-```java
-    ProcessBuilder pb = new ProcessBuilder("myCommand", "myArg1", "myArg2");
-    Map<String, String> env = pb.environment();  // 环境变量 
-    env.put("VAR1", "myValue");
-    env.remove("OTHERVAR");
-    env.put("VAR2", env.get("VAR1") + "suffix");
-    pb.directory(new File("myDir"));  // 文件
-    File log = new File("log");
-    pb.redirectErrorStream(true);
-    pb.redirectOutput(Redirect.appendTo(log));
-    Process p = pb.start();  // 开始子进程
-    assert pb.redirectInput() == Redirect.PIPE;
-    assert pb.redirectOutput().file() == log;
-    assert p.getInputStream().read() == -1;
-```
 
 
 # jni

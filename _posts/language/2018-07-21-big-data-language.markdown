@@ -25,7 +25,7 @@ Reducer - setReducerClass
 Partitioner - setPartitionerClass
 
 
-setCombinerClass
+Combiner - setCombinerClass
 * Combiner的作用就是对map端的输出先做一次合并，以减少在map和reduce节点之间的数据传输量。 它相当于是一个“迷你reduce”过程，它只处理单台机器生成的数据。
 * 你要确定你的处理逻辑是否允许这样的局部提前聚合。默认情况下是不做的。
 * 有些场景下combiner实现类可以跟reducer实现类相同

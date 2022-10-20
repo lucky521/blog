@@ -209,6 +209,31 @@ public class Test {
 }
 ```
 
+### 创建线程池
+```java
+import java.util.concurrent.Executor;
+创建一个可重用固定线程数的线程池，以共享的无界队列方式来运行这些线程。
+
+```
+
+### 创建子进程
+https://zetcode.com/java/processbuilder/
+```java
+    ProcessBuilder pb = new ProcessBuilder("myCommand", "myArg1", "myArg2");
+    Map<String, String> env = pb.environment();  // 环境变量 
+    env.put("VAR1", "myValue");
+    env.remove("OTHERVAR");
+    env.put("VAR2", env.get("VAR1") + "suffix");
+    pb.directory(new File("myDir"));  // 文件
+    File log = new File("log");
+    pb.redirectErrorStream(true);
+    pb.redirectOutput(Redirect.appendTo(log));
+    Process p = pb.start();  // 开始子进程
+    assert pb.redirectInput() == Redirect.PIPE;
+    assert pb.redirectOutput().file() == log;
+    assert p.getInputStream().read() == -1;
+```
+
 
 
 

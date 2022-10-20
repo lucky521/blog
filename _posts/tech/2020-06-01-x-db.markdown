@@ -241,8 +241,10 @@ Time Series Database， 对比传统数据库仅仅记录了数据的当前值�
 InfluxDB是一个由InfluxData开发的开源时序型数据。它由Go写成，着力于高性能地查询与存储时序型数据。InfluxDB被广泛应用于存储系统的监控数据，IoT行业的实时数据等场景。
 
 
-## elasticsearch
+## Elasticsearch
 你说它是搜索引擎也好，也是有很多场景把ELK作为数据库的。
+
+ES-Hadoop 项目， 相当于hadoop MR的一个 ES connector。
 
 ## Hbase
 Hbase，其实是Hadoop Database的简称，本质上来说就是Hadoop系统的数据库，为Hadoop框架当中的结构化数据提供存储服务，是面向列的分布式数据库。
