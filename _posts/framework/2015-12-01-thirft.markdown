@@ -15,12 +15,10 @@ RPC服务框架，为了跨语言的服务开发。
 - 你要按照thrift所定义的[接口标准](https://thrift.apache.org/docs/idl)写一个.thrift文件，定义类型和服务。
 - 然后用Thrift生成源代码。
 
-{% highlight python %}
+```sh
 $ thrift --gen `language` `thirft filename`
-{% endhighlight %}
-
+```
 - 然后你会得到Thrift生成的server端接口类的源文件，你要再写自己再写个类来实现这个接口类。编译server端的项目得到server端程序。
-
 - 你还会得到Thrift生成的client端的基础代码，你要再写个主程序来调用基础代码去访问server端的服务。
 
 
@@ -39,7 +37,7 @@ IDL是用来表述Thrift类型定义的特定描述语言。Thrift代码生成�
 - 三十二位有符号整型i32, 
 - 六十四位有符号整型i64，
 - 浮点数double，
-- 字符串string（utf-8）。
+- 字符串string（utf-8）
 
 基本类型中并没有无符号整型，这是因为许多编程语言中并没有这一类型。
 

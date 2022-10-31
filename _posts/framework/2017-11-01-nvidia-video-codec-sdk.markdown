@@ -7,7 +7,6 @@ layout: post
 随着GPU计算的普及，NVIDA显卡为视频处理、图像处理、虚拟现实、机器学习提供了丰富的的SDK。具备NVIDA显卡硬件和NVIDIA驱动之后，就可以使用这些SDK。
 
 # NVIDIA Capture SDK
-
 这套以前叫做Grid SDK。它提供给使用者获取屏幕或应用的图像的功能。调用者可以获取桌面屏幕buffer，也可以获取某个应用所渲染的区域。可以以图像的形式，也可以以视频流的形式。
 
 Capture SDK提供了两种API，NvFBC适合提供远程桌面方案，NvIFR适合截取特定应用的画面。
@@ -182,8 +181,6 @@ NvIFR的全程是NVIDIA Inband Frame Readback，所以它是用来抓取应用�
 
 
 # NVIDIA Video Codec SDK
-
-
 NVIDIA GPU 包含了基于硬件的H.264/HEVC视频编码器，称作是NVENC。NVENC硬件以YUV/RGB作为输入，输出H.264/HEVC标准的视频比特流。
 
 ## NVENCODE API

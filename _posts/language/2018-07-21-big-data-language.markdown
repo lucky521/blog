@@ -42,7 +42,7 @@ https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-py
 
 
 
-# Hive
+# HiveSQL
 hive是Java实现的，由Facebook开源，目的是将特定的SQL语句编译为MapReduce jar包扔给hadoop去执行，本质上是一个代码转换编译的工具，简化mr的开发。
 
 https://ytluck.github.io/data-mining/my-dataming-post-42.html
@@ -156,7 +156,7 @@ def my_function(key_sku, similar_sku_list, nn_sku_list):
 
 
 
-# Presto
+# PrestoSQL
 
 presto是Java实现的， 由Facebook开源，为了解决hive查询慢产生。提供的用户语言也是SQL。
 
@@ -180,20 +180,15 @@ impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很
 * Dataset API
 * SQL API
 
-## scala/java
+## Spark scala/java
 
-SparkConf
-
-sparkContext , SparkSession 
-
-getOrCreate
-
-registerKryoClasses
-
-createOrReplaceTempView
-
-Dataset 
-DataFrame 执行SparkSession.sql("...")返回数据的类型， 等价于table的概念
+* SparkConf
+* sparkContext , SparkSession 
+* getOrCreate
+* registerKryoClasses
+* createOrReplaceTempView
+* Dataset 
+* DataFrame 执行SparkSession.sql("...")返回数据的类型， 等价于table的概念
 
 ```scala
     import org.apache.spark.sql.SparkSession
@@ -217,10 +212,6 @@ DataFrame 执行SparkSession.sql("...")返回数据的类型， 等价于table�
     spark.udf.register("xxx", )
 ```
 
-
-
-
-
 * coalesce
 * repartition
   * https://stackoverflow.com/questions/31610971/spark-repartition-vs-coalesce
@@ -229,7 +220,7 @@ DataFrame 执行SparkSession.sql("...")返回数据的类型， 等价于table�
 
 ## PySpark
 
-## Spark SQL
+## SparkSQL
 SparkSQL引擎
 Spark SQL can use existing Hive metastores, SerDes, and UDFs.
 

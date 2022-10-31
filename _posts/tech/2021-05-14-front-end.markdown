@@ -25,6 +25,8 @@ https://existek.com/blog/top-front-end-frameworks-2020/
 
 https://antv.vision/
 
+https://github.com/antvis/X6
+
 
 
 # 技术栈
@@ -37,3 +39,15 @@ https://antv.vision/
 * npm
 * yarn
 * cnpm
+* lerna
+
+
+
+
+# 本地demo
+
+npm install @antv/x6 --save
+
+npm install  serve -g
+
+serve dist -p 5000

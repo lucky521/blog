@@ -50,8 +50,12 @@ bison/flex
 
 https://github.com/Engelberg/instaparse
 
-antlr4
+## antlr4
 
+Hive/Spark的SQL解析是使用的antlr4
+
+
+## zetasql
 
 # 编译器后端
 
