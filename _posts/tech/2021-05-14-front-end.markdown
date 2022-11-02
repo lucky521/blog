@@ -46,8 +46,11 @@ https://github.com/antvis/X6
 
 # 本地demo
 
+* npm本身的版本很讲究
+
+
 npm install @antv/x6 --save
 
 npm install  serve -g
 
-serve dist -p 5000
+serve xxx -p 5000

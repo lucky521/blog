@@ -751,17 +751,19 @@ configuration trace log
 
 ## CPU和内存
 
-JobManager个数
-
-TaskManager规格
-
-TaskManager个数 
-
-单个TaskManager槽位数
+* JobManager个数
+* TaskManager规格
+* TaskManager个数 
+* 单个TaskManager槽位数
 
 * 进程总内存（taskmanager.memory.process.size）: JobManager 的总内存，即 Master 进程的内存
 * Flink 总内存（taskmanager.memory.flink.size）:  JobManager 框架的内存，包括 JVM Heap 内存和 Off-Heap 部分内存。 其中，JVM Heap 内存 用于 Flink 框架、用户代码（作业提交及 Checkpoint 完成的回调函数）； Off-Heap 内存用于 Flink 框架依赖（例如 Akka 的网络通信）和包含 Metaspace，其值等于 Total Flink Memory 减去 JVM Heap。
 * 进程总内存 - Flink总内存 额外的部分是JVM Metaspace： 主要是加载用户程序中的类
+
+* CPU Cores
+* Physical Memory
+* JVM Heap Size
+* Flink Managed Memory
 
 ## Task slot
 
