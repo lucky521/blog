@@ -7,13 +7,11 @@ layout: post
 
 
 # 前后端开发模式
-
 https://www.infoq.cn/article/mnftt4ubk5pql3jpnt6m
 
 
 
 # 前端开发框架
-
 https://existek.com/blog/top-front-end-frameworks-2020/
 
 * react
@@ -39,6 +37,7 @@ https://github.com/antvis/X6
 * npm
 * yarn
 * cnpm
+* pnpm
 * lerna
 
 
@@ -47,10 +46,3 @@ https://github.com/antvis/X6
 # 本地demo
 
 * npm本身的版本很讲究
-
-
-npm install @antv/x6 --save
-
-npm install  serve -g
-
-serve xxx -p 5000

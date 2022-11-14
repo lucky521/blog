@@ -93,7 +93,7 @@ hadoop fs -rm -r `hadoop fs -ls  /user/recsys/rank/arch/checkpoint/sample_join/ 
 hadoop fs -ls hdfs://ns1012/xxx/xxxx/* | tr -s " " | cut -d' ' -f6-8 | grep "^[0-9]" | awk 'BEGIN{ MIN=1440; LAST=60*MIN; "date +%s" | getline NOW } { cmd="date -d'\''"$1" "$2"'\'' +%s"; cmd | getline WHEN; DIFF=NOW-WHEN; if(DIFF > LAST){ print "Deleting: "$3; system("hadoop fs -rm -r "$3) }}'
 
 
-## Hive
+## SQL
 
 
 ### 获取一个表的建表语句
@@ -177,6 +177,10 @@ hive_para="
     set mapreduce.map.speculative=false;
     set mapreduce.reduce.speculative=false;
 "
+
+### 怎么join最高效
+
+left semi join 
 
 
 ## Java

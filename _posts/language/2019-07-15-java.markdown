@@ -116,6 +116,7 @@ ConcurrentHashMap
 * -Xss 每个线程的栈大小 一般小的应用， 如果栈不是很深， 应该是128k够用的 大的应用建议使用256k。这个选项对性能影响比较大，需要严格的测试
 * -XX:NewRatio 年轻代空间和老年代空间的比值
 * -XX:SurvivorRatio 年轻代空间中Eden空间和Survivor空间的比值
+* -XX:ParallelGCThreads=<N>   在未明确指定的情况下，JVM会根据逻辑核数ncpus，采用以下公式来计算默认值：当ncpus小于8时，ParallelGCThreads = ncpus; 否则 ParallelGCThreads = 8 + (ncpus - 8 ) ( 5/8 ) 
 
 
 ## jmap命令

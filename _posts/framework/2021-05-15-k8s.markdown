@@ -19,13 +19,11 @@ Google推出的资源管理平台。同时Go语言开发，是Google内部的Bor
 
 
 # Kubernets介绍
-
 http://kubernetes.io/
 https://github.com/kubernetes/kubernetes
 https://github.com/feiskyer/kubernetes-handbook 
 
 ## 优势特点
-
 * 轻量级，消耗资源小
 * 代码开源
 * 弹性伸缩
@@ -39,7 +37,6 @@ Kubernetes和Yarn的区别？
 Kubernetes和Yarn的在应用层面最大区别是前者主要负责long running service 任务，后者则是跑一些batch jobs。
 
 ## 概念
-
 Master (Scheduler, API Server, Replication controller)
 
 Node (kubelet, kube-proxy, Pod(Container)): 是Pod运行的宿主机，包含一个agent进程，维护和管理该Node下所有容器的创建和启停。
@@ -75,7 +72,7 @@ etcd 存储
 ### 虚拟环境的资源限制是如何实现的？
 * java.io.IOException: No space left on device
 * java.lang.OutOfMemoryError: Java heap space
-
+https://developer.aliyun.com/article/700701
 
 
 
