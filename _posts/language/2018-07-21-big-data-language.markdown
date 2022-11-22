@@ -9,6 +9,8 @@ layout: post
 
 不同引擎虽虽然可能都是SQL，但底层执行方法是有一定差异的，比如spark/presto直接读取文件解析，hive根据元数据mapping解压；比如spark/hive对空值、空字符串的判断处理和presto不一样。
 
+SQL语言共分为四大类：数据查询语言DQL，数据操纵语言DML，数据定义语言DDL，数据控制语言DCL。
+
 
 # 原生 MapReduce 接口
 https://hadoop.apache.org/docs/r2.10.2/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html
@@ -215,7 +217,7 @@ impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很
 * coalesce
 * repartition
   * https://stackoverflow.com/questions/31610971/spark-repartition-vs-coalesce
-
+* mapPartitionsFunction
 
 
 ## PySpark
