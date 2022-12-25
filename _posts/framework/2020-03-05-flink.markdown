@@ -757,7 +757,9 @@ configuration trace log
 * 单个TaskManager槽位数
 
 * 进程总内存（taskmanager.memory.process.size）: JobManager 的总内存，即 Master 进程的内存
-* Flink 总内存（taskmanager.memory.flink.size）:  JobManager 框架的内存，包括 JVM Heap 内存和 Off-Heap 部分内存。 其中，JVM Heap 内存 用于 Flink 框架、用户代码（作业提交及 Checkpoint 完成的回调函数）； Off-Heap 内存用于 Flink 框架依赖（例如 Akka 的网络通信）和包含 Metaspace，其值等于 Total Flink Memory 减去 JVM Heap。
+* Flink 总内存（taskmanager.memory.flink.size）:  JobManager 框架的内存，包括 JVM Heap 内存和 Off-Heap 部分内存。 
+  * 其中，JVM Heap 内存 用于 Flink 框架、用户代码（作业提交及 Checkpoint 完成的回调函数）； 
+  * Off-Heap 内存用于 Flink 框架依赖（例如 Akka 的网络通信）和包含 Metaspace，其值等于 Total Flink Memory 减去 JVM Heap。
 * 进程总内存 - Flink总内存 额外的部分是JVM Metaspace： 主要是加载用户程序中的类
 
 * CPU Cores
@@ -791,7 +793,7 @@ setMaxParallelism 控制的是状态后端中keyed-state可以被分配的task�
   * jobmanager.memory.heap.size
   * jobmanager.memory.task.off-heap.size
   * jobmanager.memory.jvm-metaspace.size
-  * jobmanager.memory.jvm-overhead.fraction：默认值 0.1（Total Process Memory的0.1）。
+  * jobmanager.memory.jvm-overhead.fraction：默认值 0.1（Total Process Memory的0.1）
 * TM的内存配置(打开flink dashboard的TM页面你可以看到一张Flink Memory Model图)
   * taskmanager.memory.process.size 对应到图中的 Total Process Memory
   * taskmanager.memory.flink.size 对应到图中的Total Flink Memory
@@ -803,6 +805,15 @@ setMaxParallelism 控制的是状态后端中keyed-state可以被分配的task�
   * taskmanager.memory.network.fraction
   * taskmanager.memory.jvm-metaspace.size
   * taskmanager.memory.jvm-overhead.fraction
+* TM的network配置
+  * taskmanager.memory.network.fraction 网络缓冲区也是内存的一部分
+  * taskmanager.memory.network.max
+  * taskmanager.memory.network.min
+  * taskmanager.network.sort-shuffle.min-buffers 
+  * taskmanager.network.blocking-shuffle.compression.enabled
+  * taskmanager.network.request-backoff.initial
+  * taskmanager.network.request-backoff.max
+* taskmanager.numberOfTaskSlots
 * akka.ask.timeout 阻塞操作，可能因为机器繁忙或者网络堵塞导致timeout,可以尝试设置大一点
 * akka.framesize   JM和TM之间传输的最大消息值
 * heartbeat.timeout 300000
@@ -813,16 +824,8 @@ setMaxParallelism 控制的是状态后端中keyed-state可以被分配的task�
 * state.backend.rocksdb.timer-service.factory ROCKSDB
 * env.java.opts.taskmanager  -XX:MaxGCPauseMillis=300
 * env.java.opts.jobmanager
-* taskmanager.network.request-backoff.initial 20000
-* taskmanager.network.request-backoff.max 60000
-* apus.taskmanager.network.request.wait.ms 30000
-* apus.memory.incontainer.available.ratio 0.9   表示Flink内存占TM内存的比例
-* apus.slotmanager.slot.placement.policy slot
-* apus.taskmanager.memory.task.off-heap.fraction
-* apus.log.separate.enabled false
 * cluster.evenly-spread-out-slots true
 * jobmanager.execution.failover-strategy
-* taskmanager.network.memory.fraction
 * classloader.resolve-order
 * web.checkpoints.history
 * containerized.heap-cutoff-ratio
@@ -854,8 +857,10 @@ setMaxParallelism 控制的是状态后端中keyed-state可以被分配的task�
 https://ci.apache.org/projects/flink/flink-docs-release-1.13/zh/docs/dev/table/config/
 
 
-## Flink 内存模型 (JM) 
-## Flink 内存模型 (TM)
+## Flink 内存模型 (JobManager) 
+
+https://cloud.tencent.com/developer/article/2026134
+## Flink 内存模型 (TaskManager)
 
 * Framework Heap: taskmanager.memory.framework.heap.size 用于 Flink 框架的 JVM 堆内存
 * Task Heap: taskmanager.memory.task.heap.size 用于 Flink 应用的算子及用户代码的 JVM 堆内存
