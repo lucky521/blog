@@ -156,6 +156,15 @@ def my_function(key_sku, similar_sku_list, nn_sku_list):
 
 
 
+## pig语法
+https://pig.apache.org/docs/latest/basic.html
+
+* group XXX by yyy
+  * 得到一个inner bag， 以大括号框起来
+* limit a
+  * 截断输出tuples的a个元素
+  * 如果limit的个数a比tuples总个数少，那么输出的内容是不确定的。 There is no guarantee which n tuples will be returned, and the tuples that are returned can change from one run to the next. 除非你使用order操作, A particular set of tuples can be requested using the ORDER operator followed by LIMIT.
+
 
 
 # PrestoSQL

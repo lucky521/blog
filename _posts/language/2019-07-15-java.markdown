@@ -135,6 +135,8 @@ gradle
 
 ant
 
+ivy
+
 
 ## 有用的maven插件
 
@@ -196,6 +198,12 @@ Spring框架为开发Java应用程序提供了全面的基础架构支持。 Spr
 
 c/c++
 
+Native.synchronizedLibrary
+
+
+# JNA
+https://github.com/java-native-access/jna
+开源的Java框架，是SUN公司主导开发的，建立在经典的JNI的基础之上的一个框架。
 
 # Java SPI META-INF/services
 
