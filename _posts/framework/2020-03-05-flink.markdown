@@ -282,7 +282,8 @@ import org.apache.flink.api.common.state.ValueStateDescriptor;
 ## Checkpoint 
 
 * Aligned Checkpoint: 一旦Operator从输入流接收到CheckPoint barrier n，它就不能处理来自该流的任何数据记录，直到它从其他所有输入接收到barrier n为止。否则，它会混合属于快照n的记录和属于快照n + 1的记录.
-* Unaligned Checkpoint: 如果您的 Checkpointing 由于背压导致周期非常的长，您应该使用非对齐 Checkpoint。这样，Checkpointing 时间基本上就与 端到端延迟无关。请注意，非对齐 Checkpointing 会增加状态存储的 I/O，因此当状态存储的 I/O 是 整个 Checkpointing 过程当中真正的瓶颈时，您不应当使用非对齐 Checkpointing。
+* Unaligned Checkpoint: 如果您的 Checkpointing 由于背压导致周期非常的长，您应该使用非对齐 Checkpoint。这样，Checkpointing 时间基本上就与端到端延迟无关。
+  * 请注意，非对齐 Checkpointing 会增加状态存储的 I/O，因此当状态存储的 I/O 是 整个 Checkpointing 过程当中真正的瓶颈时，您不应当使用非对齐 Checkpointing。
 
 * 增量快照 : 
   * 不同于产生一个包含所有数据的全量备份，增量快照中只包含自上一次快照完成之后被修改的记录，因此可以显著减少快照完成的耗时。一个增量快照是基于（通常多个）前序快照构建的。由于 RocksDB 内部存在 compaction 机制对 sst 文件进行合并，Flink 的增量快照也会定期重新设立起点（rebase），因此增量链条不会一直增长，旧快照包含的文件也会逐渐过期并被自动清理。
@@ -613,6 +614,19 @@ table概念还可以再转回datastream
 
 
 
+### SQL语法背后对应的算子
+* MultipleInput
+* HashJoin
+* Calc(select=[], where=[])
+* OverAggregate
+* HashAggregate
+* LocalHashAggregate
+* Sort(orderBy=[])
+
+
+
+
+
 ### Flink SQL建表
 
 ``` java
@@ -652,6 +666,9 @@ https://www.jianshu.com/p/623266b941de
 ## Python API
 
 PythonAPI，就是 PyFlink， 换了开发语言，其API也分为 PyFlink Table API 和 PyFlink DataStream API 两种。
+
+
+
 
 ## UDF
 
@@ -747,7 +764,7 @@ configuration trace log
 
 
 
-# Flink集群资源规划
+# Flink资源规划
 
 ## CPU和内存
 
@@ -878,7 +895,7 @@ https://cloud.tencent.com/developer/article/2026134
 问题：Flink程序出了问题怎么定位原因？ 现象->本质
 
 
-背压/反压的原因
+## 背压/反压的原因
 * 定位反压节点：
   * 解决反压首先要做的是定位到造成反压的节点: 借助反压面板，寻找第一个出现反压的节点，那么反压根源要么是就这个节点，要么是它紧接着的下游节点。
 * 确定反压原因：
@@ -887,15 +904,14 @@ https://cloud.tencent.com/developer/article/2026134
   * TaskManager 的内存以及 GC 问题也可能会导致反压
   * 观察 Task Thread 阻塞在哪里，可能是用户函数本身有些同步的调用，可能是 checkpoint 或者 GC 等系统活动导致的暂时系统暂停
 
-反压和checkpoint的关联
+## 反压和checkpoint的关联
 * 反压会影响到两项指标: checkpoint 时长和 state 大小。
   * 前者是因为 checkpoint barrier 是不会越过普通数据的，数据处理被阻塞也会导致 checkpoint barrier 流经整个数据管道的时长变长，因而 checkpoint 总体时间（End to End Duration）变长。
   * 后者是因为为保证 EOS（Exactly-Once-Semantics，准确一次），对于有两个以上输入管道的 Operator，checkpoint barrier 需要对齐（Alignment），接受到较快的输入管道的 barrier 后，它后面数据会被缓存起来但不处理，直到较慢的输入管道的 barrier 也到达，这些被缓存的数据会被放到state 里面，导致 checkpoint 变大。
-* 为了缓解反压给 checkpoint 造成的压力，社区提出了 FLIP-76: Unaligned Checkpoints 来解耦反压和 checkpoint
+* 为了缓解反压给 checkpoint 造成的压力，社区提出了 FLIP-76: Unaligned Checkpoints 来解耦反压和checkpoint
 
 
-
-checkpoint失败原因
+## checkpoint失败原因
 * 如果 Checkpoint 做的非常慢，超过了 timeout 还没有完成，则整个 Checkpoint 也会失败。 Checkpoint慢的原因需要细查。
 * 用户代码逻辑没有对于异常处理，让其直接在运行中抛出。比如解析 Json 异常，没有捕获，导致 Checkpoint 失败，或者调用 Dubbo 超时异常等等。
 * 依赖外部存储系统，在进行数据交互时，出错，异常没有处理。比如输出数据到 Kafka、Redis、HBase 等，客户端抛出了超时异常，没有进行捕获，Flink 任务容错机制会再次重启。
@@ -903,7 +919,7 @@ checkpoint失败原因
 * 网络问题、机器不可用问题等等。
 - 参考：[Flink Checkpoint 问题排查实用指南](https://www.jianshu.com/p/fc100f85a0fb)
 
-checkpoint慢/超时的原因
+## checkpoint慢/超时的原因
 * 背压导致chechkpoint超时: 缓冲区的数据处理不过来，barrier流动慢，导致checkpoint生成时间长, 出现超时的现象.
 * 在 task 端，所有的处理都是单线程的，数据处理和 barrier 处理都由主线程处理，如果主线程在处理太慢（比如使用 RocksDBBackend，state 操作慢导致整体处理慢），导致 barrier 处理的慢，也会影响整体 Checkpoint 的进度
 
@@ -929,7 +945,6 @@ cd /usr/local/Cellar/apache-flink/1.9.1 && ./libexec/bin/start-cluster.sh
 ./bin/flink list --all
 
 ./bin/flink cancel :job_id
-
 
 ./bin/flink run -s :savepointPath
 
@@ -1089,23 +1104,15 @@ flink-ai-extended
 
 # 参考学习
 
-最权威的使用文档是：https://flink.apache.org/
-
-Flink社区： https://cwiki.apache.org/confluence/display/FLINK/Apache+Flink+Home
-
-最权威的底层实现文档是： Flink Internals https://cwiki.apache.org/confluence/display/FLINK/Flink+Internals
-
-flink基本概念介绍 https://www.jianshu.com/p/2ee7134d7373
-
-如何正确使用 flink connector https://yq.aliyun.com/articles/716838
-
-idea+maven打jar包  https://blog.csdn.net/branwel/article/details/79918018
-
-官网的内容超级全 https://ci.apache.org/projects/flink/flink-docs-release-1.10/
-
-Flink如何支持特征工程、在线学习、在线预测等AI场景？ https://mp.weixin.qq.com/s/C2Uft-IuzgiKa1aDlROIng
-
-快手的Flink实践 https://new.qq.com/omn/20190717/20190717A0HNBE00.html
+* 最权威的使用文档是：https://flink.apache.org/
+* Flink社区： https://cwiki.apache.org/confluence/display/FLINK/Apache+Flink+Home
+* 最权威的底层实现文档是： Flink Internals https://cwiki.apache.org/confluence/display/FLINK/Flink+Internals
+* flink基本概念介绍 https://www.jianshu.com/p/2ee7134d7373
+* 如何正确使用 flink connector https://yq.aliyun.com/articles/716838
+* idea+maven打jar包  https://blog.csdn.net/branwel/article/details/79918018
+* 官网的内容超级全 https://ci.apache.org/projects/flink/flink-docs-release-1.10/
+* Flink如何支持特征工程、在线学习、在线预测等AI场景？ https://mp.weixin.qq.com/s/C2Uft-IuzgiKa1aDlROIng
+* 快手的Flink实践 https://new.qq.com/omn/20190717/20190717A0HNBE00.html*
 
 
 ## Flink Forward
@@ -1164,3 +1171,8 @@ cp、snapshot优化:  不被流动缓慢的中间数据阻塞 unaligned checkpoi
 ### 实时数仓→流式数仓
 基于 Flink Dynamic Table 构建流批一体数仓
 
+## Flink Forward China 2022
+
+Flink tableStore 流批一体动态表存储 具体是怎么样的实现？
+
+Retry Lookup
