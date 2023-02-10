@@ -1122,7 +1122,7 @@ tf.data.Dataset 协助我们完成数据从文件形式到灌入Tensor的处理�
 在进行预测的时候，tf.data.Dataset 
 
 tf.data.Dataset.from_tensor_slices
-
+tf.data.make_initializable_iterator(dataset)
 
 下面的七行代码，我们使用tf.data.Dataset（不管是内置Dataset还是Custom Dataset）来完成ETL三个过程。
 ```python

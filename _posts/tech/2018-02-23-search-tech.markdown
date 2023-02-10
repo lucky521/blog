@@ -7,9 +7,8 @@ layout: post
 搜索是计算机领域的一门学问。从早先的本地文件搜索，到互联网的网页搜索，再到垂直领域的内容搜索。
 总之搜索的目的是在大量数据之中找东西。
 
-从使用者的角度来看，搜索的输入是一段信息（字节串或关键字），搜索的输出是与输入信息对应的信息（一个或多个）。
-
-从搜索引擎的角度来看，内部需要构建数据仓库的索引，在计算搜索结果时需要对多个结果进行排序。
+* 从使用者的角度来看，搜索的输入是一段信息（字节串或关键字），搜索的输出是与输入信息对应的信息（一个或多个）。
+* 从搜索引擎的角度来看，内部需要构建数据仓库的索引，在计算搜索结果时需要对多个结果进行排序。
 
 常见的搜索往往不是唯一性的搜索那么直截了当，不像在SQL里select一个主键，找到就是有，找不到就是没有。
 搜索输入不是简单的一个id或者hash，而是文字、图像或者语音。因此结果就不是唯一的是与非。
@@ -86,7 +85,6 @@ Step4（排序）：基于上述运算得分对文档进行综合排序，最后
 比如搜索“苹果”，用户到底是在找苹果公司的信息，还是找吃的苹果的信息。这就需要结合用户的搜索上下文或者行为习惯来进行意图的识别。
 
 
-
 ## 数据构建
 
 长期数据
@@ -138,9 +136,21 @@ Step4（排序）：基于上述运算得分对文档进行综合排序，最后
 
 
 
+
+
+
 # Recall召回算法
 
 WAND算法
+
+乘积量化方法（PQ、OPQ）
+
+ANN 近似最近邻算法（Approximate Nearest Neighbor搜索）
+
+HNSW
+分层的可导航小世界（Hierarchical Navigable Small World)
+
+
 
 
 
@@ -344,7 +354,6 @@ Search
 
 # 开源排序算法框架
 
-
 ## RankLib
 
 RankLib 不是一个搜索框架，而是一个排序算法库，提供了常见的几种排序算法。
@@ -367,16 +376,10 @@ https://github.com/tensorflow/ranking
 
 # References
 
-电商搜索引擎的架构设计和性能优化 http://www.csdn.net/article/2015-10-29/2826086
-
-京东亿级商品搜索核心技术解密 http://geek.csdn.net/news/detail/126786
-
-https://tech.youzan.com/you_zan_searchengine2/
-
-http://www.36dsj.com/archives/61886
-
-电商搜索引擎报告 https://www.jianshu.com/p/aaed2650ee18
-
-美团的搜索排序方案 https://tech.meituan.com/meituan-search-rank.html
-
-信息检索评价指标 https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Mean_average_precision
+* 电商搜索引擎的架构设计和性能优化 http://www.csdn.net/article/2015-10-29/2826086
+* 京东亿级商品搜索核心技术解密 http://geek.csdn.net/news/detail/126786
+* https://tech.youzan.com/you_zan_searchengine2/
+* http://www.36dsj.com/archives/61886
+* 电商搜索引擎报告 https://www.jianshu.com/p/aaed2650ee18
+* 美团的搜索排序方案 https://tech.meituan.com/meituan-search-rank.html
+* 信息检索评价指标 https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Mean_average_precision

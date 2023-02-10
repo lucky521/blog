@@ -163,6 +163,10 @@ Flink 数据处理流水线开始于 source 表。source 表产生在查询执�
 
 
 
+### Retraction 机制
+又名 Changelog 机制。Retraction 是流式数据处理中撤回过早下发（Early Firing）数据的一种机制，类似于传统数据库的Update 操作。
+retract是流式计算场景下对数据更新的处理方式。
+
 
 
 ## keygroup
@@ -374,24 +378,24 @@ https://developer.aliyun.com/article/778485
 
 
 ## window
-
-Window是无限数据流处理的核心，Window将一个无限的stream拆分成有限大小的”buckets”桶，我们可以在这些桶上做计算操作。
-
-分组的流 vs 非分组的流。唯一的区别是分组的stream调用keyBy(…)和window(…)，而非分组的stream中window()换成了windowAll(…)
-
-- 滚动窗口合并 TumblingEventTimeWindows 
-固定大小窗口，不重叠，一个贴一个，同一元素不会分配到多个窗口。
-- 滑动窗口合并 SlidingEventTimeWindows
-固定大小窗口，多了一个滑动参数，每次滑动都按滑动参数大小，窗口大小>滑动大小的话，就会有一部分重叠，落入重叠的元素会分配到多个窗口。
-- Session窗口合并 EventTimeSessionWindows
-不同流之间的窗口不是按时间分组的，而是按各自的session分组。session的划分是当固定时间周期内不受到元素，则窗口关闭。
-- 间隔关联合并
-
-PS:间隔关联目前只支持eventtime，只支持inner join.
-
+Window是无限数据流处理的核心。
+Window将一个无限的stream拆分成有限大小的”buckets”桶，我们可以在这些桶上做计算操作。
+在有限批处理的概念里看起来没有窗口的概念，但可以看做整个一批就是一次窗口。
 官网对window的介绍 https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/operators/joining.html
-
 中文介绍 https://blog.csdn.net/dafei1288/article/details/98919202
+
+* 滚动窗口合并 TumblingEventTimeWindows 
+  * 固定大小窗口，不重叠，一个贴一个，同一元素不会分配到多个窗口。
+* 滑动窗口合并 SlidingEventTimeWindows
+  * 固定大小窗口，多了一个滑动参数，每次滑动都按滑动参数大小，窗口大小>滑动大小的话，就会有一部分重叠，落入重叠的元素会分配到多个窗口。
+* Session窗口合并 EventTimeSessionWindows
+  * 不同流之间的窗口不是按时间分组的，而是按各自的session分组。session的划分是当固定时间周期内不受到元素，则窗口关闭。
+* 间隔关联合并
+  * 间隔关联目前只支持eventtime，只支持inner join.
+
+典型模式:
+分组的流 vs 非分组的流。唯一的区别是分组的stream调用keyBy(…)和window(…)，而非分组的stream中window()换成了windowAll(…)
+stream.keyby(...).window(....).trigger(new XXX).apply(...)
 
 
 ### 窗口内处理
@@ -411,22 +415,33 @@ setStreamTimeCharacteristic
 
 
 ### 窗口的触发器
-Trigger抽象类，定义了窗口是何时被触发并同时决定触发行为（对窗口进行清理或者计算）
+Trigger抽象类，定义了窗口是何时被触发并同时决定触发行为（对窗口进行清理或者计算）。
 * onElement：每个元素到达触发的回调方法；
 * onProcessingTime：基于处理时间定时器触发的回调方法；
 * onEventTime：基于事件时间定时器触发的回调方法；
 * onMerge：窗口在合并时触发的回调方法（会话窗口分配器assigner）；
 
-TriggerContext接口（定义在Trigger类中），用于维持状态，注册定时器等：
+TriggerContext 接口（定义在Trigger类中），用于维持状态，注册定时器等：
 * registerXXXTimeTimer：注册（处理/事件）时间定时器；
 * deleteXXXTimeTimer：删除（处理/事件）时间定时器；
 * getPartitionedState：从Flink状态存储终端获取状态；
 
-TriggerResult枚举类，用于决定窗口在触发后的行为：
+TriggerResult 枚举类，用于决定窗口在触发后的行为：
 * CONTINUE：不作任何处理；
 * FIRE_AND_PURGE：触发窗口计算并输出结果同时清理并释放窗口（该值只会被清理触发器PurgingTrigger使用）；
 * FIRE：触发窗口计算并输出结果，但窗口并没有被释放并且数据仍然保留；
 * PURGE：不触发窗口计算，不输出结果，只清除窗口中的所有数据并释放窗口
+
+
+多次触发的用法：
+实现一个Trigger的派生类XXX，将其作用在窗口操作后的.trigger(new XXX)中。比如stream.keyby(...).window(....).trigger(new XXX).apply(...)
+* onElement: 每个元素到达
+
+
+### 窗口的驱逐器
+在窗口apply前后允许删除窗口里特定的元素。
+* evictBefore
+* evictAfter
 
 
 
@@ -461,7 +476,7 @@ BoundedOutOfOrdernessTimestampExtractor 产生的时间戳和水印是允许“�
 
 
 ## source
-
+理论上，flink任务的输入可以从任何介质来。
 ### 流式source
 flink中的source作为整个stream中的入口，而sink作为整个stream的终点。
 
@@ -485,7 +500,7 @@ source表的出处可能是 Kafka 的 topics，数据库，文件系统，或者
 
 
 ## sink
-
+理论上，flink任务的输出可以写入到任何介质去。
 ### 流式sink
 
 Sink是流的重点，根接口是sinkFunction。
@@ -584,7 +599,7 @@ Flink SQL 工作机制: https://zhuanlan.zhihu.com/p/150473300
 
 Flink SQL如何实现数据流的join： http://www.whitewood.me/2019/12/15/Flink-SQL-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84-Join/
 
- Streaming SQL
+Streaming SQL
 
 批式模型和流式模式
 - EnvironmentSettings.newInstance().useBlinkPlanner().inBatchMode().build();
@@ -611,17 +626,6 @@ Table API 和 SQL API使用的差别
 table概念还可以再转回datastream
 - tableEnv.toAppendStream
 - tableEnv.toRetractStream
-
-
-
-### SQL语法背后对应的算子
-* MultipleInput
-* HashJoin
-* Calc(select=[], where=[])
-* OverAggregate
-* HashAggregate
-* LocalHashAggregate
-* Sort(orderBy=[])
 
 
 
@@ -654,17 +658,14 @@ https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/dev/table/source
 
 
 ## SQL语法扩展
-
 https://www.jianshu.com/p/623266b941de
 
 
 ## DataSet API
-
 从flink-1.12版本开始DataSetAPI正在废弃中。
 
 
 ## Python API
-
 PythonAPI，就是 PyFlink， 换了开发语言，其API也分为 PyFlink Table API 和 PyFlink DataStream API 两种。
 
 
@@ -1049,6 +1050,26 @@ env.execute("MySourceMysql");
 ## 从 StreamGraph 转化为 JobGrpah 的过程 : 节点(StreamNode)合并，避免无意义的跨节点通信
 StreamingJobGraphGenerator: 生成 JobGraph
 
+### Flink SQL的编译过程
+Flink SQL 利用 Apache Calcite 将 SQL 翻译为关系代数表达式，使用表达式折叠（Expression Reduce），下推优化（Predicate / Projection Pushdown ）等优化技术生成物理执行计划（Physical Plan），利用 Codegen 技术生成高效执行代码。
+
+基于calcite的编译流程
+* sql 解析阶段：calcite parser 解析（sql -> AST，AST 即 SqlNode Tree）
+* SqlNode 验证阶段：calcite validator 校验（SqlNode -> SqlNode，语法、表达式、表信息）
+* 语义分析阶段：SqlNode 转换为 RelNode，RelNode 即 Logical Plan（SqlNode -> RelNode）
+* 优化阶段：calcite optimizer 优化（RelNode -> RelNode，剪枝、谓词下推等）
+* 物理计划生成阶段：Logical Plan 转换为 Physical Plan（等同于 RelNode 转换成 DataSet\DataStream API）
+* 后续的运行逻辑与 datastream 一致
+
+SQL背后对应的执行算子
+* MultipleInput
+* HashJoin
+* Calc(select=[], where=[])
+* OverAggregate
+* HashAggregate
+* LocalHashAggregate
+* Sort(orderBy=[])
+
 
 # Flink背后的依赖
 
@@ -1059,7 +1080,9 @@ StreamingJobGraphGenerator: 生成 JobGraph
 ## Flink流控机制
 https://www.jianshu.com/p/c8b3e32a9fa3
 
-# Alink
+
+# Flink周边
+## Alink
 
 Alink是基于Flink的通用算法平台 https://github.com/alibaba/Alink
 
@@ -1072,29 +1095,29 @@ Transformer/Estimator/Pipeline
 Alink算法库中最重要的是 Iterative Communication/Computation Queue (简称ICQ)，是我们面向迭代计算场景总结的一套迭代通信计算框架，它集成了内存缓存技术和内存数据通信技术。我们把每个迭代步抽象为多个ComQueueItem（通信模块与计算模块）串联形成的队列。
 
 
-## BatchOperator
+### BatchOperator
 
-## FlatMapStreamOp
+### FlatMapStreamOp
 
-## linkFrom && link
+### linkFrom && link
 
 
-## FlinkML 和 Alink 的关系？
+### FlinkML 和 Alink 的关系？
 
 FlinkML是1.8之前的一个机器学习组件，在1.9开始已经不存在了。
 https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/libs/ml/index.html
 
-## PyAlink 和 Alink 的关系？
+### PyAlink 和 Alink 的关系？
 
 
-## PyAlink 和 PyFlink 的关系？
+### PyAlink 和 PyFlink 的关系？
 https://zhuanlan.zhihu.com/p/114717285 
 https://github.com/uncleguanghui/pyflink_learn/blob/master/examples/README.md
 
 PyFlink是 apache-flink项目里的一个还未成熟的部分。
 
 
-# flink-ai-extended 和 ai-flow
+## flink-ai-extended 和 ai-flow
 
 Tensorflow 官方有java版本的调用库，JVM单机训练、单机预测都没问题。如何分布式训练是个问题。
 flink-ai-extended

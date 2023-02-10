@@ -55,12 +55,7 @@ disk
 tcp_status
 ```
 
-## Python
 
-### unicode转中文
-```python
-"\xe8\xb7\xaf\xe7\x94\xb1\xe6\x89\xbe\xe4\xb8\x8d\xe5\x88\xb0\xe5\x95\xa6\xef\xbc\x81".encode('latin-1').decode('utf-8')
-```
 
 ## 本地Shell
 
@@ -91,6 +86,23 @@ hadoop fs -rm -r `hadoop fs -ls  /user/recsys/rank/arch/checkpoint/sample_join/ 
 
 ### 删除一天之前的数据
 hadoop fs -ls hdfs://ns1012/xxx/xxxx/* | tr -s " " | cut -d' ' -f6-8 | grep "^[0-9]" | awk 'BEGIN{ MIN=1440; LAST=60*MIN; "date +%s" | getline NOW } { cmd="date -d'\''"$1" "$2"'\'' +%s"; cmd | getline WHEN; DIFF=NOW-WHEN; if(DIFF > LAST){ print "Deleting: "$3; system("hadoop fs -rm -r "$3) }}'
+
+
+### 删除hive表元信息中不再需要的分区
+老旧的hive版本不支持在repair的时候自动删除不存在的分区。
+```shell
+# sh clean_meta.sh 2021-12-29 00 unknown xxxx
+dt=$1
+dh=$2
+channel=$3
+topic=$4
+echo "Checking dt=$dt,dh=$dh,channel=$channel,topic=$topic"
+hadoop fs -ls hdfs://xxx/xxx/my.db/mytable/dt=$dt/dh=$dh/channel=$channel/topic=$topic
+if [ $? -ne 0 ]; then
+    echo "file not exists. Drop meta of dt=$dt,dh=$dh,channel=$channel,topic=$topic"    
+    hive -e "ALTER TABLE my.mytable DROP IF EXISTS PARTITION(dt='$dt',dh='$dh',channel='$channel',topic='$topic');"
+fi
+```
 
 
 ## SQL
@@ -181,6 +193,14 @@ hive_para="
 ### 怎么join最高效
 
 left semi join 
+
+
+## Python
+
+### unicode转中文
+```python
+"\xe8\xb7\xaf\xe7\x94\xb1\xe6\x89\xbe\xe4\xb8\x8d\xe5\x88\xb0\xe5\x95\xa6\xef\xbc\x81".encode('latin-1').decode('utf-8')
+```
 
 
 ## Java

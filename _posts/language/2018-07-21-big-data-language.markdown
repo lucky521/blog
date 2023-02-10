@@ -95,7 +95,15 @@ Row object –> Serializer –> <key, value> –> OutputFileFormat –> HDFS fil
 
 列式存储和压缩
 
+## SQL转化为MapReduce的过程
 Hive SQL背后的原理： https://tech.meituan.com/2014/02/12/hive-sql-to-mapreduce.html
+
+* Antlr定义SQL的语法规则，完成SQL词法，语法解析，将SQL转化为抽象语法树AST Tree
+* 遍历AST Tree，抽象出查询的基本组成单元 QueryBlock
+* 遍历QueryBlock，翻译为执行操作树 OperatorTree
+* 逻辑层优化器进行OperatorTree变换，合并不必要的ReduceSinkOperator，减少shuffle数据量
+* 遍历OperatorTree，翻译为MapReduce任务
+* 物理层优化器进行MapReduce任务的变换，生成最终的执行计划
 
 
 ## Hive优化选项

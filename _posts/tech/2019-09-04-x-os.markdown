@@ -32,18 +32,38 @@ layout: post
 线程本地存储：thread local storage（简称TLS）。也叫线程特有存储：thread specific storage（简称TSS）或线程私有存储：thread private storage  https://www.homedt.net/283433.html
 
 
-[写给大忙人看的进程和线程](https://mp.weixin.qq.com/s?__biz=MzkwMDE1MzkwNQ==&mid=2247496008&idx=1&sn=b4c6bfc75abfa8a45843bc3c2221b6ad&chksm=c04ae616f73d6f00808860bf6312f4377d07695626bc4530a74e0f2f343d910a5101d55e535c&scene=178&cur_album_id=1758297326189625351#rd)
+### 参考
+* [写给大忙人看的进程和线程](https://mp.weixin.qq.com/s?__biz=MzkwMDE1MzkwNQ==&mid=2247496008&idx=1&sn=b4c6bfc75abfa8a45843bc3c2221b6ad&chksm=c04ae616f73d6f00808860bf6312f4377d07695626bc4530a74e0f2f343d910a5101d55e535c&scene=178&cur_album_id=1758297326189625351#rd)
+* [Is Pthread library actually a user thread solution?](https://stackoverflow.com/questions/8639150/is-pthread-library-actually-a-user-thread-solution)
+* [一个Work Stealing Pool线程池的实现](https://www.cnblogs.com/ok-wolf/p/7761755.html)
 
-[Is Pthread library actually a user thread solution?](https://stackoverflow.com/questions/8639150/is-pthread-library-actually-a-user-thread-solution)
 
 ## 内存模型
-
 一般来说内存占用大小有如下规律：VSS >= RSS >= PSS >= USS
 * VSS - Virtual Set Size 虚拟耗用内存（包含共享库占用的内存）
 * RSS - Resident Set Size 实际使用物理内存（包含共享库占用的内存）
 * PSS - Proportional Set Size 实际使用的物理内存（比例分配共享库占用的内存）
 * USS - Unique Set Size 进程独自占用的物理内存（不包含共享库占用的内存）
 https://blog.csdn.net/whbing1471/article/details/105523704
+
+
+## IO模型
+socket系统调用，是进行TCP/IP通信的接口。
+* 阻塞IO：应用程序调用recvfrom，如果没有数据来，程序会阻塞在这里。
+* 非阻塞IO： 应用程序调用recvfrom，如果没有数据来，就直接返回EWOULDBLOCK。
+
+高并发下的IO模型
+* 信号驱动式IO
+* IO多路复用
+* 异步IO
+
+
+文件I/O
+
+标准I/O
+
+
+
 # Linux
 
 # Android

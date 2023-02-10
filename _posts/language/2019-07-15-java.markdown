@@ -191,6 +191,9 @@ Spring框架为开发Java应用程序提供了全面的基础架构支持。 Spr
 
 
 
+## Netty
+netty比nio好在哪儿？ 
+
 
 
 
@@ -206,6 +209,9 @@ https://github.com/java-native-access/jna
 开源的Java框架，是SUN公司主导开发的，建立在经典的JNI的基础之上的一个框架。
 
 # Java SPI META-INF/services
+SPI全称Service Provider Interface，是Java提供的一套用来被第三方实现或者扩展的接口，它可以用来启用框架扩展和替换组件。 SPI的作用就是为这些被扩展的API寻找服务实现。
+
+
 
 # py4j
 https://www.py4j.org/
@@ -281,8 +287,6 @@ if __name__ == "__main__":
     listener = PythonListener(gateway)
     gateway.entry_point.callFun(listener) # 从 Java-EntryPoint 入口点调用callFun函数
 ```
-
-
 
 上面两个例子都是先启动java程序作为GateWayServer，然后让python主动发起调用的。
 第一个例子：让python访问了java实现的方法；
