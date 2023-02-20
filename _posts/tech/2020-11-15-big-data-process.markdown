@@ -5,7 +5,7 @@ categories: [Tech]
 layout: post
 ---
 
-大数据和分布式这两个概念总是会混在一起。本文主要以大数据为主题，会有意识的不谈分布式系统。
+大数据和分布式这两个概念总是会混在一起。本文主要以大数据为主题，会有意识的不谈分布式系统。或者简单的认为分布式系统是实现大数据处理绕不开的手段。
 
 大数据的大有两个角度，一种是静态数据数据量巨大；一种是流式数据数据永无止境。
 
@@ -36,7 +36,7 @@ hadoop job -list   | grep "rank" |  awk '{split($0,a,"\t"); print a[1],a[5],a[7]
 
 ## Data Format
 
-数据格式： parquet, avro, orc, csv, json
+数据格式： parquet, avro, json, orc, csv, 
 
 数据压缩： zstd, brotli, lz4, gzip, snappy, uncompressed
 

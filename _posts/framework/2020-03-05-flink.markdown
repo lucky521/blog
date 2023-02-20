@@ -501,6 +501,7 @@ source表的出处可能是 Kafka 的 topics，数据库，文件系统，或者
 
 ## sink
 理论上，flink任务的输出可以写入到任何介质去。
+
 ### 流式sink
 
 Sink是流的重点，根接口是sinkFunction。
@@ -518,6 +519,7 @@ addSink(sinkFunction)
 
 TableSink 是一个通用接口，用于支持以多种文件格式（如 CSV、Apache Parquet、Apache Avro），向不同存储系统（如 JDBC、Apache HBase、Apache Cassandra、Elasticsearch）或消息队列系统（如 Apache Kafka、RabbitMQ）输出。
 
+Flink BulkWriter
 
 
 

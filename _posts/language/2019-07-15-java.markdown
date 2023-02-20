@@ -36,25 +36,14 @@ Java中两种常见的动态代理方式：JDK原生动态代理和CGLIB动态�
 所谓元注解，就是加在注解上的注解。
 
 
-
 动态加载jar
 
 动态加载class
 
+pojo
 
 
-锁
-* 悲观锁、乐观锁
-* 自旋锁、适应性自旋锁
-* 偏向锁
-* 轻量级锁、重量级锁
-* 公平锁、非公平锁
-* 可重入锁、不可重入锁
-* 共享锁、排他锁
 
-synchronized
-ReentrantLock
-ReentrantReadWriteLock
 
 
 # 语法
@@ -74,6 +63,35 @@ StringBuffer：适用多线程下在字符缓冲区进行大量操作的情况
 HashTable
 HashMap
 ConcurrentHashMap
+
+
+## stream
+
+* BufferedOutputStream
+  * 输出的字节值，暂存在内存数组中，放满后，自动批量输出。放不满，flush()手动刷出
+* BufferedInputStream
+  * 读取一批字节值，暂存在内存数组中，可以一个字节一个字节的处理数组中的数据。这一批处理完，再缓存下一批。
+
+* FileInputStream
+* FileOutputStream
+
+
+
+## 锁
+* 悲观锁、乐观锁
+* 自旋锁、适应性自旋锁
+* 偏向锁
+* 轻量级锁、重量级锁
+* 公平锁、非公平锁
+* 可重入锁、不可重入锁
+* 共享锁、排他锁
+
+synchronized
+ReentrantLock
+ReentrantReadWriteLock
+
+
+
 
 
 # JVM

@@ -1443,6 +1443,11 @@ export_savedmodel(
 ```
 
 
+导出用于Serving的模型
+一般要去除仅用于Training的op节点。
+https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/tools/optimize_for_inference.py
+
+
 
 ## checkpoint文件 和 pb-variable文件之间的转换
 
