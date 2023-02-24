@@ -168,7 +168,7 @@ shared variables - broadcast variables, accumulators
 
 # OLTP && OLAP && HTAP
 
-OLAP场景的关键特征
+## OLAP场景的关键特征
 * 绝大多数是读请求
 * 数据以相当大的批次(> 1000行)更新，而不是单行更新;或者根本没有更新。
 * 已添加到数据库的数据不能修改。
@@ -183,21 +183,35 @@ OLAP场景的关键特征
 * 每个查询有一个大表。除了他以外，其他的都很小。
 * 查询结果明显小于源数据。换句话说，数据经过过滤或聚合，因此结果适合于单个服务器的RAM中
 
-ES https://www.elastic.co/start
+## ES Elasticsearch https://www.elastic.co/start
+注意python客户端版本与server端版本的兼容性，我发现7和8的兼容性不好。
+概念比较
+* Relational DB -> Databases -> Tables -> Rows -> Columns
+* Elasticsearch -> Indices   -> Types  -> Documents -> Fields
 
-ClickHouse https://clickhouse.tech/
+
+* get查询方案
+* search查询方案
+  * 等于查询 term, terms
+  * 包含查询 match, multi_match, match_phrase
+  * 复合查询 must都满足,should至少满足其一,must_not都不满足
+  * 值范围查询 gte,lte
+  * 前缀查询 prefix
+  * 通配符查询 wildcard
+
+## ClickHouse https://clickhouse.tech/
 * SETTINGS storage_policy = 'jdob_ha';
 * ENGINE = Distributed(xxx, xxx, xxx, rand());
 
-Doris https://doris.apache.org/master/en/
+## Doris https://doris.apache.org/master/en/
 
-druid https://druid.apache.org/
+## druid https://druid.apache.org/
 
-kylin http://kylin.apache.org/
+## kylin http://kylin.apache.org/
 
-hologres https://www.hologres.io/
+## hologres https://www.hologres.io/
 
-kudu https://kudu.apache.org/
+## kudu https://kudu.apache.org/
 
 
 ##  HTAP
