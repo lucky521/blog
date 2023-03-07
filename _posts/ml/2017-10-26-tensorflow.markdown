@@ -377,6 +377,7 @@ https://www.tensorflow.org/api_guides/python/state_ops
 ### tf.Variable 参数
 
 Variable 代表着模型中的参数，算法的核心目的是在训练参数，也就是不断的修正所有的tf.Variable。
+tf.Variable的type和shape是在初始化时确定的，之后不可以再修改；value一般在初始化时随机给出，在训练时不断更新。
 
 ### tf.get_variable
 
@@ -1626,11 +1627,12 @@ W = tf.get_variable(name="W", shape=embedding.shape, initializer=tf.constant_ini
 ```
 
 ## 超大规模稀疏参数 
-recommenders-addons
+
+### 借助recommenders-addons项目
 为了支持TF上进行超大稀疏特征所对应的稀疏参数训练，针对于搜索、推荐、广告领域的稀疏模型引入了动态Embedding技术。
 https://github.com/tensorflow/recommenders-addons
 
-1. 原生TF的 tf.Variable 是固定长度，不支持动态新增和删除weight。
+1. 原生TF的 tf.Variable 是固定长度，只能修改weight的值，而不支持动态新增和删除weight。
 2. 稀疏参数如果以kv形式存储在hash map里，没法直接训练。
 
 ```python
@@ -1645,7 +1647,8 @@ input_data = tf.contrib.layers.input_from_feature_columns(columns_to_tensors = f
 ...
 ```
 
-借助阿里的DeepRec项目
+### 借助阿里的DeepRec项目
+https://github.com/alibaba/DeepRec
 * 使用get_embedding_variable接口
 * 使用categorical_column_with_embedding接口
 * 进阶功能： 特征淘汰、特征准入、动态维度

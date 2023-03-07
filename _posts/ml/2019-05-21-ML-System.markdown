@@ -173,6 +173,7 @@ categories: [MachineLearning]
 - https://mitdbg.github.io/modeldb/
 - https://github.com/Qihoo360/XLearning
 - https://github.com/features/actions
+- [dolphinscheduler](https://github.com/apache/dolphinscheduler)
 
 数据可视化
 - https://github.com/PAIR-code/facets
@@ -250,6 +251,11 @@ https://ai.baidu.com/bml/
 https://www.mindspore.cn/tutorials/zh-CN/master/distributed_training.html
 
 
+### 第四范式
+https://www.4paradigm.com/
+
+### 九章云极
+https://datacanvas.io/
 
 # 参考
 

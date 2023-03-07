@@ -83,6 +83,8 @@ https://github.com/pytorch/serve
  Nvidia’s TensorRT is a deep learning optimizer and runtime for accelerating deep learning inference on Nvidia GPUs.
  TensorRT严格来讲并不是以一个model server框架，他的重点在于性能优化。但TensorRT提供了REST方式的服务支持。
 
+ 使用上，一般是先把TF/PyTorch模型转换为ONNX格式，
+
 
 ## glow
 https://github.com/pytorch/glow
@@ -124,3 +126,12 @@ https://zhuanlan.zhihu.com/p/43267451
 https://zhuanlan.zhihu.com/p/50529704
 
 Dive into Deep Learning Compiler - http://tvm.d2l.ai/d2l-tvm.pdf
+
+https://github.com/alibaba/MNN
+https://github.com/Tencent/TNN
+https://github.com/bytedance/lightseq
+https://github.com/microsoft/onnxruntime
+https://github.com/apache/tvm
+https://github.com/openppl-public/ppl.nn
+https://github.com/openvinotoolkit/openvino
+https://github.com/alibaba/BladeDISC*
