@@ -37,6 +37,17 @@ https://www.onnxruntime.ai/
 * relay
   * 可以理解为一种可以描述深度学习网络的函数式编程语言
 
+
+* https://github.com/alibaba/MNN
+* https://github.com/Tencent/TNN
+* https://github.com/bytedance/lightseq
+* https://github.com/microsoft/onnxruntime
+* https://github.com/apache/tvm
+* https://github.com/openppl-public/ppl.nn
+* https://github.com/openvinotoolkit/openvino
+* https://github.com/alibaba/BladeDISC
+
+
 # 分布式
 将一个超大模型拆解部署在多个节点。
 
@@ -47,7 +58,9 @@ https://github.com/tensorflow/mesh
 
 
 
-#  知名框架
+
+
+# 知名框架
 
 ## TensorFlow Serving
  https://github.com/tensorflow/serving
@@ -78,14 +91,6 @@ https://github.com/pytorch/serve
  Microsoft Contextual Decision Service (and accompanying paper provides a cloud-based service for optimizing decisions using multi-armed bandit algorithms and reinforcement learning, using the same kinds of explore/exploit algorithms as the Thompson sampling of LASER or the selection policies of Clipper.
 
 
-## TensorRT
- https://github.com/NVIDIA/gpu-rest-engine
- Nvidia’s TensorRT is a deep learning optimizer and runtime for accelerating deep learning inference on Nvidia GPUs.
- TensorRT严格来讲并不是以一个model server框架，他的重点在于性能优化。但TensorRT提供了REST方式的服务支持。
-
- 使用上，一般是先把TF/PyTorch模型转换为ONNX格式，
-
-
 ## glow
 https://github.com/pytorch/glow
 
@@ -110,28 +115,98 @@ https://github.com/Tencent/TNN
 
 
 
+# Nvidia GPU 全家桶
+
+## TensorRT (TRT)
+https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html
+ Nvidia’s TensorRT is a deep learning optimizer and runtime for accelerating deep learning inference on Nvidia GPUs.
+ TensorRT严格来讲并不是以一个model server框架，他的重点在于性能优化。但TensorRT提供了REST方式的服务支持。
+
+使用上，先把TF/PyTorch模型转换为ONNX格式（使用https://github.com/onnx/tensorflow-onnx）
+
+```py
+python -m tf2onnx.convert  --input /Path/to/resnet50.pb --inputs input_1:0 --outputs probs/Softmax:0 --output resnet50.onnx 
+```
+
+得到onnx格式之后，通过trt.builder将onnx构建出一个trt engine
+```python
+import tensorrt as trt
+
+TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
+trt_runtime = trt.Runtime(TRT_LOGGER)
+def build_engine(onnx_path, shape = [1,224,224,3]):
+
+   """
+   This is the function to create the TensorRT engine
+   Args:
+      onnx_path : Path to onnx_file. 
+      shape : Shape of the input of the ONNX file. 
+  """
+   with trt.Builder(TRT_LOGGER) as builder, builder.create_network(1) as network, builder.create_builder_config() as config, trt.OnnxParser(network, TRT_LOGGER) as parser:
+       config.max_workspace_size = (256 << 20)
+       with open(onnx_path, 'rb') as model:
+           parser.parse(model.read())
+       network.get_input(0).shape = shape
+       engine = builder.build_engine(network, config)
+       return engine
+
+def save_engine(engine, file_name):
+   buf = engine.serialize()
+   with open(file_name, 'wb') as f:
+       f.write(buf)
+def load_engine(trt_runtime, plan_path):
+   with open(plan_path, 'rb') as f:
+       engine_data = f.read()
+   engine = trt_runtime.deserialize_cuda_engine(engine_data)
+   return engine
+```
+
+plan文件，该文件由trt engine序列化导出得到。 The .plan file is a serialized file format of the TensorRT engine.  
+
+[TRT使用介绍](https://developer.nvidia.com/blog/speeding-up-deep-learning-inference-using-tensorflow-onnx-and-tensorrt/)
+
+
+## TensorFlow-TensorRT (TF-TRT)
+TensorFlow-TensorRT (TF-TRT)是一个编译器，使Tensorflow模型享受到TensorRT的加速能力。
+
+savedmodel转换器: 
+TF-TRT编译器会把一部分子图会被替换成 TRTEngineOp，这部分节点由 TensorRT 在GPU上运行。一整个模型图可能会被拆解为由若干个TensorFlow节点和若干个TensorRT共同组成。
+```py
+from tensorflow.python.compiler.tensorrt import trt_convert as trt
+ 
+# Instantiate the TF-TRT converter
+converter = trt.TrtGraphConverterV2(
+   input_saved_model_dir=SAVED_MODEL_DIR,
+   precision_mode=trt.TrtPrecisionMode.FP32
+)
+ 
+# Convert the model into TRT compatible segments
+trt_func = converter.convert()
+converter.summary()
+```
+
+转换器构建之后，就可以build出trt engine
+```py
+MAX_BATCH_SIZE=128
+def input_fn():
+   batch_size = MAX_BATCH_SIZE
+   x = x_test[0:batch_size, :]
+   yield [x]
+ 
+converter.build(input_fn=input_fn)
+```
+
+[TF-TRT使用介绍](https://docs.nvidia.com/deeplearning/frameworks/tf-trt-user-guide/index.html)
+
+## triton
+https://github.com/triton-inference-server/server#readme
 
 
 
 # 参考
-
-https://rise.cs.berkeley.edu/blog/a-short-history-of-prediction-serving-systems/
-
-https://medium.com/@vikati/the-rise-of-the-model-servers-9395522b6c58
-
-https://medium.freecodecamp.org/what-we-learned-by-serving-machine-learning-models-using-aws-lambda-c70b303404a1
-
-https://zhuanlan.zhihu.com/p/43267451
-
-https://zhuanlan.zhihu.com/p/50529704
-
-Dive into Deep Learning Compiler - http://tvm.d2l.ai/d2l-tvm.pdf
-
-https://github.com/alibaba/MNN
-https://github.com/Tencent/TNN
-https://github.com/bytedance/lightseq
-https://github.com/microsoft/onnxruntime
-https://github.com/apache/tvm
-https://github.com/openppl-public/ppl.nn
-https://github.com/openvinotoolkit/openvino
-https://github.com/alibaba/BladeDISC*
+* https://rise.cs.berkeley.edu/blog/a-short-history-of-prediction-serving-systems/
+* https://medium.com/@vikati/the-rise-of-the-model-servers-9395522b6c58
+* https://medium.freecodecamp.org/what-we-learned-by-serving-machine-learning-models-using-aws-lambda-c70b303404a1
+* https://zhuanlan.zhihu.com/p/43267451
+* https://zhuanlan.zhihu.com/p/50529704
+* [Dive into Deep Learning Compiler](http://tvm.d2l.ai/d2l-tvm.pdf)

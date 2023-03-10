@@ -1379,7 +1379,7 @@ graphdef_to_pbtxt('saved_model.pb')
 ```
 
 下面是构建serving pb-variable文件的过程：
-```python
+```py
 tf.saved_model.builder.SavedModelBuilder
 
 tf.saved_model.utils.build_tensor_info

@@ -207,6 +207,10 @@ pipeline命令
 Pika Pika是一个可持久化的大容量redis存储服务  https://github.com/Qihoo360/pika
 
 
+redis支持存储类型除了字符串之外还有list/hashtable/set等容器结构。不过并不能支持容器中每个元素单独设置自己的过期时间
+[只能自己想办法达到近似的效果](https://stackoverflow.com/questions/48044721/redis-list-with-expiring-entries)
+
+
 ## Tair
 
 
