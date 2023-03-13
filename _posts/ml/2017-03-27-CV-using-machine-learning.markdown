@@ -177,7 +177,6 @@ https://ai.googleblog.com/2017/06/mobilenets-open-source-models-for.html
 # 典型的应用
 
 ## 文字识别
-
 OCR是很早就有的技术。
 
 
@@ -188,16 +187,13 @@ OCR是很早就有的技术。
 
 
 ## 人脸识别
-
 在CNN尚未火热的年代，人们使用haar/lbp + adaboost级连的组合方式检测人脸，hog+svm的组合方式检测行人。其中，haar，lbp，hog等手工设计的特征提取算子用于提取特征，adaboost，svm用于对提取的特征分类。
 
 
 ### Openface
-
 https://github.com/cmusatyalab/openface
 
 openface识别人脸的工作流程：
-
 1. 使用dlib或opencv中的现有模型识别出图像中的人脸。
 2. 用神经网络对人脸像素进行调整，以使得眼镜和嘴唇锁定在固定位置。
 3. 使用深度神经网络以128-dimensional unit hypersphere来表示一张脸。这种表示方法使得聚类和分类都变得容易。

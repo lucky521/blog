@@ -51,6 +51,15 @@ http://ifeve.com/redis-multiget-hole/
   * cache 空值
 
 
+## 单个key读太热
+
+* 增加多副本，分担读流量
+* 不要求强一致的用户，启用客户端本地缓存
+* 对于瞬时流量突增场景，调整链接池，保持少量空闲链接
+
+## 单个key写太热
+* 应避免该情况发生
+* 对数据可靠性要求不高场景，建议去掉从副本，降低由于写的过快增量同步跟不上，触发全量同步，进而阻塞master的风险
 
 ## 缓存预热
 
@@ -83,6 +92,7 @@ LSM-Tree模型(log-structured merge-tree)
 ## 分布式哈希寻址
 https://www.jianshu.com/p/fe7b7800473e
 
+## 读写分离
 
 ## 数据一致性
 Paxos

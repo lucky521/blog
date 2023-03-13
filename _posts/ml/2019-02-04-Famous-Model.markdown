@@ -107,14 +107,9 @@ transformer layer的样子
 - https://zhuanlan.zhihu.com/p/49271699
 
 
-美团如何使用 Transformer 搜索排序 
-https://tech.meituan.com/2020/04/16/transformer-in-meituan.html
-
-Nvidia的FasterTransformer是一个开源的高效Transformer实现
-https://github.com/NVIDIA/FasterTransformer
-
-字节开源的Effective Transformer
-https://github.com/bytedance/effective_transformer
+* 美团如何使用 Transformer 搜索排序 https://tech.meituan.com/2020/04/16/transformer-in-meituan.html
+* Nvidia的FasterTransformer是一个开源的高效Transformer实现 https://github.com/NVIDIA/FasterTransformer
+* 字节开源的Effective Transformer https://github.com/bytedance/effective_transformer
 
 
 ## Attention
@@ -126,9 +121,13 @@ https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-s
 
 BERT的全称是Bidirectional Encoder Representation from Transformers，即双向Transformer的Encoder，因为decoder是不能获要预测的信息的。模型的主要创新点都在pre-train方法上，即用了Masked LM和Next Sentence Prediction两种方法分别捕捉词语和句子级别的representation。
 
+BERT 模型是最经典的编码预训练语言模型，其通过掩码语言建模和下一句预测任务，对 Transformer 模型的参数进行预训练。
+
 https://mp.weixin.qq.com/s/mFRhp9pJRa9yHwqc98FMbg
 
 
+## GPT
+不再需要对于每个任务采取不同的模型架构，而是用一个取得了优异泛化能力的模型，去针对性地对下游任务进行微调。
 
 
 
@@ -259,6 +258,9 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
 
 
 ## Seq2Seq
+
+
+
 
 
 

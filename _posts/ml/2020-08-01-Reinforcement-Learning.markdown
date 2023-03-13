@@ -45,6 +45,11 @@ DQN 算法 Deep Q-network
 
 DDPG
 
+
+# 基于人类反馈的强化学习 Reinforcement Learning with Human Feedback RLHF
+
+
+
 # 开源项目
 
 https://docs.ray.io/en/master/rllib.html

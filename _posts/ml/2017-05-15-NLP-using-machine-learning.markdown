@@ -202,6 +202,14 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
 
 ## transformer
 
+* 编码预训练语言模型(Encoder-only Pre-trained Models) 
+  * BERT
+* 解码预训练语言模型(Decoder-only Pre-trained Models)
+  * GPT
+* 基于编解码架构的预训练语言模型(Encoder-decoder Pre-trained Models)
+  * T5
+
+
 ## Memory 记忆网络
 
 
@@ -247,9 +255,9 @@ CRF++是著名的条件随机场的开源工具,也是目前综合性能最佳�
 ## fasttext
 
 This library has two main use cases: word representation learning and text classification.
-
+```shell
 $ ./fasttext skipgram -input data.txt -output model
-
+```
 官方提供了一份由CBOW模型，输入维基百科语料训练而出的语言模型，每个word为300维向量。
 https://github.com/facebookresearch/fastText/blob/master/docs/crawl-vectors.md
 
@@ -276,6 +284,13 @@ Tensorflow属于大而全的功能框架，我有另一篇[Blog文章](https://l
 
 
 
+# 大规模预训练语言模型 （大模型）
+
+Generative Pretrained Transformer
+* 2018.6 GPT 1.2亿参数
+* 2019.2 GPT-2 15亿参数
+* 2020.5 GPT-3 1750亿参数
+* 2022 ChatGPT
 
 
 # Reference
