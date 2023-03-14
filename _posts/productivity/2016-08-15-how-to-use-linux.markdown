@@ -85,3 +85,19 @@ https://ruby-china.org/wiki/rvm-guide
 
 
 # 本地电脑的Remote开发配置
+主要体现在本地电脑的 .ssh 中
+
+```
+Host bastion
+    User lu.dev
+    Port 22
+    Hostname bastion.xx.com
+    IdentitiesOnly yes
+
+Host jdsaa
+    User admin
+    Port 22
+    Hostname 11.49.146.242
+    IdentitiesOnly yes
+    ProxyCommand ssh bastion -W %h:%p
+```

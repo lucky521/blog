@@ -19,8 +19,8 @@ categories: [MachineLearning]
 
 
 # 从训练环境到预测环境
-
 Moving models from training to serving in production at scale.
+一些常见的部署框架和工具包括 TensorFlow Serving、ONNX Runtime、OpenVINO、TensorRT、TorchScript.
 
 
 # 模型格式
