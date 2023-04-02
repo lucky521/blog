@@ -406,6 +406,13 @@ https://www.microsoft.com/en-us/research/project/deepspeed/
 
 https://www.deepspeed.ai/getting-started/#training
 
+ZeRO内存优化技术： 通过切片优化器状态，使得每个优化器的内存消耗减小。
+* ZeRO-1
+* ZeRO-2
+* ZeRO-3
+* ZeRO-Offload
+* ZeRO-Infinity
+
 
 ## TensorNet
 

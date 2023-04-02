@@ -128,6 +128,7 @@ https://mp.weixin.qq.com/s/mFRhp9pJRa9yHwqc98FMbg
 
 ## GPT
 不再需要对于每个任务采取不同的模型架构，而是用一个取得了优异泛化能力的模型，去针对性地对下游任务进行微调。
+GPT开启了”大模型“时代。
 
 
 

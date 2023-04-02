@@ -186,6 +186,8 @@ categories: [MachineLearning]
 - Tidb 
 - openmldb 第四范式开源
 - https://github.com/feathr-ai/feathr 微软&领英开源
+- https://github.com/alibaba/feathub 阿里
+- https://github.com/feast-dev/feast
 
 模型训练层组件
 - PaddlePaddle
@@ -200,8 +202,7 @@ categories: [MachineLearning]
 模型抽象层
 - https://eng.uber.com/introducing-neuropod/ , https://github.com/uber/neuropod
 
-模型核心内核组件
-- [深度学习框架的灵魂](https://zhuanlan.zhihu.com/p/121834310)
+加速库
 - 编译器前端: 将源程序解析成中间表示，支持自动微分，前端优化, 静态计算图和动态计算图
   - 编译优化: 无用与不可达代码消除; 常量传播、常量折叠; 公共子表达式消除
 - 编译器后端： 编译器后端处于前端和硬件驱动层中间，主要负责计算图优化、算子选择、内存分配的任务
@@ -290,3 +291,5 @@ https://storage.googleapis.com/pub-tools-public-publication-data/pdf/aad9f93b86b
 [特征平台需求分层](https://yiksanchan.com/posts/feature-stores-a-hierarchy-of-needs)
 
 [openmlsys](https://openmlsys.github.io/)
+
+[深度学习框架的灵魂](https://zhuanlan.zhihu.com/p/121834310)

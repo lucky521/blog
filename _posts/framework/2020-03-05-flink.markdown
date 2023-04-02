@@ -913,6 +913,7 @@ https://cloud.tencent.com/developer/article/2026134
   * 后者是因为为保证 EOS（Exactly-Once-Semantics，准确一次），对于有两个以上输入管道的 Operator，checkpoint barrier 需要对齐（Alignment），接受到较快的输入管道的 barrier 后，它后面数据会被缓存起来但不处理，直到较慢的输入管道的 barrier 也到达，这些被缓存的数据会被放到state 里面，导致 checkpoint 变大。
 * 为了缓解反压给 checkpoint 造成的压力，社区提出了 FLIP-76: Unaligned Checkpoints 来解耦反压和checkpoint
 
+https://stackoverflow.com/questions/61311010/flink-checkpoints-causes-backpressure
 
 ## checkpoint失败原因
 * 如果 Checkpoint 做的非常慢，超过了 timeout 还没有完成，则整个 Checkpoint 也会失败。 Checkpoint慢的原因需要细查。

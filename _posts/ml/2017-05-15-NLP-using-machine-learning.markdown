@@ -11,6 +11,8 @@ layout: post
 
 语言模型中常见的任务类型: 生成、问答、聊天、 改写、总结、分类等.
 
+中间任务：典型的中间任务包括中文分词、词性标注、NER、句法分析、指代消解、语义Parser等，这类任务一般并不解决应用中的实际需求，大多数是作为那些解决实际需求任务的中间阶段或者辅助阶段存在的。
+
 # NLP Terminology 术语
 
 ## Tag
@@ -21,14 +23,11 @@ layout: post
 ### BB2B3MES Tag
 
 
-
 ## Latent Vector Space Models
 
-LDA
-
-LSI
-
-word2vec
+* LDA
+* LSI
+* word2vec
 
 
 ## Named-entity recognition
@@ -63,7 +62,6 @@ A bigram is an n-gram for n=2.
 
 
 ### 主题模型
-
 主题模型是一种特殊的概率图模型。
 把文章表示为K维的主题向量，其中向量的每一维代表一个主题，权重表示这个文章属于该主题的概率。
 
@@ -177,7 +175,6 @@ LSTM with attention
 
 # NLP 典型模型
 
-## neural language model 
 
 
 
@@ -202,6 +199,8 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
 ## LSTM Networks
 
 ## transformer
+
+Transformer是一种NLP特征抽取器
 
 * 编码预训练语言模型(Encoder-only Pre-trained Models) 
   * BERT
@@ -286,12 +285,18 @@ Tensorflow属于大而全的功能框架，我有另一篇[Blog文章](https://l
 
 
 # 大规模预训练语言模型 （大模型）
+Generative Pretrained Transformer，也有个叫法是大型语言模型（LLM）
 
-Generative Pretrained Transformer
+NLP各种任务其实收敛到了两个不同的预训练模型框架里：
+* 对于自然语言理解类任务，其技术体系统一到了以Bert为代表的“双向语言模型预训练+应用Fine-tuning”模式；
+* 对于自然语言生成类任务，其技术体系统一到了以GPT 2.0为代表的“自回归语言模型（即从左到右单向语言模型）+Zero /Few Shot Prompt”模式
+
+
 * 2018.6 GPT 1.2亿参数
 * 2019.2 GPT-2 15亿参数
 * 2020.5 GPT-3 1750亿参数
-* 2022 ChatGPT
+* 2022.12 ChatGPT
+* 2023.3 GPT-4
 
 ## 提示学习 Prompt Learning
 比如做情感分类任务：
@@ -299,7 +304,8 @@ Generative Pretrained Transformer
 * 而提示学习的做法则是在“我今天考砸了”后拼接上自然语言描 述“我感觉很 ____”，让模型生成后面的内容，再根据某种映射函数，将 生成内容匹配到某一分类标签。
 
 
-指令精调(Instruction Tuning)
+## 指令精调(Instruction Tuning)
+让LLM理解输入命令的含义，并正确执行
 
 
 # Reference
@@ -315,3 +321,7 @@ https://github.com/graykode/nlp-tutorial
 [Notes on Deep Learning for NLP](https://arxiv.org/pdf/1808.09772.pdf)
 
 [NLP深度学习发展历史](https://ruder.io/a-review-of-the-recent-history-of-nlp/)
+
+[大型语言模型（LLM）技术精要](https://zhuanlan.zhihu.com/p/597586623)
+
+[Transformer、CNN、RNN的对比](https://zhuanlan.zhihu.com/p/54743941)
