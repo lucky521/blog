@@ -9,7 +9,11 @@ layout: post
 
 不同引擎虽虽然可能都是SQL，但底层执行方法是有一定差异的，比如spark/presto直接读取文件解析，hive根据元数据mapping解压；比如spark/hive对空值、空字符串的判断处理和presto不一样。
 
-SQL语言共分为四大类：数据查询语言DQL，数据操纵语言DML，数据定义语言DDL，数据控制语言DCL。
+SQL语言共分为四大类：
+* 数据查询语言DQL
+* 数据操纵语言DML
+* 数据定义语言DDL
+* 数据控制语言DCL
 
 
 # 原生 MapReduce 接口
@@ -49,6 +53,8 @@ hive是Java实现的，由Facebook开源，目的是将特定的SQL语句编译�
 
 https://ytluck.github.io/data-mining/my-dataming-post-42.html
 
+* Hive对于null类型也是比较敏感的，如果在select过程遇到空指针异常，注意你的数据中是否有超出预期的null。
+* insert table的顺序非常重要(名字不重要)，务必跟建表时的字段顺序保持一致
 
 
 ## hive tblproperties 表属性
