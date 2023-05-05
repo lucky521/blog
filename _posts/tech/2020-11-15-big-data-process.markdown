@@ -36,6 +36,8 @@ hadoop job -list   | grep "rank" |  awk '{split($0,a,"\t"); print a[1],a[5],a[7]
 
 ## Data Format
 
+序列化格式:   Kryo, protobuf, avro,  thrift
+
 数据格式： parquet, avro, json, orc, csv, 
 
 数据压缩： zstd, brotli, lz4, gzip, snappy, uncompressed

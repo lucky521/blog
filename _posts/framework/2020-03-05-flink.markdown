@@ -58,6 +58,7 @@ TaskManager 相当于整个集群的 Slave 节点，负责具体的任务执行�
 
 
 
+
 ## Checkpoint 和 Savepoint
 
 Flink中的每个方法或算子都可以是有状态的，我们称之为state。Checkpoint是把State数据定时持久化存储
@@ -336,6 +337,8 @@ Dashboard的checkpoints页面里有一个"Latest Restore":
 
 ## Operator算子 DataStream Transformations
 
+ProcessFunction / KeyedProcessFunction / 
+
 filter 过滤器，对数据流中的每个元素进行过滤判断，判断为true的元素进入下一个数据流
   RichFilterFunction
 
@@ -374,7 +377,18 @@ Evictor：可以译为“驱逐者”。在Trigger触发之后，在窗口被处
 https://developer.aliyun.com/article/778485
 
 
+## Timer 定时器
 
+### Time Characteristic
+
+setStreamTimeCharacteristic
+
+- TimeCharacteristic.EventTime :事件产生的时间，即数据产生时自带时间戳
+- TimeCharacteristic.ProcessingTime: 与数据本身的时间戳无关，即在window窗口内计算的时间（默认的Time）
+- TimeCharacteristic.IngestionTime: 数据进入到Flink的时间
+
+### onTimer
+https://help.aliyun.com/document_detail/470392.html
 
 
 ## window
@@ -402,16 +416,7 @@ stream.keyby(...).window(....).trigger(new XXX).apply(...)
 
 ProcessWindowFunction
 
-## Event Time
 
-setStreamTimeCharacteristic
-
-- TimeCharacteristic.EventTime 
-事件产生的时间，即数据产生时自带时间戳
-- TimeCharacteristic.ProcessingTime
-与数据本身的时间戳无关，即在window窗口内计算的时间（默认的Time）
-- TimeCharacteristic.IngestionTime
-数据进入到Flink的时间
 
 
 ### 窗口的触发器
@@ -475,6 +480,10 @@ BoundedOutOfOrdernessTimestampExtractor 产生的时间戳和水印是允许“�
 
 
 
+
+
+
+
 ## source
 理论上，flink任务的输入可以从任何介质来。
 ### 流式source
@@ -515,7 +524,7 @@ addSink(sinkFunction)
 * RichsinkFunction
 
 
-### sink表
+### 表sink
 
 TableSink 是一个通用接口，用于支持以多种文件格式（如 CSV、Apache Parquet、Apache Avro），向不同存储系统（如 JDBC、Apache HBase、Apache Cassandra、Elasticsearch）或消息队列系统（如 Apache Kafka、RabbitMQ）输出。
 
@@ -566,6 +575,7 @@ Flink的kafka consumer一共有三种offset commit模式（FlinkKafkaConsumer基
 
 
 ### StreamingFileSink checkpoint
+https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/connectors/datastream/streamfile_sink/
 
 文件系统重要的是bucketassign和rollingPolicy
 * StreamingFileSink
@@ -575,6 +585,14 @@ Flink的kafka consumer一共有三种offset commit模式（FlinkKafkaConsumer基
   * withBucketAssigner
   * 使用 StreamingFileSink 时需要启用 Checkpoint ，每次做 Checkpoint 时写入完成。如果 Checkpoint 被禁用，部分文件（part file）将永远处于 'in-progress' 或 'pending' 状态，下游系统无法安全地读取。
 
+
+* 按行编码存储 Row-encoded sink: StreamingFileSink.forRowFormat(basePath, rowEncoder)   需要指明一个encoder
+* 批量编码存储 Bulk-encoded sink: StreamingFileSink.forBulkFormat(basePath, bulkWriterFactory)  需要指明一个BulkWriter.Factory
+  * ParquetWriterFactory
+  * AvroWriterFactory
+  * SequenceFileWriterFactory
+  * CompressWriterFactory
+  * OrcBulkWriterFactory
 
 
 
@@ -929,7 +947,20 @@ https://stackoverflow.com/questions/61311010/flink-checkpoints-causes-backpressu
 
 
 
+## Flink 传递数据的序列化方式
+https://flink.apache.org/2020/04/15/flink-serialization-tuning-vol.-1-choosing-your-serializer-if-you-can/
+任何在Flink算子之间流转的数据、任何在算子状态内缓存的数据，都必须提供序列化和反序列化机制。
 
+* Flink-provided special serializers :
+  * for basic types (Java primitives and their boxed form), arrays, composite types (tuples, Scala case classes, Rows), and a few auxiliary types (Option, Either, Lists, Maps, …),
+* POJOs:
+  * a public, standalone class with a public no-argument constructor and all non-static, non-transient fields in the class hierarchy either public or with a public getter- and a setter-method; see POJO Rules,
+* Generic types:
+  * user-defined data types that are not recognized as a POJO and then serialized via Kryo.
+  * Avro
+  * Kryo
+  * Protobuf (via Kryo)
+  * Apache Thrift (via Kryo)
 
 
 
