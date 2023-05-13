@@ -200,7 +200,16 @@ impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很
 
 * spark-shell 命令行交互开发
 * spark-submit 提交jar包运行
+  * --master 
+    * yarn : in YARN mode the ResourceManager’s address is picked up from the Hadoop configuration.
+    * spark://host:port
+    * k8s://https://host:port
+    * local 默认
+  * --deploy-mode
+    * In cluster mode, the Spark driver runs inside an application master process which is managed by YARN on the cluster, and the client can go away after initiating the application. 
+    * In client mode, the driver runs in the client process, and the application master is only used for requesting resources from YARN. 默认
 * spark-sql 直接用sql交互开发
+
 
 * Dataset API
 * SQL API
