@@ -195,6 +195,17 @@ hive_para="
 left semi join 
 
 
+### 压缩最终输出结果
+
+当hive将输出写入到表中时，输出内容同样可以进行压缩。通过设置属性hive.exec.compress.output为true控制输出结果压缩。用户可能需要保持默认设置false，然后通过在查询语句或执行脚本中设置这个值为true启用输出结果压缩功能。当参数hive.exec.compress.output设置为true时，需要为其制定一个编解码器，对于输出文件使用Gzip是个不错的选择，因为可以大大减小压缩文件的大小。但是，需要注意的是Gzip压缩文件对于后边mapreduce job而言是不可分割的。
+
+```
+set hive.exec.compress.output=true;
+set mapred.output.compression.codec=org.apache.hadoop.io.compress.GzipCodec;
+```
+
+
+
 ## Python
 
 ### unicode转中文

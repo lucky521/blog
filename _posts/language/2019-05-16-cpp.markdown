@@ -5,6 +5,10 @@ layout: post
 ---
 
 
+* 仔细区别 pointers 和 References
+* 最好显式的使用转型操作符 static_cast, const_cast, dynamic_cast, reinterpret_cast
+
+
 # cpplint
 
 
@@ -65,6 +69,9 @@ final 修饰是一个方法， 意味着重载该方法会导致编译错误
 
 
 ## abseil
+
+
+
 
 
 # Reference

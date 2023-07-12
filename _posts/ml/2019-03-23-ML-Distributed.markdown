@@ -68,7 +68,10 @@ categories: [MachineLearning]
 分布式系统中的不同GPU负责网络模型的不同部分。(例如，神经网络模型的不同网络层被分配到不同的GPU，或者同一层内部的不同参数被分配到不同GPU)
 
 
+流水线并行
 
+张量并行
+对于 LLM 中的矩阵乘 法操作 Y = XA，参数矩阵 A 可以按列分成两个子矩阵 A1 和 A2，从而将原式表示为 Y = [XA1, XA2]。通过将矩阵 A1 和 A2 放置在不同的 GPU 上，矩阵乘法操作将在两个 GPU 上并行调用，并且可以通过跨 GPU 通信将两个 GPU 的输出 组合成最终结果。
 
 
 
@@ -407,6 +410,10 @@ https://www.microsoft.com/en-us/research/project/deepspeed/
 https://www.deepspeed.ai/getting-started/#training
 
 ZeRO内存优化技术： 通过切片优化器状态，使得每个优化器的内存消耗减小。
+
+ZeRO 技术旨在仅在每个 GPU 上保留部 分数据，而当需要其余数据时可以从其他 GPU 中检索。具体而言，根据三个数据部分具体的存储方式，ZeRO 提供了三 种解决方案，即优化器状态分区、梯度分区和参数分区。
+PyTorch 实现了与 ZeRO 类似的技术，称为 FSDP。
+
 * ZeRO-1
 * ZeRO-2
 * ZeRO-3

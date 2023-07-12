@@ -285,18 +285,28 @@ Tensorflow属于大而全的功能框架，我有另一篇[Blog文章](https://l
 
 
 # 大规模预训练语言模型 （大模型）
-Generative Pretrained Transformer，也有个叫法是大型语言模型（LLM）
+Generative Pretrained Transformer ，也有个叫法是大型语言模型（LLM）
 
 NLP各种任务其实收敛到了两个不同的预训练模型框架里：
 * 对于自然语言理解类任务，其技术体系统一到了以Bert为代表的“双向语言模型预训练+应用Fine-tuning”模式；
 * 对于自然语言生成类任务，其技术体系统一到了以GPT 2.0为代表的“自回归语言模型（即从左到右单向语言模型）+Zero /Few Shot Prompt”模式
-
 
 * 2018.6 GPT 1.2亿参数
 * 2019.2 GPT-2 15亿参数
 * 2020.5 GPT-3 1750亿参数
 * 2022.12 ChatGPT
 * 2023.3 GPT-4
+
+
+## LLM模型结构 
+
+Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM 的主流架构可以大致分为三种类型:
+* 编码器-解码器架构
+* 因果解码器架构
+* 前缀解码器架构
+
+Layer Norm
+位置编码
 
 ## 提示学习 Prompt Learning
 比如做情感分类任务：

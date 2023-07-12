@@ -31,6 +31,7 @@ https://github.com/antvis/X6
 
 * Play + Akka + Slick + PostgreSQL
 
+* WebAssembly
 
 # 包管理
 

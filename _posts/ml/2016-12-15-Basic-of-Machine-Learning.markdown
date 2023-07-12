@@ -286,6 +286,8 @@ https://datascience.stackexchange.com/questions/57435/how-is-the-cross-product-t
 
 
 
+
+
 # 不同机器学习模型之间的共性和联系
 
 每一个公式、函数、参数被引入到模型中，都有其业务目的。
