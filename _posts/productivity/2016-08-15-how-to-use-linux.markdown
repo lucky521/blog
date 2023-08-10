@@ -10,6 +10,9 @@ layout: post
 
 ## .zshrc .bashrc .bash_profile
 
+
+## yum.repo.d
+
 ## env
 
 ## crontab

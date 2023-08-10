@@ -64,6 +64,7 @@ https://github.com/tensorflow/mesh
   * FP16半精度浮点数，用5bit 表示指数，10bit 表示小数
 * Brain Floating Point (BF16) 
   * BF16 是对FP32单精度浮点数截断数据，即用8bit 表示指数，7bit 表示小数。
+* int8
 
 
 
