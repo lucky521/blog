@@ -147,6 +147,10 @@ git push origin 201808241124rank
 ```
 
 
+## 删除一个submodule
+https://gist.github.com/myusuf3/7f645819ded92bda6677
+
+
 
 
 

@@ -392,6 +392,7 @@ PlanAPI::CreatePlanTreeFromScript
 
 ## ChubaoFS
 ChubaoFS（CFS）是京东开发的分布式文件系统和对象存储系统
+https://chubaofs.readthedocs.io/zh_CN/latest/
 
 ## CephFS
 

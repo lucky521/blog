@@ -221,6 +221,10 @@ converter.build(input_fn=input_fn)
 ## triton
 https://github.com/triton-inference-server/server#readme
 
+Triton Inference Server is an open source inference serving software that streamlines AI inferencing.
+
+
+
 
 
 # 参考

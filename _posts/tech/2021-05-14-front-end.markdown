@@ -1,39 +1,92 @@
 ---
-title: "用户界面开发技术"
+title: "Web 用户界面开发技术"
 subtitle: "Front-End Tech"
 categories: [Tech]
 layout: post
 ---
 
+# Web技术的参与者
+
+* W3C组织：
+  * 对html和css的规范
+  * HTTP传输协议
+  * cookies、localstorage、session
+* 浏览器厂商
+* ECMAScript标准和Javascript
+  * Window、document、event三大对象
+  * jquery库提供的api
+  * 应用框架：
+    * react, angular, vue
+* Web数据交互
+  * Ajax
+  * axios
+* Web服务器
+  * Node, express
+  * nginx, apache
+  * tomcat
+  * flask
+  * brpc也支持提供http协议服务
+
 
 # 前后端开发模式
-https://www.infoq.cn/article/mnftt4ubk5pql3jpnt6m
+[前后端分离技术体系](https://www.infoq.cn/article/mnftt4ubk5pql3jpnt6m)
 
+[浅谈前后端分离与不分离](https://www.cnblogs.com/-Bloom/p/10260824.html)
 
+## 前后端不分离
 
-# 前端开发框架
-https://existek.com/blog/top-front-end-frameworks-2020/
+* JSP（JavaServer Pages）：JSP是Java的一种服务器端动网页术，可以接在SP文件混合HTML和Java代码实现前端的混合开。
+* ASP.NET Web Forms：ASP.NET Forms是微软的一种Web发技术，通过使用ASP.NET控件和事件驱动的编程模型，将前端和后端逻辑混合在ASPX页面中。
+* PHP（Hypertextprocessor）PHP是一开源服务器端脚语言，其可以入到HTML，实现前后的混合发。
 
-* react
-* vue
-* angular
-* flutter
-
-## 前端可视化框架
-
-https://antv.vision/
-
-https://github.com/antvis/X6
+## 前后端分离
+* 前端：负责View（视图层/做HTML页面的展示）和Controller（逻辑层/书写业务逻辑）层。
+  * 把精力放在html5，css3，jquery，angularjs，bootstrap，reactjs，vuejs，webpack，less/sass，gulp，nodejs，Google V8引擎，javascript多线程，模块化，面向切面编程，设计模式，浏览器兼容性，性能优化等等。
+  * 前端追求的是：页面表现，速度流畅，兼容性，用户体验等等。
+* 后端：负责Model（数据层/数据的增删改查）层。
+  * 把精力放在java基础，设计模式，jvm原理，spring+springmvc原理及源码，linux，mysql事务隔离与锁机制，mongodb，http/tcp，多线程，分布式架构，弹性计算架构，微服务架构，java性能优化，以及相关的项目管理等等
+  * 后端追求的是：三高（高并发，高可用，高性能），安全，存储，业务等等。
 
 
 
 # 技术栈
 
+* JavaWeb
+
 * Play + Akka + Slick + PostgreSQL
 
 * WebAssembly
 
-# 包管理
+* flutter
+
+* electron
+
+
+# 前端应用框架
+https://existek.com/blog/top-front-end-frameworks-2020/
+
+* react
+* vue
+* angular
+
+## 前端可视化库
+
+https://antv.vision/
+
+https://github.com/antvis/X6
+
+https://ant.design/index-cn
+
+
+## 前端模块打包器
+Webpack
+vite
+parcel
+rollup
+
+
+
+# 前端包管理
 
 * npm
 * yarn
@@ -44,6 +97,26 @@ https://github.com/antvis/X6
 
 
 
-# 本地demo
+# React
 
-* npm本身的版本很讲究
+## 定义组件
+定义一个函数，返回html元素，算是一个函数组件。
+定义一个类，继承自React.Component，算是一个class组件。
+
+## 组件的 props
+props 是传递给组件的js对象。
+
+## 正确地使用 State
+state 是在组件内被组件自己管理的js对象。
+构造函数里可以给this.state直接赋值，其他地方应该使用setState，直接赋值不会重新渲染组件。
+
+## 其他
+* export default withRouter
+* mapStateToProps：将需要的state的节点注入到与此视图数据相关的组件（props）上.也即用于建立 State 到 Props 的映射关系。这个函数中要注入全部的models，你需要返回一个新的对象，挑选该组件所需要的models。
+* mapDispatchToProps：将需要绑定的响应事件注入到组件上（props上）。
+  * connect：它的作用是将组件和models结合在一起。将models中的state绑定到组件的props中。并提供一些额外的功能，譬如dispatch。
+  * connect 方法返回的也是一个 React 组件，通常称为容器组件。因为它是原始 UI 组件的容器，即在外面包了一层 State。
+* 关于connect 的作用机制，可以简单地描述为：
+  * 将数据模型中的 state 映射到组件 props
+  * 将数据模型中的 reducer 或 effect 以 dispatch(action) 的形态映射到组件 props
+  * 当数据模型中的 state 发生变化时，通知关联的组件进行更新
