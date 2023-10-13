@@ -1124,8 +1124,6 @@ Alink 最大的亮点是有流式算法和在线学习
 
 AlgoOperator: AlgoOperator有两个子类，BatchOperator和StreamOperator：所有的批式机器学习算法都会继承BatchOperator，所有的流式机器学习算法都会继承StreamOperator
 
-Transformer/Estimator/Pipeline
-
 Alink算法库中最重要的是 Iterative Communication/Computation Queue (简称ICQ)，是我们面向迭代计算场景总结的一套迭代通信计算框架，它集成了内存缓存技术和内存数据通信技术。我们把每个迭代步抽象为多个ComQueueItem（通信模块与计算模块）串联形成的队列。
 
 

@@ -135,6 +135,7 @@ https://github.com/Tencent/TNN
 
 
 
+
 # Nvidia GPU 全家桶
 
 ## TensorRT (TRT)
@@ -227,6 +228,17 @@ Triton Inference Server is an open source inference serving software that stream
 
 
 
+# 大模型部署
+
+## fastllm
+https://github.com/ztxz16/fastllm
+
+## vllm
+https://github.com/vllm-project/vllm
+
+
+
+ss
 # 参考
 * https://rise.cs.berkeley.edu/blog/a-short-history-of-prediction-serving-systems/
 * https://medium.com/@vikati/the-rise-of-the-model-servers-9395522b6c58

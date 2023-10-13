@@ -5,7 +5,7 @@ categories: [productivity]
 layout: post
 ---
 
-# iPhone
+# Mobile Phone
 
 ## Instant Messaging
 
@@ -21,7 +21,7 @@ layout: post
 
 
 
-# AppleWatch
+# Watch
 
 
 # AirPods

@@ -133,7 +133,7 @@ cbow pair 每个pair对应位于其中间位置的word。
 
 
 
-# NLP Problem 目标
+# NLP Problem 任务目标
 
 ## Sequence Tagging / Sequence labelling Problem
 
@@ -174,8 +174,12 @@ LSTM with attention
 
 
 # NLP 典型模型
-
-
+深度学习之前的NLP模型有以下几种：
+* N-gram 模型：N-gram 是一种基于统计的语言模型，用于预测一个词在给定上下文中出现的概率。N-gram 模型基于前 N-1 个词来预测下一个词，其中 N 是一个整数。常见的 N-gram 模型包括 1-gram（也称为 unigram）、2-gram（bigram）和 3-gram（trigram）。
+* 隐马尔可夫模型（Hidden Markov Model，HMM）：HMM 是一种基于概率图模型的序列建模方法，用于处理标注和分词等任务。HMM 假设观测序列背后存在一个不可观测的状态序列，并通过状态之间的转移概率和观测概率来建模。
+* 最大熵模型（Maximum Entropy Model）：最大熵模型是一种基于最大熵原理的分类和标注模型。它通过最大化模型的熵来选择最平衡的模型，以满足给定的约束条件。最大熵模型在 NLP 中常用于文本分类和命名实体识别等任务。
+* 支持向量机（Support Vector Machines，SVM）：SVM 是一种监督学习算法，用于二分类和多分类任务。在 NLP 中，SVM 可以用于文本分类、情感分析和命名实体识别等任务。通常使用特征工程将文本转换为向量表示，然后使用 SVM 进行分类。
+* 条件随机场（Conditional Random Fields，CRF）：CRF 是一种概率图模型，用于序列标注任务。与 HMM 不同，CRF 考虑了输入特征和输出标签之间的依赖关系，并通过条件概率建模。
 
 
 ## Seq2Seq

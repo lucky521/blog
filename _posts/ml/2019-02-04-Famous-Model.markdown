@@ -102,13 +102,21 @@ Cross Layer
 transformer layer的样子
 通过这种自注意力机制层和普通非线性层来实现对输入信号的编码，得到信号的表示。
 
-- 介绍 http://jalammar.github.io/illustrated-transformer/
-- https://nlp.seas.harvard.edu/2018/04/03/attention.html
+- 图解Transformer-en http://jalammar.github.io/illustrated-transformer/
+- 图解Transformer-ch https://mp.weixin.qq.com/s/g6EliR8W1AgpLm8QCcxncw
+- The Annotated Transformer https://nlp.seas.harvard.edu/2018/04/03/attention.html
 * 从Word Embedding到Bert模型—自然语言处理中的预训练技术发展史 https://zhuanlan.zhihu.com/p/49271699
 * 美团如何使用 Transformer 搜索排序 https://tech.meituan.com/2020/04/16/transformer-in-meituan.html
 * Nvidia的FasterTransformer是一个开源的高效Transformer实现 https://github.com/NVIDIA/FasterTransformer
 * 字节开源的Effective Transformer https://github.com/bytedance/effective_transformer
 
+
+Transformer结构
+* 把输入句子拆成词，把每个词转换为词向量，那么输入句子就变成了向量列表。
+* 输入向量列表进入第一个编码器，它会把向量列表输入到 Self Attention 层，然后经过 feed-forward neural network （前馈神经网络）层，最后得到输出，传入下一个编码器。
+  * Self-Attention： 
+    * 对输入句子里的每一个词向量，分别和3个矩阵(WQ, WK, WV)相乘，分别得到3个新向量（Query 向量，Key 向量，Value 向量）
+    * 一个词向量对应的 Query 向量和其他位置的每个词的 Key 向量的点积得分，再除以Key向量长度的开方，把这些得分的序列求softmax，再与Value向量相乘
 
 ## Attention
 
