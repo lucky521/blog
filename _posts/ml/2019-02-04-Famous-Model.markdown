@@ -273,10 +273,21 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
 # LargeLanguage Model (LLM)
 只列出开源的模型
 * llama 
+* falcon
 * chatGLM 
-  * 教学视频：https://www.bilibili.com/video/BV1x34y1A7uQ
+  * 教学视频：
+    * https://www.bilibili.com/video/BV1x34y1A7uQ
+  * 部署和微调：
+    * https://huggingface.co/THUDM/chatglm2-6b
+    * https://github.com/THUDM/ChatGLM2-6B/tree/main
+  * chatGLM 模型结构
+    * PrefixEncoder
 * baichuan
 * qwen
+
+
+
+
 
 
 # References
