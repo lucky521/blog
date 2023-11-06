@@ -258,6 +258,20 @@ https://www.4paradigm.com/
 ### 九章云极
 https://datacanvas.io/
 
+
+
+### huggingface
+AutoTokenizer.from_pretrained
+AutoModel.from_pretrained
+
+model.eval
+model.set_adapter
+model.chat
+model.stream_chat
+
+
+
+
 # 参考
 
 [视频教程](https://www.youtube.com/c/PipelineAI/)

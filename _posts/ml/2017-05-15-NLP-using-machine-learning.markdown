@@ -300,6 +300,9 @@ Familia 开源项目包含文档主题推断工具、语义匹配计算工具以
 Tensorflow属于大而全的功能框架，我有另一篇[Blog文章](https://lucky521.github.io/blog/design/2017/10/26/tensorflow.html)里单独描述的。
 
 
+## sentencepiece
+SentencePiece是一种通用的文本处理工具，用于分割文本成子词或字符级别的单位。它采用基于统计的方法，可以自动学习并生成词汇表，适用于处理多语种、非标准文本和具有复杂结构的语言。SentencePiece可以用于分词、标记化和构建词汇表等自然语言处理任务。
+https://github.com/google/sentencepiece
 
 
 

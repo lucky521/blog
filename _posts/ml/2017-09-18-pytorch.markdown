@@ -15,6 +15,8 @@ Resize: torch.view
 CUDA Tensor:  tensor.to可以将一个tensor转移到指定的device上
 
 
+register_buffer
+
 
 
 ## 自动求导

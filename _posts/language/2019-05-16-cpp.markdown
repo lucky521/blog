@@ -4,6 +4,8 @@ categories: [Language]
 layout: post
 ---
 
+C++版本众多，在标准化的发展路上，重要的版本有C++98, C++03, C++11, C++14, C++17。
+没有找到真正意义的统计，猜测，C++11是应用最广泛的C++版本之一。C++11引入了许多重要的新特性，如自动类型推导、右值引用、智能指针、Lambda表达式、范围基于for循环等。
 
 * 仔细区别 pointers 和 References
 * 最好显式的使用转型操作符 static_cast, const_cast, dynamic_cast, reinterpret_cast
@@ -58,22 +60,22 @@ std::unique_lock<std::mutex>
 std::lock_guard<std::mutex>
 
 
-#  final
+# final
 
 final 修饰一个类， 意味着继承该类会导致编译错误
 final 修饰是一个方法， 意味着重载该方法会导致编译错误
 
 
+
+
+
 # 三方库
 ## folly
 
-
 ## abseil
 
-
-
+## boost
 
 
 # Reference
-
 [C++ Template 进阶指南](https://github.com/wuye9036/CppTemplateTutorial/blob/master/ReadMe.md)

@@ -75,11 +75,21 @@ categories: [MachineLearning]
 分布式系统中的不同GPU负责网络模型的不同部分。(例如，神经网络模型的不同网络层被分配到不同的GPU，或者同一层内部的不同参数被分配到不同GPU)
 
 
-流水线并行
+### 流水线并行
+流水线并行的核心思想是：在模型并行的基础上，进一步引入数据并行的办法，即把原先的数据再划分成若干个batch，送入GPU进行训练。未划分前的数据，叫mini-batch。在mini-batch上再划分的数据，叫micro-batch。
 
-张量并行
+https://www.cvmart.net/community/detail/7998
+
+https://juejin.cn/post/7262274383287484476
+
+### 张量并行 tensor parallelism
 对于 LLM 中的矩阵乘 法操作 Y = XA，参数矩阵 A 可以按列分成两个子矩阵 A1 和 A2，从而将原式表示为 Y = [XA1, XA2]。通过将矩阵 A1 和 A2 放置在不同的 GPU 上，矩阵乘法操作将在两个 GPU 上并行调用，并且可以通过跨 GPU 通信将两个 GPU 的输出 组合成最终结果。
 
+https://zhuanlan.zhihu.com/p/603908668
+
+
+## 3D并行
+将流行线并行、张量并行和数据并行同时应用到模型训练中。
 
 
 
@@ -247,13 +257,11 @@ RDMA(RemoteDirect Memory Access)技术全称远程直接内存访问，就是为
 
 
 ## CUDA
-
 CUDA是Nvidia GPU生态的软件基石。
 
 NVCC: Nvidia CUDA Compiler is a proprietary compiler by Nvidia intended for use with CUDA
 
 ## NCCL
-
 NCCL是Nvidia Collective multi-GPU Communication Library的简称.
 它是一个实现多GPU的collective communication通信（all-gather, reduce, broadcast）库.
 Nvidia做了很多优化，以在PCIe、Nvlink、InfiniBand上实现较高的通信速度。

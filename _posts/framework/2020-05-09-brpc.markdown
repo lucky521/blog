@@ -48,6 +48,11 @@ https://github.com/apache/incubator-brpc/blob/master/docs/cn/client.md
 
 
 
+流式RPC
+https://brpc.apache.org/zh/docs/client/streaming-rpc/
+
+
+
 # 源码学习
 
 ::google::protobuf::Closure* done

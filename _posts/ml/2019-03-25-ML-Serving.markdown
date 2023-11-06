@@ -60,6 +60,10 @@ https://github.com/tensorflow/mesh
 ## 量化
 量化是指降低模型参数的数值表示精度，比如 从 FP32 降低到 FP16 或者 INT8
 
+训练和推理的需求不同：在训练阶段，使用高精度的浮点数可以提供更好的模型收敛性和表达能力。而在推理阶段，使用低精度可以提供更高的计算效率。因此，直接在训练过程中使用低精度可能会降低模型的准确性和性能。训练过程中的梯度计算：训练过程中需要计算梯度来更新模型参数。使用低精度表示可能导致梯度计算的不准确性，从而影响模型的收敛性和训练效果。
+
+[大语言模型的模型量化(INT8/INT4)技术](https://zhuanlan.zhihu.com/p/627436535)
+
 * 16 位浮点数(FP16)
   * FP16半精度浮点数，用5bit 表示指数，10bit 表示小数
 * Brain Floating Point (BF16) 
@@ -77,6 +81,7 @@ https://github.com/tensorflow/mesh
 
 ## 稀疏化
 稀疏化将大量的冗余变量去除，简化模型的同时保留数据中最重要的信息。
+[大语言模型的稀疏化技术](https://zhuanlan.zhihu.com/p/615399255)
 
 
 
@@ -223,19 +228,35 @@ converter.build(input_fn=input_fn)
 https://github.com/triton-inference-server/server#readme
 
 Triton Inference Server is an open source inference serving software that streamlines AI inferencing.
+ (在AI系统领域，Triton其实是个有些歧义的名字，因为至少有两个足够有影响力的Triton相关的AI系统的工作，一个是NVIDIA用于在线服务布署的Triton Inference Server，另一个是由OpenAI发起的高层次Kernel开发语言Triton。)
 
 
 
 
-
-# 大模型部署
+# LLM大模型部署
+推荐阅读[LLM 的推理优化技术纵览](https://zhuanlan.zhihu.com/p/642412124)
 
 ## fastllm
 https://github.com/ztxz16/fastllm
 
+https://zhuanlan.zhihu.com/p/646193833?utm_id=0
+
+## FlashAttention
+https://github.com/Dao-AILab/flash-attention
+
 ## vllm
+vLLM 主要用于快速 LLM 推理和服务，其核心是 PagedAttention，这是一种新颖的注意力算法
 https://github.com/vllm-project/vllm
 
+## chatglm.cpp
+https://github.com/li-plus/chatglm.cpp
+
+
+
+## stream_chat
+在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入open ai接口，发现接口是http协议，才了解到SSE技术。
+
+Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，它允许服务器向客户端发送数据和信息。与 WebSocket 不同，SSE 是一种单向通信方式，只有服务器可以向客户端推送消息。SSE 是 HTML5 规范的一部分，使用非常简单，主要由服务端与浏览器端的通讯协议（HTTP协议）和 EventSource 接口来处理 Server-sent events 组成，服务器端的响应的内容类型是“text/event-stream”.
 
 
 

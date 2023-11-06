@@ -47,7 +47,10 @@ map函数 会根据提供的函数对指定序列做映射。第一个参数 fun
 
 ## locals 和 globals
 
-## yield  next
+## yield 和 next
+带有yield的函数并不是普通的函数，而是一个结合next使用的生成器。每次调用next时，会从yield上次结束的地方开始。遇到yield就结束返回当次运行。
+
+
 
 
 
@@ -70,6 +73,9 @@ python自己的文件操作模块。
 用于文件名通配查找。`glob.glob('path_name') `会返回当前目录下所有通配的文件名，path_name可以用正则表达式进行通配。
 
 
+
+## Python 调用 C/C++库
+pybind11: 使用简洁的语法将C++函数、类和对象导出为Python模块。名称中11的意思是C++11.
 
 
 

@@ -91,8 +91,7 @@ EVCache https://github.com/Netflix/EVCache
 
 
 
-# Streaming 数据流动
-## streams && tables
+# Streaming 大数据流动的形式
 
 flume - 把来自不同源头不同节点的大量数据发送到中心存储。
 

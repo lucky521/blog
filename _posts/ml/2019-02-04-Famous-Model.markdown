@@ -110,6 +110,7 @@ transformer layer的样子
 * 美团如何使用 Transformer 搜索排序 https://tech.meituan.com/2020/04/16/transformer-in-meituan.html
 * Nvidia的FasterTransformer是一个开源的高效Transformer实现 https://github.com/NVIDIA/FasterTransformer
 * 字节开源的Effective Transformer https://github.com/bytedance/effective_transformer
+* Transformer及其attention机制 https://zhuanlan.zhihu.com/p/476585349
 
 
 Transformer结构
@@ -271,7 +272,7 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
 
 
 # LargeLanguage Model (LLM)
-只列出开源的模型
+## 只列出开源的模型
 * llama 
 * falcon
 * chatGLM 
@@ -282,9 +283,21 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
     * https://github.com/THUDM/ChatGLM2-6B/tree/main
   * chatGLM 模型结构
     * PrefixEncoder
+    * RotaryEmbedding
+    * GLMTransformer
 * baichuan
 * qwen
 
+## 大模型微调技术
+https://zhuanlan.zhihu.com/p/618894319
+* 2019年 Houlsby N 等人提出的 Adapter Tuning
+* 2021年微软提出的 LORA
+* 斯坦福提出的 Prefix-Tuning
+* 谷歌提出的 Prompt Tuning
+* 2022年清华提出的 P-tuning v2
+
+huggingface PEFT
+把微调技术工程化了 https://huggingface.co/docs/peft/index
 
 
 
