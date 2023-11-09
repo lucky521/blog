@@ -1,0 +1,129 @@
+---
+layout: post
+title:  "大模型时代"
+subtitle: "Large language model"
+categories: [MachineLearning]
+---
+
+# 大规模预训练语言模型 （大模型）
+Generative Pretrained Transformer ，也有个叫法是大型语言模型（LLM）。
+相比于在此之前的NLP模型，它能完成更加通用和智能的NLP任务，比如搜索、推荐、问答、内容创作、写代码。
+
+OpenAI的GPT系列将大模型推向了大风口。
+* 2018.06 GPT 1.2亿参数
+* 2019.02 GPT-2 15亿参数
+* 2020.05 GPT-3 1750亿参数
+* 2022.12 ChatGPT
+* 2023.03 GPT-4
+
+## 预训练架构
+NLP各种任务其实收敛到了两个不同的预训练模型框架里：
+* 对于自然语言理解类任务，其技术体系统一到了以Bert为代表的“双向语言模型预训练+应用Fine-tuning”模式；
+* 对于自然语言生成类任务，其技术体系统一到了以GPT 2.0为代表的“自回归语言模型（即从左到右单向语言模型）+Zero /Few Shot Prompt”模式
+
+* 自编码（autoencoding，AE）：在输入文本中，随机删除连续的一个或者多个token，然后通过上下文来预测该token。这类模型主要以Bert为代表（Mask Language Model）。
+* 自回归（autoregressive，AR）：通常来讲是根据上文内容预测下一个可能的token（实际上反过来也可以，通过下文预测上文的单词），如GPT系列。
+对比下，自编码由于抠字，不太适合做NLG（Natural Language Generation）的任务（训练和预测过程不一致），而自回归由于属于只能看到一侧的信息，在做NLU任务上有缺陷（类似ELMo这种双向自回归的看上去能够解这个问题，实际上效果见仁见智），却天然适合NLG。
+
+
+
+
+## LLM模型结构 
+
+Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM 的主流架构可以大致分为三种类型:
+* 编码器-解码器架构
+* 因果解码器架构
+* 前缀解码器架构
+
+Layer Norm
+位置编码
+
+## 提示学习 Prompt Learning
+比如做情感分类任务：
+* 监督学习的做法是输入“我今天考砸了”，模型输出分类的分数或分布.
+* 而提示学习的做法则是在“我今天考砸了”后拼接上自然语言描 述“我感觉很 ____”，让模型生成后面的内容，再根据某种映射函数，将 生成内容匹配到某一分类标签。
+
+
+## 指令精调(Instruction Tuning)
+让LLM理解输入命令的含义，并正确执行
+
+
+
+
+# 开源大模型
+* llama
+  * 推理：
+    * https://github.com/ggerganov/llama.cpp
+* falcon
+* chatGLM 
+  * 教学：
+    * https://keg.cs.tsinghua.edu.cn/jietang/publications/ChatGLM&Beyond.pdf
+    * https://www.bilibili.com/video/BV1x34y1A7uQ
+  * 部署和微调：
+    * https://huggingface.co/THUDM/chatglm2-6b
+    * https://github.com/THUDM/ChatGLM2-6B
+  * chatGLM 模型结构
+    * PrefixEncoder
+    * GLMBlock
+      * SelfAttention
+    * RotaryEmbedding 位置编码
+    * GLMTransformer
+    * RMSNorm
+* baichuan
+* qwen
+
+# 大模型微调技术
+https://zhuanlan.zhihu.com/p/618894319
+* 2019年 Houlsby N 等人提出的 Adapter Tuning
+* 2021年微软提出的 LORA
+* 斯坦福提出的 Prefix-Tuning
+* 谷歌提出的 Prompt Tuning
+* 2022年清华提出的 P-tuning v2
+
+huggingface PEFT
+把微调技术工程化了 https://huggingface.co/docs/peft/index
+
+
+
+
+
+
+# LLM大模型部署
+推荐阅读[LLM 的推理优化技术纵览](https://zhuanlan.zhihu.com/p/642412124)
+
+## fastllm
+https://github.com/ztxz16/fastllm
+
+https://zhuanlan.zhihu.com/p/646193833?utm_id=0
+
+## FlashAttention
+https://github.com/Dao-AILab/flash-attention
+
+## vllm
+vLLM 主要用于快速 LLM 推理和服务，其核心是 PagedAttention，这是一种新颖的注意力算法
+https://github.com/vllm-project/vllm
+
+## chatglm.cpp
+https://github.com/li-plus/chatglm.cpp
+
+## llama.cpp
+https://github.com/ggerganov/llama.cpp
+
+## whisper.cpp
+https://github.com/ggerganov/whisper.cpp
+
+
+
+
+## stream_chat
+在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入open ai接口，发现接口是http协议，才了解到SSE技术。
+
+Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，它允许服务器向客户端发送数据和信息。与 WebSocket 不同，SSE 是一种单向通信方式，只有服务器可以向客户端推送消息。SSE 是 HTML5 规范的一部分，使用非常简单，主要由服务端与浏览器端的通讯协议（HTTP协议）和 EventSource 接口来处理 Server-sent events 组成，服务器端的响应的内容类型是“text/event-stream”.
+
+
+
+
+
+
+# Reference
+[大型语言模型（LLM）技术精要](https://zhuanlan.zhihu.com/p/597586623)

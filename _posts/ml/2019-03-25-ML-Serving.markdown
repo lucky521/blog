@@ -29,23 +29,13 @@ ONNX是一个开源的机器学习模型格式。
 https://www.onnxruntime.ai/
 
 
-# 模型编译
-
-* halide 
-  * 与机器学习算法无关的底层优化器，原先用于图片处理和矩阵计算
-
-* relay
-  * 可以理解为一种可以描述深度学习网络的函数式编程语言
+pytoch参数状态字典。
 
 
-* https://github.com/alibaba/MNN
-* https://github.com/Tencent/TNN
-* https://github.com/bytedance/lightseq
-* https://github.com/microsoft/onnxruntime
-* https://github.com/apache/tvm
-* https://github.com/openppl-public/ppl.nn
-* https://github.com/openvinotoolkit/openvino
-* https://github.com/alibaba/BladeDISC
+TF savedmodel。
+
+
+
 
 
 # 模型分布式
@@ -82,6 +72,26 @@ https://github.com/tensorflow/mesh
 ## 稀疏化
 稀疏化将大量的冗余变量去除，简化模型的同时保留数据中最重要的信息。
 [大语言模型的稀疏化技术](https://zhuanlan.zhihu.com/p/615399255)
+
+
+# 模型编译
+模型编译是将定义好的模型结构和相关参数配置转化为可执行的计算图或计算图优化的过程。在编译阶段，模型的结构和参数被转化为底层计算库或硬件设备可执行的指令序列，以便进行高效的计算和推理。
+
+* halide 
+  * 与机器学习算法无关的底层优化器，原先用于图片处理和矩阵计算
+
+* relay
+  * 可以理解为一种可以描述深度学习网络的函数式编程语言
+
+
+* https://github.com/alibaba/MNN
+* https://github.com/Tencent/TNN
+* https://github.com/bytedance/lightseq
+* https://github.com/microsoft/onnxruntime
+* https://github.com/apache/tvm
+* https://github.com/openppl-public/ppl.nn
+* https://github.com/openvinotoolkit/openvino
+* https://github.com/alibaba/BladeDISC
 
 
 
@@ -145,8 +155,8 @@ https://github.com/Tencent/TNN
 
 ## TensorRT (TRT)
 https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html
- Nvidia’s TensorRT is a deep learning optimizer and runtime for accelerating deep learning inference on Nvidia GPUs.
- TensorRT严格来讲并不是以一个model server框架，他的重点在于性能优化。但TensorRT提供了REST方式的服务支持。
+Nvidia’s TensorRT is a deep learning optimizer and runtime for accelerating deep learning inference on Nvidia GPUs.
+TensorRT严格来讲并不是以一个model server框架，他的重点在于性能优化。但TensorRT提供了REST方式的服务支持。
 
 使用上，先把TF/PyTorch模型转换为ONNX格式（使用https://github.com/onnx/tensorflow-onnx）
 
@@ -224,44 +234,20 @@ converter.build(input_fn=input_fn)
 
 [TF-TRT使用介绍](https://docs.nvidia.com/deeplearning/frameworks/tf-trt-user-guide/index.html)
 
+
 ## triton
 https://github.com/triton-inference-server/server#readme
 
 Triton Inference Server is an open source inference serving software that streamlines AI inferencing.
- (在AI系统领域，Triton其实是个有些歧义的名字，因为至少有两个足够有影响力的Triton相关的AI系统的工作，一个是NVIDIA用于在线服务布署的Triton Inference Server，另一个是由OpenAI发起的高层次Kernel开发语言Triton。)
+(在AI系统领域，Triton其实是个有些歧义的名字，因为至少有两个足够有影响力的Triton相关的AI系统的工作，一个是NVIDIA用于在线服务布署的Triton Inference Server，另一个是由OpenAI发起的高层次Kernel开发语言Triton。)
 
-
-
-
-# LLM大模型部署
-推荐阅读[LLM 的推理优化技术纵览](https://zhuanlan.zhihu.com/p/642412124)
-
-## fastllm
-https://github.com/ztxz16/fastllm
-
-https://zhuanlan.zhihu.com/p/646193833?utm_id=0
-
-## FlashAttention
-https://github.com/Dao-AILab/flash-attention
-
-## vllm
-vLLM 主要用于快速 LLM 推理和服务，其核心是 PagedAttention，这是一种新颖的注意力算法
-https://github.com/vllm-project/vllm
-
-## chatglm.cpp
-https://github.com/li-plus/chatglm.cpp
-
-
-
-## stream_chat
-在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入open ai接口，发现接口是http协议，才了解到SSE技术。
-
-Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，它允许服务器向客户端发送数据和信息。与 WebSocket 不同，SSE 是一种单向通信方式，只有服务器可以向客户端推送消息。SSE 是 HTML5 规范的一部分，使用非常简单，主要由服务端与浏览器端的通讯协议（HTTP协议）和 EventSource 接口来处理 Server-sent events 组成，服务器端的响应的内容类型是“text/event-stream”.
+## FasterTransformer
+Nvidia的FasterTransformer是一个开源的高效Transformer实现 https://github.com/NVIDIA/FasterTransformer
 
 
 
 # 参考
-* https://rise.cs.berkeley.edu/blog/a-short-history-of-prediction-serving-systems/
+* [A Short History of Prediction-Serving Systems](https://rise.cs.berkeley.edu/blog/a-short-history-of-prediction-serving-systems/)
 * https://medium.com/@vikati/the-rise-of-the-model-servers-9395522b6c58
 * https://medium.freecodecamp.org/what-we-learned-by-serving-machine-learning-models-using-aws-lambda-c70b303404a1
 * https://zhuanlan.zhihu.com/p/43267451

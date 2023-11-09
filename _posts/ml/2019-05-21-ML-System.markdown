@@ -262,6 +262,7 @@ https://datacanvas.io/
 
 ### huggingface
 AutoTokenizer.from_pretrained
+  PreTrainedTokenizer
 AutoModel.from_pretrained
 
 model.eval

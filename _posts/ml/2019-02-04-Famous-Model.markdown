@@ -120,7 +120,7 @@ Transformer结构
     * 对输入句子里的每一个词向量，分别和3个矩阵(WQ, WK, WV)相乘，分别得到3个新向量（Query 向量，Key 向量，Value 向量）
     * 一个词向量对应的 Query 向量和其他位置的每个词的 Key 向量的点积得分，再除以Key向量长度的开方，把这些得分的序列求softmax，再与Value向量相乘
 
-## Attention
+### Attention机制
 
 [Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)
 
@@ -136,7 +136,7 @@ BERT 模型是最经典的编码预训练语言模型，其通过掩码语言建
 
 ## GPT
 不再需要对于每个任务采取不同的模型架构，而是用一个取得了优异泛化能力的模型，去针对性地对下游任务进行微调。
-GPT开启了”大模型“时代。 -> LLM
+GPT开启了”大模型“时代。 -> LLM -> 请见另一篇以LLM专题的Blog.
 
 
 
@@ -270,34 +270,6 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
 
 
 
-
-# LargeLanguage Model (LLM)
-## 只列出开源的模型
-* llama 
-* falcon
-* chatGLM 
-  * 教学视频：
-    * https://www.bilibili.com/video/BV1x34y1A7uQ
-  * 部署和微调：
-    * https://huggingface.co/THUDM/chatglm2-6b
-    * https://github.com/THUDM/ChatGLM2-6B/tree/main
-  * chatGLM 模型结构
-    * PrefixEncoder
-    * RotaryEmbedding
-    * GLMTransformer
-* baichuan
-* qwen
-
-## 大模型微调技术
-https://zhuanlan.zhihu.com/p/618894319
-* 2019年 Houlsby N 等人提出的 Adapter Tuning
-* 2021年微软提出的 LORA
-* 斯坦福提出的 Prefix-Tuning
-* 谷歌提出的 Prompt Tuning
-* 2022年清华提出的 P-tuning v2
-
-huggingface PEFT
-把微调技术工程化了 https://huggingface.co/docs/peft/index
 
 
 

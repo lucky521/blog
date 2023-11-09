@@ -203,7 +203,7 @@ Seq2Seq模型：预测两个时间序列数据之间的映射关系。
 
 
 
-## attention 机制
+## Attention 机制
 
 在Encoder-Decoder结构中，Encoder把所有的输入序列都编码成一个统一的语义特征c再解码，因此c中必须包含原始序列中的所有信息，它的长度就成了限制模型性能的瓶颈。
 
@@ -306,38 +306,10 @@ https://github.com/google/sentencepiece
 
 
 
-# 大规模预训练语言模型 （大模型）
-Generative Pretrained Transformer ，也有个叫法是大型语言模型（LLM）
-
-NLP各种任务其实收敛到了两个不同的预训练模型框架里：
-* 对于自然语言理解类任务，其技术体系统一到了以Bert为代表的“双向语言模型预训练+应用Fine-tuning”模式；
-* 对于自然语言生成类任务，其技术体系统一到了以GPT 2.0为代表的“自回归语言模型（即从左到右单向语言模型）+Zero /Few Shot Prompt”模式
-
-* 2018.6 GPT 1.2亿参数
-* 2019.2 GPT-2 15亿参数
-* 2020.5 GPT-3 1750亿参数
-* 2022.12 ChatGPT
-* 2023.3 GPT-4
 
 
-## LLM模型结构 
-
-Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM 的主流架构可以大致分为三种类型:
-* 编码器-解码器架构
-* 因果解码器架构
-* 前缀解码器架构
-
-Layer Norm
-位置编码
-
-## 提示学习 Prompt Learning
-比如做情感分类任务：
-* 监督学习的做法是输入“我今天考砸了”，模型输出分类的分数或分布.
-* 而提示学习的做法则是在“我今天考砸了”后拼接上自然语言描 述“我感觉很 ____”，让模型生成后面的内容，再根据某种映射函数，将 生成内容匹配到某一分类标签。
 
 
-## 指令精调(Instruction Tuning)
-让LLM理解输入命令的含义，并正确执行
 
 
 # Reference
@@ -353,7 +325,5 @@ https://github.com/graykode/nlp-tutorial
 [Notes on Deep Learning for NLP](https://arxiv.org/pdf/1808.09772.pdf)
 
 [NLP深度学习发展历史](https://ruder.io/a-review-of-the-recent-history-of-nlp/)
-
-[大型语言模型（LLM）技术精要](https://zhuanlan.zhihu.com/p/597586623)
 
 [Transformer、CNN、RNN的对比](https://zhuanlan.zhihu.com/p/54743941)
