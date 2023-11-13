@@ -111,6 +111,7 @@ https://github.com/ggerganov/llama.cpp
 
 ## whisper.cpp
 https://github.com/ggerganov/whisper.cpp
+https://github.com/openai/whisper
 
 
 
@@ -121,6 +122,34 @@ https://github.com/ggerganov/whisper.cpp
 Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，它允许服务器向客户端发送数据和信息。与 WebSocket 不同，SSE 是一种单向通信方式，只有服务器可以向客户端推送消息。SSE 是 HTML5 规范的一部分，使用非常简单，主要由服务端与浏览器端的通讯协议（HTTP协议）和 EventSource 接口来处理 Server-sent events 组成，服务器端的响应的内容类型是“text/event-stream”.
 
 
+
+
+
+
+# 多模态
+
+图像、声音、视频
+
+## DALL-E
+
+
+
+
+
+
+
+# 关注大模型的落地应用
+如果openai把GPT做到像OS一样，那它也许就会如windows操作系统一样垄断，并且你没有机会也没有必要去自己开发GPT，绝大多数人的归属就是基于它做应用即可。
+
+# 知识问答
+
+# 文字创作
+
+# 写代码
+
+# 智能控制
+GPT强大的理解能力，能够帮人类完成一些事情的感知->理解->决策->响应。 
+让GPT读、写任何具备API接口能力的服务、设备。
 
 
 
