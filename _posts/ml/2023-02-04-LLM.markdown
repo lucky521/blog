@@ -28,7 +28,7 @@ NLP各种任务其实收敛到了两个不同的预训练模型框架里：
 
 
 
-## LLM模型结构 
+## LLM模型结构
 
 Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM 的主流架构可以大致分为三种类型:
 * 编码器-解码器架构
@@ -94,7 +94,7 @@ huggingface PEFT
 ## fastllm
 https://github.com/ztxz16/fastllm
 
-https://zhuanlan.zhihu.com/p/646193833?utm_id=0
+https://zhuanlan.zhihu.com/p/646193833
 
 ## FlashAttention
 https://github.com/Dao-AILab/flash-attention
@@ -116,12 +116,27 @@ https://github.com/openai/whisper
 
 
 
-## stream_chat
-在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入open ai接口，发现接口是http协议，才了解到SSE技术。
+## stream_chat 流式输出
+在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入openai接口，发现接口是http协议，才了解到SSE技术。
 
 Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，它允许服务器向客户端发送数据和信息。与 WebSocket 不同，SSE 是一种单向通信方式，只有服务器可以向客户端推送消息。SSE 是 HTML5 规范的一部分，使用非常简单，主要由服务端与浏览器端的通讯协议（HTTP协议）和 EventSource 接口来处理 Server-sent events 组成，服务器端的响应的内容类型是“text/event-stream”.
 
 
+
+
+## openAI 服务接口
+
+
+```shell
+curl https://api.openai.com/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{
+     "model": "gpt-4-turbo",
+     "messages": [{"role": "user", "content": "Say this is a test!"}],
+     "temperature": 0.7
+   }'
+```
 
 
 
@@ -136,20 +151,50 @@ Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，�
 
 
 
-
-
 # 关注大模型的落地应用
 如果openai把GPT做到像OS一样，那它也许就会如windows操作系统一样垄断，并且你没有机会也没有必要去自己开发GPT，绝大多数人的归属就是基于它做应用即可。
 
-# 知识问答
+## 知识问答
 
-# 文字创作
+## 文字创作
 
-# 写代码
+## 写代码
 
-# 智能控制
+## 智能控制
 GPT强大的理解能力，能够帮人类完成一些事情的感知->理解->决策->响应。 
 让GPT读、写任何具备API接口能力的服务、设备。
+
+
+# AI Agent
+Agent代理的意思，显而易见，个人助理。Agent并非ChatGPT升级版，它不仅告诉你“如何做”，更会帮你去做.
+
+Agent = LLM+Planning+Feedback+Tool use
+
+
+# RAG 检索增强生成
+当用户提出问题时，系统会根据用户输入来搜索数据存储。 然后将用户问题与匹配结果结合起来，并使用提示（对 AI 或机器学习模型的明确指令）将其发送到 LLM，以生成所需的答案。
+
+
+
+
+# 提示工程（Prompt Engineering）
+https://www.promptingguide.ai/zh
+
+
+
+# 大模型应用层框架
+
+## LangChain
+LangChain 是一个框架，用于开发由 LLM 驱动的应用程序。
+
+
+组件包
+* PromptTemplate
+* OutputParser 用于让 LLM 结构化输出并进行结果解析，方便后续的调用
+
+
+
+
 
 
 

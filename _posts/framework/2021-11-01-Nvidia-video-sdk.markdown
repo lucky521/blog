@@ -31,6 +31,7 @@ NVIDIA提供了5种不同的NvFBC接口：
 ## NvIFR
 
 NvIFR的全程是NVIDIA Inband Frame Readback，所以它是用来抓取应用程序所渲染的区域。
+NvIFR是NVIDIA提供的一种高效的视频帧捕获技术。它是NVIDIA的图形驱动程序的一部分，用于在显卡上直接捕获渲染的图像，从而避免了将数据从显卡的内存复制到系统内存的开销
 
 
 
@@ -179,9 +180,27 @@ NvIFR的全程是NVIDIA Inband Frame Readback，所以它是用来抓取应用�
 ```
 
 
+## NvIFR 用法
 
-# NVIDIA Video Codec SDK
-NVIDIA GPU 包含了基于硬件的H.264/HEVC视频编码器，称作是NVENC。NVENC硬件以YUV/RGB作为输入，输出H.264/HEVC标准的视频比特流。
+```cpp
+// 初始化 NvIFR
+NV_IFROGL_TO_SYS_CONFIG toSysConfig;
+memset(&toSysConfig, 0, sizeof(toSysConfig));
+toSysConfig.dwVersion = NV_IFROGL_TO_SYS_CONFIG_VER;
+toSysConfig.bWithHWCursor = 0;
+
+// 创建一个 NvIFR 会话
+NV_IFROGL_SESSION_HANDLE session;
+NvIFROpenSession(&session);
+
+// 从显卡获取图像数据
+NvIFRTransferRenderTargetToSys(session, &toSysConfig);
+
+```
+
+# NVIDIA Video Codec SDK 
+NVIDIA GPU 包含了基于硬件的H.264/HEVC视频编码器，称作是 NVENC 。
+NVENC硬件以YUV/RGB作为输入，输出H.264/HEVC标准的视频比特流。
 
 ## NVENCODE API
 
