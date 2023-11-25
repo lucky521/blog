@@ -61,29 +61,39 @@ https://github.com/tensorflow/mesh
 * int8
 
 
-
-## 剪枝
+## 剪枝 Weight Pruning
 剪枝是指合理地利用策略删除神经网络中的部分参数，比如从单个权重到更高粒度组件如权重矩阵到通道，这种方法在视觉领域或其他较小语言模型中比较奏效。
 
-## 蒸馏
+
+## 蒸馏 Knowledge Distillation
 蒸馏是指利用一个较小的学生模型去学习较大的老师模型中的重要信息而摒弃一些冗余信息的方法。
 核心思想是通过迁移知识，从而通过训练好的大模型得到更加适合推理的小模型。
+
 
 ## 稀疏化
 稀疏化将大量的冗余变量去除，简化模型的同时保留数据中最重要的信息。
 [大语言模型的稀疏化技术](https://zhuanlan.zhihu.com/p/615399255)
 
 
+## 低秩分解（Low-Rank Decomposition）
+低秩分解的基本思想: 将原来大的权重矩阵分解成多个小的矩阵，用低秩矩阵近似原有权重矩阵。这样可以大大降低模型分解之后的计算量.
+
+* SVD分解
+* CP分解
+* Tucker分解
+
+
+
+
+
 # 模型编译
 模型编译是将定义好的模型结构和相关参数配置转化为可执行的计算图或计算图优化的过程。在编译阶段，模型的结构和参数被转化为底层计算库或硬件设备可执行的指令序列，以便进行高效的计算和推理。
 
 * halide 
+  * https://github.com/halide/Halide
   * 与机器学习算法无关的底层优化器，原先用于图片处理和矩阵计算
-
 * relay
   * 可以理解为一种可以描述深度学习网络的函数式编程语言
-
-
 * https://github.com/alibaba/MNN
 * https://github.com/Tencent/TNN
 * https://github.com/bytedance/lightseq
@@ -98,9 +108,9 @@ https://github.com/tensorflow/mesh
 # 知名框架
 
 ## TensorFlow Serving
- https://github.com/tensorflow/serving
- TensorFlow Serving is a prediction serving system developed by Google to serve models trained in TensorFlow.
- Google称它的处理能力可以达到100000 requests per second per core。
+https://github.com/tensorflow/serving
+TensorFlow Serving is a prediction serving system developed by Google to serve models trained in TensorFlow.
+Google称它的处理能力可以达到100000 requests per second per core。
 
 
 ## TFlite
@@ -111,19 +121,19 @@ https://github.com/tensorflow/mesh
 https://github.com/pytorch/serve
 
 ## Clipper
- https://github.com/ucbrise/clipper
+https://github.com/ucbrise/clipper
 
 
 ## Model Server for Apache MXNet
- https://github.com/awslabs/mxnet-model-server
+https://github.com/awslabs/mxnet-model-server
 
 
 ## DeepDetect
- https://github.com/jolibrain/deepdetect
+https://github.com/jolibrain/deepdetect
 
 
 ## Microsoft Contextual Decision Service
- Microsoft Contextual Decision Service (and accompanying paper provides a cloud-based service for optimizing decisions using multi-armed bandit algorithms and reinforcement learning, using the same kinds of explore/exploit algorithms as the Thompson sampling of LASER or the selection policies of Clipper.
+Microsoft Contextual Decision Service (and accompanying paper provides a cloud-based service for optimizing decisions using multi-armed bandit algorithms and reinforcement learning, using the same kinds of explore/exploit algorithms as the Thompson sampling of LASER or the selection policies of Clipper.
 
 
 ## glow

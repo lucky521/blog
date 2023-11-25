@@ -41,13 +41,18 @@ Layer Norm
 ## 提示学习 Prompt Learning
 比如做情感分类任务：
 * 监督学习的做法是输入“我今天考砸了”，模型输出分类的分数或分布.
-* 而提示学习的做法则是在“我今天考砸了”后拼接上自然语言描 述“我感觉很 ____”，让模型生成后面的内容，再根据某种映射函数，将 生成内容匹配到某一分类标签。
+* 而提示学习的做法则是在“我今天考砸了”后拼接上自然语言描述“我感觉很 ____”，让模型生成后面的内容，再根据某种映射函数，将 生成内容匹配到某一分类标签。
 
 
 ## 指令精调(Instruction Tuning)
 让LLM理解输入命令的含义，并正确执行
 
 
+## 提示工程（Prompt Engineering）
+https://www.promptingguide.ai/zh
+
+
+## 有监督微调（SFT）
 
 
 # 开源大模型
@@ -114,8 +119,6 @@ https://github.com/ggerganov/whisper.cpp
 https://github.com/openai/whisper
 
 
-
-
 ## stream_chat 流式输出
 在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入openai接口，发现接口是http协议，才了解到SSE技术。
 
@@ -125,8 +128,9 @@ Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，�
 
 
 ## openAI 服务接口
+你可参考openai官网或者https://openai.apifox.cn/
 
-
+普通问答接口
 ```shell
 curl https://api.openai.com/v1/chat/completions \
   -H "Content-Type: application/json" \
@@ -138,7 +142,28 @@ curl https://api.openai.com/v1/chat/completions \
    }'
 ```
 
+查询Embedding接口
+```shell
+curl https://api.openai.com/v1/embeddings \
+ -H "Content-Type: application/json" \
+ -H "Authorization: Bearer $OPENAI_API_KEY" \
+ -d '{
+  "input": "Your text string goes here",
+  "model": "text-embedding-ada-002"
+}'
+```
 
+模型微调接口
+
+```shell
+curl https://api.openai.com/v1/fine_tuning/jobs \
+ -H "Content-Type: application/json" \
+ -H "Authorization: Bearer $OPENAI_API_KEY" \
+ -d '{
+    "training_file": "file-prompt-completion.jsonl",
+    "model": "gpt-3.5-turbo"
+}'
+```
 
 
 # 多模态
@@ -146,6 +171,10 @@ curl https://api.openai.com/v1/chat/completions \
 图像、声音、视频
 
 ## DALL-E
+
+
+
+
 
 
 
@@ -172,13 +201,13 @@ Agent = LLM+Planning+Feedback+Tool use
 
 
 # RAG 检索增强生成
+LLM 擅长于一般的语言理解与推理，而不是某个具体的知识点。如何为ChatGPT/LLM大语言模型添加额外知识？
+
 当用户提出问题时，系统会根据用户输入来搜索数据存储。 然后将用户问题与匹配结果结合起来，并使用提示（对 AI 或机器学习模型的明确指令）将其发送到 LLM，以生成所需的答案。
 
 
 
 
-# 提示工程（Prompt Engineering）
-https://www.promptingguide.ai/zh
 
 
 
@@ -186,7 +215,6 @@ https://www.promptingguide.ai/zh
 
 ## LangChain
 LangChain 是一个框架，用于开发由 LLM 驱动的应用程序。
-
 
 组件包
 * PromptTemplate
