@@ -76,6 +76,8 @@ https://www.promptingguide.ai/zh
     * RMSNorm
 * baichuan
 * qwen
+* bloom
+  * https://huggingface.co/bigscience/bloom
 
 # 大模型微调技术
 https://zhuanlan.zhihu.com/p/618894319

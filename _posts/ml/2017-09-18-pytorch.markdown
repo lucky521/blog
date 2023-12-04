@@ -5,8 +5,19 @@ layout: post
 ---
 
 
+# 基本配置
+print(torch.__version__)
 
-## Tensor 操作
+torch.set_num_threads(1)
+print(torch.__config__.parallel_info())
+
+
+# Tensor数据类型 
+https://pytorch.org/docs/stable/tensors.html
+torch.Tensor根据dtype和device参数的不同，可以表达几十种数据类型
+
+
+# Tensor 操作
 
 生成：torch.empty, torch.tensor, torch.rand, torch.zeros
 
@@ -19,4 +30,62 @@ register_buffer
 
 
 
-## 自动求导
+# 自动求导
+
+
+
+# TORCH.FX
+
+
+
+
+# 模型量化
+
+* 分法1
+  * Dynamic Quantization
+  * Post-Training Static Quantization(PTQ)
+  * Quantization Aware Training(QAT)
+* 分法2
+  * Eager Mode Quantization
+  * FX Graph Mode Quantization
+
+
+## Dynamic Quantization
+在推理过程中跟踪输入数据的分布来动态地量化权重. 
+方法：weights quantized with activations read/stored in floating point and quantized for compute.
+
+```
+quantized_model = torch.quantization.quantize_dynamic(
+    model, {torch.nn.Linear}, dtype=torch.qint8
+)
+print(quantized_model)
+```
+
+
+## Post-Training Static Quantization(PTQ)
+
+```
+# set quantization config for server (x86)
+deploymentmyModel.qconfig = torch.quantization.get_default_config('fbgemm')
+
+# insert observers
+torch.quantization.prepare(myModel, inplace=True)
+# Calibrate the model and collect statistics
+
+# convert to quantized version
+torch.quantization.convert(myModel, inplace=True)
+```
+
+
+## Quantization Aware Training(QAT)
+
+```
+# specify quantization config for QAT
+qat_model.qconfig=torch.quantization.get_default_qat_qconfig('fbgemm')
+
+# prepare QAT
+torch.quantization.prepare_qat(qat_model, inplace=True)
+
+# convert to quantized version, removing dropout, to check for accuracy on each epoch
+quantized_model=torch.quantization.convert(qat_model.eval(), inplace=False)
+```

@@ -15,7 +15,16 @@ layout: post
 
 # NLP Terminology 术语
 
+
+## token
+Token是文本处理中的最小单位，可以是一个单词、一个标点符号或者一个字符。在自然语言处理任务中，通常将文本分割成一系列的Token，用于后续的处理和分析。例如，对于句子 "I love NLP!"，可以将其分割成四个Token：["I", "love", "NLP", "!"]。
+### special token
+bert中的special token有 [cls],[sep],[unk],[pad],[mask]
+[BERT - Tokenization and Encoding](https://albertauyeung.github.io/2020/06/19/bert-tokenization.html/)
+
+
 ## Tag
+Tag是对Token的附加信息，用于表示Token的语义、语法或其他属性。标签可以是预定义的，也可以是根据特定任务或应用程序的需求自定义的。标签通常与Token一一对应，用于提供关于Token的更多信息。例如，在词性标注任务中，对于句子 "I love NLP!"，可以为每个Token分配一个词性标签，如["PRON", "VERB", "NOUN", "PUNCT"]，分别表示代词、动词、名词和标点符号。
 
 ### BMES Tag
 标签为B（Begin）、M（Middle）、E（End）、S（Single）
@@ -129,11 +138,6 @@ cbow pair 每个pair对应位于其中间位置的word。
 
 
 
-## token
-
-### special token
-bert中的special token有 [cls],[sep],[unk],[pad],[mask]
-[BERT - Tokenization and Encoding](https://albertauyeung.github.io/2020/06/19/bert-tokenization.html/)
 
 
 
@@ -201,8 +205,6 @@ Seq2Seq模型：预测两个时间序列数据之间的映射关系。
 代码：https://github.com/tensorflow/models/tree/r1.4.0/tutorials/rnn/translate
 
 
-
-
 ## Attention 机制
 
 在Encoder-Decoder结构中，Encoder把所有的输入序列都编码成一个统一的语义特征c再解码，因此c中必须包含原始序列中的所有信息，它的长度就成了限制模型性能的瓶颈。
@@ -220,14 +222,6 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
 ## transformer
 
 Transformer是一种NLP特征抽取器
-
-* 编码预训练语言模型(Encoder-only Pre-trained Models) 
-  * BERT
-* 解码预训练语言模型(Decoder-only Pre-trained Models)
-  * GPT
-* 基于编解码架构的预训练语言模型(Encoder-decoder Pre-trained Models)
-  * T5
-
 
 ## Memory 记忆网络
 

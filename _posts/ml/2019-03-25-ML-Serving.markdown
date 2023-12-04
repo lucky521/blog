@@ -24,14 +24,16 @@ Moving models from training to serving in production at scale.
 
 
 # 模型格式
+以下三类是当前常见的模型存储格式，均是把存储模型结构和模型参数分别存储。
 
+## onnx
 ONNX是一个开源的机器学习模型格式。
 https://www.onnxruntime.ai/
 
-
+## pytorch
 pytoch参数状态字典。
 
-
+## tf 
 TF savedmodel。
 
 
@@ -47,19 +49,88 @@ https://github.com/tensorflow/mesh
 模型太复杂、参数太多，对于成本的要求都是很高的。因而需要模型压缩技术来尽可能权衡效果和成本。
 主流的模型压缩方法，包括量化、剪枝、蒸馏、稀疏化。
 
-## 量化
+## 量化(参数精度压缩)
 量化是指降低模型参数的数值表示精度，比如 从 FP32 降低到 FP16 或者 INT8
 
 训练和推理的需求不同：在训练阶段，使用高精度的浮点数可以提供更好的模型收敛性和表达能力。而在推理阶段，使用低精度可以提供更高的计算效率。因此，直接在训练过程中使用低精度可能会降低模型的准确性和性能。训练过程中的梯度计算：训练过程中需要计算梯度来更新模型参数。使用低精度表示可能导致梯度计算的不准确性，从而影响模型的收敛性和训练效果。
 
 [大语言模型的模型量化(INT8/INT4)技术](https://zhuanlan.zhihu.com/p/627436535)
 
-* 16 位浮点数(FP16)
-  * FP16半精度浮点数，用5bit 表示指数，10bit 表示小数
+* 标准的FP32
+  * 标准的 IEEE 32 位浮点表示, 为“指数”保留了 8 位，为“尾数”保留了 23 位，为符号保留了 1 位。
+* 16 位浮点数 (FP16)
+  * FP16 半精度浮点数，用5bit 表示指数，10bit 表示小数
 * Brain Floating Point (BF16) 
-  * BF16 是对FP32单精度浮点数截断数据，即用8bit 表示指数，7bit 表示小数。
+  * BF16 是对FP32单精度浮点数截断数据，用8bit 表示指数，7bit 表示小数。
 * int8
+  * 一个 8 位的整型数据表示，可以存储 $2^8$ 个不同的值 (对于有符号整数，区间为 [-128, 127]，而对于无符号整数，区间为 [0, 255])
+* 混合精度（Mixed precision）
+  * 在模型中同时使用 FP32 和 FP16 的权重数值格式。 FP16 减少了一半的内存大小，但有些参数或操作符必须采用 FP32 格式才能保持准确度。
+  * 比如使用 FP32 权重作为精确的 “主权重 (master weight)”，而使用 FP16/BF16 权重进行前向和后向传播计算以提高训练速度，最后在梯度更新阶段再使用 FP16/BF16 梯度更新 FP32 主权重。
 
+
+
+* 零点量化 (zero-point quantization) 
+* 最大绝对值量化 (absolute maximum quantization，absmax) 
+* 对称
+  * 对称量化
+  * 非对称量化
+* 线性
+  * 线性量化
+  * 非线性量化
+* 饱和
+  * 饱和量化
+  * 非饱和量化
+* 训练
+  * 后训练量化（Post-Training Quantization, PTQ）
+  * 量化感知训练（Quantization Aware Training, QAT）
+
+
+对称量化
+
+```python
+import numpy as np
+n_bit = 4
+xf= np.array([0.1,0.2,1.2,3,2.1,-2.1,-3.5])
+xf= np.array([15,25,35,40,50, 60, 70])
+range_xf=np.max(np.abs(xf))
+print('range:{}'.format(range_xf))
+alpha = (2**(n_bit-1)-1)/(range_xf)
+print('alpha:{}'.format(alpha))
+xq=np.round(alpha*xf)
+print('xq:{}'.format(xq))
+de_xf=xq/alpha
+print('de_xf:{}'.format(de_xf))
+print('error:{}'.format(np.abs(de_xf-xf)))
+print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
+```
+
+非对称量化
+
+```python
+import numpy as np
+n_bit = 4
+xf= np.array([0.1,0.2,1.2,3,2.1,-2.1,-3.5])
+xf= np.array([15,25,35,40,50, 60, 70])
+
+range_xf=np.max(xf)-np.min(xf)
+print('range:{}'.format(range_xf))
+alpha = (2**(n_bit-0)-1)/(range_xf)
+print('alpha:{}'.format(alpha))
+zp=np.round(np.min(xf)*alpha)
+print('zeropoint:{}'.format(zp))
+xq=np.round(alpha*xf)-zp
+print('xq:{}'.format(xq))
+de_xf=(xq+zp)/alpha
+print('de_xf:{}'.format(de_xf))
+print('error:{}'.format(np.abs(de_xf-xf)))
+print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
+```
+
+
+
+## 参数个数压缩
+复用取值相同的参数，用更少的数值表示更多的数。
 
 ## 剪枝 Weight Pruning
 剪枝是指合理地利用策略删除神经网络中的部分参数，比如从单个权重到更高粒度组件如权重矩阵到通道，这种方法在视觉领域或其他较小语言模型中比较奏效。
@@ -114,7 +185,7 @@ Google称它的处理能力可以达到100000 requests per second per core。
 
 
 ## TFlite
- https://www.tensorflow.org/lite/guide
+https://www.tensorflow.org/lite/guide
 
 
 ## TorchServe
@@ -162,7 +233,7 @@ https://github.com/Tencent/TNN
 
 
 # Nvidia GPU 全家桶
-
+在模型推理方面，NVIDIA提供了基于GPU加速的推理软件。
 ## TensorRT (TRT)
 https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html
 Nvidia’s TensorRT is a deep learning optimizer and runtime for accelerating deep learning inference on Nvidia GPUs.
@@ -245,7 +316,7 @@ converter.build(input_fn=input_fn)
 [TF-TRT使用介绍](https://docs.nvidia.com/deeplearning/frameworks/tf-trt-user-guide/index.html)
 
 
-## triton
+## Triton
 https://github.com/triton-inference-server/server#readme
 
 Triton Inference Server is an open source inference serving software that streamlines AI inferencing.

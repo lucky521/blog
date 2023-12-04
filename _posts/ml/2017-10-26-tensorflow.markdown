@@ -2371,14 +2371,47 @@ TensorFlow Runtime 内部组件的对象策略是懒初始(Lazy Initialization)�
  
 
 ### Quantization
-
-主要思想是通过缩小模型系数的元类型来加速和缩小体积。
+主要思想是通过缩小模型系数的元类型来加速和缩小内存。
 
 32bit-float to 8bit-int 
 
-1. Post Training quantization
+1. Post Training Quantization
+使用 TensorFlow Lite 转换器将已训练的浮点 TensorFlow 模型转换为 TensorFlow Lite 格式后，可以对该模型进行量化.
 
-2. During Traing quantization
+```python
+import tensorflow as tf
+converter = tf.lite.TFLiteConverter.from_saved_model(saved_model_dir)
+converter.optimizations = [tf.lite.Optimize.DEFAULT]
+tflite_quant_model = converter.convert()
+```
+
+
+2. During Traing quantization (Quantization Aware Training)
+
+```python
+import tensorflow_model_optimization as tfmot
+
+quantize_model = tfmot.quantization.keras.quantize_model
+
+# q_aware stands for for quantization aware.
+q_aware_model = quantize_model(model)
+
+# `quantize_model` requires a recompile.
+q_aware_model.compile(optimizer='adam',
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+              metrics=['accuracy'])
+
+q_aware_model.summary()
+
+
+train_images_subset = train_images[0:1000] # out of 60000
+train_labels_subset = train_labels[0:1000]
+
+q_aware_model.fit(train_images_subset, train_labels_subset,
+                  batch_size=500, epochs=1, validation_split=0.1)
+
+```
+
 
 ### Connection Pruning
 

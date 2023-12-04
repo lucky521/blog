@@ -91,6 +91,8 @@ https://zhuanlan.zhihu.com/p/603908668
 ## 3D并行
 将流行线并行、张量并行和数据并行同时应用到模型训练中。
 
+[千亿参数开源大模型 BLOOM 背后的技术](https://zhuanlan.zhihu.com/p/615839149)
+
 
 
 
@@ -434,14 +436,6 @@ PyTorch 实现了与 ZeRO 类似的技术，称为 FSDP。
 * ZeRO-3
 * ZeRO-Offload
 * ZeRO-Infinity
-
-
-## TensorNet
-
-奇虎360开源的分布式训练框架。
-
-
-
 
 
 

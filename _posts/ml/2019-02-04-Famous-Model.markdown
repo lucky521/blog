@@ -248,6 +248,7 @@ transformer layer的样子
 * 字节开源的Effective Transformer https://github.com/bytedance/effective_transformer
 * Transformer及其attention机制 https://zhuanlan.zhihu.com/p/476585349
 * 从Attention到Transformer https://qiankunli.github.io/2023/10/30/from_attention_to_transformer.html
+* Transformer的最简洁pytorch实现 https://mp.weixin.qq.com/s/rx7SPYr-sEOz_GOYRfSDOw
 
 
 Transformer结构
@@ -256,6 +257,14 @@ Transformer结构
   * Self-Attention： 
     * 对输入句子里的每一个词向量，分别和3个矩阵(WQ, WK, WV)相乘，分别得到3个新向量（Query 向量，Key 向量，Value 向量）
     * 一个词向量对应的 Query 向量和其他位置的每个词的 Key 向量的点积得分，再除以Key向量长度的开方，把这些得分的序列求softmax，再与Value向量相乘
+  
+
+* 编码预训练语言模型(Encoder-only Pre-trained Models) 
+  * BERT
+* 解码预训练语言模型(Decoder-only Pre-trained Models)
+  * GPT
+* 基于编解码架构的预训练语言模型(Encoder-decoder Pre-trained Models)
+  * T5
 
 ### Attention机制
 
