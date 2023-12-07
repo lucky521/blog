@@ -26,31 +26,27 @@ categories: [MachineLearning]
 
 ## 怎么样的分布式？ 划分方式
 
-“分布式”的阶段：有训练时的分布式，有预测时的分布式（Distributed TF-Serving）。
-
-“分布式”的内容：有模型分布式并行，有数据分布式并行。
-
-“分布式”的形式：有多机器的分布式，也有单机多卡的分布式。
+* “分布式”的阶段：有训练时的分布式，有预测时的分布式（Distributed TF-Serving）。
+* “分布式”的内容：有模型分布式并行，有数据分布式并行。
+* “分布式”的形式：有多机器的分布式，也有单机多卡的分布式。
 
 
 ## 集合通信 collective communication
-
+对于数据并行方式来讲，通信的内容就是模型的权值和训练过程中的梯度。
 * broadcast，将参数从一个 node 发到多个 node 上
 * reduce，将参数从多个 node 收集到一个 node 上，同时对收集到的参数进行归并(求和，求积)。
 * allreduce，每个 node 都从其他 node 上面收集参数，同时对收集到的参数进行归并。
 
-对于数据并行方式来讲，通信的内容就是模型的权值和训练过程中的梯度。
+
 
 
 
 
 
 # 分布式机器学习(训练)的方式
-
 一般有 tensor parallelism、pipeline parallelism、data parallelism 几种并行方式，分别在模型的层内、模型的层间、训练数据三个维度上对 GPU 进行划分。
 
 ## 计算并行
-
 模型和数据都在统一一份，训练的计算资源是并行的。也就是最简单的单机多卡训练。
 
 
@@ -75,14 +71,15 @@ categories: [MachineLearning]
 分布式系统中的不同GPU负责网络模型的不同部分。(例如，神经网络模型的不同网络层被分配到不同的GPU，或者同一层内部的不同参数被分配到不同GPU)
 
 
-### 流水线并行
+### 流水线并行 Pipeline Parallelism
 流水线并行的核心思想是：在模型并行的基础上，进一步引入数据并行的办法，即把原先的数据再划分成若干个batch，送入GPU进行训练。未划分前的数据，叫mini-batch。在mini-batch上再划分的数据，叫micro-batch。
 
 https://www.cvmart.net/community/detail/7998
 
 https://juejin.cn/post/7262274383287484476
 
-### 张量并行 tensor parallelism
+
+### 张量并行 Tensor Parallelism
 对于 LLM 中的矩阵乘 法操作 Y = XA，参数矩阵 A 可以按列分成两个子矩阵 A1 和 A2，从而将原式表示为 Y = [XA1, XA2]。通过将矩阵 A1 和 A2 放置在不同的 GPU 上，矩阵乘法操作将在两个 GPU 上并行调用，并且可以通过跨 GPU 通信将两个 GPU 的输出 组合成最终结果。
 
 https://zhuanlan.zhihu.com/p/603908668
@@ -230,8 +227,7 @@ AlexNet（模型并行算法）
 
 
 
-# 硬件和软件生态
-
+# 硬件和软件协同生态
 深度学习的大规模训练通常以线性增加的理想情况为基准（N个GPU应该比一个GPU快N倍）。 Horovod和NCCL库在保持高吞吐量方面做得很好，但是他们的性能与所使用的硬件有着千丝万缕的联系。高带宽和低延迟的要求导致了NVLink互连的开发。 NVIDIA DGX-2通过NVSwitch将这种互连又推进一步，该互连结构可以300GB/s的峰值双向带宽连接多达16个GPU。
 
 ## GPU间通信
@@ -444,5 +440,5 @@ PyTorch 实现了与 ZeRO 类似的技术，称为 FSDP。
 
 
 # 参考
-* 分布式训练的方案和效率对比 https://zhuanlan.zhihu.com/p/50116885
-* 分布式机器学习的论文综述 https://mp.weixin.qq.com/s/l90VsXKvcqDUvfQQe7BuRA
+* [分布式训练的方案和效率对比](https://zhuanlan.zhihu.com/p/50116885)
+* [分布式机器学习的论文综述](https://mp.weixin.qq.com/s/l90VsXKvcqDUvfQQe7BuRA)

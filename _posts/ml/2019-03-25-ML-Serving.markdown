@@ -18,9 +18,14 @@ categories: [MachineLearning]
 
 
 
-# 从训练环境到预测环境
+## 从训练环境到预测环境
 Moving models from training to serving in production at scale.
-一些常见的部署框架和工具包括 TensorFlow Serving、ONNX Runtime、OpenVINO、TensorRT、TorchScript.
+一些常见的部署框架和工具包括
+* TensorFlow Serving
+* ONNX Runtime
+* OpenVINO
+* TensorRT
+* TorchScript
 
 
 # 模型格式
@@ -158,8 +163,15 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 
 
 # 模型编译
-模型编译是将定义好的模型结构和相关参数配置转化为可执行的计算图或计算图优化的过程。在编译阶段，模型的结构和参数被转化为底层计算库或硬件设备可执行的指令序列，以便进行高效的计算和推理。
+模型编译是将定义好的模型结构和相关参数配置转化为可执行的计算图或计算图优化的过程。
+在编译阶段，模型的结构和参数被转化为底层计算库或硬件设备可执行的指令序列，以便进行高效的计算和推理。
 
+* tvm
+  * https://github.com/apache/tvm
+* mlir
+  * https://mlir.llvm.org/
+* iree
+  * https://github.com/openxla/iree
 * halide 
   * https://github.com/halide/Halide
   * 与机器学习算法无关的底层优化器，原先用于图片处理和矩阵计算
@@ -169,7 +181,6 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 * https://github.com/Tencent/TNN
 * https://github.com/bytedance/lightseq
 * https://github.com/microsoft/onnxruntime
-* https://github.com/apache/tvm
 * https://github.com/openppl-public/ppl.nn
 * https://github.com/openvinotoolkit/openvino
 * https://github.com/alibaba/BladeDISC
@@ -230,6 +241,8 @@ https://github.com/Tencent/ncnn
 https://github.com/Tencent/TNN
 
 
+## Ray Serve
+https://docs.ray.io/en/latest/serve/index.html
 
 
 # Nvidia GPU 全家桶
@@ -322,8 +335,12 @@ https://github.com/triton-inference-server/server#readme
 Triton Inference Server is an open source inference serving software that streamlines AI inferencing.
 (在AI系统领域，Triton其实是个有些歧义的名字，因为至少有两个足够有影响力的Triton相关的AI系统的工作，一个是NVIDIA用于在线服务布署的Triton Inference Server，另一个是由OpenAI发起的高层次Kernel开发语言Triton。)
 
-## FasterTransformer
-Nvidia的FasterTransformer是一个开源的高效Transformer实现 https://github.com/NVIDIA/FasterTransformer
+## FasterTransformer -> TensorRT-LLM
+Nvidia的FasterTransformer是一个开源的高效Transformer层实现。
+基于 CUDA, cuBLAS, cuBLASLt and C++。
+
+https://github.com/NVIDIA/FasterTransformer
+https://github.com/NVIDIA/TensorRT-LLM/
 
 
 

@@ -236,7 +236,7 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
 
 # Transformer models
 
-transformer layer的样子
+## transformer layer的样子
 通过这种自注意力机制层和普通非线性层来实现对输入信号的编码，得到信号的表示。
 
 - 图解Transformer-en http://jalammar.github.io/illustrated-transformer/
@@ -251,14 +251,34 @@ transformer layer的样子
 * Transformer的最简洁pytorch实现 https://mp.weixin.qq.com/s/rx7SPYr-sEOz_GOYRfSDOw
 
 
-Transformer结构
+## Transformer结构
 * 把输入句子拆成词，把每个词转换为词向量，那么输入句子就变成了向量列表。
 * 输入向量列表进入第一个编码器，它会把向量列表输入到 Self Attention 层，然后经过 feed-forward neural network （前馈神经网络）层，最后得到输出，传入下一个编码器。
-  * Self-Attention： 
+  * Self-Attention：
     * 对输入句子里的每一个词向量，分别和3个矩阵(WQ, WK, WV)相乘，分别得到3个新向量（Query 向量，Key 向量，Value 向量）
     * 一个词向量对应的 Query 向量和其他位置的每个词的 Key 向量的点积得分，再除以Key向量长度的开方，把这些得分的序列求softmax，再与Value向量相乘
-  
 
+1.  编码器（Encoder）:
+    *   输入嵌入（Input Embedding）
+    *   位置编码（Positional Encoding）
+    *   N个编码器层（每层包括以下子层）
+        *   多头自注意力（Multi-Head Self-Attention）
+        *   加法 & 归一化（Add & Norm）
+        *   前馈神经网络（Feed-Forward Neural Network）
+        *   加法 & 归一化（Add & Norm）
+2.  解码器（Decoder）:
+    *   输出嵌入（Output Embedding）
+    *   位置编码（Positional Encoding）
+    *   N个解码器层（每层包括以下子层）
+        *   多头自注意力（Masked Multi-Head Self-Attention）
+        *   加法 & 归一化（Add & Norm）
+        *   多头编码器-解码器注意力（Multi-Head Encoder-Decoder Attention）
+        *   加法 & 归一化（Add & Norm）
+        *   前馈神经网络（Feed-Forward Neural Network）
+        *   加法 & 归一化（Add & Norm）
+3.  最后的线性层和softmax层输出预测结果。
+
+## Transformer门派
 * 编码预训练语言模型(Encoder-only Pre-trained Models) 
   * BERT
 * 解码预训练语言模型(Decoder-only Pre-trained Models)
@@ -266,13 +286,15 @@ Transformer结构
 * 基于编解码架构的预训练语言模型(Encoder-decoder Pre-trained Models)
   * T5
 
-### Attention机制
+
+
+
+## Attention机制
 
 [Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)
 
 
 ## BERT
-
 BERT的全称是Bidirectional Encoder Representation from Transformers，即双向Transformer的Encoder，因为decoder是不能获要预测的信息的。模型的主要创新点都在pre-train方法上，即用了Masked LM和Next Sentence Prediction两种方法分别捕捉词语和句子级别的representation。
 
 BERT 模型是最经典的编码预训练语言模型，其通过掩码语言建模和下一句预测任务，对 Transformer 模型的参数进行预训练。

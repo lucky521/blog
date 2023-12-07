@@ -55,6 +55,22 @@ https://www.promptingguide.ai/zh
 ## 有监督微调（SFT）
 
 
+
+## In-flight Batching / continuous batching / iteration-level batching
+在处理实时数据流（如聊天消息）时，连续批处理会不断地将即时到达的消息聚合成批次，并将每个批次作为一个单元送入模型进行处理。这种方式可以减少模型推理的延迟并提高吞吐量。
+https://www.anyscale.com/blog/continuous-batching-llm-inference
+
+### stream_chat 流式输出
+在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入openai接口，发现接口是http协议，才了解到SSE技术。
+
+Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，它允许服务器向客户端发送数据和信息。与 WebSocket 不同，SSE 是一种单向通信方式，只有服务器可以向客户端推送消息。SSE 是 HTML5 规范的一部分，使用非常简单，主要由服务端与浏览器端的通讯协议（HTTP协议）和 EventSource 接口来处理 Server-sent events 组成，服务器端的响应的内容类型是“text/event-stream”.
+
+
+
+
+
+
+
 # 开源大模型
 * llama
   * 推理：
@@ -78,6 +94,9 @@ https://www.promptingguide.ai/zh
 * qwen
 * bloom
   * https://huggingface.co/bigscience/bloom
+
+
+
 
 # 大模型微调技术
 https://zhuanlan.zhihu.com/p/618894319
@@ -120,11 +139,8 @@ https://github.com/ggerganov/llama.cpp
 https://github.com/ggerganov/whisper.cpp
 https://github.com/openai/whisper
 
-
-## stream_chat 流式输出
-在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入openai接口，发现接口是http协议，才了解到SSE技术。
-
-Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，它允许服务器向客户端发送数据和信息。与 WebSocket 不同，SSE 是一种单向通信方式，只有服务器可以向客户端推送消息。SSE 是 HTML5 规范的一部分，使用非常简单，主要由服务端与浏览器端的通讯协议（HTTP协议）和 EventSource 接口来处理 Server-sent events 组成，服务器端的响应的内容类型是“text/event-stream”.
+## text-generation-inference
+https://github.com/huggingface/text-generation-inference
 
 
 
@@ -231,3 +247,4 @@ LangChain 是一个框架，用于开发由 LLM 驱动的应用程序。
 
 # Reference
 [大型语言模型（LLM）技术精要](https://zhuanlan.zhihu.com/p/597586623)
+[Numbers every LLM Developer should know](https://github.com/ray-project/llm-numbers)

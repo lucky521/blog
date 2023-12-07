@@ -2226,10 +2226,8 @@ Grappler是优化模块，包括：
 
 XLA是将tensorflow.GraphDef编译成可执行代码。
 
-XLA提供了AOT(提前编译)和JIT(即时编译)两种方式。
-
+XLA提供了AOT(提前编译)和JIT(即时编译)两种方式:
 - AOT(提前编译)方式就是在代码执行阶段之前全部编译成目标指令，进入执行阶段后，不再有编译过程发生。
-
 - JIT全称Just In Time（即时）.在即时编译中，计算图在不会在运行阶段前被编译成可执行代码，而是在进入运行阶段后的适当的时机才会被编译成可执行代码，并且可以被直接调用了。
 
 在创建 Session 时，增加 config 参数，设置 config.graph_options.optimizer_options.global_jit_level 值为 tf.OptimizerOptions.ON_1 即可打开 XLA JIT 功能。注：该配置对整个 Session 生效，所有 OP 都会受到影响。(https://mp.weixin.qq.com/s/tBb2_X-lQvW-7puWS4XrlQ)

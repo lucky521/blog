@@ -30,6 +30,44 @@ register_buffer
 
 
 
+# custom PyTorch OP implementation
+
+
+```python
+import torch
+from torch.autograd import Function
+from torch.utils.cpp_extension import load
+
+# 加载自定义操作的C++扩展模块
+custom_op = load(name='custom_op', sources=['custom_op.cpp'])
+
+# 自定义操作的前向传播和反向传播函数
+class CustomOpFunction(Function):
+    @staticmethod
+    def forward(ctx, input):
+        output = custom_op.custom_forward(input)  # 调用C++扩展模块的前向传播函数
+        ctx.save_for_backward(input)  # 保存输入，以备反向传播使用
+        return output
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        input, = ctx.saved_tensors  # 获取保存的输入
+        grad_input = custom_op.custom_backward(grad_output, input)  # 调用C++扩展模块的反向传播函数
+        return grad_input
+
+# 使用自定义操作
+input = torch.randn(3, 3, requires_grad=True)
+custom_op_function = CustomOpFunction.apply
+output = custom_op_function(input)
+loss = output.sum()
+loss.backward()
+
+print("Input:", input)
+print("Output:", output)
+print("Gradient:", input.grad)
+```
+
+
 # 自动求导
 
 
