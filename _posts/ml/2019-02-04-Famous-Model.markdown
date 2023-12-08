@@ -280,13 +280,16 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
 
 ## Transformer门派
 * 编码预训练语言模型(Encoder-only Pre-trained Models) 
+  * Encoder-only Transformer模型通常用于提取输入序列的特征表示，而不需要生成输出序列。这在许多自然语言处理（NLP）任务中很有用，如情感分析、命名实体识别等。通过使用编码器，可以将输入序列转换为一个固定长度的向量表示，然后将该表示传递给其他模型或任务进行进一步处理。
   * BERT
 * 解码预训练语言模型(Decoder-only Pre-trained Models)
+  * Decoder-only Transformer模型通常用于生成式任务，如文本生成或图像描述生成。在这些任务中，我们只需要使用解码器来生成输出序列，而不需要编码器来处理输入序列。这种模型结构可以减少计算量和内存需求，因为不需要为编码器分配资源。
   * GPT
-* 基于编解码架构的预训练语言模型(Encoder-decoder Pre-trained Models)
+* 基于编解码架构的预训练语言模型(Encoder-Decoder Pre-trained Models)
   * T5
 
 
+"prefill"技术:用于在解码器的自注意力计算中提前计算一部分注意力权重，以减少计算量和提高效率。
 
 
 ## Attention机制

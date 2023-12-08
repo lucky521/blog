@@ -12,7 +12,7 @@ categories: [MachineLearning]
 
 # 设计原则
 
-* 与训练系统联合。
+* 推理系统与训练系统联合。
 * 性能和易用性的兼顾。
 * 在所运行的设备上能高效运行。 
 
@@ -45,10 +45,10 @@ TF savedmodel。
 
 
 
-# 模型分布式
+# 模型分布式推理
 将一个超大模型拆解部署在多个节点。
 
-https://github.com/tensorflow/mesh
+[?](https://github.com/tensorflow/mesh)
 
 # 模型压缩
 模型太复杂、参数太多，对于成本的要求都是很高的。因而需要模型压缩技术来尽可能权衡效果和成本。
@@ -187,7 +187,7 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 
 
 
-# 知名框架
+# 知名推理框架
 
 ## TensorFlow Serving
 https://github.com/tensorflow/serving

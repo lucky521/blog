@@ -57,14 +57,13 @@ tcp_status
 
 
 
-## 本地Shell
+## Shell
 
 ### 删除本地老数据
 find ./-type f -mtime +30 -exec rm -f {} \; 
 
 
 ### 并行执行（fork）
-
 ```shell
 N=4
 (
@@ -75,7 +74,6 @@ done
 ```
 
 ### 去除字符串左侧的0
-
 hour="01" &&  hour_int=$(echo $hour | sed 's/^0//') && echo $hour_int
 
 ## HDFS
@@ -99,7 +97,7 @@ topic=$4
 echo "Checking dt=$dt,dh=$dh,channel=$channel,topic=$topic"
 hadoop fs -ls hdfs://xxx/xxx/my.db/mytable/dt=$dt/dh=$dh/channel=$channel/topic=$topic
 if [ $? -ne 0 ]; then
-    echo "file not exists. Drop meta of dt=$dt,dh=$dh,channel=$channel,topic=$topic"    
+    echo "file not exists. Drop meta of dt=$dt,dh=$dh,channel=$channel,topic=$topic"
     hive -e "ALTER TABLE my.mytable DROP IF EXISTS PARTITION(dt='$dt',dh='$dh',channel='$channel',topic='$topic');"
 fi
 ```
@@ -211,6 +209,18 @@ set mapred.output.compression.codec=org.apache.hadoop.io.compress.GzipCodec;
 ### unicode转中文
 ```python
 "\xe8\xb7\xaf\xe7\x94\xb1\xe6\x89\xbe\xe4\xb8\x8d\xe5\x88\xb0\xe5\x95\xa6\xef\xbc\x81".encode('latin-1').decode('utf-8')
+```
+
+### 八进制表示转中文
+```python
+def decode_unicode_string(unicode_string):
+    encoded_bytes = unicode_string.encode('utf-8').decode('unicode_escape').encode('latin1')
+    decoded_string = encoded_bytes.decode('utf-8')
+    return decoded_string
+
+encoded_string = "\\346\\250\\241\\345\\236\\213\\351\\252\\214\\345\\210\\206\\345\\244\\261\\350\\264\\245\\357\\274\\214\\345\\216\\237\\345\\233\\240\\345\\222\\214\\350\\247\\243\\345\\206\\263\\345\\212\\236\\346\\263\\225\\350\\257\\267\\346\\237\\245\\347\\234\\213\\344\\270\\212\\345\\261\\202\\345\\244\\261\\350\\264\\245\\350\\212\\202\\347\\202\\271\\346\\217\\220\\347\\244\\272"
+decoded_string = decode_unicode_string(encoded_string)
+print(decoded_string)
 ```
 
 

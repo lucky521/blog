@@ -209,7 +209,6 @@ SIMT多个线程各有各的处理单元，和SIMD公用一个ALU不同。因而
 
 
 # CUDA的出现
-
 2007年，nvidia发现了一个能使得GPU进入主流的契机，那就是为GPU制定一个标准的编程接口，这就是CUDA. 
 
 CUDA编译模型使用了和java语言一样的编译原则：基于虚拟指令集的运行时编译。
@@ -226,6 +225,59 @@ CUDA的替代选择(通用并行计算平台和编程模型)
 * OpenACC: 让并行程序员能够为编译器提供简单的提示，亦称「指令」，使编译器能够识别哪些代码部分需要加速，无需程序员修改或改编底层代码本身。
 
 
+## 概念
+
+* context: 在使用GPU进行计算时，需要创建一个上下文来管理GPU资源的分配和释放。
+* stream: 流是GPU上执行的一系列操作的序列。GPU操作可以被分成多个流，每个流中的操作可以并行执行。通过将操作分配到不同的流中，可以提高GPU的利用率和性能。
+* kernel: 核函数是在GPU上执行的并行计算任务。它是GPU程序的基本执行单元，通常由多个线程同时执行。核函数可以通过编程语言（如CUDA）编写，并在GPU上执行，以实现高性能的并行计算。
+* graph
+
+```python
+import numpy as np
+from numba import cuda
+
+# 创建GPU上下文 ，它用于管理GPU资源和执行GPU操作。
+cuda_context = cuda.create_context()
+
+# 创建GPU流 它用于将操作分配到不同的流中以实现并行执行。
+stream = cuda.stream()
+
+# 定义一个核函数，用于在GPU上执行并行计算
+@cuda.jit
+def vector_add(a, b, c):
+    idx = cuda.threadIdx.x + cuda.blockIdx.x * cuda.blockDim.x
+    if idx < len(c):
+        c[idx] = a[idx] + b[idx]
+
+# 创建输入数据和输出数据
+a = np.array([1, 2, 3, 4, 5])
+b = np.array([6, 7, 8, 9, 10])
+c = np.zeros_like(a)
+
+# 在GPU上分配内存
+d_a = cuda.to_device(a, stream)
+d_b = cuda.to_device(b, stream)
+d_c = cuda.to_device(c, stream)
+
+# 在GPU上执行核函数
+threads_per_block = 32
+blocks_per_grid = (len(c) + (threads_per_block - 1)) // threads_per_block
+vector_add[blocks_per_grid, threads_per_block, stream](d_a, d_b, d_c)
+
+# 将结果从GPU复制回CPU
+d_c.copy_to_host(c, stream)
+
+# 同步GPU流
+stream.synchronize()
+
+# 打印结果
+print(c)
+
+# 销毁GPU上下文
+cuda_context.pop()
+```
+
+
 ## CUDA 线程层次
 
 一个CUDA Kernel大概可以分为这么几层（从底层到顶层）：thread，warp，block，grid。 
@@ -237,7 +289,6 @@ PS：core和kernel两个词，core指的是硬件核心，处理器；kernel指�
 * Thread 线程： 一个CUDA的并行程序会有许多threads来执行， 线程是GPU运算的最小执行单元。
 * Kernel definition:  使用__global__定义的C/C++函数。
   
-
 
 ## CUDA GPU 物理层次
 
