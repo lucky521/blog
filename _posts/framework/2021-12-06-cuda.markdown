@@ -230,7 +230,8 @@ CUDA的替代选择(通用并行计算平台和编程模型)
 * context: 在使用GPU进行计算时，需要创建一个上下文来管理GPU资源的分配和释放。
 * stream: 流是GPU上执行的一系列操作的序列。GPU操作可以被分成多个流，每个流中的操作可以并行执行。通过将操作分配到不同的流中，可以提高GPU的利用率和性能。
 * kernel: 核函数是在GPU上执行的并行计算任务。它是GPU程序的基本执行单元，通常由多个线程同时执行。核函数可以通过编程语言（如CUDA）编写，并在GPU上执行，以实现高性能的并行计算。
-* graph
+* graph: CUDA图（CUDA Graph）是CUDA中的一项功能，提供了一组API用于创建、管理和执行CUDA图。CUDA图的主要目的是将多个GPU计算任务的依赖关系显式地表示出来，并通过这些依赖关系来优化GPU计算的执行顺序。 
+  * CUDA Graphs 在 CUDA 10 中首次亮相，它让一系列 CUDA 内核被定义和封装为一个单元，即一个算子图，而不是一系列单独启动的算子。它提供了一种通过单个 CPU 操作 launch 多个 GPU 算子的机制，从而减少了 launch 开销。
 
 ```python
 import numpy as np
@@ -329,6 +330,10 @@ NVIDIA HPC SDK 生态
 
 
 
+## NVIDIA Nsight 产品家族
+* nsight system是一个全方位的系统性能监控
+* nsight compute 是CUDA核性能细节展开
+* nsight graphics 是图像渲染性能分析展开
 
 
 

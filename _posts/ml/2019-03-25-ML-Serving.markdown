@@ -168,6 +168,11 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 
 * tvm
   * https://github.com/apache/tvm
+  * pass架构： https://daobook.github.io/tvm/docs/arch/pass_infra.html
+* relay
+  * 可以理解为一种可以描述深度学习网络的函数式编程语言
+  * Relay 是 TVM 的高级模型语言。导入到 TVM 的模型是用 Relay 表示的
+  * Relay 是 TVM 中十分重要的基础组件之一，用于对接不同格式的深度学习模型以及进行模型的 transform
 * mlir
   * https://mlir.llvm.org/
 * iree
@@ -175,8 +180,7 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 * halide 
   * https://github.com/halide/Halide
   * 与机器学习算法无关的底层优化器，原先用于图片处理和矩阵计算
-* relay
-  * 可以理解为一种可以描述深度学习网络的函数式编程语言
+
 * https://github.com/alibaba/MNN
 * https://github.com/Tencent/TNN
 * https://github.com/bytedance/lightseq
@@ -247,18 +251,23 @@ https://docs.ray.io/en/latest/serve/index.html
 
 # Nvidia GPU 全家桶
 在模型推理方面，NVIDIA提供了基于GPU加速的推理软件。
+
 ## TensorRT (TRT)
 https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html
 Nvidia’s TensorRT is a deep learning optimizer and runtime for accelerating deep learning inference on Nvidia GPUs.
 TensorRT严格来讲并不是以一个model server框架，他的重点在于性能优化。但TensorRT提供了REST方式的服务支持。
 
-使用上，先把TF/PyTorch模型转换为ONNX格式（使用https://github.com/onnx/tensorflow-onnx）
+使用上，先把TF/PyTorch模型转换为ONNX格式
+* TF使用 https://github.com/onnx/tensorflow-onnx
+* Pytorch使用 torch.onnx.export
 
-```py
-python -m tf2onnx.convert  --input /Path/to/resnet50.pb --inputs input_1:0 --outputs probs/Softmax:0 --output resnet50.onnx 
+```sh
+python -m tf2onnx.convert \
+   --input /Path/to/resnet50.pb --inputs input_1:0 \
+   --outputs probs/Softmax:0 --output resnet50.onnx 
 ```
 
-得到onnx格式之后，通过trt.builder将onnx构建出一个trt engine
+得到onnx格式之后，通过 trt.builder 将onnx构建出一个trt engine
 ```python
 import tensorrt as trt
 
@@ -272,7 +281,10 @@ def build_engine(onnx_path, shape = [1,224,224,3]):
       onnx_path : Path to onnx_file. 
       shape : Shape of the input of the ONNX file. 
   """
-   with trt.Builder(TRT_LOGGER) as builder, builder.create_network(1) as network, builder.create_builder_config() as config, trt.OnnxParser(network, TRT_LOGGER) as parser:
+  with trt.Builder(TRT_LOGGER) as builder,\
+    builder.create_network(1) as network, \
+    builder.create_builder_config() as config, \
+    trt.OnnxParser(network, TRT_LOGGER) as parser:
        config.max_workspace_size = (256 << 20)
        with open(onnx_path, 'rb') as model:
            parser.parse(model.read())
@@ -284,6 +296,7 @@ def save_engine(engine, file_name):
    buf = engine.serialize()
    with open(file_name, 'wb') as f:
        f.write(buf)
+
 def load_engine(trt_runtime, plan_path):
    with open(plan_path, 'rb') as f:
        engine_data = f.read()

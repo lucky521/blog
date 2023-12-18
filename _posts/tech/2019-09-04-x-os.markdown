@@ -48,6 +48,15 @@ layout: post
 [内存耗用：VSS/RSS/PSS/USS 的介绍](https://www.jianshu.com/p/3bab26d25d2e)
 
 
+
+```shell
+$ free -h -w
+              total        used        free      shared     buffers       cache   available
+Mem:           754G        335G        281G        4.1G        1.9G        135G        400G
+Swap:            0B          0B          0B
+```
+
+
 ## IO模型
 socket系统调用，是进行TCP/IP通信的接口。
 * 阻塞IO：应用程序调用recvfrom，如果没有数据来，程序会阻塞在这里。
@@ -66,6 +75,11 @@ socket系统调用，是进行TCP/IP通信的接口。
 
 
 # Linux
+
+## Page Cache 和 Buffer Cache 
+页面缓存又叫文件缓存.
+文件读取是由外存上不连续的几个磁盘块，到buffer cache，然后组成page cache，然后供给应用程序。
+
 
 # Android
 https://source.android.com/docs/core/architecture

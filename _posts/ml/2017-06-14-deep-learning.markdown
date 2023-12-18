@@ -284,7 +284,18 @@ BN由2015年提出，近年来越来越流行，几乎被用在每一种神经�
 RMSNorm的主要思想是根据特征的均方根（Root Mean Square）来进行归一化。对于每个样本，RMSNorm计算特征的均方根，并将特征值除以均方根来进行归一化。这样可以保留特征的相对比例，同时缩放特征的幅度，使其适合神经网络的训练。
 
 
+
+
+
+
+
+
+
 ## 网络分层
+你需要了解：
+* 某层的作用
+* 某层的计算操作具体是怎么样的
+* 某层应该放置在什么位置
 
 ### 全连接层 Fully Connected layer
 
@@ -348,12 +359,16 @@ BN(Batch Normalization)
 训练深度网络的时候经常发生训练困难的问题，因为，每一次参数迭代更新后，上一层网络的输出数据经过这一层网络计算后，数据的分布会发生变化，为下一层网络的学习带来困难。
 Internal Covariate Shift
 https://machinelearning.wtf/terms/internal-covariate-shift/
-
 https://keras.io/zh/layers/normalization/
 https://zhuanlan.zhihu.com/p/56225304
 https://zhuanlan.zhihu.com/p/34879333
 
-batchnorm层的放置位置很重要可以尝试放在最输出层之前或embedding层之后。
+Batch Normalization的核心思想是对每个特征维度进行归一化。对于每个训练批次中的每个特征，Batch Normalization执行以下步骤：
+1. 计算该特征的均值和方差。
+2. 使用批次内的均值和方差对该特征进行归一化。
+3. 对归一化后的特征进行缩放和平移，以便模型可以学习适当的表示。
+
+batchnorm层的放置位置很重要， 可以尝试放在最输出层之前或embedding层之后。
 
 ### Noise层
 

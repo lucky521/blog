@@ -142,6 +142,9 @@ https://github.com/openai/whisper
 ## text-generation-inference
 https://github.com/huggingface/text-generation-inference
 
+## lmdeploy
+https://github.com/InternLM/lmdeploy
+
 
 
 
