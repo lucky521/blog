@@ -198,16 +198,16 @@ impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很
 # Spark 
 当前最流行的批处理计算引擎应该就是spark了。
 
-* spark-shell 命令行交互开发
 * spark-submit 提交jar包运行
   * --master 
     * yarn : in YARN mode the ResourceManager’s address is picked up from the Hadoop configuration.
     * spark://host:port
     * k8s://https://host:port
-    * local 默认
+    * local: 默认
   * --deploy-mode
     * In cluster mode, the Spark driver runs inside an application master process which is managed by YARN on the cluster, and the client can go away after initiating the application. 
     * In client mode, the driver runs in the client process, and the application master is only used for requesting resources from YARN. 默认
+* spark-shell 命令行交互开发
 * spark-sql 直接用sql交互开发
 
 
@@ -254,6 +254,9 @@ impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很
 
 ## PySpark
 
+pyspark给特别喜欢写python脚本语言而不喜欢写java的人提供了机会；对于简单的处理逻辑，脚本无需编译直接运行，很方便。
+如果你的运行逻辑需要依赖三方库，在pyspark库中引入复杂的第三方库，可没有pip或conda那么简单了，需要做新的spark集群镜像。
+
 ## SparkSQL
 SparkSQL引擎
 Spark SQL can use existing Hive metastores, SerDes, and UDFs.
@@ -262,6 +265,12 @@ Spark SQL can use existing Hive metastores, SerDes, and UDFs.
 
 ```java
     Dataset<Row> df = sparkSession.sql(cmdLine.getSql());
+```
+
+
+```shell
+echo  "show databases;" > test.sql
+spark-sql -f  test.sql
 ```
 
 ## Hive on Spark

@@ -152,8 +152,11 @@ https://gist.github.com/myusuf3/7f645819ded92bda6677
 
 
 
+## 寻找迭代更新最频繁的10个文件
 
-
+```
+git log --format='' --name-only | sort | uniq -c | sort -rn | head -n 10 
+```
 
 
 
