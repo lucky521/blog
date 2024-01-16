@@ -251,6 +251,12 @@ impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很
   * https://stackoverflow.com/questions/31610971/spark-repartition-vs-coalesce
 * mapPartitionsFunction
 
+## sql/java/scala的类型兼容性，并不是很友好
+* java.lang.ClassCastException: scala.collection.mutable.WrappedArray$ofRef cannot be cast to java.util.List
+* java.lang.RuntimeException: java.util.HashMap is not a valid external type for schema of map
+* java.lang.RuntimeException: java.util.Collections$UnmodifiableRandomAccessList is not a valid external type for schema of array
+* java.lang.RuntimeException: java.util.ArrayList is not a valid external type for schema of array
+
 
 ## PySpark
 

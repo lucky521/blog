@@ -46,9 +46,13 @@ TF savedmodel。
 
 
 # 模型分布式推理
-将一个超大模型拆解部署在多个节点。
+将一个超大模型拆解部署在多个计算节点。（流量负载均衡、稀疏参数分布式，不在本章的讨论范围）
 
 [?](https://github.com/tensorflow/mesh)
+
+
+
+
 
 # 模型压缩
 模型太复杂、参数太多，对于成本的要求都是很高的。因而需要模型压缩技术来尽可能权衡效果和成本。
@@ -184,14 +188,13 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 * https://github.com/alibaba/MNN
 * https://github.com/Tencent/TNN
 * https://github.com/bytedance/lightseq
-* https://github.com/microsoft/onnxruntime
 * https://github.com/openppl-public/ppl.nn
 * https://github.com/openvinotoolkit/openvino
 * https://github.com/alibaba/BladeDISC
 
 
 
-# 知名推理框架
+# 开源推理框架
 
 ## TensorFlow Serving
 https://github.com/tensorflow/serving
@@ -247,6 +250,10 @@ https://github.com/Tencent/TNN
 
 ## Ray Serve
 https://docs.ray.io/en/latest/serve/index.html
+
+## onnxruntime
+https://github.com/microsoft/onnxruntime
+
 
 
 # Nvidia GPU 全家桶
@@ -307,6 +314,7 @@ def load_engine(trt_runtime, plan_path):
 plan文件，该文件由trt engine序列化导出得到。 The .plan file is a serialized file format of the TensorRT engine.  
 
 [TRT使用介绍](https://developer.nvidia.com/blog/speeding-up-deep-learning-inference-using-tensorflow-onnx-and-tensorrt/)
+[b站教程视频](https://www.bilibili.com/video/BV15Y4y1W73E)
 
 
 ## TensorFlow-TensorRT (TF-TRT)

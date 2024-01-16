@@ -77,6 +77,8 @@ https://www.cnblogs.com/thescholar/p/12167964.html
 
 ## bazel
 
+--jobs= 根据编译机器的core核数设定合适
+
 ## ruby
 安装 rvm、 gem、ruby 挺考验耐心的，版本差异比较大
 https://ruby-china.org/wiki/rvm-guide

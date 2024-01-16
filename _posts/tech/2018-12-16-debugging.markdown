@@ -61,6 +61,17 @@ http://www.brendangregg.com/linuxperf.html
 火焰图 Flame Graph
 https://github.com/brendangregg/FlameGraph
 
+```sh
+sudo yum install perf
+
+perf record -F 99 -p 进程号 -g -- sleep 秒数
+perf script > out.perf
+
+
+FlameGraph-master/stackcollapse-perf.pl out.perf > out.folded
+
+```
+
 
 ## 对一个机器进行快速体检
 
