@@ -215,7 +215,6 @@ CUDA编译模型使用了和java语言一样的编译原则：基于虚拟指令
 
 它使 NVIDIA GPU 能够执行使用 C、C++、Fortran、OpenCL、DirectCompute 和其他语言编写的程序.
 
-
 CUDA的替代选择(通用并行计算平台和编程模型)
 * OpenCL 苹果
 * DirectCompute 微软DirectX的一部分。
@@ -337,6 +336,16 @@ NVIDIA HPC SDK 生态
 
 
 
+
+## CUDA编程
+
+在CUDA编程中，有几种常见的数据类型，包括但不限于：
+
+* 基本数据类型：与C/C++中的基本数据类型相似，包括整型（如int、unsigned int、long long等）、浮点型（如float、double等）、字符型（char）等。
+* 向量类型：CUDA提供了一些向量类型，如char1, uchar1, short1, ushort1, int1, uint1, long1, ulong1, float1, double1等，这些类型表示包含一个元素的向量。
+* 二维和三维向量类型：类似地，CUDA也提供了二维和三维向量类型，如char2, uchar2, short2, ushort2, int2, uint2, long2, ulong2, float2, double2等，以及对应的三维向量类型。
+* 复数类型：CUDA还提供了复数类型，如float_complex和double_complex，用于处理复数运算。
+* 半精度浮点数类型：除了常见的浮点数类型外，CUDA还引入了半精度浮点数类型half和half2，用于处理半精度浮点数，以提高内存利用率和计算效率。
 
 
 

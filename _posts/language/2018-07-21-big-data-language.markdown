@@ -66,6 +66,11 @@ hive依赖 Metastore 服务作为hadoop和用户接口的纽带。 Metastore本�
 
 https://cwiki.apache.org/confluence/display/Hive/AdminManual+Metastore+Administration
 
+
+Hive Metastore schema 和 Parquet schema 的大小写问题
+https://blog.csdn.net/MrZhangBaby/article/details/133793660
+
+
 ## 其他hive services
 
 * Hive Services
@@ -207,12 +212,27 @@ impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很
   * --deploy-mode
     * In cluster mode, the Spark driver runs inside an application master process which is managed by YARN on the cluster, and the client can go away after initiating the application. 
     * In client mode, the driver runs in the client process, and the application master is only used for requesting resources from YARN. 默认
+  * conf配置
+  * --num-executors 50 \ executors的数量
+  * --executor-memory 4G \ 每个executor的内存
+  * --executor-cores 2 \ 每个executor的核数
+  * --driver-memory 2G \ driver的内存
+  * --conf spark.storage.memoryFraction=0.6 \ 用于缓存的内存占比
+  * --conf spark.shuffle.memoryFraction=0.2 \ 用于shuffle的内存占比
+  * --conf spark.locality.wait=10s \ task在executor中执行之前的等待时间
+  * --conf spark.shuffle.file.buffer=64k \ shuffle过程中读取文件的缓冲区大小
+  * --conf spark.yarn.executor.memoryOverhead=2048 \ 设置堆外内存
+  * --conf spark.core.connection.ack.wait.timeout=300 \ ack超时时间
+  * --conf spark.network.timeout=120s \ 网络超时时间
+  * --conf spark.default.parallelism=800 \
 * spark-shell 命令行交互开发
 * spark-sql 直接用sql交互开发
 
-
 * Dataset API
 * SQL API
+
+
+
 
 ## Spark scala/java
 

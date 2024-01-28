@@ -159,6 +159,9 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 低秩分解的基本思想: 将原来大的权重矩阵分解成多个小的矩阵，用低秩矩阵近似原有权重矩阵。这样可以大大降低模型分解之后的计算量.
 
 * SVD分解
+  * np.linalg.svd
+  * torch.svd_lowrank
+  * tf.linalg.svd
 * CP分解
 * Tucker分解
 

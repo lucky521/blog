@@ -151,11 +151,15 @@ Lazy Evaluation
 shared variables - broadcast variables, accumulators
 
 
-[Spark Shuffle Service](https://www.baifachuan.com/posts/36faeace.html)
+CodeGenerator 是干什么的？
+```
+INFO CodeGenerator: Code generated in xxx ms
+```
 
-[How Spark works internally](https://stackoverflow.com/questions/30691385/how-spark-works-internally/30691654#30691654)
 
-[SQL执行优化器 - Catalyst](https://www.databricks.com/blog/2015/04/13/deep-dive-into-spark-sqls-catalyst-optimizer.html)
+* [Spark Shuffle Service](https://www.baifachuan.com/posts/36faeace.html)
+* [How Spark works internally](https://stackoverflow.com/questions/30691385/how-spark-works-internally/30691654#30691654)
+* [SQL执行优化器 - Catalyst](https://www.databricks.com/blog/2015/04/13/deep-dive-into-spark-sqls-catalyst-optimizer.html)
 
 
 

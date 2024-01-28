@@ -27,7 +27,6 @@ LLDB Debugger
 
 ## Java 
 
-
 HotSpot VM的Native Memory Tracking
 
 java8给HotSpot VM引入了Native Memory Tracking (NMT)特性，可以用于追踪JVM的内部内存使用
@@ -53,22 +52,18 @@ http://www.brendangregg.com/linuxperf.html
 
 # 性能 Debugging
 
-如何高效的衡量程序性能？
+[如何高效的衡量程序性能？](http://www.brendangregg.com/linuxperf.html)
 
-http://www.brendangregg.com/linuxperf.html
-
-
-火焰图 Flame Graph
-https://github.com/brendangregg/FlameGraph
+[火焰图 Flame Graph](https://github.com/brendangregg/FlameGraph)
 
 ```sh
 sudo yum install perf
-
 perf record -F 99 -p 进程号 -g -- sleep 秒数
 perf script > out.perf
 
-
-FlameGraph-master/stackcollapse-perf.pl out.perf > out.folded
+git clone https://github.com/brendangregg/FlameGraph.git
+FlameGraph/stackcollapse-perf.pl out.perf > out.folded
+FlameGraph/flamegraph.pl out.floded > out.svg
 
 ```
 
