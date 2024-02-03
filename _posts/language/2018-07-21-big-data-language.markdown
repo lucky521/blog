@@ -221,7 +221,10 @@ impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很
   * --conf spark.shuffle.memoryFraction=0.2 \ 用于shuffle的内存占比
   * --conf spark.locality.wait=10s \ task在executor中执行之前的等待时间
   * --conf spark.shuffle.file.buffer=64k \ shuffle过程中读取文件的缓冲区大小
-  * --conf spark.yarn.executor.memoryOverhead=2048 \ 设置堆外内存
+  * --conf spark.yarn.executor.memoryOverhead=2048 \ 设置堆外内存， 2.3之前版本
+  * --conf spark.executor.memoryOverhead=2048 \ 对外内存， 2.3之后版本
+  * --conf "spark.memory.offHeap.enabled=true" \
+  * --conf "spark.memory.offHeap.size=4096mb" \
   * --conf spark.core.connection.ack.wait.timeout=300 \ ack超时时间
   * --conf spark.network.timeout=120s \ 网络超时时间
   * --conf spark.default.parallelism=800 \
