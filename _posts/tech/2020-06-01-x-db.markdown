@@ -25,7 +25,7 @@ X_DB往往是在线系统和离线系统的边界。
 * OLTP 写多读少。 每次读都读极小数据。  读要求低延时， 要求高并发
 * OLAP 写少读多。 每次读会读大量数据。
 * HTAP
-* 机器学习场景离线对数据的要求是海量， 在线对数据的要求是低延迟
+* 机器学习场景: 离线对数据的要求是海量， 在线对数据的要求是低延迟
 
 ## 缓存无底洞
 
@@ -51,8 +51,8 @@ http://ifeve.com/redis-multiget-hole/
   * cache 空值
 
 
-## 单个key读太热
-
+## 读热key
+单个key读太热，使得分布式负载不平衡。
 * 增加多副本，分担读流量
 * 不要求强一致的用户，启用客户端本地缓存
 * 对于瞬时流量突增场景，调整链接池，保持少量空闲链接
@@ -177,8 +177,8 @@ https://github.com/antlr/antlr4
 数据库的实现类型非常之多，没有最好的数据库，只有最适合的数据库，一定要根据业务的特点进行选择。
 2021年，开源数据库的Popularity首次超越了商用数据库。https://db-engines.com/en/ranking_osvsc
 
-* 键值存储：常见的键值存储数据库有Redis、Memcached、leveldb、rocksdb、tair、etcd
-* 行式存储：常见的行式数据库有MySQL、PostgreSQL、MS SQL Server。
+* 键值存储：常见的键值存储数据库有 Redis、Memcached、leveldb、rocksdb、tair、etcd
+* 行式存储：常见的行式数据库有 MySQL、PostgreSQL、MS SQL Server。
 * 列式存储：常见的列式数据库有 Hbase、Kudu、ClickHouse、 Vertica、 Paraccel (Actian Matrix，Amazon Redshift)、 Sybase IQ、 Exasol、 Infobright、 InfiniDB、 MonetDB (VectorWise， Actian Vector)、 LucidDB、 SAP HANA、 Google Dremel、 Google PowerDrill、 Druid、 kdb+。
 
 
@@ -287,8 +287,10 @@ Time Series Database， 对比传统数据库仅仅记录了数据的当前值�
 
 InfluxDB是一个由InfluxData开发的开源时序型数据。它由Go写成，着力于高性能地查询与存储时序型数据。InfluxDB被广泛应用于存储系统的监控数据，IoT行业的实时数据等场景。
 
+## Lucene
+Java实现的文本搜索库。使用倒排索引来实现高效的文本查询。
 
-## Elasticsearch
+## ElasticSearch
 你说它是搜索引擎也好，也是有很多场景把ELK作为数据库的。
 
 ES-Hadoop 项目， 相当于hadoop MR的一个 ES connector。
@@ -366,7 +368,6 @@ Tablet 是 OpenMLDB 用来执行 SQL 和数据存储的模块，也是整个 Ope
 
 
 ```cpp
-
 PlanAPI::CreatePlanTreeFromScript
   zetasql::ParseScript
   auto planner_ptr = std::make_unique<SimplePlannerV2>(node_manager, is_batch_mode, is_cluster,
@@ -382,6 +383,8 @@ PlanAPI::CreatePlanTreeFromScript
 ## YugabyteDB
 
 ## cockroachDB
+
+
 
 
 

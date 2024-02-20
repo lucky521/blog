@@ -14,7 +14,12 @@ print(torch.__config__.parallel_info())
 
 # Tensor数据类型 
 https://pytorch.org/docs/stable/tensors.html
-torch.Tensor根据dtype和device参数的不同，可以表达几十种数据类型
+torch.Tensor
+根据dtype和device参数的不同，可以表达几十种数据类型
+
+nn.Linear 
+
+nn.Embedding
 
 
 # Tensor 操作
@@ -23,10 +28,30 @@ torch.Tensor根据dtype和device参数的不同，可以表达几十种数据类
 
 Resize: torch.view
 
+reshape
+
 CUDA Tensor:  tensor.to可以将一个tensor转移到指定的device上
 
 
 register_buffer
+
+
+unsqueeze
+在指定的位置增维度
+
+einsum
+爱因斯坦求和
+
+bmm
+三维tensor的矩阵乘法运算，矩阵必须是3维数据
+
+masked_fill(mask, value)
+将mask中为True的元素所对应的基础tensor元素设置为值value
+
+tril
+返回一个矩阵主对角线以下的下三角矩阵，其它元素全部为0
+
+expand
 
 
 

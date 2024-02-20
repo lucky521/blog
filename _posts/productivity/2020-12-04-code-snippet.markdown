@@ -243,13 +243,13 @@ public class Test {
     }
     
     public static void main(String[] args) {
-        liulu_print(-0.000000005454);
-        liulu_print(34534534.0);
-        liulu_print(0.50);
-        liulu_print(0.0);
-        liulu_print(-1.0);
-        liulu_print(-0.0843503);
-        liulu_print(-0.0423040);
+        try_print(-0.000000005454);
+        try_print(34534534.0);
+        try_print(0.50);
+        try_print(0.0);
+        try_print(-1.0);
+        try_print(-0.0843503);
+        try_print(-0.0423040);
     }
 }
 ```

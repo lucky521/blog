@@ -67,6 +67,18 @@ Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，�
 
 
 
+## 推理步骤
+
+* Prefill
+  * Tokenize 将用户输入的文本转换为向量
+  * Computing 纯推理
+  * Sampling 依据推理结果采样，选一个最终的结果
+  * Return
+* 逐词多轮Decoding
+  * Computing
+  * Sampleing
+  * Detokenize 将推理结果向量转换为文本
+  * Return
 
 
 
@@ -194,6 +206,8 @@ curl https://api.openai.com/v1/fine_tuning/jobs \
 ## DALL-E
 
 
+## Sora
+
 
 
 
@@ -251,3 +265,4 @@ LangChain 是一个框架，用于开发由 LLM 驱动的应用程序。
 # Reference
 [大型语言模型（LLM）技术精要](https://zhuanlan.zhihu.com/p/597586623)
 [Numbers every LLM Developer should know](https://github.com/ray-project/llm-numbers)
+[LLM推理性能优化](https://mp.weixin.qq.com/s/4o86rMuburB8jcbU0aYC7g)

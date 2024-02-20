@@ -239,9 +239,9 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
 ## transformer layer的样子
 通过这种自注意力机制层和普通非线性层来实现对输入信号的编码，得到信号的表示。
 
-- 图解Transformer-en http://jalammar.github.io/illustrated-transformer/
-- 图解Transformer-ch https://mp.weixin.qq.com/s/g6EliR8W1AgpLm8QCcxncw
-- The Annotated Transformer https://nlp.seas.harvard.edu/2018/04/03/attention.html
+* 图解Transformer-en http://jalammar.github.io/illustrated-transformer/
+* 图解Transformer-ch https://mp.weixin.qq.com/s/g6EliR8W1AgpLm8QCcxncw
+* The Annotated Transformer https://nlp.seas.harvard.edu/2018/04/03/attention.html
 * 从Word Embedding到Bert模型—自然语言处理中的预训练技术发展史 https://zhuanlan.zhihu.com/p/49271699
 * 美团如何使用 Transformer 搜索排序 https://tech.meituan.com/2020/04/16/transformer-in-meituan.html
 * Nvidia的FasterTransformer是一个开源的高效Transformer实现 https://github.com/NVIDIA/FasterTransformer
@@ -278,6 +278,7 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
         *   加法 & 归一化（Add & Norm）
 3.  最后的线性层和softmax层输出预测结果。
 
+
 ## Transformer门派
 * 编码预训练语言模型(Encoder-only Pre-trained Models) 
   * Encoder-only Transformer模型通常用于提取输入序列的特征表示，而不需要生成输出序列。这在许多自然语言处理（NLP）任务中很有用，如情感分析、命名实体识别等。通过使用编码器，可以将输入序列转换为一个固定长度的向量表示，然后将该表示传递给其他模型或任务进行进一步处理。
@@ -289,12 +290,15 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
   * T5
 
 
-"prefill"技术:用于在解码器的自注意力计算中提前计算一部分注意力权重，以减少计算量和提高效率。
 
 
 ## Attention机制
 
 [Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)
+
+"prefill"技术:
+用于在解码器的自注意力计算中提前计算一部分注意力权重，以减少计算量和提高效率。
+
 
 
 ## BERT
@@ -317,34 +321,34 @@ GPT开启了”大模型“时代。 -> LLM -> 请见另一篇以LLM专题的Blo
 
 # References
 
-wide&deep: https://arxiv.org/pdf/1606.07792.pdf
+[wide&deep](https://arxiv.org/pdf/1606.07792.pdf)
 
-seq2seq: https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf
+[seq2seq](https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf)
 
-PNN: https://arxiv.org/pdf/1611.00144.pdf
+[PNN](https://arxiv.org/pdf/1611.00144.pdf)
 
-NCF: https://www.comp.nus.edu.sg/~xiangnan/papers/ncf.pdf
+[NCF](https://www.comp.nus.edu.sg/~xiangnan/papers/ncf.pdf)
 
-MV-DNN: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/frp1159-songA.pdf
+[MV-DNN](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/frp1159-songA.pdf)
 
-FNN: 利用FM的结果进行网络初始化 https://arxiv.org/pdf/1601.02376.pdf
+[FNN](https://arxiv.org/pdf/1601.02376.pdf) - 利用FM的结果进行网络初始化
 
-DNN-YouTube: https://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/45530.pdf
+[DNN-YouTube](https://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/45530.pdf)
 
-DCN: https://arxiv.org/pdf/1708.05123.pdf ， DCN介绍： https://zhuanlan.zhihu.com/p/43364598
+[DCN](https://arxiv.org/pdf/1708.05123.pdf) | [DCN介绍](https://zhuanlan.zhihu.com/p/43364598)
 
-GBDT+LR: http://quinonero.net/Publications/predicting-clicks-facebook.pdf
+[GBDT+LR](http://quinonero.net/Publications/predicting-clicks-facebook.pdf)
 
-FM: https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf
+[FM](https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf)
 
-NFM: 使用神经网络提升FM二阶部分的特征交叉能力 https://www.comp.nus.edu.sg/~xiangnan/papers/sigir17-nfm.pdf
+[NFM](https://www.comp.nus.edu.sg/~xiangnan/papers/sigir17-nfm.pdf) - 使用神经网络提升FM二阶部分的特征交叉能力
 
-AFM: 引入了注意力机制的FM模型 https://arxiv.org/pdf/1708.04617.pdf
+[AFM](https://arxiv.org/pdf/1708.04617.pdf) - 引入了注意力机制的FM模型
 
-deepFM: https://www.ijcai.org/proceedings/2017/0239.pdf
+[deepFM](https://www.ijcai.org/proceedings/2017/0239.pdf)
 
-深度学习推荐系统 https://www.zhihu.com/people/wang-zhe-58
+[深度学习推荐系统](https://www.zhihu.com/people/wang-zhe-58)
 
-CTR深度模型总结 https://github.com/shenweichen/DeepCTR
+[CTR深度模型总结](https://github.com/shenweichen/DeepCTR)
 
-推荐系统多目标模型 https://www.cnblogs.com/eilearn/p/14746522.html
+[推荐系统多目标模型](https://www.cnblogs.com/eilearn/p/14746522.html)
