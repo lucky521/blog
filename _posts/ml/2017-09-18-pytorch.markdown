@@ -53,6 +53,11 @@ tril
 
 expand
 
+view
+
+permute
+
+contiguous
 
 
 # custom PyTorch OP implementation

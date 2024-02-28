@@ -27,7 +27,6 @@ JS的主要应用是在浏览器上运行，同时它还跨界可以在服务器
 
 # 后端JS
 
-
 ```js
 var http = require('http');
 
@@ -52,7 +51,7 @@ console.log('Server running at http://127.0.0.1:8888/');
 
 
 
-# 基础语法
+# JS基础语法
 
 
 ## async/await
@@ -62,4 +61,6 @@ console.log('Server running at http://127.0.0.1:8888/');
 await 实际上会暂停函数的执行，直到 promise 状态变为 settled，然后以 promise 的结果继续执行。这个行为不会耗费任何 CPU 资源，因为 JavaScript 引擎可以同时处理其他任务：执行其他脚本，处理事件等。
 
 
+
+## export default
 

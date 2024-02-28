@@ -21,7 +21,7 @@ layout: post
   * Ajax
   * axios
 * Web服务器
-  * Node, express
+  * Node, express, koa, egg
   * nginx, apache
   * tomcat
   * flask
@@ -69,7 +69,7 @@ https://existek.com/blog/top-front-end-frameworks-2020/
 * vue
 * angular
 
-## 前端可视化库
+# 前端可视化组件库
 
 https://antv.vision/
 
@@ -78,7 +78,7 @@ https://github.com/antvis/X6
 https://ant.design/index-cn
 
 
-## 前端模块打包器
+# 前端模块打包器
 Webpack
 vite
 parcel
@@ -101,14 +101,24 @@ rollup
 
 ## 定义组件
 定义一个函数，返回html元素，算是一个函数组件。
+
 定义一个类，继承自React.Component，算是一个class组件。
 
+* componentDidMount 在组件挂载后（插入 DOM 树中）立即调用, 依赖于 DOM 节点的初始化应该放在 componentDidMount() 方法中。
+* render
+* this.props.history.push 页面跳转
+
+
 ## 组件的 props
-props 是传递给组件的js对象。
+props 是外部传递给组件的js对象。props 在组件内部是不可修改的
 
 ## 正确地使用 State
-state 是在组件内被组件自己管理的js对象。
+state 是在组件内被组件自己管理的js对象(可以是变量、也可以是函数)。它是个大字典。
 构造函数里可以给this.state直接赋值，其他地方应该使用setState，直接赋值不会重新渲染组件。
+
+* state = {} 组件构造函数里面，给state里的各个对象赋初值
+* setState 出了组件足够函数之后，修改state里的内容。 当state内容有变化时，触发render。
+* this.state 出了组件足够函数之后，其他地方读取state里的内容。
 
 ## 其他
 * export default withRouter
@@ -120,3 +130,8 @@ state 是在组件内被组件自己管理的js对象。
   * 将数据模型中的 state 映射到组件 props
   * 将数据模型中的 reducer 或 effect 以 dispatch(action) 的形态映射到组件 props
   * 当数据模型中的 state 发生变化时，通知关联的组件进行更新
+
+
+
+
+# egg.js
