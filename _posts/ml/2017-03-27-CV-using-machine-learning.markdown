@@ -151,9 +151,8 @@ http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional
 
 http://arxiv.org/abs/1409.4842
 
-## ResNet
-
-残差网络
+## ResNet 残差网络
+残差网络的核心思想是引入“跳过连接”（skip connections或shortcut connections），允许网络中的信号绕过一个或多个层。
 
 ## CaffeNet
 

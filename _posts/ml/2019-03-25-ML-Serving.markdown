@@ -11,7 +11,6 @@ categories: [MachineLearning]
 
 
 # 设计原则
-
 * 推理系统与训练系统联合。
 * 性能和易用性的兼顾。
 * 在所运行的设备上能高效运行。 
@@ -33,7 +32,7 @@ Moving models from training to serving in production at scale.
 
 ## onnx
 ONNX是一个开源的机器学习模型格式。
-https://www.onnxruntime.ai/
+onnx文件是一个ModelProto，它包含了一些版本信息，生产者信息和一个GraphProto。在GraphProto里面又包含了四个repeated数组，它们分别是node(NodeProto类型)，input(ValueInfoProto类型)，output(ValueInfoProto类型)和initializer(TensorProto类型)，其中node中存放了模型中所有的计算节点，input存放了模型的输入节点，output存放了模型中所有的输出节点，initializer存放了模型的所有权重参数。
 
 ## pytorch
 pytoch参数状态字典。
@@ -63,7 +62,7 @@ TF savedmodel。
 
 训练和推理的需求不同：在训练阶段，使用高精度的浮点数可以提供更好的模型收敛性和表达能力。而在推理阶段，使用低精度可以提供更高的计算效率。因此，直接在训练过程中使用低精度可能会降低模型的准确性和性能。训练过程中的梯度计算：训练过程中需要计算梯度来更新模型参数。使用低精度表示可能导致梯度计算的不准确性，从而影响模型的收敛性和训练效果。
 
-[大语言模型的模型量化(INT8/INT4)技术](https://zhuanlan.zhihu.com/p/627436535)
+
 
 * 标准的FP32
   * 标准的 IEEE 32 位浮点表示, 为“指数”保留了 8 位，为“尾数”保留了 23 位，为符号保留了 1 位。
@@ -156,6 +155,9 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 
 
 ## 低秩分解（Low-Rank Decomposition）
+
+当矩阵的秩较低时（r << n, m），就可以视其为低秩矩阵。低秩矩阵意味着，此矩阵中有较多的行（或列）是线性相关的，即：信息冗余较大。
+
 低秩分解的基本思想: 将原来大的权重矩阵分解成多个小的矩阵，用低秩矩阵近似原有权重矩阵。这样可以大大降低模型分解之后的计算量.
 
 * SVD分解
@@ -199,11 +201,15 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 
 # 开源推理框架
 
+## onnxruntime
+https://github.com/microsoft/onnxruntime
+微软推出的一种模型标准，它设计了一种模型文件的表达结构，又实现了一个跨平台的执行引擎，用于在各种硬件设备上执行这个模型的推理过程。
+
+
 ## TensorFlow Serving
 https://github.com/tensorflow/serving
 TensorFlow Serving is a prediction serving system developed by Google to serve models trained in TensorFlow.
 Google称它的处理能力可以达到100000 requests per second per core。
-
 
 ## TFlite
 https://www.tensorflow.org/lite/guide
@@ -254,8 +260,7 @@ https://github.com/Tencent/TNN
 ## Ray Serve
 https://docs.ray.io/en/latest/serve/index.html
 
-## onnxruntime
-https://github.com/microsoft/onnxruntime
+
 
 
 
@@ -268,7 +273,7 @@ Nvidia’s TensorRT is a deep learning optimizer and runtime for accelerating de
 TensorRT严格来讲并不是以一个model server框架，他的重点在于性能优化。但TensorRT提供了REST方式的服务支持。
 
 使用上，先把TF/PyTorch模型转换为ONNX格式
-* TF使用 https://github.com/onnx/tensorflow-onnx
+* TF使用 https://github.com/onnx/tensorflow-onnx -> tf2onnx.convert
 * Pytorch使用 torch.onnx.export
 
 ```sh
@@ -383,3 +388,4 @@ https://github.com/NVIDIA/TensorRT-LLM/
 * https://zhuanlan.zhihu.com/p/43267451
 * https://zhuanlan.zhihu.com/p/50529704
 * [Dive into Deep Learning Compiler](http://tvm.d2l.ai/d2l-tvm.pdf)
+* [大语言模型的模型量化(INT8/INT4)技术](https://zhuanlan.zhihu.com/p/627436535)

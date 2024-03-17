@@ -93,6 +93,11 @@ command1 && commmand2  command1先执行，只有当command1执行成功才会�
 
 
 
+# set
+
+-e  Exit immediately if a command exits with a non-zero status.
+
+
 # 参考
 https://stackoverflow.com/questions/31255699/double-parenthesis-with-and-without-dollar
 

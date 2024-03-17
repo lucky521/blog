@@ -122,7 +122,7 @@ word_ids = [1,2,3,4,5]
 embedded_word_ids = [[1, xxx], [2, yyy]...,[5, zzz]]
 
 ```python
-word_embeddings = tf.get_variable(“word_embeddings”, [vocabulary_size, embedding_size])
+word_embeddings = tf.get_variable("word_embeddings", [vocabulary_size, embedding_size])
 embedded_word_ids = tf.nn.embedding_lookup(word_embeddings, word_ids)
 ```
 
@@ -165,21 +165,45 @@ train_op = tf.train.AdamOptimizer(1e-1).minimize(loss)
 ```
 
 
-## 
+### LDA 
 
-使用主题模型LDA[24]将Query和Doc映射到同一向量空间
+使用主题模型LDA将Query和Doc映射到同一向量空间
 
 
-## 
+### bert
 
 使用BERT得到Query和Doc的表示向量
 
 
 
 
-# 语料中数据量较少的word，能否学到合适的Embedding值？
+## 语料中数据量较少的word，能否学到合适的Embedding值？
 
-方法一：对稀疏的id做聚类处理
+"""
+预训练嵌入:
+使用预训练的词嵌入（如Word2Vec、GloVe或FastText）可以是一个很好的起点。这些嵌入是在非常大的语料库上训练的，因此即使是罕见词也能得到相对合理的初始嵌入表示。对于特定任务，可以在这些预训练嵌入的基础上进行微调。
+
+子词嵌入:
+FastText是一种特别适合处理稀疏词的嵌入技术。它不仅学习词的嵌入，还学习词根、前缀和后缀的嵌入。这意味着即使整个词没有在训练集中频繁出现，模型也可以通过学习其组成部分的嵌入来构建词的表示。
+
+上下文嵌入:
+语境化嵌入模型，如BERT、GPT和ELMo，通过考虑周围的单词来生成词的嵌入。这些模型能够为每个词生成独特的嵌入，即使是在不同的上下文中出现次数较少的词。
+
+平滑和正则化:
+在训练过程中，可以应用各种平滑技术和正则化策略，如L2正则化，以防止模型在训练数据中过度拟合那些出现频率高的词，同时也帮助模型为稀疏词生成更加通用的嵌入。
+
+数据增强:
+对于训练数据，可以通过数据增强来增加稀疏词的出现次数。例如，可以使用同义词替换、回译或其他文本生成技术来创造新的句子，这些句子包含稀疏词，从而增加它们的出现频率。
+
+特殊处理:
+对于出现次数非常少的词，可以将它们映射到一个特殊的"未知"标记，而不是给每个稀疏词分配一个独立的嵌入。这样，模型可以学习一个通用的表示，用于处理未知或非常罕见的词。
+
+集成外部知识:
+可以利用外部知识库（如WordNet）或者本体来为稀疏词提供额外的语义信息，从而辅助嵌入学习。
+
+权重共享:
+对于一些特定类型的网络，比如字符级的卷积神经网络（CNNs）或循环神经网络（RNNs），可以通过在字符级别而不是词级别上共享权重来学习嵌入，这样即使是稀疏词也能从字符组合中获益。
+"""
 
 
 
@@ -300,6 +324,8 @@ Query-embedding:
 
 User-embedding:
 
+- *2vec papers: https://gist.github.com/nzw0301/333afc00bd508501268fa7bf40cafe4e
+
 
 ## Alibaba - Billion-scale Commodity Embedding for E-commerce Recommendation in Alibaba
 
@@ -331,9 +357,6 @@ Item2vec中把用户浏览的商品集合等价于word2vec中的word的序列.
 
 
 
-# Reference
-
-- *2vec papers: https://gist.github.com/nzw0301/333afc00bd508501268fa7bf40cafe4e
 
 
 

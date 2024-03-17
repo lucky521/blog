@@ -208,7 +208,7 @@ SIMT多个线程各有各的处理单元，和SIMD公用一个ALU不同。因而
 
 
 
-# CUDA的出现
+# CUDA
 2007年，nvidia发现了一个能使得GPU进入主流的契机，那就是为GPU制定一个标准的编程接口，这就是CUDA. 
 
 CUDA编译模型使用了和java语言一样的编译原则：基于虚拟指令集的运行时编译。
@@ -280,14 +280,21 @@ cuda_context.pop()
 
 ## CUDA 线程层次
 
-一个CUDA Kernel大概可以分为这么几层（从底层到顶层）：thread，warp，block，grid。 
+一个CUDA Kernel大概可以分为这么几层（从底层到顶层）：thread < warp < block < grid 
 PS：core和kernel两个词，core指的是硬件核心，处理器；kernel指软件核心，可重复使用的种子。
 
 * Grid 网格： 一维或多维线程块(block)
 * Block 线程块: 一组线程(thread)，包含若干个warp。
-* warp 线程束: 以批处理方式运行的多个线程（32个）， 一个SIMD处理中若干个线程是同时执行的。
+* Warp 线程束: 以批处理方式运行的多个线程（32个）， 一个SIMD处理中若干个线程是同时执行的。
 * Thread 线程： 一个CUDA的并行程序会有许多threads来执行， 线程是GPU运算的最小执行单元。
 * Kernel definition:  使用__global__定义的C/C++函数。
+
+
+## shared memory
+
+共享内存被分成了若干个等宽的存储段，这些存储段被称为“banks”，硬件上的限制是，每个bank在一个时钟周期内只能服务一个访问请求。
+
+一个block要访问shared memory，只要能够保证以其中相邻的16个线程一组访问thread，每个线程与bank是一一对应就不会产生bank conflict。否则会产生bank conflict，访存时间成倍增加，增加的倍数由一个bank最多被多少个thread同时访问决定。有一种极端情况，就是所有的16个thread同时访问同一bank时反而只需要一个访问周期，此时产生了一次广播。
   
 
 ## CUDA GPU 物理层次
@@ -307,6 +314,46 @@ streaming processor(sp): 最基本的处理单元。GPU进行并行计算，也�
 
 Warp：warp是SM调度和执行的基础概念，通常一个SM中的SP(thread)会分成几个warp(也就是SP在SM中是进行分组的，物理上进行的分组)，一般每一个WARP中有32个thread.这个WARP中的32个thread(sp)是一起工作的，执行相同的指令，如果没有这么多thread需要工作，那么这个WARP中的一些thread(sp)是不工作的.
 （每一个线程都有自己的寄存器内存和local memory，一个warp中的线程是同时执行的，也就是当进行并行计算时，线程数尽量为32的倍数，如果线程数不上32的倍数的话；假如是1，则warp会生成一个掩码，当一个指令控制器对一个warp单位的线程发送指令时，32个线程中只有一个线程在真正执行，其他31个 进程会进入静默状态。）
+
+
+
+## CUDA编程
+在CUDA编程中，有几种常见的数据类型，包括但不限于：
+
+* 基本数据类型：与C/C++中的基本数据类型相似，包括整型（如int、unsigned int、long long等）、浮点型（如float、double等）、字符型（char）等。
+* 向量类型：CUDA提供了一些向量类型，如char1, uchar1, short1, ushort1, int1, uint1, long1, ulong1, float1, double1等，这些类型表示包含一个元素的向量。
+* 二维和三维向量类型：类似地，CUDA也提供了二维和三维向量类型，如char2, uchar2, short2, ushort2, int2, uint2, long2, ulong2, float2, double2等，以及对应的三维向量类型。
+* 复数类型：CUDA还提供了复数类型，如float_complex和double_complex，用于处理复数运算。
+* 半精度浮点数类型：除了常见的浮点数类型外，CUDA还引入了半精度浮点数类型half和half2，用于处理半精度浮点数，以提高内存利用率和计算效率
+* dim3是NVIDIA的CUDA编程中一种自定义的整型向量类型，基于用于指定维度的uint3
+
+
+CUDA的核函数（也称为设备函数）中自动定义的变量：
+* threadIdx
+  *  这是一个三维向量（threadIdx.x, threadIdx.y, threadIdx.z），它指定了当前线程在其线程块中的索引。由于线程块是三维的，所以你可以通过这个索引来定位线程在X、Y、Z的位置
+* blockIdx
+  * 这也是一个三维向量（blockIdx.x, blockIdx.y, blockIdx.z），它指定了当前线程块在整个网格中的索引。这可以让你知道当前线程块在网格的哪个位置
+* blockDim
+  * 这是一个三维向量（blockDim.x, blockDim.y, blockDim.z），它表示线程块的维度，即每个维度上有多少线程。这个值是在启动核函数时由程序员指定的
+* gridDim
+  * 这也是一个三维向量（gridDim.x, gridDim.y, gridDim.z），它表示整个网格的维度，即每个维度上有多少线程块。这个值也是在启动核函数时由程序员指定的
+
+
+```c++
+__global__ void kernelFunction(int *data) {
+    // 计算当前线程的全局索引
+    int index = blockIdx.x * blockDim.x + threadIdx.x;
+
+    // 使用全局索引来访问数组中的元素
+    data[index] = ...; // 执行某些操作
+}
+
+// 根据实际问题来设置blockdim和griddim
+dim3 blocksPerGrid(4, 1, 1); // 网格维度：4个线程块
+dim3 threadsPerBlock(256, 1, 1); // 线程块维度：每个块256个线程
+
+kernelFunction<<<blocksPerGrid, threadsPerBlock>>>(data); // <<<blocksPerGrid, threadsPerBlock>>>语法是用于在CUDA中启动核函数的特殊语法。这里，blocksPerGrid和threadsPerBlock分别指定了网格和线程块的大小。核函数内部，每个线程会使用它的全局索引来决定操作数组的哪个部分。这样可以确保所有的数组元素都被并行处理，而且每个元素只被处理一次。
+```
 
 
 ## CUDA Library
@@ -333,21 +380,6 @@ NVIDIA HPC SDK 生态
 * nsight system是一个全方位的系统性能监控
 * nsight compute 是CUDA核性能细节展开
 * nsight graphics 是图像渲染性能分析展开
-
-
-
-
-## CUDA编程
-
-在CUDA编程中，有几种常见的数据类型，包括但不限于：
-
-* 基本数据类型：与C/C++中的基本数据类型相似，包括整型（如int、unsigned int、long long等）、浮点型（如float、double等）、字符型（char）等。
-* 向量类型：CUDA提供了一些向量类型，如char1, uchar1, short1, ushort1, int1, uint1, long1, ulong1, float1, double1等，这些类型表示包含一个元素的向量。
-* 二维和三维向量类型：类似地，CUDA也提供了二维和三维向量类型，如char2, uchar2, short2, ushort2, int2, uint2, long2, ulong2, float2, double2等，以及对应的三维向量类型。
-* 复数类型：CUDA还提供了复数类型，如float_complex和double_complex，用于处理复数运算。
-* 半精度浮点数类型：除了常见的浮点数类型外，CUDA还引入了半精度浮点数类型half和half2，用于处理半精度浮点数，以提高内存利用率和计算效率。
-
-
 
 
 
