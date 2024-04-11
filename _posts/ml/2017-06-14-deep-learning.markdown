@@ -340,6 +340,12 @@ RMSNorm的主要思想是根据特征的均方根（Root Mean Square）来进行
 
 所实现的运算是output = activation(dot(input, kernel)+bias)。其中activation是逐元素计算的激活函数，kernel是本层的权值矩阵，bias为偏置向量.
 
+几个类似的术语
+* linear 线性层:   单个wx+b
+* dense 密集层： 多个wx+b
+* FC 全连接层：  多个wx+b
+* MLP ：  得有激活函数
+
 ### Activation层
 
 激活层对一个层的输出施加激活函数。

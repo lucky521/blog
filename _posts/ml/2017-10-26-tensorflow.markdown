@@ -13,6 +13,12 @@ python -c 'import tensorflow as tf; print(tf.test.is_gpu_available())'
 python -c 'import tensorflow as tf; tf.config.list_physical_devices()'
 ```
 
+用TF2的环境运行TF1的程序
+```python
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+```
+
 
 # 功能体系
 

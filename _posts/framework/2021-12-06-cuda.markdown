@@ -290,6 +290,8 @@ PS：core和kernel两个词，core指的是硬件核心，处理器；kernel指�
 * Kernel definition:  使用__global__定义的C/C++函数。
 
 
+在CUDA编程模型中，一个"lane"通常指的是一个在GPU上执行的线程在其所属的warp（线程束）中的唯一索引。CUDA中的一个warp是一组同时执行的线程，NVIDIA的GPU中这个数目通常是32个线程。
+
 ## shared memory
 
 共享内存被分成了若干个等宽的存储段，这些存储段被称为“banks”，硬件上的限制是，每个bank在一个时钟周期内只能服务一个访问请求。

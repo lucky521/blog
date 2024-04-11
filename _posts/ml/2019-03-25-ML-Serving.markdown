@@ -28,6 +28,7 @@ Moving models from training to serving in production at scale.
 
 
 # 模型格式
+模型存储格式对模型逻辑(结构+参数)的一种中间表示。类比:tensorflow/pytorch的python程序是高级语言； runtime硬件执行的程序是低级语言。
 以下三类是当前常见的模型存储格式，均是把存储模型结构和模型参数分别存储。
 
 ## onnx
@@ -64,15 +65,15 @@ TF savedmodel。
 
 
 
-* 标准的FP32
+* 32位标准浮点数 FP32
   * 标准的 IEEE 32 位浮点表示, 为“指数”保留了 8 位，为“尾数”保留了 23 位，为符号保留了 1 位。
-* 16 位浮点数 (FP16)
+* 16位浮点数 (FP16)
   * FP16 半精度浮点数，用5bit 表示指数，10bit 表示小数
 * Brain Floating Point (BF16) 
   * BF16 是对FP32单精度浮点数截断数据，用8bit 表示指数，7bit 表示小数。
 * int8
   * 一个 8 位的整型数据表示，可以存储 $2^8$ 个不同的值 (对于有符号整数，区间为 [-128, 127]，而对于无符号整数，区间为 [0, 255])
-* 混合精度（Mixed precision）
+* 混合精度（Mixed precision, fp16&fp32）
   * 在模型中同时使用 FP32 和 FP16 的权重数值格式。 FP16 减少了一半的内存大小，但有些参数或操作符必须采用 FP32 格式才能保持准确度。
   * 比如使用 FP32 权重作为精确的 “主权重 (master weight)”，而使用 FP16/BF16 权重进行前向和后向传播计算以提高训练速度，最后在梯度更新阶段再使用 FP16/BF16 梯度更新 FP32 主权重。
 
@@ -272,7 +273,8 @@ https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html
 Nvidia’s TensorRT is a deep learning optimizer and runtime for accelerating deep learning inference on Nvidia GPUs.
 TensorRT严格来讲并不是以一个model server框架，他的重点在于性能优化。但TensorRT提供了REST方式的服务支持。
 
-使用上，先把TF/PyTorch模型转换为ONNX格式
+使用上，
+1.先把TF/PyTorch模型转换为ONNX格式
 * TF使用 https://github.com/onnx/tensorflow-onnx -> tf2onnx.convert
 * Pytorch使用 torch.onnx.export
 
@@ -282,7 +284,9 @@ python -m tf2onnx.convert \
    --outputs probs/Softmax:0 --output resnet50.onnx 
 ```
 
-得到onnx格式之后，通过 trt.builder 将onnx构建出一个trt engine
+2.得到onnx格式之后，通过 trt.builder 将onnx构建出一个trt engine
+(plan文件，该文件由trt engine序列化导出得到。 The .plan file is a serialized file format of the TensorRT engine.)
+
 ```python
 import tensorrt as trt
 
@@ -319,7 +323,6 @@ def load_engine(trt_runtime, plan_path):
    return engine
 ```
 
-plan文件，该文件由trt engine序列化导出得到。 The .plan file is a serialized file format of the TensorRT engine.  
 
 [TRT使用介绍](https://developer.nvidia.com/blog/speeding-up-deep-learning-inference-using-tensorflow-onnx-and-tensorrt/)
 [b站教程视频](https://www.bilibili.com/video/BV15Y4y1W73E)
@@ -357,6 +360,10 @@ converter.build(input_fn=input_fn)
 
 [TF-TRT使用介绍](https://docs.nvidia.com/deeplearning/frameworks/tf-trt-user-guide/index.html)
 
+
+## trtexec
+https://github.com/NVIDIA/TensorRT/tree/main/samples/trtexec
+这是一个命令行工具， 可以根据onnx模型文件生成tensorrt引擎文件; 可以直接加载tensorrt引擎文件做推理
 
 ## Triton
 https://github.com/triton-inference-server/server#readme

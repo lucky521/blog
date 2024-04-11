@@ -154,7 +154,7 @@ categories: [MachineLearning]
 * GPU加速
   * 异构计算拆分：访存密集型算子适用（比如Embedding相关操作）CPU，计算密集型算子（比如MLP）适用GPU。
     * 比如CTR模型网络结构整体抽象为三部分：Embedding层、Attention层和MLP层。 其中Embedding层用于数据获取，适合CPU；Attention层包含较多逻辑运算和轻量级的网络计算，MLP层则重网络计算，而这些计算可以并行进行，适合GPU，可以充分利用GPU Core(Cuda Core、Tensor Core)，提高并行度。
-  * GPU侧的加速引擎使用TensorRT
+  * 使用加速库：TensorRT
 
 
 

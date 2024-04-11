@@ -122,7 +122,7 @@ print("Gradient:", input.grad)
 在推理过程中跟踪输入数据的分布来动态地量化权重. 
 方法：weights quantized with activations read/stored in floating point and quantized for compute.
 
-```
+```python
 quantized_model = torch.quantization.quantize_dynamic(
     model, {torch.nn.Linear}, dtype=torch.qint8
 )
@@ -132,7 +132,7 @@ print(quantized_model)
 
 ## Post-Training Static Quantization(PTQ)
 
-```
+```python
 # set quantization config for server (x86)
 deploymentmyModel.qconfig = torch.quantization.get_default_config('fbgemm')
 
@@ -147,7 +147,7 @@ torch.quantization.convert(myModel, inplace=True)
 
 ## Quantization Aware Training(QAT)
 
-```
+```python
 # specify quantization config for QAT
 qat_model.qconfig=torch.quantization.get_default_qat_qconfig('fbgemm')
 

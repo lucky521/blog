@@ -16,16 +16,26 @@ OpenAI的GPT系列将大模型推向了大风口。
 * 2022.12 ChatGPT
 * 2023.03 GPT-4
 
-## 预训练架构
+## 预训练架构的几大门派
 NLP各种任务其实收敛到了两个不同的预训练模型框架里：
-* 对于自然语言理解类任务，其技术体系统一到了以Bert为代表的“双向语言模型预训练+应用Fine-tuning”模式；
+* 对于自然语言理解类任务，其技术体系统一到了以Bert为代表的“双向语言模型预训练+应用Fine-tuning”模式(非自回归)；
 * 对于自然语言生成类任务，其技术体系统一到了以GPT 2.0为代表的“自回归语言模型（即从左到右单向语言模型）+Zero /Few Shot Prompt”模式
+
 
 * 自编码（autoencoding，AE）：在输入文本中，随机删除连续的一个或者多个token，然后通过上下文来预测该token。这类模型主要以Bert为代表（Mask Language Model）。
 * 自回归（autoregressive，AR）：通常来讲是根据上文内容预测下一个可能的token（实际上反过来也可以，通过下文预测上文的单词），如GPT系列。
 对比下，自编码由于抠字，不太适合做NLG（Natural Language Generation）的任务（训练和预测过程不一致），而自回归由于属于只能看到一侧的信息，在做NLU任务上有缺陷（类似ELMo这种双向自回归的看上去能够解这个问题，实际上效果见仁见智），却天然适合NLG。
 
 
+* 编码预训练语言模型(Encoder-only Pre-trained Models) 
+  * Encoder-only Transformer模型通常用于提取输入序列的特征表示，而不需要生成输出序列。这在许多自然语言处理（NLP）任务中很有用，如情感分析、命名实体识别等。通过使用编码器，可以将输入序列转换为一个固定长度的向量表示，然后将该表示传递给其他模型或任务进行进一步处理。
+  * 代表作 BERT
+* 解码预训练语言模型(Decoder-only Pre-trained Models)
+  * Decoder-only Transformer模型通常用于生成式任务，如文本生成或图像描述生成。在这些任务中，我们只需要使用解码器来生成输出序列，而不需要编码器来处理输入序列。这种模型结构可以减少计算量和内存需求，因为不需要为编码器分配资源。
+  * 代表作 GPT
+* 基于编解码架构的预训练语言模型(Encoder-Decoder Pre-trained Models)
+  * Encoder-Decoder Transformer模型通常用于翻译任务、摘要任务
+  * 代表作 T5
 
 
 ## LLM模型结构
