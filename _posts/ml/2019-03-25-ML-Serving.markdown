@@ -54,15 +54,14 @@ TF savedmodel。
 
 
 
-# 模型压缩
+# 模型压缩 (model compression and acceleration)
 模型太复杂、参数太多，对于成本的要求都是很高的。因而需要模型压缩技术来尽可能权衡效果和成本。
 主流的模型压缩方法，包括量化、剪枝、蒸馏、稀疏化。
 
-## 量化(参数精度压缩)
+## 精度量化(参数精度压缩)
 量化是指降低模型参数的数值表示精度，比如 从 FP32 降低到 FP16 或者 INT8
 
 训练和推理的需求不同：在训练阶段，使用高精度的浮点数可以提供更好的模型收敛性和表达能力。而在推理阶段，使用低精度可以提供更高的计算效率。因此，直接在训练过程中使用低精度可能会降低模型的准确性和性能。训练过程中的梯度计算：训练过程中需要计算梯度来更新模型参数。使用低精度表示可能导致梯度计算的不准确性，从而影响模型的收敛性和训练效果。
-
 
 
 * 32位标准浮点数 FP32
@@ -137,15 +136,14 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 ```
 
 
-
-## 参数个数压缩
+## 参数个数压缩 (weight sharing)
 复用取值相同的参数，用更少的数值表示更多的数。
 
-## 剪枝 Weight Pruning
+## 剪枝 (Weight Pruning)
 剪枝是指合理地利用策略删除神经网络中的部分参数，比如从单个权重到更高粒度组件如权重矩阵到通道，这种方法在视觉领域或其他较小语言模型中比较奏效。
 
 
-## 蒸馏 Knowledge Distillation
+## 蒸馏 (Knowledge Distillation)
 蒸馏是指利用一个较小的学生模型去学习较大的老师模型中的重要信息而摒弃一些冗余信息的方法。
 核心思想是通过迁移知识，从而通过训练好的大模型得到更加适合推理的小模型。
 
@@ -155,7 +153,7 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 [大语言模型的稀疏化技术](https://zhuanlan.zhihu.com/p/615399255)
 
 
-## 低秩分解（Low-Rank Decomposition）
+## 低秩分解（Low-Rank Decomposition,  low-rank factorization）
 
 当矩阵的秩较低时（r << n, m），就可以视其为低秩矩阵。低秩矩阵意味着，此矩阵中有较多的行（或列）是线性相关的，即：信息冗余较大。
 
@@ -167,6 +165,21 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
   * tf.linalg.svd
 * CP分解
 * Tucker分解
+
+
+## early exit
+推理的时候提前结束，以优化推理速度。
+* Confidence Estimation
+* Internal Ensemble
+* Learning to Exit
+
+
+## token skipping
+* PoWER-BERT (Goyal等，2020)：PoWER-BERT通过在每个Transformer层之间丢弃一部分token来实现加速，这一过程基于每个token接收到的注意力。每层需要丢弃的token数量（即，计划）是通过与原始损失函数共同优化一个软掩码层的稀疏性来学习的。这种方法在准确率-时间权衡的Pareto曲线上获得了更好的结果。
+* TR-BERT (Ye等，2021)：TR-BERT引入了一个动态机制来决定跳过哪些token。它使用奖励机制进行强化学习训练，该奖励既促进分类器的置信度，又惩罚保留token的数量。与PoWER-BERT不同，被跳过的token会被转发到最后一层，而不是被移除。
+* Length-Adaptive Transformer (LAT, Kim和Cho，2021)：LAT引入了LengthDrop，它在预训练期间随机跳过token，以减少预训练和微调之间的差距。LAT的计划是通过进化搜索算法来搜索的。
+* LTP (Kim等，2022)：LTP为每个Transformer层学习一个阈值。与遵循计划丢弃特定数量的token不同，LTP简单地丢弃那些具有低于学习阈值的显著性得分（接收到的注意力）的token。
+* Transkimmer (Guan等，2022)：Transkimmer在每一层之前添加了一个小型的多层感知器（MLP）和Gumbel-Softmax重参数化组成的skim预测器模块。这些skim预测器输出一个决定是否丢弃token的掩码。它还采用了一种skim损失，该损失优化跳过的token与总token数量的比例，以鼓励稀疏性。
 
 
 

@@ -1970,7 +1970,7 @@ message SignatureDef {
 
 serving_input_receiver_fn 方法在serving阶段，相当于训练阶段的 input_fn 方法。
 
-- 它返回了一个 ServingInputReceiver 对象。 这个对象创建时传入了两个参数：
+- 它返回了一个 ServingInputReceiver 对象。 这个对象创建时传入了两个参数：
   一个是 receiver_tensors={receiver_key: serialized_tf_example}.
   一个是 features=parsing_ops.parse_example(serialized_tf_example,
                                            feature_spec)，它定义了传给模型的features.
@@ -2101,6 +2101,10 @@ REGISTER_STORAGE_PATH_SOURCE_ADAPTER
 - 服务器端的模型最在意的延时和吞吐率。
 - 本地端的模型最在意的是CPU资源占用率、内存占用率。
 
+
+* 会话级别的运行时优化
+* 图级别的静态图优化
+
 ## Benchmarks
 
 https://github.com/tensorflow/benchmarks
@@ -2230,12 +2234,17 @@ Grappler是优化模块，包括：
 
 ## XLA
 
-XLA是将tensorflow.GraphDef编译成可执行代码。
+XLA是将tensorflow.GraphDef编译成可执行代码的高级编译器。
 
 XLA提供了AOT(提前编译)和JIT(即时编译)两种方式:
 - AOT(提前编译)方式就是在代码执行阶段之前全部编译成目标指令，进入执行阶段后，不再有编译过程发生。
 - JIT全称Just In Time（即时）.在即时编译中，计算图在不会在运行阶段前被编译成可执行代码，而是在进入运行阶段后的适当的时机才会被编译成可执行代码，并且可以被直接调用了。
 
+
+使用JIT的优势?
+XLA通过各种优化技术来提高性能，包括操作融合（operation fusion）、内存访问模式的优化、循环展开（loop unrolling）等。这些优化可以减少内存的使用，降低延迟，并提高吞吐量。
+
+如何开启？
 在创建 Session 时，增加 config 参数，设置 config.graph_options.optimizer_options.global_jit_level 值为 tf.OptimizerOptions.ON_1 即可打开 XLA JIT 功能。注：该配置对整个 Session 生效，所有 OP 都会受到影响。(https://mp.weixin.qq.com/s/tBb2_X-lQvW-7puWS4XrlQ)
 
 ```python
@@ -2284,7 +2293,20 @@ inter-request batching support
 
 
 ### “freeze the weights” of the model
-tf.graph_util.convert_variables_to_constants函数
+```python
+import tensorflow as tf
+
+with tf.Session(graph=tf.Graph()) as sess:
+    tf.saved_model.loader.load(sess, [tf.saved_model.tag_constants.SERVING], export_path)
+    
+    #graph = tf.get_default_graph()
+
+    output_graph_def = tf.graph_util.convert_variables_to_constants(
+        sess,
+        tf.get_default_graph().as_graph_def(),
+        ['pred'])
+
+```
 
 ```python
 from tensorflow.python.tools import freeze_graph
@@ -2306,6 +2328,28 @@ freeze_graph.freeze_graph(
 ### 并发处理多个请求
 
 ### GPU预测
+
+适合放在GPU上运行的operator
+1. 数学运算
+加法、乘法等基本算术运算：tf.add, tf.multiply
+矩阵运算：tf.matmul（矩阵乘法），tf.linalg.inv（求逆矩阵）
+归约运算：tf.reduce_sum（求和），tf.reduce_mean（求平均值）
+激活函数：tf.nn.relu, tf.nn.sigmoid, tf.nn.tanh
+2. 卷积运算
+二维卷积：tf.nn.conv2d（用于图像处理的基本卷积运算）
+深度可分离卷积：tf.nn.depthwise_conv2d（用于移动网络中，减少参数和计算量）
+转置卷积：tf.nn.conv2d_transpose（有时被称为反卷积，用于某些类型的网络结构，如GAN的生成器）
+3. 池化操作
+最大池化：tf.nn.max_pool（用于降低特征维度，同时保留重要信息）
+平均池化：tf.nn.avg_pool（同样用于降低特征维度，但是通过计算平均值）
+4. 归一化操作
+批量归一化：tf.nn.batch_normalization（用于加速训练过程，同时提高模型的稳定性和性能）
+5. 损失函数和优化器
+交叉熵：tf.nn.softmax_cross_entropy_with_logits（用于分类任务的常见损失函数）
+梯度下降优化器：tf.train.GradientDescentOptimizer（虽然优化器本身不是算子，但它依赖于大量的数值计算，这些计算可以在GPU上加速）
+6. 其他高级操作
+张量变形：tf.reshape（虽然变形操作本身不是计算密集型的，但它们经常用于准备数据，以便进行后续的GPU加速计算）
+数据增强：tf.image.random_flip_left_right（图像数据增强操作，用于提高模型的泛化能力）
 
 ### GTT - Graph Transform Tool
 

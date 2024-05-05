@@ -42,10 +42,14 @@ baidu_std and hulu_pbrpc supports attachments which are sent along with messages
 
 https://github.com/apache/incubator-brpc/blob/master/docs/cn/server.md
 
-
 https://github.com/apache/incubator-brpc/blob/master/docs/cn/client.md
 
 
+超时配置
+set_timeout_ms
+
+Backup request
+先向其中一个server发送请求，如果在ChannelOptions.backup_request_ms后还没回来，再向另一个server发送.之后哪个先回来就取哪个
 
 
 流式RPC
@@ -61,3 +65,5 @@ brpc::ClosureGuard done_guard(done);
 
 server.AddService
 server.Start
+
+
