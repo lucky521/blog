@@ -298,6 +298,13 @@ Tensorflow属于大而全的功能框架，我有另一篇[Blog文章](https://l
 SentencePiece是一种通用的文本处理工具，用于分割文本成子词或字符级别的单位。它采用基于统计的方法，可以自动学习并生成词汇表，适用于处理多语种、非标准文本和具有复杂结构的语言。SentencePiece可以用于分词、标记化和构建词汇表等自然语言处理任务。
 https://github.com/google/sentencepiece
 
+```python
+import sentencepiece as spm
+sp = spm.SentencePieceProcessor(model_file='tokenizer.model')
+vocabs = [sp.id_to_piece(id) for id in range(sp.get_piece_size())]
+print(vocabs)
+```
+
 
 
 

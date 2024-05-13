@@ -136,6 +136,15 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 ```
 
 
+如何理解对weights(权值)进行量化？
+
+
+
+
+如何理解对activations(激活)进行量化?
+
+
+
 ## 参数个数压缩 (weight sharing)
 复用取值相同的参数，用更少的数值表示更多的数。
 

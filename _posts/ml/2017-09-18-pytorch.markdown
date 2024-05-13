@@ -12,6 +12,14 @@ torch.set_num_threads(1)
 print(torch.__config__.parallel_info())
 
 
+# 模型操作
+
+* 模型文件
+  * 有多种不同的叫法，bin/pt/pth， 其本质都是zip压缩形式的pickle数据。
+* 模型导出
+* 模型加载
+
+
 # Tensor数据类型 
 https://pytorch.org/docs/stable/tensors.html
 torch.Tensor

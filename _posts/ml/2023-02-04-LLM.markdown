@@ -70,7 +70,7 @@ https://www.promptingguide.ai/zh
 在处理实时数据流（如聊天消息）时，连续批处理会不断地将即时到达的消息聚合成批次，并将每个批次作为一个单元送入模型进行处理。这种方式可以减少模型推理的延迟并提高吞吐量。
 https://www.anyscale.com/blog/continuous-batching-llm-inference
 
-### stream_chat 流式输出
+## stream_chat 流式输出
 在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入openai接口，发现接口是http协议，才了解到SSE技术。
 
 Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，它允许服务器向客户端发送数据和信息。与 WebSocket 不同，SSE 是一种单向通信方式，只有服务器可以向客户端推送消息。SSE 是 HTML5 规范的一部分，使用非常简单，主要由服务端与浏览器端的通讯协议（HTTP协议）和 EventSource 接口来处理 Server-sent events 组成，服务器端的响应的内容类型是“text/event-stream”.
@@ -114,6 +114,7 @@ Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，�
     * RMSNorm
 * baichuan
 * qwen
+  * https://github.com/QwenLM/Qwen
 * bloom
   * https://huggingface.co/bigscience/bloom
 
@@ -167,6 +168,8 @@ https://github.com/huggingface/text-generation-inference
 ## lmdeploy
 https://github.com/InternLM/lmdeploy
 
+## TensorRT-LLM
+
 
 
 
@@ -209,14 +212,17 @@ curl https://api.openai.com/v1/fine_tuning/jobs \
 ```
 
 
-# 多模态
 
-图像、声音、视频
+
+
+
+
+# 多模态
+当前LLM顾名思义，最擅长的是人类的语言文字，我们希望模型还能像人类一样理解图像、声音、视频。
 
 ## DALL-E
 
 ## Stable Diffusion
-
 
 ## Sora
 
