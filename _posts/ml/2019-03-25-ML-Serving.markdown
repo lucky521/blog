@@ -136,13 +136,31 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 ```
 
 
-如何理解对weights(权值)进行量化？
+量化工具：
+* onnx自带工具
+  * https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html
+  * https://onnxruntime.ai/docs/performance/model-optimizations/float16.html
+* pytorch自带工具
+  * https://github.com/NVIDIA/TensorRT/tree/main/tools/pytorch-quantization
+* huggingface自带工具
+  * https://huggingface.co/docs/transformers/en/quantization
+* tensorrt-llm中的量化
+
+Q:如何理解对weights(权值)进行量化？
 
 
+Q:如何理解对activations(激活)进行量化?
 
 
-如何理解对activations(激活)进行量化?
+Q:为什么有人说对激活量化对精度效果影响很大？
 
+
+Q: llm.int8 所谓的 "绝大部分权重和激活用8bit量化，对离群特征的几个维度保留16bit，进行高精度的矩阵乘法。"  如何识别离群特征？
+https://arxiv.org/pdf/2208.07339
+https://fancyerii.github.io/2024/01/16/int8/
+
+
+Q: onnx_tensorrt_gpu 是怎么服务的？
 
 
 ## 参数个数压缩 (weight sharing)
