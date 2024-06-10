@@ -423,6 +423,9 @@ batchnorm层的放置位置很重要， 可以尝试放在最输出层之前或e
 
 ### Attention layer
 
+这个层能帮助解码器聚焦于输入句子的相关部分（类似于 seq2seq 模型 中的 Attention）。
+
+
 attn_layer = AttentionLayer(name='attention_layer')([encoder_out,decoder_out])
 
 ```python
@@ -467,8 +470,6 @@ def attention(queries, keys, keys_length):
   return outputs
 ```
 
-### Encoder-Decoder Attention
-这个层能帮助解码器聚焦于输入句子的相关部分（类似于 seq2seq 模型 中的 Attention）。
 
 ### 残差单元 Residual Unit
 避免网络太深而梯度消失。如果某一层的输出已经较好的拟合了期望结果，那么之后的层会被短链而跳过。

@@ -249,7 +249,7 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
 * Transformer及其attention机制 https://zhuanlan.zhihu.com/p/476585349
 * 从Attention到Transformer https://qiankunli.github.io/2023/10/30/from_attention_to_transformer.html
 * Transformer的最简洁pytorch实现 https://mp.weixin.qq.com/s/rx7SPYr-sEOz_GOYRfSDOw
-
+* [Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)
 
 ## Transformer结构
 * 把输入句子拆成词，把每个词转换为词向量，那么输入句子就变成了向量列表。
@@ -284,15 +284,6 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
 * 解码预训练语言模型(Decoder-only Pre-trained Models)
 * 基于编解码架构的预训练语言模型(Encoder-Decoder Pre-trained Models)
 
-
-
-
-## Attention机制
-
-[Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)
-
-"prefill"技术:
-用于在解码器的自注意力计算中提前计算一部分注意力权重，以减少计算量和提高效率。
 
 
 

@@ -163,15 +163,6 @@ CRF(条件随机场)，HMM(隐马模型)，MEMM(最大熵隐马模型)都常用�
 给一个文本序列一个分类标签。
 
 
-Recurrent Neural Networks
-
-Bi-LSTM
-
-self-attention mechanism
-http://www.jeyzhang.com/understand-attention-in-rnn.html
-
-LSTM with attention 
-
 
 ## 意图分类 Problem
 

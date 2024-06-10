@@ -319,7 +319,7 @@ Warp：warp是SM调度和执行的基础概念，通常一个SM中的SP(thread)�
 
 
 
-## tensor core和cuda core 的概念
+## tensor core 和 cuda core 的概念
 
 ```
 用户代码  -> AI框架（PyTorch/Tensorflow/Caffe等）-> CUDA lib -> Driver -> 显卡
