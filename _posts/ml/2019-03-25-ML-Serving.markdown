@@ -246,6 +246,10 @@ Q: onnx_tensorrt_gpu 是怎么服务的？
 https://github.com/microsoft/onnxruntime
 微软推出的一种模型标准，它设计了一种模型文件的表达结构，又实现了一个跨平台的执行引擎，用于在各种硬件设备上执行这个模型的推理过程。
 
+* libonnxruntime.so
+* libonnxruntime_providers_shared.so
+* libonnxruntime_providers_*.so
+
 
 ## TensorFlow Serving
 https://github.com/tensorflow/serving

@@ -136,6 +136,17 @@ Makefile脚本在大型软件中不可或缺，它用来将一个个源代码文
 [自动变量 Automatic-Variables](http://www.gnu.org/software/make/manual/make.html#Automatic-Variables)
 
 
+
+# cmake
+
+cmake是抽象层次更高的代码项目管理工具.
+程序员编写出CMakeLists.txt文件、*.cmake文件， cmake基于它生成makefile文件。
+
+
+CMakeCache.txt是cmake生成的缓存文件。
+
+
+
 <!--
 这里是注释区
 

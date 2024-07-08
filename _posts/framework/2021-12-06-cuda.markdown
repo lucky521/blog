@@ -462,24 +462,6 @@ Nvidia GPU 算力（compute-capabilities）由版本号表示，有时也称为�
 
 
 
-# 华为 NPU
-
-npu-smi 对标  nvidia-smi
-
-cann 对标 cuda
-
-MindIE-RT 对标 TensorRT
-
-onnx ep支持 https://onnxruntime.ai/docs/execution-providers/community-maintained/CANN-ExecutionProvider.html
-https://github.com/microsoft/onnxruntime/tree/main/onnxruntime/core/providers/cann
-
-onnx 算子支持
-
-
-ATC 模型文件转换工具
-
-
-
 
 # 参考
 
