@@ -447,7 +447,7 @@ AMD
 
 ## GPU 算力演进
 
-Nvidia GPU 算力（compute-capabilities）由版本号表示，有时也称为“SM 版本”。
+Nvidia GPU 算力（compute-capabilities）由版本号表示，有时也称为“SM 版本”。 
 这个版本号被用来标识 GPU 硬件支持的功能，并在运行时由应用程序使用以确定当前 GPU 上可用的硬件功能和/或指令。
 算力包括主要修订号 X 和次要修订号 Y，并用 X.Y 表示。
 具有相同主要修订号的设备具有相同的核心架构：
@@ -458,32 +458,28 @@ Nvidia GPU 算力（compute-capabilities）由版本号表示，有时也称为�
 * 基于 Kepler 架构的设备为 3；
 * 基于 Fermi 架构的设备为2 ；引入一级、二级缓存
 * 基于 Tesla 架构的设备为1；
+与之相对应的是NVIDIA的架构形态：https://en.wikipedia.org/wiki/Category:Nvidia_microarchitectures
 
 
+怎么查询GPU的算力版本？compute capability
+```
+$ nvidia-smi --query-gpu=compute_cap --format=csv
+```
 
 
 
 # 参考
 
-[CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html)
-
-[NVIDIA GPU架构梳理](https://zhuanlan.zhihu.com/p/394352476)
-
-[CUDA的四种主机存储访问方式](https://kaibaoom.tw/2020/07/21/cuda-four-memory-access/)
-
-[CUDA 等级概念](https://zhuanlan.zhihu.com/p/129375374)
-
-[GPU 技术大会](https://www.nvidia.cn/gtc/keynote/)
-
-[GPGPU](https://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units)
-
-[OpenMP最新标准](https://www.openmp.org/specifications/)
-
-[GPU 架构理解](https://cinwell.wordpress.com/2013/09/06/overview-of-gpu-architecture-fermi-based/)
-
-[NVIDIA GPU 架构演进](https://jcf94.com/2020/05/24/2020-05-24-nvidia-arch/)
-
-[Intel 处理器架构演进](https://jcf94.com/2018/02/13/2018-02-13-intel/)
+* [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html)
+* [NVIDIA GPU架构梳理](https://zhuanlan.zhihu.com/p/394352476)
+* [CUDA的四种主机存储访问方式](https://kaibaoom.tw/2020/07/21/cuda-four-memory-access/)
+* [CUDA 等级概念](https://zhuanlan.zhihu.com/p/129375374)
+* [GPU 技术大会](https://www.nvidia.cn/gtc/keynote/)
+* [GPGPU](https://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units)
+* [OpenMP最新标准](https://www.openmp.org/specifications/)
+* [GPU 架构理解](https://cinwell.wordpress.com/2013/09/06/overview-of-gpu-architecture-fermi-based/)
+* [NVIDIA GPU 架构演进](https://jcf94.com/2020/05/24/2020-05-24-nvidia-arch/)
+* [Intel 处理器架构演进](https://jcf94.com/2018/02/13/2018-02-13-intel/)
 
 
 ## ARM NEON 指令集

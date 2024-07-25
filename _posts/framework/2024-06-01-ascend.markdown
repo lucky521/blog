@@ -4,7 +4,7 @@ categories: [framework]
 layout: post
 ---
 
-# 华为 NPU
+# 华为 NPU 概念
 
 达芬奇架构
 
@@ -36,12 +36,14 @@ ATC 模型文件转换工具
 
 # 开发接口
 
+## MindIE
+
 ## AscendCL
 
 * aclrt* 运行时
   * 管理device、context、stream、event
   * 管理内存
-* aclnn* 单算子执行， 深度学习算子
+* aclnn* 单算子执行， 深度学习算子   （对标cudnn?）
   * 两段式接口， 先 aclnnXxxGetWorkspaceSize， 再 aclnnXxx
 * aclop* 单算子模型执行
   * aclopCompileAndExecute
@@ -64,3 +66,16 @@ Ascend C API的操作数都是Tensor类型
 
 
 ## TBE&AI CPU 
+
+
+
+
+
+
+
+
+
+# REF
+
+
+https://gitee.com/ascend/samples/tree/master

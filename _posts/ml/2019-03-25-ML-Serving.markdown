@@ -313,7 +313,14 @@ https://docs.ray.io/en/latest/serve/index.html
 在模型推理方面，NVIDIA提供了基于GPU加速的推理软件。
 
 ## TensorRT (TRT)
-https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html
+* [入口文档](https://docs.nvidia.com/deeplearning/tensorrt/index.html)
+* [TRT使用介绍](https://developer.nvidia.com/blog/speeding-up-deep-learning-inference-using-tensorflow-onnx-and-tensorrt/)
+* [b站教程视频](https://www.bilibili.com/video/BV15Y4y1W73E)
+* [hello-world](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-803/quick-start-guide/index.html#run-engine-c)
+* [OP](https://docs.nvidia.com/deeplearning/tensorrt/operators/docs/index.html)
+* [trtexec用法](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#trtexec)
+* [性能优化](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-803/best-practices/index.html)
+
 Nvidia’s TensorRT is a deep learning optimizer and runtime for accelerating deep learning inference on Nvidia GPUs.
 TensorRT严格来讲并不是以一个model server框架，他的重点在于性能优化。但TensorRT提供了REST方式的服务支持。
 
@@ -368,8 +375,6 @@ def load_engine(trt_runtime, plan_path):
 ```
 
 
-[TRT使用介绍](https://developer.nvidia.com/blog/speeding-up-deep-learning-inference-using-tensorflow-onnx-and-tensorrt/)
-[b站教程视频](https://www.bilibili.com/video/BV15Y4y1W73E)
 
 
 ## TensorFlow-TensorRT (TF-TRT)

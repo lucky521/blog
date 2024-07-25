@@ -80,13 +80,14 @@ Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，�
 
 
 ## 推理步骤
+https://www.hiascend.com/document/detail/zh/mindie/1.0.RC1/mindiellm/llmdev/atlaslmimog_0004.html
 
-* Prefill
-  * Tokenize 将用户输入的文本转换为向量
+* Prefill阶段
+  * Tokenize 将用户输入的文本转换为向量 Embedding
   * Computing 纯推理
   * Sampling 依据推理结果采样，选一个最终的结果
   * Return
-* 逐词多轮Decoding
+* 逐词多轮Decoding 阶段
   * Computing
   * Sampleing
   * Detokenize 将推理结果向量转换为文本
@@ -164,7 +165,7 @@ https://github.com/ggerganov/llama.cpp
 https://github.com/ggerganov/whisper.cpp
 https://github.com/openai/whisper
 
-## text-generation-inference
+## text-generation-inference tgi
 https://github.com/huggingface/text-generation-inference
 
 ## lmdeploy
