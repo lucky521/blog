@@ -12,6 +12,10 @@ cat /usr/local/Ascend/ascend-toolkit/latest/x86_64-linux/ascend_toolkit_install.
 
 npu-smi 对标  nvidia-smi
 
+```
+$ watch -n 1 npu-smi info
+```
+
 
 AscendCL
 

@@ -35,6 +35,10 @@ Moving models from training to serving in production at scale.
 ONNX是一个开源的机器学习模型格式。
 onnx文件是一个ModelProto，它包含了一些版本信息，生产者信息和一个GraphProto。在GraphProto里面又包含了四个repeated数组，它们分别是node(NodeProto类型)，input(ValueInfoProto类型)，output(ValueInfoProto类型)和initializer(TensorProto类型)，其中node中存放了模型中所有的计算节点，input存放了模型的输入节点，output存放了模型中所有的输出节点，initializer存放了模型的所有权重参数。
 
+
+onnx opset 
+
+
 ## pytorch
 pytoch参数状态字典。
 

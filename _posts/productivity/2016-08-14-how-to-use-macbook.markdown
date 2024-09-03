@@ -9,9 +9,17 @@ layout: post
 
 # 不可或缺的软件工具
 
+## 终端配置
+* ~/.ssh
+* ~/.gitconfig
+* ~/.vim
+* ~/.zshrc
+* ~/.m2
+
 ## Iterm2
 
 尤其是其中配置的triggers，不能丢。
+rz/sz
 
 ## Alfred
 

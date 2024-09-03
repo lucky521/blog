@@ -73,6 +73,13 @@ https://www.cnblogs.com/thescholar/p/12167964.html
 
 
 ## 高版本gcc
+https://blog.csdn.net/qq_39547794/article/details/130080464
+```
+sudo yum install devtoolset-11-gcc*
+scl enable devtoolset-11 bash
+g++ --version
+
+```
 
 
 ## bazel

@@ -11,10 +11,11 @@ layout: post
 
 
 # Resource 大数据必然需要大量机器资源，资源的管理调度是最基础的课题
+
 ## Yarn
 
 * resource manager
-* node manager
+* node manager  (nm节点)
 * application master
 
 yarn application -list -appStates ALL | grep "rank"  | wc -l
@@ -98,11 +99,16 @@ EVCache https://github.com/Netflix/EVCache
 
 
 
+
+
+
+
 # Streaming 大数据流动的形式
 
-flume - 把来自不同源头不同节点的大量数据发送到中心存储。
+* flume - 把来自不同源头不同节点的大量数据发送到中心存储。
+* kafka
 
-kafka - http://kafka.apache.org/quickstart
+## kafka - http://kafka.apache.org/quickstart
 
 * 原生版本： https://github.com/edenhill/librdkafka
 * C++版本：  https://github.com/mfontanini/cppkafka ， cppkafka依赖librdkafka，做了一层便于使用的封装
@@ -113,6 +119,18 @@ kafka - http://kafka.apache.org/quickstart
 kafka junit
 
 ZeroMQ - 点对点消息队列
+
+区别bootstrap server 和 broker server
+```
+Kafka生产者客户端在配置中指定的bootstrap server不可用时，会尝试重新建立连接。Kafka客户端库内部实现了重试机制，用于处理短暂的网络故障或Broker的暂时不可用情况。
+
+当生产者尝试与bootstrap server建立连接失败时，它会在一定的重试间隔后重试。这个重试间隔通常是可以配置的（例如，通过retries和retry.backoff.ms参数）。生产者会继续尝试，直到超过配置的重试次数或者在某次尝试中成功建立连接。
+
+然而，如果你只配置了一个bootstrap server，而这个Broker长时间不可用，那么生产者将无法发送消息。在这种情况下，消息可能会堆积在生产者端，直到Broker重新变得可用。为了避免单点故障，建议在生产环境中配置多个bootstrap servers，这样即使一个Broker宕机，生产者也可以连接到其他Broker并继续发送消息。
+
+需要注意的是，即使配置了多个bootstrap servers，一旦生产者成功连接到一个Broker并获取了元数据，它就不再依赖于初始的bootstrap server列表，因为它会知道所有分区的领导者Broker，并直接与它们通信。bootstrap servers列表主要是用于初始连接和获取集群状态信息。
+
+```
 
 
 
