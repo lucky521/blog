@@ -56,6 +56,10 @@ Backup request
 https://brpc.apache.org/zh/docs/client/streaming-rpc/
 
 
+熔断策略
+https://github.com/apache/brpc/blob/master/docs/cn/circuit_breaker.md
+
+
 
 # 源码学习
 

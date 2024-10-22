@@ -297,7 +297,7 @@ ES-Hadoop 项目， 相当于hadoop MR的一个 ES connector。
 ## Hbase
 Hbase，其实是Hadoop Database的简称，本质上来说就是Hadoop系统的数据库，为Hadoop框架当中的结构化数据提供存储服务，是面向列的分布式数据库。
 
-HDFS是Hadoop的存储系统，它的优点是可以存储超大量数据，但是缺点是速度慢。
+HDFS是Hadoop的存储系统，它的优点是可以存储超大量数据，但是缺点是速度慢。 HBase在HDFS中存储的数据文件称为HFile。这些HFile文件是HBase用来存储表数据的底层文件格式。HFile是HBase的核心存储格式，设计用来高效地进行随机读写操作。
 HBase建立在HDFS之上，以KV的形式存储，提供实时访问。
 HBase原生只提供了Java 的API 接口。
 snapshot是HBase非常核心的一个功能，使用snapshot的不同用法可以实现很多功能

@@ -52,6 +52,10 @@ Data lake vs data warehouse， 数据湖和数据仓库的比较
 数据湖的一个特点是，存储的数据没有预先设定schema，保存原始数据。
 注意数据湖不是个项目，而是一个概念和思想。
 
+数据湖想要解决的问题：
+* 基于hive的离线数仓，缺乏partial update的能力，只能按分区粒度更新整个分区数据。
+* 实现存储层面的流(kafka)批(hdfs)统一
+
 具备 ACID 能力的表格式中间件:
 * hudi https://github.com/apache/hudi
 * iceberg https://iceberg.apache.org/
@@ -168,6 +172,7 @@ RDD lineage
 Lazy Evaluation
 shared variables - broadcast variables, accumulators
 
+DPP机制
 
 CodeGenerator 是干什么的？
 ```

@@ -172,6 +172,10 @@ https://github.com/huggingface/text-generation-inference
 https://github.com/InternLM/lmdeploy
 
 ## TensorRT-LLM
+https://github.com/NVIDIA/TensorRT-LLM
+
+## FlashInfer
+https://github.com/flashinfer-ai/flashinfer
 
 
 

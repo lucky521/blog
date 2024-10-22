@@ -18,6 +18,8 @@ SQL语言共分为四大类：
 
 # 原生 MapReduce 接口
 https://hadoop.apache.org/docs/r2.10.2/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html
+Python MapReduce
+https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/
 
 Mapper - setMapperClass
 
@@ -43,8 +45,7 @@ https://hadoop.apache.org/docs/r1.2.1/streaming.html
 stdin、stdout中的每一行表示一个key-value数据，默认由tab符间隔。
 
 
-Python MapReduce
-https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/
+
 
 
 
@@ -88,6 +89,9 @@ https://blog.csdn.net/MrZhangBaby/article/details/133793660
 https://florianwilhelm.info/2016/10/python_udf_in_hive/
 
 ## 开窗函数
+
+* ROW_NUMBER() OVER (PARTITION BY col1 ORDER BY col2) AS row_num
+* RANK() OVER (PARTITION BY col1 ORDER BY col2) AS rank
 
 
 ## hive SerDe
@@ -234,6 +238,8 @@ impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很
 * Dataset API
 * SQL API
 
+spark调试技能
+明确出问题的到底是Driver端还是Executor端，以及是哪片内存区域
 
 
 

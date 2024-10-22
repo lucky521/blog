@@ -26,14 +26,28 @@ layout: post
 
 # Join背后有哪些种实现方式？
 
-* Nested-loop (NL) join 暴力双循环遍历
-* Block nested-loop (BNL) join 先按key分块，块内再暴力遍历
-* Hash join 小表和大表join，把小表做成hashmap放在内存，遍历大表。 功能退化为只支持相等条件的join。
-* Grace hash join  先按key分块，块内再进行hash join
-* Broadcast hash join 在分布式场景，把小表广播到每一个executor节点，执行hash join
-* Shuffle hash join 在分布式场景，把小表shuffle分块发送到不同的executor节点，执行hash join
-* Sort-merge join  先对两个表排序，然后比较。如果join的key本来就有序，这就很快了
+* Nested-loop (NL) join 
+暴力双循环遍历
+* Block nested-loop (BNL) join 
+先按key分块，块内再暴力遍历
+* Hash join 小表和大表join
+把小表做成hashmap放在内存，遍历大表。 功能退化为只支持相等条件的join。
+* Grace hash join  
+先按key分块，块内再进行hash join
+* Broadcast hash join 
+在分布式场景，把小表广播到每一个executor节点，执行hash join
+* Shuffle hash join 
+在分布式场景，把小表shuffle分块发送到不同的executor节点，执行hash join
+* Sort Merge join  
+先对两个表排序，然后比较。如果join的key本来就有序，这就很快了
 
+
+## 大表join优化思路
+尺寸较大的称为外表，尺寸较小的称为内表
+* 分而治之：
+  1. 内表按行拆分
+  2. 我们让外表依次与内表子集做关联，得到部分计算结果。
+  3. 最后，再用Union操作把所有的部分结果合并到一起
 
 # 参考
 
