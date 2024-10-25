@@ -38,7 +38,9 @@ ONNX_OPERATOR_KERNEL_EX
 # 算子按开发模式分类
 
 * onnxruntime/onnxruntime/core/providers 
+    * https://github.com/onnx/onnx/blob/main/docs/Operators.md
 * onnxruntime/onnxruntime/contrib_ops
+    * https://github.com/microsoft/onnxruntime/blob/main/docs/ContribOperators.md
 * Custom operators 代码不编入onnxruntime库内部
 
 

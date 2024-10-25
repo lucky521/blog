@@ -310,6 +310,15 @@ snapshot是HBase非常核心的一个功能，使用snapshot的不同用法可�
   * 负责 Region 的分配，DDL（创建，删除表）等操作
 
 [HBase架构介绍](https://zhuanlan.zhihu.com/p/159052841)
+[Hbase官方手册](https://hbase.apache.org/book.html)
+
+HBase中的数据是按照Rowkey的ASCII字典顺序进行全局排序的
+scan查询，用于读取多行数据。可以指定起始行键和结束行键来定义扫描的范围。
+
+
+查询结果保序
+https://hbase.apache.org/book.html#dm.sort
+
 
 
 ## Neo4j

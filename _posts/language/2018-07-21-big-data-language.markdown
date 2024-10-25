@@ -287,6 +287,11 @@ spark调试技能
 * java.lang.RuntimeException: java.util.ArrayList is not a valid external type for schema of array
 
 
+## spark java api中的Function
+当你需要对spark select 出来的数据做微操作的时候，
+
+https://blog.csdn.net/liaomingwu/article/details/122507550
+
 ## PySpark
 
 pyspark给特别喜欢写python脚本语言而不喜欢写java的人提供了机会；对于简单的处理逻辑，脚本无需编译直接运行，很方便。

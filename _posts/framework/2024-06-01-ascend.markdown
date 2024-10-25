@@ -16,6 +16,8 @@ npu-smi 对标  nvidia-smi
 $ watch -n 1 npu-smi info
 ```
 
+msprof 对标 nsprof
+
 
 AscendCL
 
@@ -35,7 +37,18 @@ onnx 算子支持
 
 
 ATC 模型文件转换工具
+ATC落地的是一个工具，把各种模型格式的表达，转换为om格式，由NPU推理执行。
+这里就涉及如何让ATC认识自定义算子。
 
+```
+atc --model=hello.onnx --framework=5 --output=hello.om --input_shape="input_ids:1,5;att_mask:1,5;token_type_ids:1,5"  --soc_version=Ascend910B2C
+
+```
+
+
+msame 推理小工具
+om模型文件推理小程序，源码里可以看出典型的asendCL推理用法。
+https://gitee.com/ascend/tools/tree/master/msame
 
 
 # 开发接口
@@ -49,6 +62,7 @@ ATC 模型文件转换工具
   * 管理内存
 * aclnn* 单算子执行， 深度学习算子   （对标cudnn?）
   * 两段式接口， 先 aclnnXxxGetWorkspaceSize， 再 aclnnXxx
+  * 算子列表： https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/80RC2alpha003/apiref/appdevgapi/context/common/aclnn_domains.md
 * aclop* 单算子模型执行
   * aclopCompileAndExecute
 * aclmdl* 模型推理
