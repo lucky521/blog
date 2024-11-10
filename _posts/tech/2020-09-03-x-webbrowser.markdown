@@ -27,3 +27,5 @@ layout: post
 # Chrome内核
 
 https://source.chromium.org/chromium
+
+https://github.com/v8blink/v8-JavaScript-Documents/tree/main

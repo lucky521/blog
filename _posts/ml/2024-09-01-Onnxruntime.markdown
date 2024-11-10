@@ -132,3 +132,9 @@ skip 是怎么使用的？  先把input和skip做Add
 ```
 
 UT: skiplayernorm_op_test.cc
+
+
+
+
+# onxxruntime 线程模型
+NNXRuntime的线程池接口在Eigen线程池接口基础之上扩展而来（题外话：TensorFlow中的线程池同样是建立在Eigen线程池基础上）

@@ -378,6 +378,10 @@ def load_engine(trt_runtime, plan_path):
    return engine
 ```
 
+上面是python用法，下面看看c++接口
+
+deserializeCudaEngine
+
 
 
 
@@ -416,7 +420,7 @@ converter.build(input_fn=input_fn)
 
 ## trtexec
 https://github.com/NVIDIA/TensorRT/tree/main/samples/trtexec
-这是一个命令行工具， 可以根据onnx模型文件生成tensorrt引擎文件; 可以直接加载tensorrt引擎文件做推理
+这是一个命令行工具， 可以根据onnx模型文件生成tensorrt引擎文件; 可以直接加载tensorrt引擎文件做推理；
 
 ## Triton
 https://github.com/triton-inference-server/server#readme

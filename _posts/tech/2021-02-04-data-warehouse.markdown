@@ -57,6 +57,6 @@ layout: post
 * 流批作业在数据层面做到进一步的统一
   * 快速upsert
   * table schema
-* Time Travel Query
+* Time Travel Query 时间旅行 、带时间版本查询、Stale Read
 
 数据库、数据仓库、数据湖

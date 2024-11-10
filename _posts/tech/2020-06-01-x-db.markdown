@@ -349,6 +349,9 @@ https://github.com/dgraph-io/dgraph
   * tidb_catalog
 
 
+* tidb_snapshot
+tidb_snapshot 是可以指定任意的时间吗？
+
 ## OpenMLDB
 OpenMLDB 致力于融合离线数据库和在线数据库。亮点在于一致性执行引擎。
 [openmldb的技术博客]https://www.zhihu.com/column/c_1417199590352916480

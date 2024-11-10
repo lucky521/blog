@@ -4,7 +4,7 @@ categories: [framework]
 layout: post
 ---
 
-
+https://brpc.apache.org/zh/docs/overview/
 
 brpc提供的可视化分析界面
 
@@ -47,9 +47,11 @@ https://github.com/apache/incubator-brpc/blob/master/docs/cn/client.md
 
 超时配置
 set_timeout_ms
+connect_timeout_ms
+
 
 Backup request
-先向其中一个server发送请求，如果在ChannelOptions.backup_request_ms后还没回来，再向另一个server发送.之后哪个先回来就取哪个
+先向其中一个server发送请求，如果在ChannelOptions.backup_request_ms 后还没回来，再向另一个server发送.之后哪个先回来就取哪个
 
 
 流式RPC

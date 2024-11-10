@@ -393,7 +393,8 @@ NVIDIA HPC SDK 生态
 
 
 ## NVIDIA Nsight 产品家族
-* nsight system是一个全方位的系统性能监控
+* nsight system是一个全方位的系统性能监控 
+  * 本地安装 https://developer.download.nvidia.cn/devtools/nsight-systems/
 * nsight compute 是CUDA核性能细节展开
 * nsight graphics 是图像渲染性能分析展开
 
