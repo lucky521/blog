@@ -16,6 +16,7 @@ layout: post
 线程机制是现代编程中常用的一种抽象概念。在多处理器系统上，它能保证真正的并行处理。
 
 
+### 线程实现
 线程实现, 主要有三种实现方式
 * 在用户空间中实现线程；  内核不感知用户进程内有多个线程，如果阻塞的话就全阻塞了。
 * 在内核空间中实现线程；
@@ -27,12 +28,13 @@ layout: post
 * boost::thread
 * bthread
 * Eigen::ThreadPool  底层是 std::thread
+* openMP
 
 
 线程本地存储：thread local storage（简称TLS）。也叫线程特有存储：thread specific storage（简称TSS）或线程私有存储：thread private storage  https://www.homedt.net/283433.html
 
 
-### 参考
+### 线程参考资料
 * [写给大忙人看的进程和线程](https://mp.weixin.qq.com/s?__biz=MzkwMDE1MzkwNQ==&mid=2247496008&idx=1&sn=b4c6bfc75abfa8a45843bc3c2221b6ad&chksm=c04ae616f73d6f00808860bf6312f4377d07695626bc4530a74e0f2f343d910a5101d55e535c&scene=178&cur_album_id=1758297326189625351#rd)
 * [Is Pthread library actually a user thread solution?](https://stackoverflow.com/questions/8639150/is-pthread-library-actually-a-user-thread-solution)
 * [一个Work Stealing Pool线程池的实现](https://www.cnblogs.com/ok-wolf/p/7761755.html)
@@ -48,13 +50,20 @@ layout: post
 [内存耗用：VSS/RSS/PSS/USS 的介绍](https://www.jianshu.com/p/3bab26d25d2e)
 
 
-
 ```shell
 $ free -h -w
               total        used        free      shared     buffers       cache   available
 Mem:           754G        335G        281G        4.1G        1.9G        135G        400G
 Swap:            0B          0B          0B
 ```
+
+
+### memory arena (memory pool)
+申请一大块连续的内存，然后自己管理（如何使用、如何分配、如何回收）
+
+BFC 内存分配策略 - best-fit with coalescing
+* kNextPowerOfTwo：后续扩展/收缩的值更大/更小（乘以/除以 2）
+* kSameAsRequested：根据需要扩展/收缩
 
 
 ## IO模型

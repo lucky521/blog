@@ -370,6 +370,35 @@ dim3 threadsPerBlock(256, 1, 1); // 线程块维度：每个块256个线程
 kernelFunction<<<blocksPerGrid, threadsPerBlock>>>(data); // <<<blocksPerGrid, threadsPerBlock>>>语法是用于在CUDA中启动核函数的特殊语法。这里，blocksPerGrid和threadsPerBlock分别指定了网格和线程块的大小。核函数内部，每个线程会使用它的全局索引来决定操作数组的哪个部分。这样可以确保所有的数组元素都被并行处理，而且每个元素只被处理一次。
 ```
 
+#pragma unroll
+
+## CUDA Runtime API
+
+cudaSetDevice
+
+cudaMalloc/cudaFree
+
+cudaMemcpy
+
+使用__global__关键字定义CUDA内核
+
+cudaDeviceSynchronize
+
+
+
+
+
+## cuda程序编译
+
+main.cu一般以cu结尾后缀，使用nvcc编译
+```
+nvcc cuda_test.cu -o cuda_test
+```
+大型项目中，cmake已经完美支持cuda
+```
+enable_language(CUDA)
+```
+
 
 ## CUDA Library
 NVIDIA HPC SDK 生态

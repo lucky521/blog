@@ -54,21 +54,21 @@ https://data-flair.training/forums/topic/what-is-speculative-execution-in-hadoop
 
 # Linux下安装和启动Hadoop
 
-### 添加用户和用户组
+## 添加用户和用户组
 
 ```
 > sudo addgroup hadoop
 > sudo adduser --ingroup hadoop hduser
 ```
 
-### 开启ssh连接（要为Hadoop集群中的所有机器提供SSH授权）
+## 开启ssh连接（要为Hadoop集群中的所有机器提供SSH授权）
 
 ```
 > ssh hduser@localhost
 ```
 
 
-### Disable IPV6
+## Disable IPV6
 ```s
 > sudo vim /etc/sysctl.conf
 add
@@ -78,7 +78,7 @@ net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
 ```
 
-### 安装hadoop
+## 安装hadoop
 
 ```s
 > sudo add-apt-repository ppa:hadoop-ubuntu/stable
@@ -87,7 +87,7 @@ net.ipv6.conf.lo.disable_ipv6 = 1
 > man hadoop
 ```
 
-### 设置环境变量
+## 设置环境变量
 
 ```s
 > sudo vim /home/hduser/.bashrc
@@ -97,7 +97,7 @@ export HADOOP_HOME=/usr/lib/hadoop
 export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 ```
 
-### 修改conf/hadoop-env.sh
+## 修改conf/hadoop-env.sh
 
 ```s
 $ sudo vim /etc/hadoop/conf/hadoop-env.sh
@@ -105,7 +105,7 @@ add
 export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 ```
 
-### 给HDFS文件系统创建一个目录
+## 给HDFS文件系统创建一个目录
 
 HDFS文件系统的权限属于hduser
 ```s
@@ -122,34 +122,34 @@ $ sudo vim /etc/hadoop/conf/core-site.xml
 ```
 填写了hadoop.tmp.dir的path， fs.default.name的link
 
-### 填写conf/mapred-site.xml
+## 填写conf/mapred-site.xml
 
 ```s
 $ sudo vim /etc/hadoop/conf/mapred-site.xml
 ```
 填写了mapred.job.tracker的link地址（唯一的JobTracker主服务器地址）
 
-### 填写conf/hdfs-site.xml
+## 填写conf/hdfs-site.xml
 
 ```
 $ sudo vim /etc/hadoop/conf/hdfs-site.xml
 设置了dfs.replication的值为1。
 ```
 
-### 格式化HDFS文件系统
+## 格式化HDFS文件系统
 以hduser的身份进行操作
 ```
 $ hadoop namenode -format
 ```
 这样就在/app/hadoop/tmp下创建了一个空的文件系统。
 
-### 启动Hadoop
+## 启动Hadoop
 ```
 > /usr/lib/hadoop/bin/start-all.sh
 ```
 这就会启动a Namenode, SecondaryNameNode, Datanode, Jobtracker and a Tasktracker
 
-### 查看java 进程
+## 查看java 进程
 ```
 > jps
 ```

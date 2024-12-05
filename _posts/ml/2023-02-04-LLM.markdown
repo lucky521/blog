@@ -126,6 +126,7 @@ https://www.hiascend.com/document/detail/zh/mindie/1.0.RC1/mindiellm/llmdev/atla
 
 # 大模型微调技术
 https://zhuanlan.zhihu.com/p/618894319
+* 全参数微调
 * 2019年 Houlsby N 等人提出的 Adapter Tuning
 * 2021年微软提出的 LORA
 * 斯坦福提出的 Prefix-Tuning

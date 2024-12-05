@@ -326,7 +326,15 @@ https://docs.ray.io/en/latest/serve/index.html
 * [性能优化](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-803/best-practices/index.html)
 
 Nvidia’s TensorRT is a deep learning optimizer and runtime for accelerating deep learning inference on Nvidia GPUs.
-TensorRT严格来讲并不是以一个model server框架，他的重点在于性能优化。但TensorRT提供了REST方式的服务支持。
+TensorRT严格来讲并不是以一个model server框架，他的重点在于性能优化。但TensorRT提供了REST方式的服务支持。TensorRT中的profile指的是优化推理的配置，它定义了一组输入张量的形状范围，并允许TensorRT为这些范围内的各种形状生成高效的推理引擎。
+
+
+概念上，
+1. profile 是一个重要的概念，特别是在处理动态形状（dynamic shapes）和优化推理性能时
+
+
+
+
 
 使用上，
 1.先把TF/PyTorch模型转换为ONNX格式

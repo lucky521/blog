@@ -51,9 +51,41 @@ om模型文件推理小程序，源码里可以看出典型的asendCL推理用�
 https://gitee.com/ascend/tools/tree/master/msame
 
 
+
+
+## device/context/stream三个抽象概念的关系
+
+* device: Device指安装了昇腾AI处理器的硬件设备，利用PCIe接口与Host侧连接，为Host提供NN计算能力。若存在多个Device，多个Device之间的内存资源不能共享。
+* context:Context作为一个容器，管理了所有对象（包括Stream、Event、设备内存等）的生命周期。不同Context的Stream、不同Context的Event是完全隔离的，无法建立同步等待关系。
+* stream: Stream用于维护一些异步操作的执行顺序，确保按照应用程序中的代码调用顺序在Device上执行。基于Stream的kernel执行和数据传输能够实现Host运算操作、Host与Device间的数据传输、Device内的运算并行。
+
+https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/80RC2alpha003/devguide/appdevg/aclcppdevg/aclcppdevg_000004.html
+
+线程
+* 一个用户线程一定会绑定一个Context，所有Device的资源使用或调度，都必须基于Context
+* 一个进程中可以创建多个Context，但一个线程同一时刻只能使用一个Context。
+* 线程中创建的多个Context，线程缺省使用最后一次创建的Context。
+* 进程内创建的多个Context，可以通过aclrtSetCurrentContext设置当前需要使用的Context。
+
+
+
+
+
 # 开发接口
 
 ## MindIE
+
+
+## 面向Transformer模型的加速库（Ascend Transformer Boost）
+
+几种attention
+* PagedAttentionOperation
+  * 基于paged attention 对于kvcache分页管理的机制计算attention score
+  * Rotary Position Embedding (RoPE) 主要思想是通过旋转嵌入向量来编码不同位置的信息。
+* SelfAttentionOperation
+  * 基于传统flash attention按照layerId管理kvcache的机制计算attention score
+
+
 
 ## AscendCL
 
@@ -64,7 +96,7 @@ https://gitee.com/ascend/tools/tree/master/msame
   * 两段式接口， 先 aclnnXxxGetWorkspaceSize， 再 aclnnXxx
   * 算子列表： https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/80RC2alpha003/apiref/appdevgapi/context/common/aclnn_domains.md
 * aclop* 单算子模型执行
-  * aclopCompileAndExecute
+  * aclopCompileAndExecute: 用户在调用aclopCompileAndExecute时，AscendCL根据optype、输入tensor的描述、输出tensor的描述、attr等信息查找对应的任务，再编译、执行算子。
 * aclmdl* 模型推理
   * aclmdlLoadFromFile     (om文件)
   * aclmdlLoadFromMem
@@ -89,11 +121,15 @@ Ascend C API的操作数都是Tensor类型
 
 
 
+# 硬件
 
+NPU集成了多种硬件加速器（也叫加速引擎），比如AiCore/AiVec/AiCpu（按照优先级排列）等，在图编译阶段会按照优先级为算子选择合适的引擎，即当同一个算子被多种引擎支持时，会选择优先级高的那个。
 
+* “AiCore”：AI Core硬件加速引擎
+* “AiVec”：Vector Core硬件加速引擎
+* “AiCpu”：AI CPU硬件加速引擎
 
 
 # REF
-
 
 https://gitee.com/ascend/samples/tree/master

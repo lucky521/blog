@@ -6,7 +6,19 @@ categories: [MachineLearning]
 ---
 
 
+# 图相关的概念
+
+FusedNodeAndGraph
+
+GraphViewer
+
+
+在模型交给provider执行之前，对图做了些什么？
+
+
 # provider
+
+
 
 
 # 注册算子的几种方法
@@ -137,4 +149,7 @@ UT: skiplayernorm_op_test.cc
 
 
 # onxxruntime 线程模型
-NNXRuntime的线程池接口在Eigen线程池接口基础之上扩展而来（题外话：TensorFlow中的线程池同样是建立在Eigen线程池基础上）
+ONNXRuntime的线程池接口在Eigen线程池接口基础之上扩展而来（题外话：TensorFlow中的线程池同样是建立在Eigen线程池基础上）
+
+* inter_op_num_threads 不同算子的并行，使用eigen线程池
+* intra_op_num_threads 同一个算子的并行，使用openmp实现

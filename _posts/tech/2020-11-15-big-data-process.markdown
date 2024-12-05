@@ -220,7 +220,8 @@ INFO CodeGenerator: Code generated in xxx ms
 * 每个查询有一个大表。除了他以外，其他的都很小。
 * 查询结果明显小于源数据。换句话说，数据经过过滤或聚合，因此结果适合于单个服务器的RAM中
 
-## ES Elasticsearch https://www.elastic.co/start
+## ES Elasticsearch 
+https://www.elastic.co/start
 注意python客户端版本与server端版本的兼容性，我发现7和8的兼容性不好。
 概念比较
 * Relational DB -> Databases -> Tables -> Rows -> Columns
@@ -236,19 +237,25 @@ INFO CodeGenerator: Code generated in xxx ms
   * 前缀查询 prefix
   * 通配符查询 wildcard
 
-## ClickHouse https://clickhouse.tech/
+## ClickHouse 
+https://clickhouse.tech/
 * SETTINGS storage_policy = 'jdob_ha';
 * ENGINE = Distributed(xxx, xxx, xxx, rand());
 
-## Doris https://doris.apache.org/master/en/
+## Doris 
+https://doris.apache.org/master/en/
 
-## druid https://druid.apache.org/
+## druid 
+https://druid.apache.org/
 
-## kylin http://kylin.apache.org/
+## kylin 
+http://kylin.apache.org/
 
-## hologres https://www.hologres.io/
+## hologres 
+https://www.hologres.io/
 
-## kudu https://kudu.apache.org/
+## kudu 
+https://kudu.apache.org/
 
 
 ##  HTAP

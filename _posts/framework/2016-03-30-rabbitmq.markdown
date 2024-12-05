@@ -27,13 +27,13 @@ channel = connection.channel() //
 channel.queue_declare(queue='hello')   //声明server端消息队列的名称
 ```
 
-### 对于生产者，向队列publish
+## 对于生产者，向队列publish
 
 ```
 channel.basic_publish(exchange='', routing_key='hello',  body='Hello World!') //routing_key设置为queue的名称
 ```
 
-### 对于消费者，从队列中consume
+## 对于消费者，从队列中consume
 
 ```
 def callback(ch, method, properties, body):
@@ -62,13 +62,13 @@ server端挑选消费者的一个依据就是看消费者对应的channel上未a
 需要设置exchange
 channel.exchange_declare(exchange='logs', type='fanout')   // 设置exchange的类型
 
-### 对于消息发布者
+## 对于消息发布者
 
 ```
 channel.basic_publish(exchange='logs', routing_key='', body=message)  // routing_key设置为空
 ```
 
-### 对于消息订阅者
+## 对于消息订阅者
 
 ```
 result = channel.queue_declare(exclusive=True)
@@ -89,14 +89,14 @@ channel.start_consuming()
 消息根据routing_key的设定进行Routing。
 发布者按照分类进行消息发布，订阅者按需进行消息订阅。
 
-### 对于发布者
+## 对于发布者
 
 ```
 channel.exchange_declare(exchange='direct_logs', type='direct')
 channel.basic_publish(exchange='direct_logs', routing_key=severity, body=message)  // 需要设定当前消息的routing_key
 ```
 
-### 对于订阅者
+## 对于订阅者
 
 ```
 result = channel.queue_declare(exclusive=True)
@@ -114,7 +114,7 @@ for severity in severities:
 - \* (star) can substitute for exactly one word.
 - \# (hash) can substitute for zero or more words.
 
-### 对于发布者
+## 对于发布者
 
 ```
 channel.exchange_declare(exchange='topic_logs', type='topic')
@@ -123,7 +123,7 @@ channel.basic_publish(exchange='topic_logs', routing_key=routing_key, body=messa
 ```
 
 
-### 对于订阅者
+## 对于订阅者
 
 ```
 result = channel.queue_declare(exclusive=True)

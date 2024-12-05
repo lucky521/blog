@@ -32,15 +32,15 @@ categories: [other]
 
 ## 技术分类
 
-* 中间件 -
+* 后端 - 你写的程序允许在远端；
+* 前端 - 你写的程序运行在浏览器上；
+* 移动端 - 你写的程序运行在用户设备端；
+* 嵌入式 -
+* 中间件 - 
 * 游戏开发 - https://github.com/miloyip/game-programmer
 * 机器学习 - https://github.com/chris-chris/ml-engineer-roadmap
-* 后端 - 
-* 前端 - 
-* 移动端 - 
 * 安全 - 
 * 大数据 - https://github.com/datastacktv/data-engineer-roadmap
-* 嵌入式 -
 
 
 ## 业务领域
