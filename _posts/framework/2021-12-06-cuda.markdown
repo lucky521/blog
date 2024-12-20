@@ -105,7 +105,7 @@ ARM GPU
 * Mali GPU: 基于tile-based的渲染原理，旨在通过最小化帧缓冲访问所需的外部DDR存储器带宽来提高系统范围的能效
 
 Apple GPU
-* M1新品： 内置了8核GPU，深度学习引擎
+* M1： 内置了8核GPU，深度学习引擎
 
 
 

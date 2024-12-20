@@ -44,6 +44,8 @@ cpplint
 	sudo pip install cpplint
 	sudo ln -s /usr/bin/cpplint /usr/local/bin/cpplint
 
+miniconda
+
 ### 可视化跨平台工具
 
 VS Code 文本编辑，全平台支持。经常用的插件有
