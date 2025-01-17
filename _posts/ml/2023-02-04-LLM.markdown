@@ -292,3 +292,6 @@ LangChain 是一个框架，用于开发由 LLM 驱动的应用程序。
 [大型语言模型（LLM）技术精要](https://zhuanlan.zhihu.com/p/597586623)
 [Numbers every LLM Developer should know](https://github.com/ray-project/llm-numbers)
 [LLM推理性能优化](https://mp.weixin.qq.com/s/4o86rMuburB8jcbU0aYC7g)
+[Large Language Models: A Survey](https://arxiv.org/pdf/2402.06196)
+[A Survey on Large Language Models for Recommendation](https://arxiv.org/pdf/2305.19860)
+[Hands On Large Language Models - Jay Alammar]()

@@ -141,7 +141,7 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 
 
 量化工具：
-* onnx自带工具
+* onnxruntime自带工具
   * https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html
   * https://onnxruntime.ai/docs/performance/model-optimizations/float16.html
 * pytorch自带工具
