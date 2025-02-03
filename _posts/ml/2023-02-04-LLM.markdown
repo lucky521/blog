@@ -120,6 +120,8 @@ https://www.hiascend.com/document/detail/zh/mindie/1.0.RC1/mindiellm/llmdev/atla
   * https://github.com/QwenLM/Qwen
 * bloom
   * https://huggingface.co/bigscience/bloom
+* DeepSeek
+  * DeepSeek对模型架构进行了全方位创新。它提出的一种崭新的MLA（一种新的多头潜在注意力机制）架构，把显存占用降到了过去最常用的MHA架构的5%-13%，同时，它独创的DeepSeekMoESparse结构，也把计算量降到极致，所有这些最终促成了成本的下降。
 
 
 
@@ -177,6 +179,9 @@ https://github.com/NVIDIA/TensorRT-LLM
 
 ## FlashInfer
 https://github.com/flashinfer-ai/flashinfer
+
+## sglang
+https://github.com/sgl-project/sglang
 
 
 

@@ -63,10 +63,12 @@ TF savedmodel。
 主流的模型压缩方法，包括量化、剪枝、蒸馏、稀疏化。
 
 ## 精度量化(参数精度压缩)
-量化是指降低模型参数的数值表示精度，比如 从 FP32 降低到 FP16 或者 INT8
+量化是指降低模型参数的数值表示精度，比如 从 FP32 降低到 FP16 或者 INT8.
+***说简单点：模型量化过程其实就是在做一件事，就是找阈值或者scale。***
 
 训练和推理的需求不同：在训练阶段，使用高精度的浮点数可以提供更好的模型收敛性和表达能力。而在推理阶段，使用低精度可以提供更高的计算效率。因此，直接在训练过程中使用低精度可能会降低模型的准确性和性能。训练过程中的梯度计算：训练过程中需要计算梯度来更新模型参数。使用低精度表示可能导致梯度计算的不准确性，从而影响模型的收敛性和训练效果。
 
+### 有哪些低精度表示
 
 * 32位标准浮点数 FP32
   * 标准的 IEEE 32 位浮点表示, 为“指数”保留了 8 位，为“尾数”保留了 23 位，为符号保留了 1 位。
@@ -76,13 +78,18 @@ TF savedmodel。
   * BF16 是对FP32单精度浮点数截断数据，用8bit 表示指数，7bit 表示小数。
 * int8
   * 一个 8 位的整型数据表示，可以存储 $2^8$ 个不同的值 (对于有符号整数，区间为 [-128, 127]，而对于无符号整数，区间为 [0, 255])
+* fp8
+  * FP8采用两种表示方式，分别是E4M3和E5M2，其中E代表指数位（Exponent），M代表尾数位（Mantissa）。在特定的表示范围内，E4M3展现出了更为精确的数值表现，而E5M2则以其更宽广的动态范围见长。
 * 混合精度（Mixed precision, fp16&fp32）
   * 在模型中同时使用 FP32 和 FP16 的权重数值格式。 FP16 减少了一半的内存大小，但有些参数或操作符必须采用 FP32 格式才能保持准确度。
   * 比如使用 FP32 权重作为精确的 “主权重 (master weight)”，而使用 FP16/BF16 权重进行前向和后向传播计算以提高训练速度，最后在梯度更新阶段再使用 FP16/BF16 梯度更新 FP32 主权重。
 
 
+### 精度量化的几大分类
+***如何减轻数据从浮点转换到定点的精度损失，怎么样Quantization后和de-quantization差异最小化，是整个量化研究的重点.***
 
 * 零点量化 (zero-point quantization) 
+  * q = round(r/s)127
 * 最大绝对值量化 (absolute maximum quantization，absmax) 
 * 对称
   * 对称量化
@@ -91,12 +98,30 @@ TF savedmodel。
   * 线性量化
   * 非线性量化
 * 饱和
-  * 饱和量化
-  * 非饱和量化
+  * 饱和量化 ： 原始分布不均匀的时候采用，为了映射到新阈值之后的分布相对均匀。 不再是基于最大值进行缩放, 而是找一个阈值|T|,关键是如何找到最优的阈值。
+  * 非饱和量化:  原始分布均匀的时候采用。
 * 训练
   * 后训练量化（Post-Training Quantization, PTQ）
+    * 不带校准的PTQ
+    * 带校准的PTQ: 用一个所谓校准集的东西来进行抽样分布，有了抽样分布后再做量化阈值的选取
   * 量化感知训练（Quantization Aware Training, QAT）
+    * 利用一个量化过程 q = round(r/s)127，将需要量化的值量化到0, 127之间，再接着一个反量化过程q  s，就实现了一个误差的传递。通过训练学习量化参数q。
 
+
+* 指数平滑法，即将校准数据集送入模型，收集每个量化层的输出特征图，计算每个batch的S和Z值，并通过指数平滑法来更新S和Z值。
+* 直方图截断法，即在计算量化参数Z和S的过程中，由于有的特征图会出现偏离较远的奇异值，导致max非常大，所以可以通过直方图截取的形式，比如抛弃最大的前1%数据，以前1%分界点的数值作为max计算量化参数。
+* KL散度校准法，即通过计算KL散度（也称为相对熵，用以描述两个分布之间的差异）来评估量化前后的两个分布之间存在的差异，搜索并选取KL散度最小的量化参数Z和S作为最终的结果。TensorRT中就采用了这种方法。
+
+
+
+### 量化的模型哪些部位
+量化的参数主要分为2类: 权重和激活值
+* 待量化 Op 的权重：  一般分布均匀
+* 待量化 Op 的激活值Tensor（包括输入和输出）: 一般分布不均匀
+
+
+
+### 量化公式代码实例
 
 对称量化
 
@@ -140,7 +165,7 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 ```
 
 
-量化工具：
+### 量化工具
 * onnxruntime自带工具
   * https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html
   * https://onnxruntime.ai/docs/performance/model-optimizations/float16.html
@@ -149,7 +174,10 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
 * huggingface自带工具
   * https://huggingface.co/docs/transformers/en/quantization
 * tensorrt-llm中的量化
+  * https://github.com/NVIDIA/TensorRT-LLM/blob/main/examples/quantization/README.md
 
+
+### QA
 Q:如何理解对weights(权值)进行量化？
 
 
@@ -164,7 +192,9 @@ https://arxiv.org/pdf/2208.07339
 https://fancyerii.github.io/2024/01/16/int8/
 
 
-Q: onnx_tensorrt_gpu 是怎么服务的？
+Q: 评估精度的方法？
+* 直接比较结果的diff
+* 比较 auc
 
 
 ## 参数个数压缩 (weight sharing)

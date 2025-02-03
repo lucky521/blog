@@ -4,6 +4,8 @@ categories: [Tech]
 layout: post
 ---
 
+一般来讲，一个程序的性能构成要件大概有三个，即算法复杂度、IO开销和并发能力。
+
 # 计算优化方法
 
 向量化指令：现代处理器通常支持向量化指令集（如SSE、AVX等），可以同时对多个数据执行相同的操作，从而提高计算效率。ggml和Eigen都可能利用这些向量化指令来加速矩阵和向量运算。
@@ -16,6 +18,8 @@ layout: post
 
 ## 指令集优化
 * 不同指令执行速度不同：整型的加减、比较、位运算快，除法、取模运算慢。 浮点数运算慢。
+
+* 为了能够充分利用CPU上的SIMD加速，现阶段还非常依赖程序层进行主动算法适应性改造，有 目的地使用，换言之，就是主动实施这种单线程内的并发改造
 
 posix_memalign 可以避免一些由于对齐不当而导致的性能问题，尤其是在 SIMD 指令或某些硬件要求特定对齐的情况下。
 
@@ -75,6 +79,22 @@ pthread_setaffinity_np 将进程绑定到特定的cpu核
 * 用户态零拷贝：用户态的零拷贝技术允许应用程序直接管理内存，比如使用内存映射（memory-mapped files）技术。通过将文件映射到进程的地址空间，应用程序可以直接在映射区域读写文件数据，无需执行读写系统调用。
 * DMA传输：直接内存访问（Direct Memory Access, DMA）允许硬件设备（如网络卡）直接读写内存，而不需要CPU介入。这样，数据可以从存储设备直接传输到网络设备，而不经过CPU。
 * RDMA传输：远程直接内存访问（Remote Direct Memory Access, RDMA）是一种网络协议，它允许在远程主机之间直接交换数据，绕过它们的操作系统，从而减少延迟和CPU负载。
+
+
+## 字符串处理的优化心得
+
+### string as a buffer 避免0初始化
+resize 按估计的大小扩充string，对存储区域进行0初始化， 不如resize_default_init
+result.resize(estimate_size);
+
+### split string 避免拷贝
+优化点在于避免拷贝
+boost::split 
+absl::StrSplit
+
+### protobuf 避免不必要的解析
+
+定义一个message field，或者定义一个string field而把对应message序列化后存入，结果是等价的；但后者可以避免不必要的内层解析
 
 
 # 工业实践

@@ -67,6 +67,12 @@ BFC 内存分配策略 - best-fit with coalescing
 
 
 ## IO模型
+
+
+IRQ/softirq
+中断（IRQ），尤其是软中断（softirq）的重要使用场景之一是网络收发包
+
+
 socket系统调用，是进行TCP/IP通信的接口。
 * 阻塞IO：应用程序调用recvfrom，如果没有数据来，程序会阻塞在这里。
 * 非阻塞IO： 应用程序调用recvfrom，如果没有数据来，就直接返回EWOULDBLOCK。
