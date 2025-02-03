@@ -152,6 +152,7 @@ https://github.com/ztxz16/fastllm
 https://zhuanlan.zhihu.com/p/646193833
 
 ## FlashAttention
+优化访问HBM次数过多的性能问题
 https://github.com/Dao-AILab/flash-attention
 
 ## vllm
