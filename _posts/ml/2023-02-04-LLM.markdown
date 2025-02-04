@@ -140,6 +140,18 @@ huggingface PEFT
 
 
 
+# 大模型量化技术
+
+llm.int8
+
+gptq 最主流
+
+smoothquant
+
+autoAWQ 第二主流
+
+BnB
+
 
 
 

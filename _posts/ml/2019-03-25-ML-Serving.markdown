@@ -273,6 +273,9 @@ Q: 评估精度的方法？
 * https://github.com/alibaba/BladeDISC
 
 
+[BladeDISC++：Dynamic Shape AI 编译器下的显存优化技术](https://zhuanlan.zhihu.com/p/18880631601)
+
+
 
 # 开源推理框架
 

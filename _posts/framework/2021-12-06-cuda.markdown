@@ -300,6 +300,9 @@ PS：core和kernel两个词，core指的是硬件核心，处理器；kernel指�
 
 
 ##  HBM -> SRAM -> 寄存器 存储层次
+ 
+
+
 
 ## CUDA GPU 物理层次
 
