@@ -120,6 +120,7 @@ Chain-of-Thought(CoT)是一种改进的Prompt技术，目的在于提升大模�
 * bloom
   * https://huggingface.co/bigscience/bloom
 * DeepSeek
+  * https://arxiv.org/pdf/2412.19437
   * DeepSeek对模型架构进行了全方位创新。它提出的一种崭新的MLA（一种新的多头潜在注意力机制）架构，把显存占用降到了过去最常用的MHA架构的5%-13%，同时，它独创的DeepSeekMoESparse结构，也把计算量降到极致，所有这些最终促成了成本的下降。
 
 
@@ -141,15 +142,17 @@ https://zhuanlan.zhihu.com/p/618894319
 
 # 大模型量化技术
 
-llm.int8
+* llm.int8
+* gptq 最主流
+* smoothquant
+* autoAWQ 第二主流
+* BitsAndBytes
 
-smoothquant
+## gptq 
 
-gptq 最主流
+obs
+obq
 
-autoAWQ 第二主流
-
-BnB
 
 
 
