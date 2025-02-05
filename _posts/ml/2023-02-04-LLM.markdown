@@ -19,7 +19,7 @@ OpenAI的GPT系列将大模型推向了大风口。
 ## 预训练架构的几大门派
 NLP各种任务其实收敛到了两个不同的预训练模型框架里：
 * 对于自然语言理解类任务，其技术体系统一到了以Bert为代表的“双向语言模型预训练+应用Fine-tuning”模式(非自回归)；
-* 对于自然语言生成类任务，其技术体系统一到了以GPT 2.0为代表的“自回归语言模型（即从左到右单向语言模型）+Zero /Few Shot Prompt”模式
+* 对于自然语言生成类任务，其技术体系统一到了以GPT 2.0为代表的“自回归语言模型（即从左到右单向语言模型）+Zero/Few Shot Prompt”模式
 
 
 * 自编码（autoencoding，AE）：在输入文本中，随机删除连续的一个或者多个token，然后通过上下文来预测该token。这类模型主要以Bert为代表（Mask Language Model）。
@@ -50,32 +50,6 @@ Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM �
 Layer Norm
 位置编码
 
-## 提示学习 Prompt Learning
-比如做情感分类任务：
-* 监督学习的做法是输入“我今天考砸了”，模型输出分类的分数或分布.
-* 而提示学习的做法则是在“我今天考砸了”后拼接上自然语言描述“我感觉很 ____”，让模型生成后面的内容，再根据某种映射函数，将 生成内容匹配到某一分类标签。
-
-
-## 指令精调(Instruction Tuning)
-让LLM理解输入命令的含义，并正确执行
-
-
-## 提示工程（Prompt Engineering）
-https://www.promptingguide.ai/zh
-
-
-## 有监督微调（SFT）
-
-
-
-## In-flight Batching / continuous batching / iteration-level batching
-在处理实时数据流（如聊天消息）时，连续批处理会不断地将即时到达的消息聚合成批次，并将每个批次作为一个单元送入模型进行处理。这种方式可以减少模型推理的延迟并提高吞吐量。
-https://www.anyscale.com/blog/continuous-batching-llm-inference
-
-## stream_chat 流式输出
-在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入openai接口，发现接口是http协议，才了解到SSE技术。
-
-Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，它允许服务器向客户端发送数据和信息。与 WebSocket 不同，SSE 是一种单向通信方式，只有服务器可以向客户端推送消息。SSE 是 HTML5 规范的一部分，使用非常简单，主要由服务端与浏览器端的通讯协议（HTTP协议）和 EventSource 接口来处理 Server-sent events 组成，服务器端的响应的内容类型是“text/event-stream”.
 
 
 
@@ -92,6 +66,31 @@ https://www.hiascend.com/document/detail/zh/mindie/1.0.RC1/mindiellm/llmdev/atla
   * Sampleing
   * Detokenize 将推理结果向量转换为文本
   * Return
+
+
+
+## 提示工程（Prompt Engineering）
+https://www.promptingguide.ai/zh
+
+Chain-of-Thought(CoT)是一种改进的Prompt技术，目的在于提升大模型LLMs在复杂推理任务上的表现，对于复杂问题尤其是复杂的数学题大模型很难直接给出正确答案
+
+## 提示学习 Prompt Learning
+比如做情感分类任务：
+* 监督学习的做法是输入“我今天考砸了”，模型输出分类的分数或分布.
+* 而提示学习的做法则是在“我今天考砸了”后拼接上自然语言描述“我感觉很 ____”，让模型生成后面的内容，再根据某种映射函数，将 生成内容匹配到某一分类标签。
+
+
+## 指令精调(Instruction Tuning)
+让LLM理解输入命令的含义，并正确执行
+
+
+## 有监督微调（Supervised Fine-Tuning - SFT）
+使用标注好的数据集用于LLM微调，这些数据集包含输入和期望输出的示例。
+
+
+
+
+
 
 
 
@@ -130,12 +129,12 @@ https://www.hiascend.com/document/detail/zh/mindie/1.0.RC1/mindiellm/llmdev/atla
 https://zhuanlan.zhihu.com/p/618894319
 * 全参数微调
 * 2019年 Houlsby N 等人提出的 Adapter Tuning
-* 2021年微软提出的 LORA
-* 斯坦福提出的 Prefix-Tuning
+* 2021年微软提出的 LORA (Low-Rank Adaptation
+* 2021年斯坦福提出的 Prefix Tuning
 * 谷歌提出的 Prompt Tuning
 * 2022年清华提出的 P-tuning v2
 
-huggingface PEFT
+## huggingface PEFT
 把微调技术工程化了 https://huggingface.co/docs/peft/index
 
 
@@ -144,13 +143,28 @@ huggingface PEFT
 
 llm.int8
 
-gptq 最主流
-
 smoothquant
+
+gptq 最主流
 
 autoAWQ 第二主流
 
 BnB
+
+
+
+
+# 大模型工程优化
+综述：https://zhuanlan.zhihu.com/p/656485997
+
+## In-flight Batching / continuous batching / iteration-level batching
+在处理实时数据流（如聊天消息）时，连续批处理会不断地将即时到达的消息聚合成批次，并将每个批次作为一个单元送入模型进行处理。这种方式可以减少模型推理的延迟并提高吞吐量。
+https://www.anyscale.com/blog/continuous-batching-llm-inference
+
+## stream_chat 流式输出
+在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入openai接口，发现接口是http协议，才了解到SSE技术。
+
+Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，它允许服务器向客户端发送数据和信息。与 WebSocket 不同，SSE 是一种单向通信方式，只有服务器可以向客户端推送消息。SSE 是 HTML5 规范的一部分，使用非常简单，主要由服务端与浏览器端的通讯协议（HTTP协议）和 EventSource 接口来处理 Server-sent events 组成，服务器端的响应的内容类型是“text/event-stream”.
 
 
 
@@ -273,24 +287,23 @@ GPT强大的理解能力，能够帮人类完成一些事情的感知->理解->�
 让GPT读、写任何具备API接口能力的服务、设备。
 
 
-# AI Agent
-Agent代理的意思，显而易见，个人助理。Agent并非ChatGPT升级版，它不仅告诉你“如何做”，更会帮你去做.
-
-Agent = LLM+Planning+Feedback+Tool use
-
-
-# RAG 检索增强生成
-LLM 擅长于一般的语言理解与推理，而不是某个具体的知识点。如何为ChatGPT/LLM大语言模型添加额外知识？
-
-当用户提出问题时，系统会根据用户输入来搜索数据存储。 然后将用户问题与匹配结果结合起来，并使用提示（对 AI 或机器学习模型的明确指令）将其发送到 LLM，以生成所需的答案。
-
-
-
 
 
 
 
 # 大模型应用层框架
+
+## AI Agent
+Agent代理的意思，显而易见，个人助理。Agent并非ChatGPT升级版，它不仅告诉你“如何做”，更会帮你去做.
+
+Agent = LLM+Planning+Feedback+Tool use
+
+
+## RAG 检索增强生成
+LLM 擅长于一般的语言理解与推理，而不是某个具体的知识点。如何为ChatGPT/LLM大语言模型添加额外知识？
+
+当用户提出问题时，系统会根据用户输入来搜索数据存储。 然后将用户问题与匹配结果结合起来，并使用提示（对 AI 或机器学习模型的明确指令）将其发送到 LLM，以生成所需的答案。
+
 
 ## LangChain
 LangChain 是一个框架，用于开发由 LLM 驱动的应用程序。

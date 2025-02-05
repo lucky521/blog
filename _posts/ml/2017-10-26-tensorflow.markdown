@@ -1576,7 +1576,7 @@ op: "ZerosLike"
 
 
 
-# 模型训练方式
+# 模型训练方式(学习方式)
 
 ## Multi-output
 

@@ -50,8 +50,8 @@ TF savedmodel。
 
 
 # 模型分布式推理
-将一个超大模型拆解部署在多个计算节点。（流量负载均衡、稀疏参数分布式，不在本章的讨论范围）
-
+将一个超大模型的计算部分拆解，部署在多个计算节点。（流量负载均衡、稀疏参数的分布式化，不在本章的讨论范围）
+这是一个很大的话题，见另一篇以分布式机器学习为主题的blog。
 [?](https://github.com/tensorflow/mesh)
 
 
@@ -259,11 +259,14 @@ Q: 评估精度的方法？
   * Relay 是 TVM 中十分重要的基础组件之一，用于对接不同格式的深度学习模型以及进行模型的 transform
 * mlir
   * https://mlir.llvm.org/
+* xla
+  * https://github.com/openxla/xla
 * iree
   * https://github.com/openxla/iree
 * halide 
   * https://github.com/halide/Halide
   * 与机器学习算法无关的底层优化器，原先用于图片处理和矩阵计算
+
 
 * https://github.com/alibaba/MNN
 * https://github.com/Tencent/TNN
@@ -346,7 +349,7 @@ https://docs.ray.io/en/latest/serve/index.html
 
 
 
-# Nvidia GPU 全家桶
+# Nvidia GPU 加速推理全家桶
 在模型推理方面，NVIDIA提供了基于GPU加速的推理软件。
 
 ## TensorRT (TRT)
