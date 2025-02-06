@@ -45,6 +45,12 @@ pytoch参数状态字典。
 ## tf 
 TF savedmodel。
 
+## safetensors
+huggingface自研的模型文件格式，主打安全和无多余内存占用。
+
+## gguf
+GGUF文件全称是GPT-Generated Unified Format，是由Georgi Gerganov定义发布的一种大模型文件格式。Georgi Gerganov是著名开源项目llama.cpp的创始人。
+
 
 
 
@@ -80,6 +86,8 @@ TF savedmodel。
   * 一个 8 位的整型数据表示，可以存储 $2^8$ 个不同的值 (对于有符号整数，区间为 [-128, 127]，而对于无符号整数，区间为 [0, 255])
 * fp8
   * FP8采用两种表示方式，分别是E4M3和E5M2，其中E代表指数位（Exponent），M代表尾数位（Mantissa）。在特定的表示范围内，E4M3展现出了更为精确的数值表现，而E5M2则以其更宽广的动态范围见长。
+* nf4
+  * 更极限，4-bit表示
 * 混合精度（Mixed precision, fp16&fp32）
   * 在模型中同时使用 FP32 和 FP16 的权重数值格式。 FP16 减少了一半的内存大小，但有些参数或操作符必须采用 FP32 格式才能保持准确度。
   * 比如使用 FP32 权重作为精确的 “主权重 (master weight)”，而使用 FP16/BF16 权重进行前向和后向传播计算以提高训练速度，最后在梯度更新阶段再使用 FP16/BF16 梯度更新 FP32 主权重。
@@ -203,9 +211,10 @@ Q: 评估精度的方法？
 ## 剪枝 (Weight Pruning)
 剪枝是指合理地利用策略删除神经网络中的部分参数，比如从单个权重到更高粒度组件如权重矩阵到通道，这种方法在视觉领域或其他较小语言模型中比较奏效。
 
-OBD算法：
+OBD -> OBS 算法：
 它的初衷就是如何选择性的删除一些权重从而减小网络大小，但别引入太多的误差？
-
+Optimal Brain Damage
+Optimal Brain Surgeon
 
 ## 蒸馏 (Knowledge Distillation)
 蒸馏是指利用一个较小的学生模型去学习较大的老师模型中的重要信息而摒弃一些冗余信息的方法。

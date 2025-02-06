@@ -284,6 +284,8 @@ Differentiated Softmax
 https://datascience.stackexchange.com/questions/57435/how-is-the-cross-product-transformation-defined-for-binary-features
 
 
+## 泰勒展开
+海森矩阵是多元泰勒展开中的一个关键组成部分，用于描述函数的二阶导数信息
 
 
 

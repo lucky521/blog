@@ -71,6 +71,7 @@ BFC 内存分配策略 - best-fit with coalescing
 
 IRQ/softirq
 中断（IRQ），尤其是软中断（softirq）的重要使用场景之一是网络收发包
+https://arthurchiao.art/blog/linux-irq-softirq-zh/
 
 
 socket系统调用，是进行TCP/IP通信的接口。

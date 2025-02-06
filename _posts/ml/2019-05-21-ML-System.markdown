@@ -292,7 +292,11 @@ https://datacanvas.io/
 https://huggingface.co/
 AutoTokenizer.from_pretrained
   PreTrainedTokenizer
-AutoModel.from_pretrained
+model = AutoModel.from_pretrained
+
+model.train()
+
+
 
 model.eval
 model.set_adapter
