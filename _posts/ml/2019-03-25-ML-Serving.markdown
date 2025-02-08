@@ -213,7 +213,7 @@ Q: 评估精度的方法？
 
 OBD -> OBS 算法：
 它的初衷就是如何选择性的删除一些权重从而减小网络大小，但别引入太多的误差？
-Optimal Brain Damage
+Optimal Brain Damage: 
 Optimal Brain Surgeon
 
 ## 蒸馏 (Knowledge Distillation)

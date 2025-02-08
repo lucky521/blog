@@ -151,15 +151,19 @@ https://zhuanlan.zhihu.com/p/618894319
 
 ## gptq 
 
-obs
 obq
-
+gptq
 
 
 
 
 # 大模型工程优化
-综述：https://zhuanlan.zhihu.com/p/656485997
+综述：https://zhuanlan.zhihu.com/p/656485997, https://zhuanlan.zhihu.com/p/642412124
+* kvcache
+* transformer/attention变种
+* batch批处理化
+* 低比特量化
+* 分布式化
 
 ## In-flight Batching / continuous batching / iteration-level batching
 在处理实时数据流（如聊天消息）时，连续批处理会不断地将即时到达的消息聚合成批次，并将每个批次作为一个单元送入模型进行处理。这种方式可以减少模型推理的延迟并提高吞吐量。

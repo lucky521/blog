@@ -135,7 +135,8 @@ KPI OKR 绩效考核
 薪资
 > 工资不是老板对你过去贡献的回报，而是对你未来贡献的预期。
 
-
+STAR原则
+> 情境(situation)、目标（target）、行动(action)、结果(result)四项的缩写。
 
 
 

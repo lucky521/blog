@@ -115,3 +115,11 @@ extern "C" __declspec(dllimport) int hello(int);
 对于常量，编译器会向符号表查找const的值，直接替换
 
 
+
+# 链接器的奥秘
+它读取目标文件和库文件，解析其中的符号引用和定义，然后将它们组合成一个可执行文件或共享库。这个过程涉及到符号解析、重定位和内存布局等步骤。
+
+## linux链接器 ld
+The GNU linker
+
+## windows链接器 link.exe
