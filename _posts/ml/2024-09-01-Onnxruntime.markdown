@@ -153,3 +153,27 @@ ONNXRuntime的线程池接口在Eigen线程池接口基础之上扩展而来（�
 
 * inter_op_num_threads 不同算子的并行，使用eigen线程池
 * intra_op_num_threads 同一个算子的并行，使用openmp实现
+
+
+
+
+# onnxruntime中的四种量化校准方法
+
+class CalibrationMethod(Enum):
+    MinMax = 0
+    Entropy = 1
+    Percentile = 2
+    Distribution = 3
+
+最基础的是MinMax
+
+* augment_graph 向模型中添加了 ReduceMin 和 ReduceMax 节点，用于计算每个张量的最小值和最大值。这些节点的输出被添加到模型的输出中。
+* collect_data 从提供的数据读取器中获取输入数据，并使用增强的模型来推断这些数据。推断结果被存储在 intermediate_outputs 属性中。
+* compute_data 处理收集的数据，计算每个张量的最小值和最大值。这些值可以通过简单的最小值和最大值计算或使用移动平均来平滑。
+
+除了minmax之外的三种方法均派生自 HistogramCalibrater
+
+* collect_data 方法从提供的数据读取器中获取输入数据，并使用增强的模型来推断这些数据。推断结果被存储在 intermediate_outputs 属性中，并且还会生成每个张量的直方图
+* compute_data 方法根据收集的数据和直方图计算每个张量的量化参数。具体的计算方法取决于所选的方法（如百分位数或熵）。
+    * 在百分位数方法中，会根据指定的百分位数（如 99.999%）计算张量的最大和最小值。
+    * 在熵方法中，会通过最大熵的方式来确定张量的量化参数。

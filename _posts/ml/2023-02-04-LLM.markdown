@@ -141,18 +141,24 @@ https://zhuanlan.zhihu.com/p/618894319
 
 
 # 大模型量化技术
+综述： https://www.zhihu.com/question/10439431486
+综述： https://arxiv.org/pdf/2308.07633
 
 * llm.int8 
   * 按列分组，把取值特别大的组特别处理，把矩阵乘法拆成两波
   * 存储占用减小了，但计算速度变慢
-* gptq 最主流
+* gptq 
 * smoothquant
-* autoAWQ 第二主流
+* autoAWQ 
+* QServe: W4A8KV4
 
 ## gptq 
 
 obq
 gptq
+
+
+## bitsandbytes 低比特体系
 
 
 
