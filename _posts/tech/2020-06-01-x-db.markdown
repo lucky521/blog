@@ -81,9 +81,9 @@ http://ifeve.com/redis-multiget-hole/
 # X_DB 技术架构
 
 ## 存储引擎
-B+ Tree模型
-
-LSM-Tree模型(log-structured merge-tree)
+* B+ Tree模型
+* LSM-Tree模型(log-structured merge-tree)
+* hashmap
 
 ## 分片 和 弹性伸缩
 分片在不同系统中有各自的别名，Spanner 和 YugabyteDB 中被称为 Tablet，在 HBase 和 TiDB 中被称为 Region，在 CockraochDB 中被称为 Range。

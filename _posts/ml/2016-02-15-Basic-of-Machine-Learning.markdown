@@ -241,6 +241,8 @@ bias-variance tradeoff可以被翻译做”偏差-方差困境“。
 
 ## Entropy
 
+kl散度(Kullback–Leibler divergence)、KLD 、相对熵（relative entropy） 是一个概念。
+
 
 
 # 最优化理论 Optimization
@@ -287,6 +289,7 @@ https://datascience.stackexchange.com/questions/57435/how-is-the-cross-product-t
 ## 泰勒展开
 海森矩阵是多元泰勒展开中的一个关键组成部分，用于描述函数的二阶导数信息
 
+把所有的二阶偏导数按照它们的顺序排列成一个矩阵，这个矩阵就是海森矩阵
 
 
 
