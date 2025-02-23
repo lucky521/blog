@@ -88,11 +88,13 @@ Chain-of-Thought(CoT)是一种改进的Prompt技术，目的在于提升大模�
 使用标注好的数据集用于LLM微调，这些数据集包含输入和期望输出的示例。
 
 
+# 极好的工程实践
+## Reproducing GPT-2 (124M) in llm.c
+https://github.com/karpathy/llm.c/discussions/481
 
 
-
-
-
+## inference a baby Llama 2 model in pure C?
+https://github.com/karpathy/llama2.c
 
 
 # 开源大模型
