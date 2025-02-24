@@ -40,6 +40,8 @@ NLP各种任务其实收敛到了两个不同的预训练模型框架里：
 
 ## LLM模型结构
 
+[LLM Visualization](https://bbycroft.net/llm)
+
 LLM相比它的前身比如Bert，最大的区别不是模型结构而是参数规模。 LLM默认一般使用fp16精度来训练。
 
 Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM 的主流架构可以大致分为三种类型:
