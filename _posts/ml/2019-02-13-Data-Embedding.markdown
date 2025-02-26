@@ -28,6 +28,9 @@ An embedding 本质上是一个dense vector of floating point values (长度提�
 
 广告、推荐、搜索等领域用户数据的稀疏性几乎必然要求在构建DNN之前对user和item进行embedding后才能进行有效的训练。
 
+## tokenization 和 embedding是区别
+前者仅仅是数字编码化，编码后的数字本身是太多数学含义的，只是数字含义。而后者则具备了非常高维的数学含义、逻辑含义。
+
 ## 使用Embedding的好处
 
 最大的好处是有利于捕捉特征值之间的相似关系。

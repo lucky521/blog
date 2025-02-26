@@ -51,6 +51,11 @@ Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM �
 
 Layer Norm
 位置编码
+SoftMax
+
+
+GPT模型输出的logits， key_states， value_states，key_states.3，value_states.3 分别是什么意思？
+
 
 
 
@@ -97,6 +102,8 @@ https://github.com/karpathy/llm.c/discussions/481
 
 ## inference a baby Llama 2 model in pure C?
 https://github.com/karpathy/llama2.c
+
+## Karpathy 的 minGPT 和 nanoGPT 都是基于 GPT 架构的轻量级实现
 
 
 # 开源大模型
@@ -228,10 +235,11 @@ https://github.com/flashinfer-ai/flashinfer
 ## sglang
 https://github.com/sgl-project/sglang
 
+## OmniServe
+https://github.com/mit-han-lab/omniserve
 
 
-
-## openAI 服务接口
+# openAI 服务接口
 你可参考openai官网或者https://openai.apifox.cn/
 
 普通问答接口

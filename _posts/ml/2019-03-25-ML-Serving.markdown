@@ -498,8 +498,7 @@ Triton Inference Server is an open source inference serving software that stream
 Nvidia的FasterTransformer是一个开源的高效Transformer层实现。
 基于 CUDA, cuBLAS, cuBLASLt and C++。
 
-https://github.com/NVIDIA/FasterTransformer
-https://github.com/NVIDIA/TensorRT-LLM/
+https://github.com/NVIDIA/FasterTransformer -> https://github.com/NVIDIA/TensorRT-LLM/
 
 
 

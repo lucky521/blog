@@ -95,6 +95,9 @@ Hudi表的数据文件，可以使用操作系统的文件系统存储，也可�
 
 
 
+
+
+
 ## Storage Cache
 
 alluxio https://github.com/Alluxio/alluxio
@@ -111,8 +114,11 @@ EVCache https://github.com/Netflix/EVCache
 
 * flume - 把来自不同源头不同节点的大量数据发送到中心存储。
 * kafka
+* Pulsar
+* fluss
 
-## kafka - http://kafka.apache.org/quickstart
+## kafka 
+http://kafka.apache.org/quickstart
 
 * 原生版本： https://github.com/edenhill/librdkafka
 * C++版本：  https://github.com/mfontanini/cppkafka ， cppkafka依赖librdkafka，做了一层便于使用的封装
@@ -135,6 +141,8 @@ Kafka生产者客户端在配置中指定的bootstrap server不可用时，会�
 需要注意的是，即使配置了多个bootstrap servers，一旦生产者成功连接到一个Broker并获取了元数据，它就不再依赖于初始的bootstrap server列表，因为它会知道所有分区的领导者Broker，并直接与它们通信。bootstrap servers列表主要是用于初始连接和获取集群状态信息。
 
 ```
+
+## Fluss
 
 
 
