@@ -76,7 +76,7 @@ https://www.hiascend.com/document/detail/zh/mindie/1.0.RC1/mindiellm/llmdev/atla
 
 
 
-## 提示工程（Prompt Engineering）
+# 提示工程（Prompt Engineering）
 https://www.promptingguide.ai/zh
 
 Chain-of-Thought(CoT)是一种改进的Prompt技术，目的在于提升大模型LLMs在复杂推理任务上的表现，对于复杂问题尤其是复杂的数学题大模型很难直接给出正确答案
@@ -86,6 +86,8 @@ Chain-of-Thought(CoT)是一种改进的Prompt技术，目的在于提升大模�
 * 监督学习的做法是输入“我今天考砸了”，模型输出分类的分数或分布.
 * 而提示学习的做法则是在“我今天考砸了”后拼接上自然语言描述“我感觉很 ____”，让模型生成后面的内容，再根据某种映射函数，将 生成内容匹配到某一分类标签。
 
+
+# 大模型训练
 
 ## 指令精调(Instruction Tuning)
 让LLM理解输入命令的含义，并正确执行

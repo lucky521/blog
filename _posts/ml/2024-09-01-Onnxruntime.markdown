@@ -12,8 +12,9 @@ FusedNodeAndGraph
 
 GraphViewer
 
-
 在模型交给provider执行之前，对图做了些什么？
+
+# 执行机制、设备分配、内存管理
 
 
 # provider
