@@ -129,7 +129,7 @@ Loss = -actual * (log(pred)) - (1-actual)(log(1-pred))
 
 常见的激活函数：
 
-### Sigmoid Function
+### Sigmoid
 
 Sigmoid函数也称为logistic函数, 它是连续的, 也容易计算导数。它将所有的实数压缩到范围 0到1之间。
 
@@ -137,19 +137,21 @@ A = 1/(1+e^(-x)
 
 输出范围0-1之间。
 
-### Tanh Function
-
-A = 2/(1+e^(-2x)) - 1 = 2sigmoid(2x) - 1
-
-输出范围是-1，1之间。
-
 ### SoftMax
 
 Softmax 是一个泛化的Sigmoid函数，当我们要处理多个类。所有输出值都在范围 (0, 1) ，其总和为 1, 因此可以将输出解释为概率。 它称作是归一化指数函数。
 
 ![](https://wikimedia.org/api/rest_v1/media/math/render/svg/e348290cf48ddbb6e9a6ef4e39363568b67c09d3)
 
-### ReLu function 线性整流函数
+
+### Tanh
+
+A = 2/(1+e^(-2x)) - 1 = 2sigmoid(2x) - 1
+
+输出范围是-1，1之间。
+
+
+### ReLu 线性整流函数
 
 ReLU 函数如果输入小于或等于 0,则输出0 否则输出输入的值, 我们可以把它们看成开关。 它可以免受梯度消失的问题, 它计算非常快。在卷积网络中的应用时比应用Sigmoid函数更有效。
 
