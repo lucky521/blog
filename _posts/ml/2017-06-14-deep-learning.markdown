@@ -473,6 +473,23 @@ def attention(queries, keys, keys_length):
 ```
 
 
+说说attention里面的mask
+
+class AttentionMaskFormat:
+    # Build 1D mask indice (sequence length). It requires right side padding! Recommended for BERT model to get best performance.
+    MaskIndexEnd = 0
+
+    # For experiment only. Do not use it in production.
+    MaskIndexEndAndStart = 1
+
+    # Raw attention mask with 0 means padding (or no attention) and 1 otherwise.
+    AttentionMask = 2
+
+    # No attention mask
+    NoMask = 3
+
+
+
 ### 残差单元 Residual Unit
 避免网络太深而梯度消失。如果某一层的输出已经较好的拟合了期望结果，那么之后的层会被短链而跳过。
 

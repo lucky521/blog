@@ -208,7 +208,7 @@ SIMT多个线程各有各的处理单元，和SIMD公用一个ALU不同。因而
 
 
 
-# CUDA
+# CUDA 
 2007年，nvidia发现了一个能使得GPU进入主流的契机，那就是为GPU制定一个标准的编程接口，这就是CUDA. 
 
 CUDA编译模型使用了和java语言一样的编译原则：基于虚拟指令集的运行时编译。
@@ -223,14 +223,101 @@ CUDA的替代选择(通用并行计算平台和编程模型)
 标准
 * OpenACC: 让并行程序员能够为编译器提供简单的提示，亦称「指令」，使编译器能够识别哪些代码部分需要加速，无需程序员修改或改编底层代码本身。
 
+## CUDA GPU 物理层次
 
-## 概念
+一张GPU卡由若干个流处理簇(SM)组成，一个SM配置若干个流处理器（SP），
 
-* context: 在使用GPU进行计算时，需要创建一个上下文来管理GPU资源的分配和释放。
-* stream: 流是GPU上执行的一系列操作的序列。GPU操作可以被分成多个流，每个流中的操作可以并行执行。通过将操作分配到不同的流中，可以提高GPU的利用率和性能。
-* kernel: 核函数是在GPU上执行的并行计算任务。它是GPU程序的基本执行单元，通常由多个线程同时执行。核函数可以通过编程语言（如CUDA）编写，并在GPU上执行，以实现高性能的并行计算。
-* graph: CUDA图（CUDA Graph）是CUDA中的一项功能，提供了一组API用于创建、管理和执行CUDA图。CUDA图的主要目的是将多个GPU计算任务的依赖关系显式地表示出来，并通过这些依赖关系来优化GPU计算的执行顺序。 
+* 内存（全局的、常量的、共享的）
+* 流处理器簇（SM)
+  * 每个SM内有多个SP共享的、程序可控的高速缓存
+  * 每个SM内有一个寄存器文件
+* 流处理器/流处理单元（SP）
+  * 一个SM里的所有SP共享内存和指令单元。
+  * 随着更新换代，一个SM中的SP越来越多。
+
+streaming processor(sp): 最基本的处理单元。GPU进行并行计算，也就是很多个sp同时做处理。现在SP的术语已经有点弱化了，而是直接使用thread来代替。一个SP对应一个thread.
+
+
+Warp：warp是SM调度和执行的基础概念，通常一个SM中的SP(thread)会分成几个warp(也就是SP在SM中是进行分组的，物理上进行的分组)，一般每一个WARP中有32个thread.这个WARP中的32个thread(sp)是一起工作的，执行相同的指令，如果没有这么多thread需要工作，那么这个WARP中的一些thread(sp)是不工作的.
+（每一个线程都有自己的寄存器内存和local memory，一个warp中的线程是同时执行的，也就是当进行并行计算时，线程数尽量为32的倍数，如果线程数不上32的倍数的话；假如是1，则warp会生成一个掩码，当一个指令控制器对一个warp单位的线程发送指令时，32个线程中只有一个线程在真正执行，其他31个 进程会进入静默状态。）
+
+### tensor core 和 cuda core 硬件单元
+
+```
+用户代码  -> AI框架（PyTorch/Tensorflow/Caffe等）-> CUDA lib -> Driver -> 显卡
+```
+
+tensor core和cuda core 都是运算单元，是硬件名词，其主要的差异是算力和运算场景。
+NVIDIA的发展历史上来讲，先是推出的cuda core，然后再推出的tensor core.
+场景：cuda core是全能通吃型的浮点运算单元，tensor core专门为深度学习矩阵运算设计。
+算力：在高精度矩阵运算上 tensor cores吊打cuda cores。
+
+
+
+## CUDA 线程层次
+
+一个CUDA Kernel大概可以分为这么几层（从底层到顶层）：thread < warp < block < grid 
+PS：core和kernel两个词，core指的是硬件核心，处理器；kernel指软件核心，可重复使用的种子。
+
+* Grid 网格： 一维或多维线程块(block)
+* Block 线程块: 一组线程(thread)，包含若干个warp。
+* Warp 线程束: 以批处理方式运行的多个线程（32个）， 一个SIMD处理中若干个线程是同时执行的。
+* Thread 线程： 一个CUDA的并行程序会有许多threads来执行， 线程是GPU运算的最小执行单元。
+* Kernel definition:  使用__global__定义的C/C++函数。
+
+
+在CUDA编程模型中，一个"lane"通常指的是一个在GPU上执行的线程在其所属的warp（线程束）中的唯一索引。CUDA中的一个warp是一组同时执行的线程，NVIDIA的GPU中这个数目通常是32个线程。
+
+
+## CUDA 存储层次
+ 
+HBM -> SRAM -> 寄存器
+
+### shared memory
+
+共享内存被分成了若干个等宽的存储段，这些存储段被称为“banks”，硬件上的限制是，每个bank在一个时钟周期内只能服务一个访问请求。
+
+一个block要访问shared memory，只要能够保证以其中相邻的16个线程一组访问thread，每个线程与bank是一一对应就不会产生bank conflict。否则会产生bank conflict，访存时间成倍增加，增加的倍数由一个bank最多被多少个thread同时访问决定。有一种极端情况，就是所有的16个thread同时访问同一bank时反而只需要一个访问周期，此时产生了一次广播。
+
+
+
+## 编程抽象
+
+* context: 
+  * 在使用GPU进行计算时，需要创建一个上下文来管理GPU资源的分配和释放。
+* stream: 
+  * 流是GPU上执行的一系列操作的序列。GPU操作可以被分成多个流，每个流中的操作可以并行执行。通过将操作分配到不同的流中，可以提高GPU的利用率和性能。
+* kernel: 
+  * 核函数是在GPU上执行的并行计算任务。它是GPU程序的基本执行单元，通常由多个线程同时执行。核函数可以通过编程语言（如CUDA）编写，并在GPU上执行，以实现高性能的并行计算。
+* graph: 
+  * CUDA图（CUDA Graph）是CUDA中的一项功能，提供了一组API用于创建、管理和执行CUDA图。CUDA图的主要目的是将多个GPU计算任务的依赖关系显式地表示出来，并通过这些依赖关系来优化GPU计算的执行顺序。 
   * CUDA Graphs 在 CUDA 10 中首次亮相，它让一系列 CUDA 内核被定义和封装为一个单元，即一个算子图，而不是一系列单独启动的算子。它提供了一种通过单个 CPU 操作 launch 多个 GPU 算子的机制，从而减少了 launch 开销。
+
+
+
+
+
+## CUDA编程
+在CUDA编程中，有几种常见的数据类型，包括但不限于：
+
+* 基本数据类型：与C/C++中的基本数据类型相似，包括整型（如int、unsigned int、long long等）、浮点型（如float、double等）、字符型（char）等。
+* 向量类型：CUDA提供了一些向量类型，如char1, uchar1, short1, ushort1, int1, uint1, long1, ulong1, float1, double1等，这些类型表示包含一个元素的向量。
+* 二维和三维向量类型：类似地，CUDA也提供了二维和三维向量类型，如char2, uchar2, short2, ushort2, int2, uint2, long2, ulong2, float2, double2等，以及对应的三维向量类型。
+* 复数类型：CUDA还提供了复数类型，如float_complex和double_complex，用于处理复数运算。
+* 半精度浮点数类型：除了常见的浮点数类型外，CUDA还引入了半精度浮点数类型half和half2，用于处理半精度浮点数，以提高内存利用率和计算效率
+* dim3是NVIDIA的CUDA编程中一种自定义的整型向量类型，基于用于指定维度的uint3
+
+
+CUDA的核函数（也称为设备函数）中自动定义的变量：
+* threadIdx
+  *  这是一个三维向量（threadIdx.x, threadIdx.y, threadIdx.z），它指定了当前线程在其线程块中的索引。由于线程块是三维的，所以你可以通过这个索引来定位线程在X、Y、Z的位置
+* blockIdx
+  * 这也是一个三维向量（blockIdx.x, blockIdx.y, blockIdx.z），它指定了当前线程块在整个网格中的索引。这可以让你知道当前线程块在网格的哪个位置
+* blockDim
+  * 这是一个三维向量（blockDim.x, blockDim.y, blockDim.z），它表示线程块的维度，即每个维度上有多少线程。这个值是在启动核函数时由程序员指定的
+* gridDim
+  * 这也是一个三维向量（gridDim.x, gridDim.y, gridDim.z），它表示整个网格的维度，即每个维度上有多少线程块。这个值也是在启动核函数时由程序员指定的
+
 
 ```python
 import numpy as np
@@ -278,87 +365,6 @@ cuda_context.pop()
 ```
 
 
-## CUDA 线程层次
-
-一个CUDA Kernel大概可以分为这么几层（从底层到顶层）：thread < warp < block < grid 
-PS：core和kernel两个词，core指的是硬件核心，处理器；kernel指软件核心，可重复使用的种子。
-
-* Grid 网格： 一维或多维线程块(block)
-* Block 线程块: 一组线程(thread)，包含若干个warp。
-* Warp 线程束: 以批处理方式运行的多个线程（32个）， 一个SIMD处理中若干个线程是同时执行的。
-* Thread 线程： 一个CUDA的并行程序会有许多threads来执行， 线程是GPU运算的最小执行单元。
-* Kernel definition:  使用__global__定义的C/C++函数。
-
-
-在CUDA编程模型中，一个"lane"通常指的是一个在GPU上执行的线程在其所属的warp（线程束）中的唯一索引。CUDA中的一个warp是一组同时执行的线程，NVIDIA的GPU中这个数目通常是32个线程。
-
-## shared memory
-
-共享内存被分成了若干个等宽的存储段，这些存储段被称为“banks”，硬件上的限制是，每个bank在一个时钟周期内只能服务一个访问请求。
-
-一个block要访问shared memory，只要能够保证以其中相邻的16个线程一组访问thread，每个线程与bank是一一对应就不会产生bank conflict。否则会产生bank conflict，访存时间成倍增加，增加的倍数由一个bank最多被多少个thread同时访问决定。有一种极端情况，就是所有的16个thread同时访问同一bank时反而只需要一个访问周期，此时产生了一次广播。
-
-
-##  HBM -> SRAM -> 寄存器 存储层次
- 
-
-
-
-## CUDA GPU 物理层次
-
-一张GPU卡由若干个流处理簇(SM)组成，一个SM配置若干个流处理器（SP），
-
-* 内存（全局的、常量的、共享的）
-* 流处理器簇（SM)
-  * 每个SM内有多个SP共享的、程序可控的高速缓存
-  * 每个SM内有一个寄存器文件
-* 流处理器/流处理单元（SP）
-  * 一个SM里的所有SP共享内存和指令单元。
-  * 随着更新换代，一个SM中的SP越来越多。
-
-streaming processor(sp): 最基本的处理单元。GPU进行并行计算，也就是很多个sp同时做处理。现在SP的术语已经有点弱化了，而是直接使用thread来代替。一个SP对应一个thread.
-
-
-Warp：warp是SM调度和执行的基础概念，通常一个SM中的SP(thread)会分成几个warp(也就是SP在SM中是进行分组的，物理上进行的分组)，一般每一个WARP中有32个thread.这个WARP中的32个thread(sp)是一起工作的，执行相同的指令，如果没有这么多thread需要工作，那么这个WARP中的一些thread(sp)是不工作的.
-（每一个线程都有自己的寄存器内存和local memory，一个warp中的线程是同时执行的，也就是当进行并行计算时，线程数尽量为32的倍数，如果线程数不上32的倍数的话；假如是1，则warp会生成一个掩码，当一个指令控制器对一个warp单位的线程发送指令时，32个线程中只有一个线程在真正执行，其他31个 进程会进入静默状态。）
-
-
-
-## tensor core 和 cuda core 的概念
-
-```
-用户代码  -> AI框架（PyTorch/Tensorflow/Caffe等）-> CUDA lib -> Driver -> 显卡
-```
-
-tensor core和cuda core 都是运算单元，是硬件名词，其主要的差异是算力和运算场景。
-NVIDIA的发展历史上来讲，先是推出的cuda core，然后再推出的tensor core.
-场景：cuda core是全能通吃型的浮点运算单元，tensor core专门为深度学习矩阵运算设计。
-算力：在高精度矩阵运算上 tensor cores吊打cuda cores。
-
-
-
-## CUDA编程
-在CUDA编程中，有几种常见的数据类型，包括但不限于：
-
-* 基本数据类型：与C/C++中的基本数据类型相似，包括整型（如int、unsigned int、long long等）、浮点型（如float、double等）、字符型（char）等。
-* 向量类型：CUDA提供了一些向量类型，如char1, uchar1, short1, ushort1, int1, uint1, long1, ulong1, float1, double1等，这些类型表示包含一个元素的向量。
-* 二维和三维向量类型：类似地，CUDA也提供了二维和三维向量类型，如char2, uchar2, short2, ushort2, int2, uint2, long2, ulong2, float2, double2等，以及对应的三维向量类型。
-* 复数类型：CUDA还提供了复数类型，如float_complex和double_complex，用于处理复数运算。
-* 半精度浮点数类型：除了常见的浮点数类型外，CUDA还引入了半精度浮点数类型half和half2，用于处理半精度浮点数，以提高内存利用率和计算效率
-* dim3是NVIDIA的CUDA编程中一种自定义的整型向量类型，基于用于指定维度的uint3
-
-
-CUDA的核函数（也称为设备函数）中自动定义的变量：
-* threadIdx
-  *  这是一个三维向量（threadIdx.x, threadIdx.y, threadIdx.z），它指定了当前线程在其线程块中的索引。由于线程块是三维的，所以你可以通过这个索引来定位线程在X、Y、Z的位置
-* blockIdx
-  * 这也是一个三维向量（blockIdx.x, blockIdx.y, blockIdx.z），它指定了当前线程块在整个网格中的索引。这可以让你知道当前线程块在网格的哪个位置
-* blockDim
-  * 这是一个三维向量（blockDim.x, blockDim.y, blockDim.z），它表示线程块的维度，即每个维度上有多少线程。这个值是在启动核函数时由程序员指定的
-* gridDim
-  * 这也是一个三维向量（gridDim.x, gridDim.y, gridDim.z），它表示整个网格的维度，即每个维度上有多少线程块。这个值也是在启动核函数时由程序员指定的
-
-
 ```c++
 __global__ void kernelFunction(int *data) {
     // 计算当前线程的全局索引
@@ -379,6 +385,10 @@ kernelFunction<<<blocksPerGrid, threadsPerBlock>>>(data); // <<<blocksPerGrid, t
 
 ## CUDA Runtime API
 
+[CUDA Runtime API官方文档](https://docs.nvidia.com/cuda/pdf/CUDA_Runtime_API.pdf)
+另一套api driver api:
+[CUDA Driver  API官方文档](https://docs.nvidia.com/cuda/pdf/CUDA_Driver_API.pdf)
+
 cudaSetDevice
 
 cudaMalloc/cudaFree
@@ -394,6 +404,8 @@ cudaDeviceSynchronize
 
 
 ## cuda程序编译
+
+[nvcc编译器](https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/#)
 
 main.cu一般以cu结尾后缀，使用nvcc编译
 ```
@@ -422,8 +434,15 @@ NVIDIA HPC SDK 生态
   * https://docs.nvidia.com/deeplearning/tensorrt/quick-start-guide/index.html
 * DALI: 数据ETL预处理库(py库)
   * https://docs.nvidia.com/deeplearning/dali/user-guide/docs/index.html
-* cutlass
-  * 新一代加速库，它是一种模板库，旨在提供通用的GPU计算加速功能
+* cutlass: 新一代加速库，它是一种模板库，旨在提供通用的GPU计算加速功能
+  * https://github.com/NVIDIA/cutlass
+
+
+## cublas
+
+
+## CUTA PTX 指令集
+https://docs.nvidia.com/cuda/pdf/ptx_isa_8.5.pdf
 
 
 ## NVIDIA Nsight 产品家族

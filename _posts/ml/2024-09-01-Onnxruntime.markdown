@@ -178,3 +178,14 @@ class CalibrationMethod(Enum):
 * compute_data 方法根据收集的数据和直方图计算每个张量的量化参数。具体的计算方法取决于所选的方法（如百分位数或熵）。
     * 在百分位数方法中，会根据指定的百分位数（如 99.999%）计算张量的最大和最小值。
     * 在熵方法中，会通过最大熵的方式来确定张量的量化参数。
+
+
+
+# 深度了解一些算子
+
+* shape 很好理解，就是算出输入tensor的维度，然后作为一个一维tensor输出出来  
+* reshape 输入数据tensor和期望的维度tensor，输出调整维度后的tensor （如果转换不了，会执行失败）
+* tile 输入数据tensor和repeats tensor，其中repeats tensor是一维tensor，每一个元素意味着对应data维度要重复复制多少遍，输出扩张复制后的新tensor
+* squeeze 移除张量中维度大小为1的指定轴
+* Unsqueeze 在指定位置插入新的轴，从而增加张量的维度
+* slice 在axes指定的维度上，从starts到ends做切片
