@@ -1,25 +1,94 @@
 ---
 layout: post
-title:  "ONNXRuntime生态"
+title:  "ONNXRuntime推理引擎"
 subtitle: "ONNXRuntime"
 categories: [MachineLearning]
 ---
 
-
 # 图相关的概念
+
+GraphViewer 是对计算图的表示，包含节点（Node）和边（Edge），节点代表计算操作，边代表数据流。
 
 FusedNodeAndGraph
 
-GraphViewer
-
 在模型交给provider执行之前，对图做了些什么？
+
+
+## TransformGraph
+```该步骤发生在plan之前，在这里确定什么节点在什么设备上执行```
+1. 设备分配
+2. 图优化
+3. 插入跨设备之间需要的copy节点
+
 
 # 执行机制、设备分配、内存管理
 
+## stream的概念
 
-# provider
+cpu stream意味着是什么？
+
+gpu stream意味着什么
+
+plan执行计划中，有一个成员```std::vector<InlinedVector<NodeIndex>> stream_nodes_;```
 
 
+## plan的概念
+```plan > stream > step```
+SequentialExecutionPlan 的组成部分
+* execution_plan：
+    * execution_plan 由vector of LogicStream 组成
+        * LogicStream 由vector of ExecutionStep 组成
+* allocation_plan：
+    * tensor边的内存分配信息
+
+
+## plan的构建
+```CreatePlan :  PartitionIntoStreams -> BuildExecutionPlan```
+1. 决策要分多少个stream, stream的个数默认遵循ep/device个数
+2. 创建stream实例
+3. 在stream中创建step
+
+## plan的执行
+
+* 不设置 ORT_ENABLE_STREAM -> 全局只有一个流 -> 同步执行模式 
+* 基于device分配
+
+
+stream 和 并行 的关系？
+
+stream 和 执行方式 的关系？
+
+### 一次 LaunchKernelStep 意味着什么？
+LaunchKernelStep 是真正执行算子的step，其他的都是控制执行时序的(cross-stream synchronization)。
+* LaunchKernelStep 
+* BarrierStep
+* TriggerDownstreamStep
+* WaitOnEPStep
+* ActivateNotificationStep
+
+## ExecutionMode::ORT_PARALLEL 意味着什么？
+
+
+
+# provider的概念
+
+
+
+# onxxruntime 线程模型
+ONNXRuntime的线程池接口在Eigen线程池接口基础之上扩展而来（题外话：TensorFlow中的线程池同样是建立在Eigen线程池基础上）
+
+线程池维护一组系统线程（OS threads）,用于执行ThreadPoolTempl::WorkerLoop。每个线程都拥有自己的运行队列（RunQueue），运行队列中都是被push进来的待执行的任务（Task）。主要的工作任务是从队列中弹出一个任务并执行至结束。如果线程的运行队列为空，则线程陷入自旋（spin）等待任务到达，并且尝试从其它线程的运行队列中“偷取”任务来执行，如果没有偷来任务，则阻塞在系统中。在创建线程池时会通过配置标志（flag）和常量 spin_count 来实现这种“spin-then-block”操作；
+
+* inter_op_num_threads 不同算子的并行，使用eigen线程池
+* intra_op_num_threads 同一个算子的并行，使用openmp实现
+
+
+use_per_session_threads ：是否为每个会话使用单独的线程池。 默认是否
+
+intra_op_thread_pool_from_env_ = session_env.GetIntraOpThreadPool();
+inter_op_thread_pool_from_env_ = session_env.GetInterOpThreadPool();
+
+allow_spinning
 
 
 # 注册算子的几种方法
@@ -149,11 +218,6 @@ UT: skiplayernorm_op_test.cc
 
 
 
-# onxxruntime 线程模型
-ONNXRuntime的线程池接口在Eigen线程池接口基础之上扩展而来（题外话：TensorFlow中的线程池同样是建立在Eigen线程池基础上）
-
-* inter_op_num_threads 不同算子的并行，使用eigen线程池
-* intra_op_num_threads 同一个算子的并行，使用openmp实现
 
 
 
@@ -181,7 +245,7 @@ class CalibrationMethod(Enum):
 
 
 
-# 深度了解一些算子
+# 了解一些算子
 
 * shape 很好理解，就是算出输入tensor的维度，然后作为一个一维tensor输出出来  
 * reshape 输入数据tensor和期望的维度tensor，输出调整维度后的tensor （如果转换不了，会执行失败）
