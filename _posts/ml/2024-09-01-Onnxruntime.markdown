@@ -21,7 +21,15 @@ FusedNodeAndGraph
 3. 插入跨设备之间需要的copy节点
 
 
-# 执行机制、设备分配、内存管理
+# provider的概念
+
+# cuda ep
+
+cuda graph
+gpu_graph_id
+
+
+# 执行机制、内存管理
 
 ## stream的概念
 
@@ -51,7 +59,7 @@ SequentialExecutionPlan 的组成部分
 ## plan的执行
 
 * 不设置 ORT_ENABLE_STREAM -> 全局只有一个流 -> 同步执行模式 
-* 基于device分配
+* 基于device分配 -> 如果cpu+gpu，则有两个流 -> 两个流之间并行
 
 
 stream 和 并行 的关系？
@@ -68,16 +76,19 @@ LaunchKernelStep 是真正执行算子的step，其他的都是控制执行时�
 
 ## ExecutionMode::ORT_PARALLEL 意味着什么？
 
+* 默认走ORT_SEQUENTIAL。 
+* 当开启ORT_PARALLEL，inter_op多线程会发挥作用
 
 
-# provider的概念
 
 
 
-# onxxruntime 线程模型
+## onxxruntime 线程模型
 ONNXRuntime的线程池接口在Eigen线程池接口基础之上扩展而来（题外话：TensorFlow中的线程池同样是建立在Eigen线程池基础上）
 
-线程池维护一组系统线程（OS threads）,用于执行ThreadPoolTempl::WorkerLoop。每个线程都拥有自己的运行队列（RunQueue），运行队列中都是被push进来的待执行的任务（Task）。主要的工作任务是从队列中弹出一个任务并执行至结束。如果线程的运行队列为空，则线程陷入自旋（spin）等待任务到达，并且尝试从其它线程的运行队列中“偷取”任务来执行，如果没有偷来任务，则阻塞在系统中。在创建线程池时会通过配置标志（flag）和常量 spin_count 来实现这种“spin-then-block”操作；
+线程池维护一组系统线程（OS threads）,用于执行ThreadPoolTempl::WorkerLoop。每个线程都拥有自己的运行队列（RunQueue），运行队列中都是被push进来的待执行的任务（Task）。主要的工作任务是从队列中弹出一个任务并执行至结束。如果线程的运行队列为空，则线程陷入自旋（spin）等待任务到达，并且尝试从其它线程的运行队列中“偷取”任务来执行，如果没有偷来任务，则阻塞在系统中。
+在创建线程池时会通过配置标志（flag）和常量 spin_count 来实现这种“spin-then-block”操作；
+allow_spinning
 
 * inter_op_num_threads 不同算子的并行，使用eigen线程池
 * intra_op_num_threads 同一个算子的并行，使用openmp实现
@@ -88,10 +99,15 @@ use_per_session_threads ：是否为每个会话使用单独的线程池。 默�
 intra_op_thread_pool_from_env_ = session_env.GetIntraOpThreadPool();
 inter_op_thread_pool_from_env_ = session_env.GetInterOpThreadPool();
 
-allow_spinning
 
 
-# 注册算子的几种方法
+
+
+
+# 算子的概念
+
+
+## 注册算子的几种方法
 
 
 * ONNX_OPERATOR_VERSIONED_TYPED_KERNEL_CLASS_NAME
@@ -117,7 +133,7 @@ ONNX_OPERATOR_KERNEL_EX
 
 
 
-# 算子按开发模式分类
+## 算子按开发模式分类
 
 * onnxruntime/onnxruntime/core/providers 
     * https://github.com/onnx/onnx/blob/main/docs/Operators.md
@@ -127,6 +143,17 @@ ONNX_OPERATOR_KERNEL_EX
 
 
 
+
+## 了解一些算子
+
+* shape 很好理解，就是算出输入tensor的维度，然后作为一个一维tensor输出出来  
+* reshape 输入数据tensor和期望的维度tensor，输出调整维度后的tensor （如果转换不了，会执行失败）
+* tile 输入数据tensor和repeats tensor，其中repeats tensor是一维tensor，每一个元素意味着对应data维度要重复复制多少遍，输出扩张复制后的新tensor
+* squeeze 移除张量中维度大小为1的指定轴
+* Unsqueeze 在指定位置插入新的轴，从而增加张量的维度
+* slice 在axes指定的维度上，从starts到ends做切片
+* ConstantOfShape 按制定的的shape生成一个常量tensor
+* Expand 根据广播规则扩展输入张量到目标形状。
 
 # Python运行
 
@@ -217,7 +244,7 @@ UT: skiplayernorm_op_test.cc
 
 
 
-
+## 看看 Attention 是如何融合成的？
 
 
 
@@ -244,12 +271,3 @@ class CalibrationMethod(Enum):
     * 在熵方法中，会通过最大熵的方式来确定张量的量化参数。
 
 
-
-# 了解一些算子
-
-* shape 很好理解，就是算出输入tensor的维度，然后作为一个一维tensor输出出来  
-* reshape 输入数据tensor和期望的维度tensor，输出调整维度后的tensor （如果转换不了，会执行失败）
-* tile 输入数据tensor和repeats tensor，其中repeats tensor是一维tensor，每一个元素意味着对应data维度要重复复制多少遍，输出扩张复制后的新tensor
-* squeeze 移除张量中维度大小为1的指定轴
-* Unsqueeze 在指定位置插入新的轴，从而增加张量的维度
-* slice 在axes指定的维度上，从starts到ends做切片

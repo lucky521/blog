@@ -186,6 +186,7 @@ print('error(sum):{}'.format(np.sum(np.abs(de_xf-xf))))
   * https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html
   * https://onnxruntime.ai/docs/performance/model-optimizations/float16.html
 * pytorch自带工具
+  * torch.quantization
   * https://github.com/NVIDIA/TensorRT/tree/main/tools/pytorch-quantization
 * huggingface自带工具
   * https://huggingface.co/docs/transformers/en/quantization
