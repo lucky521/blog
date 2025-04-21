@@ -386,7 +386,7 @@ kernelFunction<<<blocksPerGrid, threadsPerBlock>>>(data); // <<<blocksPerGrid, t
 ## CUDA Runtime API
 
 [CUDA Runtime API官方文档](https://docs.nvidia.com/cuda/pdf/CUDA_Runtime_API.pdf)
-另一套api driver api:
+另一套api - driver api:
 [CUDA Driver  API官方文档](https://docs.nvidia.com/cuda/pdf/CUDA_Driver_API.pdf)
 
 cudaSetDevice
@@ -408,11 +408,11 @@ cudaDeviceSynchronize
 [nvcc编译器](https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/#)
 
 main.cu一般以cu结尾后缀，使用nvcc编译
-```
+```shell
 nvcc cuda_test.cu -o cuda_test
 ```
 大型项目中，cmake已经完美支持cuda
-```
+```shell
 enable_language(CUDA)
 ```
 
@@ -440,6 +440,91 @@ NVIDIA HPC SDK 生态
 
 ## cublas
 
+例子程序
+```c++
+#include <iostream>
+#include <cublas_v2.h>
+#include <cuda_runtime.h>
+
+// 错误检查宏
+#define CHECK_CUDA(call) \
+    { \
+        const cudaError_t error = call; \
+        if (error != cudaSuccess) { \
+            std::cerr << "CUDA Error: " << cudaGetErrorString(error) << std::endl; \
+            exit(1); \
+        } \
+    }
+
+#define CHECK_CUBLAS(call) \
+    { \
+        const cublasStatus_t status = call; \
+        if (status != CUBLAS_STATUS_SUCCESS) { \
+            std::cerr << "cuBLAS Error: " << status << std::endl; \
+            exit(1); \
+        } \
+    }
+
+int main() {
+    // 矩阵尺寸
+    const int m = 2; // A和C的行数
+    const int n = 2; // B和C的列数
+    const int k = 2; // A的列数和B的行数
+
+    // 主机上的矩阵数据
+    float h_A[m * k] = {1.0f, 2.0f, 3.0f, 4.0f}; // 2x2矩阵
+    float h_B[k * n] = {5.0f, 6.0f, 7.0f, 8.0f}; // 2x2矩阵
+    float h_C[m * n]; // 结果矩阵
+
+    // 设备上的矩阵指针
+    float *d_A, *d_B, *d_C;
+
+    // 为设备上的矩阵分配内存
+    CHECK_CUDA(cudaMalloc((void**)&d_A, m * k * sizeof(float)));
+    CHECK_CUDA(cudaMalloc((void**)&d_B, k * n * sizeof(float)));
+    CHECK_CUDA(cudaMalloc((void**)&d_C, m * n * sizeof(float)));
+
+    // 将矩阵数据从主机复制到设备
+    CHECK_CUDA(cudaMemcpy(d_A, h_A, m * k * sizeof(float), cudaMemcpyHostToDevice));
+    CHECK_CUDA(cudaMemcpy(d_B, h_B, k * n * sizeof(float), cudaMemcpyHostToDevice));
+
+    // 创建cuBLAS上下文
+    cublasHandle_t handle;
+    CHECK_CUBLAS(cublasCreate(&handle));
+
+    // 设置alpha和beta参数
+    const float alpha = 1.0f;
+    const float beta = 0.0f;
+
+    // 执行矩阵乘法 C = alpha * A * B + beta * C
+    // A是m x k矩阵，B是k x n矩阵，C是m x n矩阵
+    CHECK_CUBLAS(cublasSgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, m, n, k, &alpha, d_A, m, d_B, k, &beta, d_C, m));
+
+    // 将结果从设备复制回主机
+    CHECK_CUDA(cudaMemcpy(h_C, d_C, m * n * sizeof(float), cudaMemcpyDeviceToHost));
+
+    // 输出结果
+    std::cout << "Result matrix C:" << std::endl;
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n; ++j) {
+            std::cout << h_C[i * n + j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    // 释放设备内存
+    CHECK_CUDA(cudaFree(d_A));
+    CHECK_CUDA(cudaFree(d_B));
+    CHECK_CUDA(cudaFree(d_C));
+
+    // 销毁cuBLAS上下文
+    CHECK_CUBLAS(cublasDestroy(handle));
+
+    return 0;
+}
+
+
+```
 
 ## CUTA PTX 指令集
 https://docs.nvidia.com/cuda/pdf/ptx_isa_8.5.pdf
@@ -450,6 +535,17 @@ https://docs.nvidia.com/cuda/pdf/ptx_isa_8.5.pdf
   * 本地安装 https://developer.download.nvidia.cn/devtools/nsight-systems/
 * nsight compute 是CUDA核性能细节展开
 * nsight graphics 是图像渲染性能分析展开
+
+
+### nsys命令
+```
+nsys profile --output=my_report ./my_application
+
+或者
+
+nsys attach --pid <PID> -o output_report_name --trace=cuda,nvtx,osrt
+```
+运行产出的.nsys-rep报告，可以被NVIDIA Nsight可视化工具查看分析。
 
 
 

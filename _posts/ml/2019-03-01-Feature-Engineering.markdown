@@ -152,7 +152,7 @@ Missing value layer 美团机器学习实践中提到一种方法，用一个网
 一种方法叫 Label Encoder： 将文本形式的类别特征转换为数值型。相当于给文本形式的类别编号（数字编号1,2,3,4...）。
 这个方法的缺点是编号之后，默认可能会误认为这些类别之间具有偏序关系（其实并没有）。
 
-```
+```python
 from sklearn.preprocessing import LabelEncoder
 labelencoder = LabelEncoder()
 x[:, 0] = labelencoder.fit_transform(x[:, 0])

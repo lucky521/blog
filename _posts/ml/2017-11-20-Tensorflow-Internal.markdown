@@ -161,6 +161,9 @@ thread::ThreadPool 由 Eigen::ThreadPoolTempl 支持
 
 https://www.twblogs.net/a/5ee63d2cd28323b15556716f
 
+## CPU + GPU
+
+
 
 # 通信原理
 跨节点通信是Tensorflow实现图分布式、可伸缩性的基础，这里节点是个广义含义。通信往往也是分布式的瓶颈(跟计算相比而言)。

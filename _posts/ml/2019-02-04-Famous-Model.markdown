@@ -88,10 +88,45 @@ Cross Layer
 
 
 ## MOE
+MoE(Mixture of Experts) 模型架构在很多年都有了，后来LLM中也使用。
+https://github.com/chenzomi12/AIInfra/tree/main/06AlgoData/02MoE
 
+* 稀疏 MoE 层: MoE 层代替传统 Transformer 中 FFN 层。
+* 门控网络或路由：用于决定哪些 token 发送到哪个专家。
 
+```python
+import tensorflow as tf
 
+class MoE(tf.keras.Model):
+    def __init__(self, num_experts, input_shape, output_dim):
+        super(MoE, self).__init__()
+        self.gate = tf.keras.Sequential([
+            tf.keras.layers.Conv2D(32, 3, activation='relu', input_shape=input_shape),
+            tf.keras.layers.Flatten(),
+            tf.keras.layers.Dense(num_experts, activation='softmax')
+        ])
+        self.experts = [tf.keras.Sequential([
+            tf.keras.layers.Conv2D(64, 3, activation='relu', input_shape=input_shape),
+            tf.keras.layers.Flatten(),
+            tf.keras.layers.Dense(output_dim)
+        ]) for _ in range(num_experts)]
 
+    def call(self, inputs):
+        gate_outputs = self.gate(inputs)  # 计算每个专家的权重
+        # 选择权重最高的专家
+        selected_expert_indices = tf.argmax(gate_outputs, axis=-1)
+        
+        # 根据选择的专家索引获取专家输出
+        expert_outputs = tf.stack([self.experts[i](inputs) for i in selected_expert_indices], axis=0)
+        
+        # 由于每个样本只选择一个专家处理，所以这里不需要加权求和
+        final_output = tf.gather(expert_outputs, tf.range(tf.shape(inputs)[0]), axis=0)
+        return final_output
+
+# 创建MoE模型实例，假设输入是28x28的灰度图像，输出是一个标量
+model = MoE(num_experts=2, input_shape=(28, 28, 1), output_dim=1)
+
+```
 
 
 

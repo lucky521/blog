@@ -970,6 +970,17 @@ import tensorflow.contrib.slim as slim
 slim是一个使构建，训练，评估神经网络变得简单的库。slim主要包括learning.py, evaluation.py, summary.py, queue.py和model_analyzer.py，分别对应模型的训练，测试，日志记录，队列管理和模型分析部分。
 
 
+# 词表访问
+离散特征的处理
+* 将词映射为索引或one-hot编码
+* 将词映射为Embedding
+
+使用的数据结构
+HashTableV2
+InitializeTableFromTextFileV2
+Gather/GatherV2
+
+
 # 特征处理 Feature Columns
 
 特征预处理是要将样本的 `原始数据` 变换为同模型适配的 `Tensor向量` 形式。
