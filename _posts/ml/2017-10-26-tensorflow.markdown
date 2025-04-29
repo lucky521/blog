@@ -2109,12 +2109,15 @@ REGISTER_STORAGE_PATH_SOURCE_ADAPTER
 
 # Tensorflow 性能调优（训练/预测） 
 
-- 服务器端的模型最在意的延时和吞吐率。
+- 服务器端的模型最在意的延时和吞吐。
 - 本地端的模型最在意的是CPU资源占用率、内存占用率。
-
 
 * 会话级别的运行时优化
 * 图级别的静态图优化
+
+性能优化指南收集
+* https://tensorflow.juejin.im/performance/performance_guide.html
+* https://github.com/oneapi-src/oneAPI-samples/tree/master/AI-and-Analytics/Features-and-Functionality/IntelTensorFlow_InferenceOptimization
 
 ## Benchmarks
 
@@ -2185,7 +2188,6 @@ with open("perf_trace.json", 'w') as f:
 hardware tracing 和 software tracing
 
 MemcpyHtoD 和 MemcpyDtoH 是host和device之间拷贝内存，host指的是cpu主机。
-
 
 一个CPU模型生成的timeline
 ```shell
@@ -2268,7 +2270,6 @@ XLA通过各种优化技术来提高性能，包括操作融合（operation fusi
 ## Optimizing the model for Serving
 
 综合性文档： https://hackernoon.com/how-we-improved-tensorflow-serving-performance-by-over-70-f21b5dad2d98
-
 视频课程：https://www.bilibili.com/video/av47698851
 
 
@@ -2338,7 +2339,7 @@ freeze_graph.freeze_graph(
 
 ### 并发处理多个请求
 
-### GPU预测
+### 使用GPU
 
 适合放在GPU上运行的operator
 1. 数学运算
@@ -2686,7 +2687,7 @@ https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.
 keras.datasets.fashion_mnist.load_data()
 
 
-## ImageNet 图像数据集模型训练
+## 图像数据集模型训练
 
 ImageNet的图像分类数据集叫做ILSVRC。ILSVRC图像分类数据集包含了来自1000个类别的120万张图片，其中每张图片属于且只属于一个类别。
 

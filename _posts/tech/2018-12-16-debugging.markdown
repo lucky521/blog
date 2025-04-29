@@ -96,6 +96,7 @@ perf record -F 99 -p 进程号 -g -- sleep 秒数
 perf script > out.perf
 
 git clone https://github.com/brendangregg/FlameGraph.git
+cd FlameGraph
 ./stackcollapse-perf.pl out.perf > out.folded
 ./flamegraph.pl out.folded > out.svg
 
