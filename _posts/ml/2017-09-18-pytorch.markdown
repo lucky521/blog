@@ -4,6 +4,7 @@ categories: [MachineLearning]
 layout: post
 ---
 
+torch vs pytorch
 
 # 基本配置
 print(torch.__version__)

@@ -134,6 +134,9 @@ https://github.com/karpathy/llama2.c
 ## Karpathy 的 minGPT 和 nanoGPT 都是基于 GPT 架构的轻量级实现
 
 
+
+
+
 # 开源大模型
 * llama
 * falcon
@@ -170,8 +173,13 @@ https://github.com/karpathy/llama2.c
 
 
 # 大模型工程优化 (accelerate LLM inference)
-综述：https://zhuanlan.zhihu.com/p/656485997, https://zhuanlan.zhihu.com/p/642412124
-https://github.com/horseee/Awesome-Efficient-LLM , [A Survey on Efficient Inference for Large Language Models](https://arxiv.org/pdf/2404.14294)
+综述：
+* https://zhuanlan.zhihu.com/p/656485997, 
+* https://zhuanlan.zhihu.com/p/642412124
+* https://github.com/horseee/Awesome-Efficient-LLM , 
+* [A Survey on Efficient Inference for Large Language Models](https://arxiv.org/pdf/2404.14294)
+
+优化方向:
 * kvcache
 * transformer/attention变种
 * batch批处理化

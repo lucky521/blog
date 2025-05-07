@@ -97,6 +97,14 @@ socket系统调用，是进行TCP/IP通信的接口。
 文件读取是由外存上不连续的几个磁盘块，到buffer cache，然后组成page cache，然后供给应用程序。
 
 
+
+
+
+
+
+
+
+
 # Android
 https://source.android.com/docs/core/architecture
 

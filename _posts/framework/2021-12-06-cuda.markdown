@@ -543,7 +543,7 @@ nsys profile --output=my_report ./my_application
 
 或者
 
-nsys attach --pid <PID> -o output_report_name --trace=cuda,nvtx,osrt
+
 ```
 运行产出的.nsys-rep报告，可以被NVIDIA Nsight可视化工具查看分析。
 

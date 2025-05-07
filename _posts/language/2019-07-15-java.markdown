@@ -223,7 +223,16 @@ Google开源的基础类库， 包含了对：集合,缓存,并发库,字符串�
 
 ## Spring
 
-Spring框架为开发Java应用程序提供了全面的基础架构支持。 Spring Boot基本上是Spring框架的扩展，它消除了设置Spring应用程序所需的XML配置，为更快，更高效的开发生态系统铺平了道路。
+Spring框架为开发Java应用程序提供了全面的基础架构支持。 
+Spring Boot基本上是Spring框架的扩展，它消除了设置Spring应用程序所需的XML配置，为更快，更高效的开发生态系统铺平了道路。
+
+
+Spring 生态系统是一个庞大且不断发展的框架和工具集合，旨在简化和加速 Java 应用程序的开发。它由一系列相互关联的项目组成，每个项目都专注于特定的功能领域。
+
+核心项目
+Spring Boot：一种意见化的 Spring 应用程序构建方法，可快速启动并运行。
+Spring Framework：提供依赖注入、事务管理、Web 应用程序、数据访问、消息传递等核心支持。
+Spring Data：提供对关系、非关系、MapReduce 等数据访问的一致方法。
 
 
 ## Spring Data JPA

@@ -57,6 +57,9 @@ pthread_setaffinity_np 将线程绑定到特定的cpu核
 pthread_setaffinity_np 将进程绑定到特定的cpu核
 
 
+## 临界区保护的方法
+无锁并行
+并发计数器
 
 
 
@@ -102,3 +105,5 @@ absl::StrSplit
 ## GGML
 
 ## BLAS
+
+## Babylon
