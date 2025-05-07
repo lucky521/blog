@@ -115,7 +115,7 @@ $ sudo chown hduser:hadoop /app/hadoop/tmp
 $ sudo chmod 750 /app/hadoop/tmp
 ```
 
-### 填写conf/core-site.xml
+## 填写conf/core-site.xml
 
 ```s
 $ sudo vim /etc/hadoop/conf/core-site.xml

@@ -49,7 +49,7 @@ stdin、stdout中的每一行表示一个key-value数据，默认由tab符间隔
 
 
 
-# HiveSQL
+# Hive
 hive是Java实现的，由Facebook开源，目的是将特定的SQL语句编译为MapReduce jar包扔给hadoop去执行，本质上是一个代码转换编译的工具，简化mr的开发。
 
 https://ytluck.github.io/data-mining/my-dataming-post-42.html
@@ -204,6 +204,11 @@ impala由C++实现，提供的用户语言也是SQL。调用C语言层的libhdfs
 impala 使用hive的元数据, 完全在内存中计算。 使用上和Presto很接近。
 
 
+# Phoenix
+Phoenix 基于Hbase给面向业务的开发人员提供了以标准SQL的方式对Hbase进行查询操作，并支持标准SQL中大部分特性:条件运算,分组，分页，等高级查询语法。
+
+
+
 # Spark 
 当前最流行的批处理计算引擎应该就是spark了。
 
@@ -352,8 +357,7 @@ query.awaitTermination();
 
 
 
-# Phoenix
-Phoenix 基于Hbase给面向业务的开发人员提供了以标准SQL的方式对Hbase进行查询操作，并支持标准SQL中大部分特性:条件运算,分组，分页，等高级查询语法。
+
 
 
 

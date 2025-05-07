@@ -82,6 +82,8 @@ Lint
 
 http://www.brendangregg.com/linuxperf.html
 
+哪些状态是需要关注的？
+
 
 
 # 性能 Debugging
