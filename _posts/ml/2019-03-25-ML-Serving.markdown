@@ -273,6 +273,17 @@ Optimal Brain Surgeon
 模型编译是将定义好的模型结构和相关参数配置转化为可执行的计算图或计算图优化的过程。
 在编译阶段，模型的结构和参数被转化为底层计算库或硬件设备可执行的指令序列，以便进行高效的计算和推理。
 
+## 模型编译器的有关概念
+许多概念可以从这里学习： https://openmlsys.github.io/
+* 机器学习框架前端
+  *  PyTorch、TensorFlow 和 JAX
+* 定义IR计算图
+  * 计算图由基本数据结构：张量(Tensor)和基本运算单元：算子(Operator)构成
+* AI编译器前端
+  * 把源程序解析成IR，做各种和硬件无关的优化
+
+## 重点项目
+
 * tvm
   * https://github.com/apache/tvm
   * pass架构： https://daobook.github.io/tvm/docs/arch/pass_infra.html
@@ -289,17 +300,16 @@ Optimal Brain Surgeon
 * halide 
   * https://github.com/halide/Halide
   * 与机器学习算法无关的底层优化器，原先用于图片处理和矩阵计算
+* BladeDISC
+  * https://github.com/alibaba/BladeDISC
+  * [BladeDISC++：Dynamic Shape AI 编译器下的显存优化技术](https://zhuanlan.zhihu.com/p/18880631601)
 
 
-* https://github.com/alibaba/MNN
-* https://github.com/Tencent/TNN
-* https://github.com/bytedance/lightseq
+
+
 * https://github.com/openppl-public/ppl.nn
-* https://github.com/openvinotoolkit/openvino
-* https://github.com/alibaba/BladeDISC
 
 
-[BladeDISC++：Dynamic Shape AI 编译器下的显存优化技术](https://zhuanlan.zhihu.com/p/18880631601)
 
 
 
@@ -312,6 +322,9 @@ https://github.com/microsoft/onnxruntime
 * libonnxruntime.so
 * libonnxruntime_providers_shared.so
 * libonnxruntime_providers_*.so
+
+## openvino
+* https://github.com/openvinotoolkit/openvino
 
 
 ## TensorFlow Serving
@@ -367,6 +380,12 @@ https://github.com/Tencent/TNN
 
 ## Ray Serve
 https://docs.ray.io/en/latest/serve/index.html
+
+
+## 其他
+
+* https://github.com/bytedance/lightseq
+
 
 
 

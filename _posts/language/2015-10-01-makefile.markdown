@@ -26,7 +26,7 @@ Makefile脚本在大型软件中不可或缺，它用来将一个个源代码文
 
 - `-f filename`可以指定makefile文件。
 - `-C filepath`可以指定makefile的所在位置。
-- 如果我只属于`make`，那么第一个target就是总的target。
+- 如果我只输入`make`，那么第一个target就是总的target。
 - 如果我输入了`make some_target`，那么就会去找我声明的target；
 - 假如我输入的是`make clean`，虽然clean并不是一个要编译的文件，但make直到这也是一个target。
 - 如果程序最终的产出是多个文件，可以使用`all`作为第一个target，它的dependencies作为程序最终的产出文件。
