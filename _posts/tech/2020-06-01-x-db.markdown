@@ -418,6 +418,10 @@ https://chubaofs.readthedocs.io/zh_CN/latest/
 ## GlusterFS
 
 
+## deepseek 3fs
+PD 分离将是大规模分布式推理服务和高性能存储结合的起点
+
+
 
 
 

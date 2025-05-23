@@ -279,6 +279,7 @@ Optimal Brain Surgeon
   *  PyTorch、TensorFlow 和 JAX
 * 定义IR计算图
   * 计算图由基本数据结构：张量(Tensor)和基本运算单元：算子(Operator)构成
+  * 正确处理张量数据类型
 * AI编译器前端
   * 把源程序解析成IR，做各种和硬件无关的优化
 

@@ -198,7 +198,14 @@ Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，�
 ## 专家并行
 
 
+## Prefill-Decode PD分离
 
+在 PD 分离式架构中：
+Prefill Instance 专注于 Prefill 阶段的计算。
+Decode Instance 专注于 Decode 阶段的生成任务。
+当 Prefill Instance 完成 KV Cache 的计算后，会将其传输给 Decode Instance，后者接续生成结果。这种架构独立优化了两个阶段的性能，因此又被简称为 PD 分离。
+
+PD分离遇到的最大挑战是如何在不同设备之间传输KVCache
 
 
 
@@ -373,6 +380,8 @@ LangChain 是一个框架，用于开发由 LLM 驱动的应用程序。
 * PromptTemplate
 * OutputParser 用于让 LLM 结构化输出并进行结果解析，方便后续的调用
 
+
+## 模型上下文协议（Model Context Protocol）
 
 
 
