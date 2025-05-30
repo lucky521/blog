@@ -271,13 +271,18 @@ PS：core和kernel两个词，core指的是硬件核心，处理器；kernel指�
 
 ## CUDA 存储层次
  
-HBM -> SRAM -> 寄存器
+### GPU HBM -> GPU SRAM ->  GPU 寄存器
 
-### shared memory
+HBM 是一种用于实现高性能 VRAM 的技术
+
+### global memory -> shared memory -> local memory
 
 共享内存被分成了若干个等宽的存储段，这些存储段被称为“banks”，硬件上的限制是，每个bank在一个时钟周期内只能服务一个访问请求。
 
 一个block要访问shared memory，只要能够保证以其中相邻的16个线程一组访问thread，每个线程与bank是一一对应就不会产生bank conflict。否则会产生bank conflict，访存时间成倍增加，增加的倍数由一个bank最多被多少个thread同时访问决定。有一种极端情况，就是所有的16个thread同时访问同一bank时反而只需要一个访问周期，此时产生了一次广播。
+
+
+
 
 
 

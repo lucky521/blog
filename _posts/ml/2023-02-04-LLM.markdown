@@ -123,7 +123,7 @@ https://zhuanlan.zhihu.com/p/618894319
 把微调技术工程化了 https://huggingface.co/docs/peft/index
 
 
-# 极好的工程实践
+# 极简的工程实践
 ## Reproducing GPT-2 (124M) in llm.c
 https://github.com/karpathy/llm.c/discussions/481
 
@@ -174,9 +174,9 @@ https://github.com/karpathy/llama2.c
 
 # 大模型工程优化 (accelerate LLM inference)
 综述：
-* https://zhuanlan.zhihu.com/p/656485997, 
+* https://zhuanlan.zhihu.com/p/656485997
 * https://zhuanlan.zhihu.com/p/642412124
-* https://github.com/horseee/Awesome-Efficient-LLM , 
+* https://github.com/horseee/Awesome-Efficient-LLM 
 * [A Survey on Efficient Inference for Large Language Models](https://arxiv.org/pdf/2404.14294)
 
 优化方向:
@@ -185,6 +185,11 @@ https://github.com/karpathy/llama2.c
 * batch批处理化
 * 低比特量化
 * 分布式化
+
+
+性能指标：
+* time to first token (TTFT)
+* the time between tokens (TBT)
 
 ## In-flight Batching / continuous batching / iteration-level batching
 在处理实时数据流（如聊天消息）时，连续批处理会不断地将即时到达的消息聚合成批次，并将每个批次作为一个单元送入模型进行处理。这种方式可以减少模型推理的延迟并提高吞吐量。
@@ -205,7 +210,10 @@ Prefill Instance 专注于 Prefill 阶段的计算。
 Decode Instance 专注于 Decode 阶段的生成任务。
 当 Prefill Instance 完成 KV Cache 的计算后，会将其传输给 Decode Instance，后者接续生成结果。这种架构独立优化了两个阶段的性能，因此又被简称为 PD 分离。
 
-PD分离遇到的最大挑战是如何在不同设备之间传输KVCache
+PD分离遇到的最大挑战是如何在不同GPU设备之间传输KVCache
+
+https://zhuanlan.zhihu.com/p/1894492016718639469
+
 
 
 

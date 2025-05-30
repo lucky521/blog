@@ -165,45 +165,10 @@ https://github.com/antlr/antlr4
 
 
 
+# X_KVstore 
 
 
-
-
-
-
-# X_DB 开源实现
-
-数据库的实现类型非常之多，没有最好的数据库，只有最适合的数据库，一定要根据业务的特点进行选择。
-2021年，开源数据库的Popularity首次超越了商用数据库。https://db-engines.com/en/ranking_osvsc
-
-* 键值存储：常见的键值存储数据库有 Redis、Memcached、leveldb、rocksdb、tair、etcd
-* 行式存储：常见的行式数据库有 MySQL、PostgreSQL、MS SQL Server。
-* 列式存储：常见的列式数据库有 Hbase、Kudu、ClickHouse、 Vertica、 Paraccel (Actian Matrix，Amazon Redshift)、 Sybase IQ、 Exasol、 Infobright、 InfiniDB、 MonetDB (VectorWise， Actian Vector)、 LucidDB、 SAP HANA、 Google Dremel、 Google PowerDrill、 Druid、 kdb+。
-
-
-* 关系型数据库 : mysql
-* 时序数据库: InfluxDB
-* 键值数据库: redis
-* 图数据库: neo4j
-
-## SQLite
-https://sqlite.org/arch.html
-
-SQLite的工作方式是将SQL语句转换为字节码，然后执行该字节码。
-
-* sqlite3_prepare_v()接口是一个将SQL语句转换为字节码的编译器
-* sqlite3_step()接口 是负责运行含有预处理语句的字节码的虚拟机
-
-VDBE实现了以虚拟机语言运行程序的虚拟计算机。每个程序的目标是询问或更改数据库。为此，VDBE实现的机器语言专门用于搜索，读取和修改数据库。
-
-## InnoDB
-
-## MySQL 关系数据库
-
-需要了解什么场景适合mysql，什么场景不合适mysql
-
-
-## Redis 
+## Redis  KV数据库
 出于访问性能，将数据库放在内存。
 
 redis 实现高并发主要依靠主从架构，一主多从
@@ -244,6 +209,9 @@ Redis的内存淘汰策略
 ## Tair
 
 
+## etcd
+
+
 
 ## LevelDB
 单机数据库，一次只允许一个进程访问一个特定的数据库
@@ -272,11 +240,46 @@ RocksDB 是一个基于 LevelDB 衍生的键值存储数据库，它内部的数
 
 
 
+
+
+# X_DB 开源实现
+
+数据库的实现类型非常之多，没有最好的数据库，只有最适合的数据库，一定要根据业务的特点进行选择。
+2021年，开源数据库的Popularity首次超越了商用数据库。https://db-engines.com/en/ranking_osvsc
+
+* 键值存储：常见的键值存储数据库有 Redis、Memcached、leveldb、rocksdb、tair、etcd
+* 行式存储：常见的行式数据库有 MySQL、PostgreSQL、MS SQL Server。
+* 列式存储：常见的列式数据库有 Hbase、Kudu、ClickHouse、 Vertica、 Paraccel (Actian Matrix，Amazon Redshift)、 Sybase IQ、 Exasol、 Infobright、 InfiniDB、 MonetDB (VectorWise， Actian Vector)、 LucidDB、 SAP HANA、 Google Dremel、 Google PowerDrill、 Druid、 kdb+。
+
+
+* 关系型数据库 : mysql
+* 时序数据库: InfluxDB
+* 键值数据库: redis
+* 图数据库: neo4j
+
+## SQLite
+https://sqlite.org/arch.html
+
+SQLite的工作方式是将SQL语句转换为字节码，然后执行该字节码。
+
+* sqlite3_prepare_v()接口是一个将SQL语句转换为字节码的编译器
+* sqlite3_step()接口 是负责运行含有预处理语句的字节码的虚拟机
+
+VDBE实现了以虚拟机语言运行程序的虚拟计算机。每个程序的目标是询问或更改数据库。为此，VDBE实现的机器语言专门用于搜索，读取和修改数据库。
+
+## InnoDB
+
+## MySQL 关系数据库
+
+需要了解什么场景适合mysql，什么场景不合适mysql
+
+
+
+
 ## MongoDB
 
 ## Cassandra
 
-## etcd
 
 ## OPENTSDB 时序数据库
 
@@ -394,6 +397,8 @@ PlanAPI::CreatePlanTreeFromScript
 ## YugabyteDB
 
 ## cockroachDB
+
+## FoundationDB
 
 
 
