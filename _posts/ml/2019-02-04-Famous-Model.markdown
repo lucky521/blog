@@ -86,6 +86,10 @@ Cross Layer
 在embedding层和MLP层之间加入 attention 机制
 
 
+## FFN 
+feed forward层。他本质上就是一个两层的MLP。
+在Bert中，FFN的具体结构是 matmul -> bias_gelu -> matmul
+
 
 ## MOE
 MoE(Mixture of Experts) 模型架构在很多年都有了，后来LLM中也使用。
@@ -275,6 +279,27 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
 
 # Transformer models
 
+## 位置编码Postional Encoding结构
+
+* 对位置编码（Absolute Position Encoding，APE）
+* 相对位置编码（Relative Position Encoding，RPE）
+
+## Attention结构
+
+在Encoder-Decoder结构中，Encoder把所有的输入序列都编码成一个统一的语义特征c再解码，因此c中必须包含原始序列中的所有信息，它的长度就成了限制模型性能的瓶颈。
+
+attention它是解决 sequence-to-sequence learning 中的这个限制：要求必须把原序列的全部内容压缩到固定长度的vector。
+
+Attention解决这一限制的方法就是：允许decoder回看原序列的 hidden states，这一状态信息作为加权平均值作为decoder的附加输入。
+
+具体计算c_i的方法有很多，比如：我们用 a_{ij} 衡量Encoder中第j阶段的h_j和解码时第i阶段的相关性，最终Decoder中第i阶段的输入的上下文信息 c_i 就来自于所有 h_j 对 a_{ij} 的加权和。
+
+
+attention变种
+Multi-Head Attention（MHA）
+Grouped-Query Attention（GQA）
+
+
 ## transformer layer的样子
 通过这种自注意力机制层和普通非线性层来实现对输入信号的编码，得到信号的表示。
 
@@ -289,6 +314,7 @@ https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/python/ops/rnn_cel
 * 从Attention到Transformer https://qiankunli.github.io/2023/10/30/from_attention_to_transformer.html
 * Transformer的最简洁pytorch实现 https://mp.weixin.qq.com/s/rx7SPYr-sEOz_GOYRfSDOw
 * [Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)
+* [深度学习中Attention与全连接层的区别何在？](https://www.zhihu.com/question/320174043)
 
 ## Transformer结构
 * 把输入句子拆成词，把每个词转换为词向量，那么输入句子就变成了向量列表。

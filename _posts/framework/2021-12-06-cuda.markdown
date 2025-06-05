@@ -275,6 +275,12 @@ PS：core和kernel两个词，core指的是硬件核心，处理器；kernel指�
 
 HBM 是一种用于实现高性能 VRAM 的技术
 
+片上内存：主要用于缓存（cache）及少量特殊存储单元（例如texture），其特点是“存储空间小，但带宽大”。对应到上图中，SRAM就属于片上内存，它的存储空间只有20MB，但是带宽可以达到19TB/s。
+片下内存：主要用于全局存储（global memory），即我们常说的显存，其特点是“存储空间大，但带宽小”，对应到上图中，HBM就属于片下内存（也就是显存），它的存储空间有40GB（A100 40GB），带宽1.5TB/s。
+
+
+
+
 ### global memory -> shared memory -> local memory
 
 共享内存被分成了若干个等宽的存储段，这些存储段被称为“banks”，硬件上的限制是，每个bank在一个时钟周期内只能服务一个访问请求。
@@ -405,6 +411,12 @@ cudaMemcpy
 cudaDeviceSynchronize
 
 
+
+### 显存管理
+
+* cudaMemGetInfo()来获取设备上的总内存和可用内存大小。
+cudaMalloc
+cudaFree
 
 
 

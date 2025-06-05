@@ -165,6 +165,21 @@ https://github.com/antlr/antlr4
 
 
 
+## 缓存替换、缓存淘汰、缓存驱逐算法
+
+* TTL
+* LRU 
+  * 最近最少使用
+* LRU-K
+* LFU
+  * 最近最不常用
+* ARC
+  * Adaptive Replacement Cache (自适应替换缓存
+
+
+
+
+
 # X_KVstore 
 
 

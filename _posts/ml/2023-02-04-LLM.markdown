@@ -71,6 +71,7 @@ GPT模型输出的logits， key_states， value_states，key_states.3，value_st
 
 ## 推理步骤
 https://www.hiascend.com/document/detail/zh/mindie/1.0.RC1/mindiellm/llmdev/atlaslmimog_0004.html
+[Main Stages of Auto-regressive Decoding for LLM Inference](https://aiexpjourney.substack.com/p/main-stages-of-auto-regressive-decoding)
 
 * Prefill阶段
   * Tokenize 将用户输入的文本转换为向量 Embedding
@@ -178,6 +179,7 @@ https://github.com/karpathy/llama2.c
 * https://zhuanlan.zhihu.com/p/642412124
 * https://github.com/horseee/Awesome-Efficient-LLM 
 * [A Survey on Efficient Inference for Large Language Models](https://arxiv.org/pdf/2404.14294)
+* [大模型推理加速技术的学习路线是什么?](https://www.zhihu.com/question/591646269)
 
 优化方向:
 * kvcache
@@ -214,6 +216,12 @@ PD分离遇到的最大挑战是如何在不同GPU设备之间传输KVCache
 
 https://zhuanlan.zhihu.com/p/1894492016718639469
 
+
+## kv cache优化
+
+在自回归生成过程中做 attention 时, 一个 token i 的特征向量 (feature vector) 会线性映射拆成 Qi, Ki, Vi 三个特征向量. 其中, Qi 用于与序列中之前所有的 Kj, Vj 向量做 attention, 从而得出输出特征向量 Oi. 而 Ki, Vi 则会被留存下来, 以便之后的 token 在做 attention 时不再重复计算. 用于留存序列中 Ki, Vi 的存储空间 (或者是这个张量) 被称为 KV-Cache.
+
+kv cache容量需求： batch_size * seq_length * attention_head_num * attention_head_dim * layer_num * key_bits * 2
 
 
 

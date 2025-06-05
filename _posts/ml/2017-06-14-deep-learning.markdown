@@ -64,12 +64,7 @@ Neuron是神经网络的一个单元。它是一个函数，一个回归模型�
 越来越多的端到端模型把数据预处理、特征表示、向量化的过程纳入到模型内部。
 
 
-## NN模型的参数初始化
 
-尽可能小的参数初始值
-
-Xavier 初始化
-Xavier初始化方法是一种很有效的神经网络初始化方法，目标就是使得每一层输出的方差应该尽量相等。
 
 
 ## NN模型的代价函数 Cost Function / 损失函数 Loss / 误差函数 Error / Objective 目标函数
@@ -222,6 +217,12 @@ Dying ReLU: Relu有一个缺陷是，当梯度值过大时,权重更新后为负
 
 ```
 
+## NN模型的参数初始化
+
+尽可能小的参数初始值
+
+Xavier 初始化
+Xavier初始化方法是一种很有效的神经网络初始化方法，目标就是使得每一层输出的方差应该尽量相等。
 
 
 ## 训练迭代的超参数
@@ -428,8 +429,6 @@ batchnorm层的放置位置很重要， 可以尝试放在最输出层之前或e
 这个层能帮助解码器聚焦于输入句子的相关部分（类似于 seq2seq 模型 中的 Attention）。
 
 
-attn_layer = AttentionLayer(name='attention_layer')([encoder_out,decoder_out])
-
 ```python
 def attention(queries, keys, keys_length):
   '''
@@ -474,7 +473,7 @@ def attention(queries, keys, keys_length):
 
 
 说说attention里面的mask
-
+```python
 class AttentionMaskFormat:
     # Build 1D mask indice (sequence length). It requires right side padding! Recommended for BERT model to get best performance.
     MaskIndexEnd = 0
@@ -487,7 +486,7 @@ class AttentionMaskFormat:
 
     # No attention mask
     NoMask = 3
-
+```
 
 
 ### 残差单元 Residual Unit
@@ -539,6 +538,20 @@ def cross_layer(x0, x, name):
     xb = tf.tensordot(tf.reshape(x, [-1, 1, input_dim]), w, 1)
     return x0 * xb + b + x
 ```
+
+
+
+### Gating 门控结构
+
+结构是一个全连接层（Dense Layer）输出再过softmax函数转换为概率分布，选择概率。
+
+可以近乎“无脑地”加入到网络结构当中，基本上都可以带来或多或少的效果提升。这个网络结构有人叫他门控网络、门控结构，也有人叫他的英文名“gating”，也有人叫他动态权重。
+
+
+
+
+
+
 
 
 
