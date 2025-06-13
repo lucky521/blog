@@ -103,6 +103,11 @@ Chain-of-Thought(CoT)是一种改进的Prompt技术，目的在于提升大模�
 * post-training-1: Fine Tuning 让模型学会和人对话，成为助手
 * post-training-2: Reinforcement Learning
 
+
+# 预训练 (Pre-Training)
+学习无标记文本数据。
+
+
 ## 指令精调(Instruction Tuning)
 让LLM理解输入命令的含义，并正确执行
 
@@ -122,6 +127,12 @@ https://zhuanlan.zhihu.com/p/618894319
 
 ## huggingface PEFT
 把微调技术工程化了 https://huggingface.co/docs/peft/index
+
+
+## 强化学习 RLHF
+
+
+
 
 
 # 极简的工程实践
@@ -194,8 +205,9 @@ https://github.com/karpathy/llama2.c
 * the time between tokens (TBT)
 
 ## In-flight Batching / continuous batching / iteration-level batching
-在处理实时数据流（如聊天消息）时，连续批处理会不断地将即时到达的消息聚合成批次，并将每个批次作为一个单元送入模型进行处理。这种方式可以减少模型推理的延迟并提高吞吐量。
+在处理实时数据流（如聊天消息）时，连续批处理会不断地将即时到达的消息聚合成批次，并将每个批次作为一个单元送入模型进行处理。也就是说在每次 decode 的迭代过程中，做 batch 的调度调整。这种方式可以减少模型推理的延迟并提高吞吐量。
 https://www.anyscale.com/blog/continuous-batching-llm-inference
+
 
 ## stream_chat 流式输出
 在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入openai接口，发现接口是http协议，才了解到SSE技术。
@@ -222,6 +234,11 @@ https://zhuanlan.zhihu.com/p/1894492016718639469
 在自回归生成过程中做 attention 时, 一个 token i 的特征向量 (feature vector) 会线性映射拆成 Qi, Ki, Vi 三个特征向量. 其中, Qi 用于与序列中之前所有的 Kj, Vj 向量做 attention, 从而得出输出特征向量 Oi. 而 Ki, Vi 则会被留存下来, 以便之后的 token 在做 attention 时不再重复计算. 用于留存序列中 Ki, Vi 的存储空间 (或者是这个张量) 被称为 KV-Cache.
 
 kv cache容量需求： batch_size * seq_length * attention_head_num * attention_head_dim * layer_num * key_bits * 2
+
+
+
+## Chunked Prefills 
+
 
 
 
