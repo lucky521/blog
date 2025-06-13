@@ -78,7 +78,7 @@ https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/80RC2alpha003/d
 
 ## 面向Transformer模型的加速库（Ascend Transformer Boost）
 
-几种attention
+几种attention的加速实现
 * PagedAttentionOperation
   * 基于paged attention 对于kvcache分页管理的机制计算attention score
   * Rotary Position Embedding (RoPE) 主要思想是通过旋转嵌入向量来编码不同位置的信息。
