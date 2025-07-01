@@ -280,8 +280,9 @@ HBM 是一种用于实现高性能 VRAM 的技术
 
 
 
-
 ### global memory -> shared memory -> local memory
+
+cudaMalloc分配出来的是device global memory
 
 共享内存被分成了若干个等宽的存储段，这些存储段被称为“banks”，硬件上的限制是，每个bank在一个时钟周期内只能服务一个访问请求。
 
@@ -289,7 +290,10 @@ HBM 是一种用于实现高性能 VRAM 的技术
 
 
 
+### Host pinned memory , Host pageable memory
 
+GPU可以直接访问pinned memory(称之为DMA)而不能访问pageable memory
+pageable memory上的数据要先拷贝到pinned memory上，才可以
 
 
 ## 编程抽象
@@ -308,7 +312,7 @@ HBM 是一种用于实现高性能 VRAM 的技术
 
 
 
-## CUDA编程
+## CUDA核函数编程
 在CUDA编程中，有几种常见的数据类型，包括但不限于：
 
 * 基本数据类型：与C/C++中的基本数据类型相似，包括整型（如int、unsigned int、long long等）、浮点型（如float、double等）、字符型（char）等。
@@ -322,12 +326,17 @@ HBM 是一种用于实现高性能 VRAM 的技术
 CUDA的核函数（也称为设备函数）中自动定义的变量：
 * threadIdx
   *  这是一个三维向量（threadIdx.x, threadIdx.y, threadIdx.z），它指定了当前线程在其线程块中的索引。由于线程块是三维的，所以你可以通过这个索引来定位线程在X、Y、Z的位置
-* blockIdx
+* blockIdxj
   * 这也是一个三维向量（blockIdx.x, blockIdx.y, blockIdx.z），它指定了当前线程块在整个网格中的索引。这可以让你知道当前线程块在网格的哪个位置
 * blockDim
   * 这是一个三维向量（blockDim.x, blockDim.y, blockDim.z），它表示线程块的维度，即每个维度上有多少线程。这个值是在启动核函数时由程序员指定的
 * gridDim
   * 这也是一个三维向量（gridDim.x, gridDim.y, gridDim.z），它表示整个网格的维度，即每个维度上有多少线程块。这个值也是在启动核函数时由程序员指定的
+
+
+kernelFunction<<< blocksPerGrid, threadsPerBlock >>>(data); 
+// <<<blocksPerGrid, threadsPerBlock>>>语法是用于在CUDA中启动核函数的特殊语法。这里，blocksPerGrid和threadsPerBlock分别指定了网格和线程块的大小。核函数内部，每个线程会使用它的全局索引来决定操作数组的哪个部分。这样可以确保所有的数组元素都被并行处理，而且每个元素只被处理一次。
+
 
 
 ```python
@@ -394,6 +403,10 @@ kernelFunction<<<blocksPerGrid, threadsPerBlock>>>(data); // <<<blocksPerGrid, t
 
 #pragma unroll
 
+
+
+
+
 ## CUDA Runtime API
 
 [CUDA Runtime API官方文档](https://docs.nvidia.com/cuda/pdf/CUDA_Runtime_API.pdf)
@@ -414,10 +427,13 @@ cudaDeviceSynchronize
 
 ### 显存管理
 
+device memory
 * cudaMemGetInfo()来获取设备上的总内存和可用内存大小。
-cudaMalloc
-cudaFree
+* cudaMalloc
+* cudaFree
 
+host pinned memory
+* cudaMallocHost
 
 
 ## cuda程序编译

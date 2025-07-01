@@ -66,6 +66,13 @@ SoftMax
 GPT模型输出的logits， key_states， value_states，key_states.3，value_states.3 分别是什么意思？
 
 
+## 外置超参数
+* 温度（Temperature） Temperature参数用于调整语言模型生成文本的随机性，在抽样策略阶段，对这些概率进行调整，以控制生成文本的多样性和可预测性。
+* 顶部概率（Top P）代表了一种概率分布截断技术，它允许模型在生成每个词时只考虑概率最高的一定比例的词汇。
+* 最大长度（Max Length） 用于控制模型生成的词的最大数量。指定最大长度有助于防止过长或不相关的响应，并控制模型的生成成本。
+* 停止序列（Stop Sequences）
+* 频率惩罚（Frequency Penalty）频率惩罚对模型输出的下一个词应用惩罚，频率惩罚的值与该词在响应和提示中出现的频率成正比。频率惩罚越高，一个词再次出现的可能性就越小。这个设置通过给出现次数更多的词更高的惩罚来减少模型响应中词的重复。
+* 存在惩罚（Presence Penalty）
 
 
 
@@ -84,6 +91,11 @@ https://www.hiascend.com/document/detail/zh/mindie/1.0.RC1/mindiellm/llmdev/atla
   * Detokenize 将推理结果向量转换为文本
   * Return
 
+
+## 生成策略
+
+Beam search
+Top-k sampling
 
 
 # 提示工程（Prompt Engineering）
@@ -104,7 +116,7 @@ Chain-of-Thought(CoT)是一种改进的Prompt技术，目的在于提升大模�
 * post-training-2: Reinforcement Learning
 
 
-# 预训练 (Pre-Training)
+## 预训练 (Pre-Training)
 学习无标记文本数据。
 
 
@@ -228,12 +240,17 @@ PD分离遇到的最大挑战是如何在不同GPU设备之间传输KVCache
 
 https://zhuanlan.zhihu.com/p/1894492016718639469
 
+vllm，Mooncake，TensorRT-LLM, InfiniStore
+
+
 
 ## kv cache优化
 
 在自回归生成过程中做 attention 时, 一个 token i 的特征向量 (feature vector) 会线性映射拆成 Qi, Ki, Vi 三个特征向量. 其中, Qi 用于与序列中之前所有的 Kj, Vj 向量做 attention, 从而得出输出特征向量 Oi. 而 Ki, Vi 则会被留存下来, 以便之后的 token 在做 attention 时不再重复计算. 用于留存序列中 Ki, Vi 的存储空间 (或者是这个张量) 被称为 KV-Cache.
 
 kv cache容量需求： batch_size * seq_length * attention_head_num * attention_head_dim * layer_num * key_bits * 2
+
+单个 Token 的 KVCache 由四大因素决定：Layers、NumHead、HeadDim、以及 KVCache 数据类型决定的。
 
 
 
