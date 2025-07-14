@@ -159,7 +159,7 @@ categories: [MachineLearning]
   * 使用加速库：TensorRT
 
 
-### 如何加速attention ?
+### 如何优化attention推理 ?
 在transformer中attention操作是最耗时的模块。
 
 原因和它的操作逻辑有关：

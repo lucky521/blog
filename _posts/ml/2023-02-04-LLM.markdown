@@ -66,6 +66,20 @@ SoftMax
 GPT模型输出的logits， key_states， value_states，key_states.3，value_states.3 分别是什么意思？
 
 
+## 模型规模
+* n_layers	32
+* n_heads	32
+* d_model	4096
+ * ‌hidden_size‌：表示模型隐藏层的维度大小，在 Transformer 块中对应输入和输出的维度，通常记为 d_model。它定义了模型主体隐藏状态的尺寸
+* vocab size	151851
+* sequence length	8192
+* intermediate_size‌：表示前馈网络（FFN）中隐藏层的维度大小，通常记为 p 或类似符号。它专门用于 FFN 层的中间扩展。
+
+## sequence length 和 context length
+* 一次前向传播过程中能够处理的最大输入或输出序列的长度
+* 一段对话的总文本长度
+
+
 ## 外置超参数
 * 温度（Temperature） Temperature参数用于调整语言模型生成文本的随机性，在抽样策略阶段，对这些概率进行调整，以控制生成文本的多样性和可预测性。
 * 顶部概率（Top P）代表了一种概率分布截断技术，它允许模型在生成每个词时只考虑概率最高的一定比例的词汇。
@@ -77,9 +91,10 @@ GPT模型输出的logits， key_states， value_states，key_states.3，value_st
 
 
 ## 推理步骤
-https://www.hiascend.com/document/detail/zh/mindie/1.0.RC1/mindiellm/llmdev/atlaslmimog_0004.html
-[Main Stages of Auto-regressive Decoding for LLM Inference](https://aiexpjourney.substack.com/p/main-stages-of-auto-regressive-decoding)
+* [大模型推理流程](https://www.hiascend.com/document/detail/zh/mindie/1.0.RC1/mindiellm/llmdev/atlaslmimog_0004.html)
+* [Main Stages of Auto-regressive Decoding for LLM Inference](https://aiexpjourney.substack.com/p/main-stages-of-auto-regressive-decoding)
 
+* 原始输入是文本
 * Prefill阶段
   * Tokenize 将用户输入的文本转换为向量 Embedding
   * Computing 纯推理
@@ -90,7 +105,7 @@ https://www.hiascend.com/document/detail/zh/mindie/1.0.RC1/mindiellm/llmdev/atla
   * Sampleing
   * Detokenize 将推理结果向量转换为文本
   * Return
-
+* 最终输出是文本
 
 ## 生成策略
 
@@ -198,7 +213,7 @@ https://github.com/karpathy/llama2.c
 
 # 大模型工程优化 (accelerate LLM inference)
 综述：
-* https://zhuanlan.zhihu.com/p/656485997
+* [大语言模型推理性能优化综述](https://zhuanlan.zhihu.com/p/656485997)
 * https://zhuanlan.zhihu.com/p/642412124
 * https://github.com/horseee/Awesome-Efficient-LLM 
 * [A Survey on Efficient Inference for Large Language Models](https://arxiv.org/pdf/2404.14294)
@@ -248,6 +263,8 @@ vllm，Mooncake，TensorRT-LLM, InfiniStore
 
 在自回归生成过程中做 attention 时, 一个 token i 的特征向量 (feature vector) 会线性映射拆成 Qi, Ki, Vi 三个特征向量. 其中, Qi 用于与序列中之前所有的 Kj, Vj 向量做 attention, 从而得出输出特征向量 Oi. 而 Ki, Vi 则会被留存下来, 以便之后的 token 在做 attention 时不再重复计算. 用于留存序列中 Ki, Vi 的存储空间 (或者是这个张量) 被称为 KV-Cache.
 
+LLM在decoding阶段的每次推理只会用到当前的Q，这次用的Q下次不会用到，所以不用Cache Q
+
 kv cache容量需求： batch_size * seq_length * attention_head_num * attention_head_dim * layer_num * key_bits * 2
 
 单个 Token 的 KVCache 由四大因素决定：Layers、NumHead、HeadDim、以及 KVCache 数据类型决定的。
@@ -290,14 +307,13 @@ gptq
 
 ## fastllm
 https://github.com/ztxz16/fastllm
-
 https://zhuanlan.zhihu.com/p/646193833
 
 ## FlashAttention
 优化访问HBM次数过多的性能问题
 https://github.com/Dao-AILab/flash-attention
 
-## vllm
+## vllm(PagedAttention)
 vLLM 主要用于快速 LLM 推理和服务，其核心是 PagedAttention，这是一种新颖的注意力算法
 https://github.com/vllm-project/vllm
 
@@ -328,6 +344,13 @@ https://github.com/sgl-project/sglang
 
 ## OmniServe
 https://github.com/mit-han-lab/omniserve
+
+
+
+
+
+
+
 
 
 # openAI 服务接口

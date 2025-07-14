@@ -295,10 +295,17 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
 具体计算c_i的方法有很多，比如：我们用 a_{ij} 衡量Encoder中第j阶段的h_j和解码时第i阶段的相关性，最终Decoder中第i阶段的输入的上下文信息 c_i 就来自于所有 h_j 对 a_{ij} 的加权和。
 
 
-attention变种
-Multi-Head Attention（MHA）
-Grouped-Query Attention（GQA）
+attention结构变种
+* Multi-Head Attention（MHA）
+  * 将输入序列分割为多个子空间（头），每个头独立学习不同的注意力模式
+* Grouped-Query Attention（GQA）
+  * 将查询头（Query Heads）分组，每组共享同一组键/值头（Key/Value Heads），减少KV Cache规模
 
+attention计算优化
+* flash attention
+  * 利用 GPU 高速 SRAM 分块计算，避免 HBM（高带宽内存）频繁读写‌;将 softmax、掩码等操作合并到单次内核计算中‌
+* paged attention
+  * 将注意力矩阵拆分为"页"，仅加载当前计算所需分块（类似操作系统虚拟内存）‌
 
 ## transformer layer的样子
 通过这种自注意力机制层和普通非线性层来实现对输入信号的编码，得到信号的表示。

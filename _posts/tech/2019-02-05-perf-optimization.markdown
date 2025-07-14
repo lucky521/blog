@@ -56,6 +56,10 @@ io_submit 是 Linux 内核中 AIO（异步 I/O）接口的一部分，用于提�
 pthread_setaffinity_np 将线程绑定到特定的cpu核
 pthread_setaffinity_np 将进程绑定到特定的cpu核
 
+_mm_pause();是一条由Intel提供的指令，用于在多线程编程和高性能计算中优化自旋等待循环的性能
+
+std::condition_variable 核心原理是‌通过互斥锁保护条件、利用等待队列管理阻塞线程‌，结合操作系统原语实现高效休眠与唤醒。总是和std::unique_lock<std::mutex> lock一起使用
+
 
 ## 临界区保护的方法
 无锁并行
