@@ -467,4 +467,3 @@ XLA技术的总体流程是将Tensorflow的数据流图转换为XLA图，再由�
 * MKL - Intel出的数学计算库Math kernel library（MKL)
 * GEMM - 线性代数库。
 * sycl
-* rdma

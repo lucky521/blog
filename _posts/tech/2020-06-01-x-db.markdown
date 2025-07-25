@@ -81,8 +81,7 @@ http://ifeve.com/redis-multiget-hole/
 # X_DB 技术架构
 
 ## 存储引擎、存储结构
-* B+ Tree模型
-* LSM-Tree模型(log-structured merge-tree)
+* B+ Tree
 * LSM Tree + SSTable
 * hashmap
 * 布隆过滤器
@@ -93,7 +92,7 @@ http://ifeve.com/redis-multiget-hole/
 ## 分布式哈希寻址
 https://www.jianshu.com/p/fe7b7800473e
 
-## 读写分离
+## 读写分离 和 主从同步
 
 ## 数据一致性
 Paxos

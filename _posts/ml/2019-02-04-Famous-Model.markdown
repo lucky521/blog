@@ -300,6 +300,8 @@ attention结构变种
   * 将输入序列分割为多个子空间（头），每个头独立学习不同的注意力模式
 * Grouped-Query Attention（GQA）
   * 将查询头（Query Heads）分组，每组共享同一组键/值头（Key/Value Heads），减少KV Cache规模
+* Multi-Query Attention (MQA)
+  * 每个注意力头共享相同的key和value矩阵，但有不同的query矩阵
 
 attention计算优化
 * flash attention

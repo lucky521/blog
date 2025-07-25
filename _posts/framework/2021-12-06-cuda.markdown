@@ -89,10 +89,10 @@ GPU原先作为显卡的芯片处理器，随着并行计算的发展，发展�
 
 
 Nvida GPU
-* Tesla产品: 应用于深度学习、高性能计算
-* Quadro、RTX产品: 应用于专业可视化设计
-* NVS产品: 应用于商业级图像显卡
-* GeForce、TITAN 产品： 应用于消费级娱乐显卡 
+* 消费级 GeForce系列， 面向普通用户
+* 专业级显卡系列（Quadro/RTX PRO系列）， 面向工作站
+* 数据中心级显卡系列, 面向企业AI
+
 
 AMD GPU
 * AMD Instinct: 应用于计算卡
@@ -624,9 +624,21 @@ AMD
 * Kepler
 * Maxwell
 * Pascal： 简称P系列
+  * sm_60, sm_61, sm_62
+  * cuda 8
 * Volta：  简称V系列
+  * sm_70, sm_72
+  * cuda 9
 * Turing： 简称T系列
+  * sm_75
+  * cuda 10
 * Ampere： 简称A系列
+  * sm_80, sm_86
+  * cuda 11
+* Hopper: 简称H系列
+  * sm_90
+  * cuda 12
+
 
 
 ## GPU 算力演进

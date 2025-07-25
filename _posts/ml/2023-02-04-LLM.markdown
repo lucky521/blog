@@ -255,7 +255,6 @@ PD分离遇到的最大挑战是如何在不同GPU设备之间传输KVCache
 
 https://zhuanlan.zhihu.com/p/1894492016718639469
 
-vllm，Mooncake，TensorRT-LLM, InfiniStore
 
 
 
@@ -268,6 +267,12 @@ LLM在decoding阶段的每次推理只会用到当前的Q，这次用的Q下次�
 kv cache容量需求： batch_size * seq_length * attention_head_num * attention_head_dim * layer_num * key_bits * 2
 
 单个 Token 的 KVCache 由四大因素决定：Layers、NumHead、HeadDim、以及 KVCache 数据类型决定的。
+
+[入门科普](https://mingchao.wang/Ao5PjBRP/#4)
+[综述 Keep the Cost Down: A Review on Methods to Optimize LLM’s KV-Cache Consumption](https://simg.baai.ac.cn/paperfile/2202b942-0466-47b6-922f-66b0bb1d641a.pdf)
+[综述 A Survey on Large Language Model Acceleration based on KV Cache Management](https://arxiv.org/pdf/2412.19442)
+[很好的总结 - 罗西的思考](https://www.cnblogs.com/rossiXYZ/p/18785601)
+
 
 
 
@@ -344,6 +349,8 @@ https://github.com/sgl-project/sglang
 
 ## OmniServe
 https://github.com/mit-han-lab/omniserve
+
+## ollama
 
 
 
@@ -426,6 +433,10 @@ curl https://api.openai.com/v1/fine_tuning/jobs \
 ## 智能控制
 GPT强大的理解能力，能够帮人类完成一些事情的感知->理解->决策->响应。 
 让GPT读、写任何具备API接口能力的服务、设备。
+
+
+## 基于基于ID（sid）的物料表示
+在搜推广领域，希望模型具有召回、排序某种物料的能力，这意味着LLM模型参数内部要记住这些物料id。怎么做到呢？
 
 
 
