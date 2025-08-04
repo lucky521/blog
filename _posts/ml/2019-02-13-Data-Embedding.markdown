@@ -178,6 +178,9 @@ train_op = tf.train.AdamOptimizer(1e-1).minimize(loss)
 使用BERT得到Query和Doc的表示向量
 
 
+### VQ-VAE
+
+
 
 
 ## 语料中数据量较少的word，能否学到合适的Embedding值？

@@ -353,6 +353,19 @@ attention计算优化
 3.  最后的线性层和softmax层输出预测结果。
 
 
+
+Cross Attention与Self Attention的区别：
+输入来源：
+
+Cross Attention：来自两个不同的序列，一个来自编码器，一个来自解码器
+
+Self Attention：来自编码器的同一序列
+
+实现目标：
+Cross Attention：解码器序列用作查询（Q），编码器序列提供键（K）和值（V），用于在编码器-解码器两个不同序列之间进行注意力转移。
+Self Attention：查询（Q）、键（K）和值（V）均来自编码器同一序列，实现编码器序列内部的注意力计算。
+
+
 ## Transformer门派
 * 编码预训练语言模型(Encoder-only Pre-trained Models) 
 * 解码预训练语言模型(Decoder-only Pre-trained Models)

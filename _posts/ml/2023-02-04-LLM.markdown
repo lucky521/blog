@@ -58,6 +58,17 @@ Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM �
 * 因果解码器架构
 * 前缀解码器架构
 
+* Embedding
+* Transformer
+  * LayerNorm
+  * Attention
+  * LayerNorm
+  * FFN
+* output
+  * LayerNorm
+  * linear
+  * softmax
+
 Layer Norm
 位置编码
 SoftMax
@@ -214,10 +225,10 @@ https://github.com/karpathy/llama2.c
 # 大模型工程优化 (accelerate LLM inference)
 综述：
 * [大语言模型推理性能优化综述](https://zhuanlan.zhihu.com/p/656485997)
+* [综述 A Survey on Efficient Inference for Large Language Models](https://arxiv.org/pdf/2404.14294)
+* [大模型推理加速技术的学习路线是什么?](https://www.zhihu.com/question/591646269)
 * https://zhuanlan.zhihu.com/p/642412124
 * https://github.com/horseee/Awesome-Efficient-LLM 
-* [A Survey on Efficient Inference for Large Language Models](https://arxiv.org/pdf/2404.14294)
-* [大模型推理加速技术的学习路线是什么?](https://www.zhihu.com/question/591646269)
 
 优化方向:
 * kvcache
@@ -231,15 +242,8 @@ https://github.com/karpathy/llama2.c
 * time to first token (TTFT)
 * the time between tokens (TBT)
 
-## In-flight Batching / continuous batching / iteration-level batching
-在处理实时数据流（如聊天消息）时，连续批处理会不断地将即时到达的消息聚合成批次，并将每个批次作为一个单元送入模型进行处理。也就是说在每次 decode 的迭代过程中，做 batch 的调度调整。这种方式可以减少模型推理的延迟并提高吞吐量。
-https://www.anyscale.com/blog/continuous-batching-llm-inference
 
 
-## stream_chat 流式输出
-在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入openai接口，发现接口是http协议，才了解到SSE技术。
-
-Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，它允许服务器向客户端发送数据和信息。与 WebSocket 不同，SSE 是一种单向通信方式，只有服务器可以向客户端推送消息。SSE 是 HTML5 规范的一部分，使用非常简单，主要由服务端与浏览器端的通讯协议（HTTP协议）和 EventSource 接口来处理 Server-sent events 组成，服务器端的响应的内容类型是“text/event-stream”.
 
 ## 专家并行
 
@@ -268,16 +272,44 @@ kv cache容量需求： batch_size * seq_length * attention_head_num * attention
 
 单个 Token 的 KVCache 由四大因素决定：Layers、NumHead、HeadDim、以及 KVCache 数据类型决定的。
 
-[入门科普](https://mingchao.wang/Ao5PjBRP/#4)
-[综述 Keep the Cost Down: A Review on Methods to Optimize LLM’s KV-Cache Consumption](https://simg.baai.ac.cn/paperfile/2202b942-0466-47b6-922f-66b0bb1d641a.pdf)
-[综述 A Survey on Large Language Model Acceleration based on KV Cache Management](https://arxiv.org/pdf/2412.19442)
-[很好的总结 - 罗西的思考](https://www.cnblogs.com/rossiXYZ/p/18785601)
+* [入门科普](https://mingchao.wang/Ao5PjBRP/#4)
+* [综述 Keep the Cost Down: A Review on Methods to Optimize LLM’s KV-Cache Consumption](https://simg.baai.ac.cn/paperfile/2202b942-0466-47b6-922f-66b0bb1d641a.pdf)
+* [综述 A Survey on Large Language Model Acceleration based on KV Cache Management](https://arxiv.org/pdf/2412.19442)
+* [很好的总结 - 罗西的思考](https://www.cnblogs.com/rossiXYZ/p/18785601)
 
 
 
 
 ## Chunked Prefills 
+让处于 Prefill 阶段的请求与 Decode 阶段的请求组成一个批次（batch）进行计算
 
+
+## In-flight Batching / continuous batching / iteration-level batching
+
+与之相对应的处理方式叫做静态批处理 static batching
+
+在处理实时数据流（如聊天消息）时，连续批处理会不断地将即时到达的消息聚合成批次，并将每个批次作为一个单元送入模型进行处理。也就是说在每次 decode 的迭代过程中，做 batch 的调度调整。这种方式可以减少模型推理的延迟并提高吞吐量。
+https://www.anyscale.com/blog/continuous-batching-llm-inference
+
+
+
+
+
+## Speculative decoding
+
+
+
+## StreamingLLM
+
+Attention Sink
+https://www.high-flyer.cn/blog/streamingllm/
+
+
+## Flash Attention
+通过重新组织注意力计算来减少内存IO，从而发现显著的性能提升。
+优化访问HBM次数过多的性能问题
+https://github.com/Dao-AILab/flash-attention
+https://www.high-flyer.cn/blog/flash_attn/
 
 
 
@@ -314,9 +346,6 @@ gptq
 https://github.com/ztxz16/fastllm
 https://zhuanlan.zhihu.com/p/646193833
 
-## FlashAttention
-优化访问HBM次数过多的性能问题
-https://github.com/Dao-AILab/flash-attention
 
 ## vllm(PagedAttention)
 vLLM 主要用于快速 LLM 推理和服务，其核心是 PagedAttention，这是一种新颖的注意力算法
@@ -356,11 +385,15 @@ https://github.com/mit-han-lab/omniserve
 
 
 
+# LLM 服务接口
 
+## stream_chat 流式输出
+在使用ChatGPT时，模型的回复内容是一个字一个字蹦出来的，而不是整段话直接出现，因为模型需要不断预测接下来要回复什么内容，如果等整段回复生成之后再输出到网页，用户体验就会很差，一直以为这种流式输出效果是用WebSocket实现的，后来接入openai接口，发现接口是http协议，才了解到SSE技术。
 
+Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，它允许服务器向客户端发送数据和信息。与 WebSocket 不同，SSE 是一种单向通信方式，只有服务器可以向客户端推送消息。SSE 是 HTML5 规范的一部分，使用非常简单，主要由服务端与浏览器端的通讯协议（HTTP协议）和 EventSource 接口来处理 Server-sent events 组成，服务器端的响应的内容类型是“text/event-stream”.
 
+## openAI 服务接口
 
-# openAI 服务接口
 你可参考openai官网或者https://openai.apifox.cn/
 
 普通问答接口
