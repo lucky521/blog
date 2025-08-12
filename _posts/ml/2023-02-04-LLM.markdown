@@ -58,8 +58,9 @@ Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM �
 * 因果解码器架构
 * 前缀解码器架构
 
+
 * Embedding
-* Transformer
+* Transformer Block
   * LayerNorm
   * Attention
   * LayerNorm
@@ -68,6 +69,7 @@ Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM �
   * LayerNorm
   * linear
   * softmax
+
 
 Layer Norm
 位置编码
@@ -233,6 +235,7 @@ https://github.com/karpathy/llama2.c
 优化方向:
 * kvcache
 * transformer/attention变种
+  * 这是奔着模型结构变种的方向探索 the efficient structure design for Large Language Models.
 * batch批处理化
 * 低比特量化
 * 分布式化
@@ -286,6 +289,8 @@ kv cache容量需求： batch_size * seq_length * attention_head_num * attention
 
 ## In-flight Batching / continuous batching / iteration-level batching
 
+单处理也就是不组成Batch或者说一个Batch中数据始终为1，也就是单个提示（Prompt）传过来直接送入到LLM进行推理。单条数据虽然简单而且灵活，不过因为每次只能处理一条数据，对GPU资源的利用率较低。因此，我们通常会将多条数据放入一个批次进行处理，从而提升GPU的利用率。
+
 与之相对应的处理方式叫做静态批处理 static batching
 
 在处理实时数据流（如聊天消息）时，连续批处理会不断地将即时到达的消息聚合成批次，并将每个批次作为一个单元送入模型进行处理。也就是说在每次 decode 的迭代过程中，做 batch 的调度调整。这种方式可以减少模型推理的延迟并提高吞吐量。
@@ -306,16 +311,16 @@ https://www.high-flyer.cn/blog/streamingllm/
 
 
 ## Flash Attention
-通过重新组织注意力计算来减少内存IO，从而发现显著的性能提升。
-优化访问HBM次数过多的性能问题
+通过重新组织注意力计算来减少内存IO，从而发现显著的性能提升。优化访问HBM次数过多的性能问题
 https://github.com/Dao-AILab/flash-attention
 https://www.high-flyer.cn/blog/flash_attn/
 
 
 
 # 大模型量化技术
-综述： https://www.zhihu.com/question/10439431486
-综述： https://arxiv.org/pdf/2308.07633
+性能优化的大方向之 model compression methods for Large Language Models.
+* 综述： https://www.zhihu.com/question/10439431486
+* 综述： https://arxiv.org/pdf/2308.07633
 
 * llm.int8 
   * 按列分组，把取值特别大的组特别处理，把矩阵乘法拆成两波
@@ -467,7 +472,6 @@ curl https://api.openai.com/v1/fine_tuning/jobs \
 GPT强大的理解能力，能够帮人类完成一些事情的感知->理解->决策->响应。 
 让GPT读、写任何具备API接口能力的服务、设备。
 
-
 ## 基于基于ID（sid）的物料表示
 在搜推广领域，希望模型具有召回、排序某种物料的能力，这意味着LLM模型参数内部要记住这些物料id。怎么做到呢？
 
@@ -488,6 +492,9 @@ Agent = LLM+Planning+Feedback+Tool use
 LLM 擅长于一般的语言理解与推理，而不是某个具体的知识点。如何为ChatGPT/LLM大语言模型添加额外知识？
 
 当用户提出问题时，系统会根据用户输入来搜索数据存储。 然后将用户问题与匹配结果结合起来，并使用提示（对 AI 或机器学习模型的明确指令）将其发送到 LLM，以生成所需的答案。
+
+文档切块算法
+向量数据库
 
 
 ## LangChain

@@ -40,9 +40,14 @@ gcc
 gcc (GCC) 4.4.7 20120313 (Red Hat 4.4.7-4)
 
 
+glibc
+ $ ldd --version
+ $ strings /lib64/libc.so.6 | grep GLIBC_
+
 libstdc++
 libstdc++.so.6.0.13
  $ strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
+ $ strings /usr/lib64/libstdc++.so.6 | grep GLIBCXX
 
 
 make

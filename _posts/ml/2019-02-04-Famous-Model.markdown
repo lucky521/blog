@@ -305,9 +305,13 @@ attention结构变种
 
 attention计算优化
 * flash attention
-  * 利用 GPU 高速 SRAM 分块计算，避免 HBM（高带宽内存）频繁读写‌;将 softmax、掩码等操作合并到单次内核计算中‌
+  * 利用 GPU 高速 SRAM 分块计算，避免 HBM（高带宽内存）频繁读写‌; 将 softmax、掩码等操作合并到单次内核计算中‌。
 * paged attention
   * 将注意力矩阵拆分为"页"，仅加载当前计算所需分块（类似操作系统虚拟内存）‌
+* Radix Attention
+  * 优先处理与缓存前缀匹配的请求（缓存感知调度）
+* Decoding Attention
+
 
 ## transformer layer的样子
 通过这种自注意力机制层和普通非线性层来实现对输入信号的编码，得到信号的表示。

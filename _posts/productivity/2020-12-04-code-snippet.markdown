@@ -5,18 +5,34 @@ categories: [productivity]
 layout: post
 ---
 
-
+# 代码片段
 ## linux命令
 
+
+### kill
+```shell
+使用 kill -l 命令列出所有可用信号。
+
+最常用的信号是：
+
+SIGKILL（信号9）：立即结束进程，不能被捕获或忽略。
+SIGTERM（信号15）：正常结束进程，可以被捕获或忽略。
+SIGSTOP（信号19）：暂停进程，不能被捕获、忽略或结束。
+SIGCONT（信号18）：继续执行被暂停的进程。
+SIGINT（信号2）：通常是Ctrl+C产生的信号，可以被进程捕获或忽略。
+```
+
+### curl
 ```shell
  curl -d 'username=lu.dev' -d 'tableName=db.tablename' -X POST  http://xxx.com/api/v1/table/detail
 ```
 
+### ps 
 ```shell
 ps -eo pid,lstart,etime,cmd | grep bash | grep 2019 | awk '{print $1}' | xargs kill -9
 ```
 
-
+### cpu/memory/disk/tcp
 ```shell
 #!/bin/bash
 function cpu(){
