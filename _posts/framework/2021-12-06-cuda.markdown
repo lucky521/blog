@@ -401,7 +401,12 @@ dim3 threadsPerBlock(256, 1, 1); // 线程块维度：每个块256个线程
 kernelFunction<<<blocksPerGrid, threadsPerBlock>>>(data); // <<<blocksPerGrid, threadsPerBlock>>>语法是用于在CUDA中启动核函数的特殊语法。这里，blocksPerGrid和threadsPerBlock分别指定了网格和线程块的大小。核函数内部，每个线程会使用它的全局索引来决定操作数组的哪个部分。这样可以确保所有的数组元素都被并行处理，而且每个元素只被处理一次。
 ```
 
-#pragma unroll
+
+### 关键字、特殊指令、修饰符
+
+* #pragma unroll 将代码中的循环展开
+* __launch_bounds__  CUDA 中用于优化内核执行的重要修饰符。
+* 使用 __global__ 关键字定义CUDA内核
 
 
 
@@ -413,15 +418,12 @@ kernelFunction<<<blocksPerGrid, threadsPerBlock>>>(data); // <<<blocksPerGrid, t
 另一套api - driver api:
 [CUDA Driver  API官方文档](https://docs.nvidia.com/cuda/pdf/CUDA_Driver_API.pdf)
 
-cudaSetDevice
-
-cudaMalloc/cudaFree
-
-cudaMemcpy
-
-使用__global__关键字定义CUDA内核
-
-cudaDeviceSynchronize
+* cudaSetDevice
+* cudaMalloc/cudaFree
+* cudaMemcpy
+* cudaDeviceSynchronize
+* cudaFuncSetAttribute
+* cudaGetLastError() 用来检测核函数的执行是否出错
 
 
 
@@ -558,6 +560,12 @@ int main() {
 
 
 ```
+
+## cutlass
+
+cutlass::arch::global_load
+cutlass::arch::global_store
+
 
 ## CUTA PTX 指令集
 https://docs.nvidia.com/cuda/pdf/ptx_isa_8.5.pdf

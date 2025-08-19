@@ -295,7 +295,7 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
 具体计算c_i的方法有很多，比如：我们用 a_{ij} 衡量Encoder中第j阶段的h_j和解码时第i阶段的相关性，最终Decoder中第i阶段的输入的上下文信息 c_i 就来自于所有 h_j 对 a_{ij} 的加权和。
 
 
-attention结构变种
+### attention结构变种
 * Multi-Head Attention（MHA）
   * 将输入序列分割为多个子空间（头），每个头独立学习不同的注意力模式
 * Grouped-Query Attention（GQA）
@@ -303,7 +303,7 @@ attention结构变种
 * Multi-Query Attention (MQA)
   * 每个注意力头共享相同的key和value矩阵，但有不同的query矩阵
 
-attention计算优化
+### attention计算优化
 * flash attention
   * 利用 GPU 高速 SRAM 分块计算，避免 HBM（高带宽内存）频繁读写‌; 将 softmax、掩码等操作合并到单次内核计算中‌。
 * paged attention
@@ -311,7 +311,7 @@ attention计算优化
 * Radix Attention
   * 优先处理与缓存前缀匹配的请求（缓存感知调度）
 * Decoding Attention
-
+* CachedAttention (原AttentionStore)
 
 ## transformer layer的样子
 通过这种自注意力机制层和普通非线性层来实现对输入信号的编码，得到信号的表示。
@@ -358,7 +358,7 @@ attention计算优化
 
 
 
-Cross Attention与Self Attention的区别：
+### Cross Attention与Self Attention的区别：
 输入来源：
 
 Cross Attention：来自两个不同的序列，一个来自编码器，一个来自解码器
@@ -368,6 +368,12 @@ Self Attention：来自编码器的同一序列
 实现目标：
 Cross Attention：解码器序列用作查询（Q），编码器序列提供键（K）和值（V），用于在编码器-解码器两个不同序列之间进行注意力转移。
 Self Attention：查询（Q）、键（K）和值（V）均来自编码器同一序列，实现编码器序列内部的注意力计算。
+
+
+
+### Causal mask
+通常情况下，causal mask 是一个二维矩阵，其中对角线以下的元素都为1，表示允许当前位置之前的信息流动，而对角线及以上的元素都为0，表示屏蔽了当前位置之后的信息。在序列生成任务中，这种掩码非常重要，因为它确保了模型按照序列的顺序逐步生成输出，而不会提前使用未来的信息。
+
 
 
 ## Transformer门派
