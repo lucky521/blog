@@ -284,7 +284,8 @@ kv cache容量需求： batch_size * seq_length * attention_head_num * attention
 
 
 ## Chunked Prefills 
-让处于 Prefill 阶段的请求与 Decode 阶段的请求组成一个批次（batch）进行计算
+让处于 Prefill 阶段的请求与 Decode 阶段的请求组成一个批次（batch）进行计算。
+对于过长的token请求, 如果在一个batch内处理除了会及其占用显存资源导致显存超限外, 还有可能因为单请求无法并行处理严重影响其他请求的TTFT, 所以有了chunked_prefill这个功能, 主要作用就是将过长请求切分成多个chunk分别进行处理。
 
 
 ## In-flight Batching / continuous batching / iteration-level batching
@@ -380,6 +381,16 @@ https://github.com/flashinfer-ai/flashinfer
 
 ## sglang
 https://github.com/sgl-project/sglang
+
+
+BasePrefixCache
+* match_prefix：匹配命中了哪些cache。
+* cache_finished_req：req执行完了，把引用-1。告诉大家，这个前缀我不用了。
+* cache_unfinished_req：req没执行完，这个前缀我要用，引用+1。同时自己的kv cache也更新到radix tree（以及一些特殊逻辑的处理
+  SWARadixCache
+  RadixCache -> HiRadixCache
+  ChunkCache
+
 
 ## OmniServe
 https://github.com/mit-han-lab/omniserve

@@ -21,7 +21,7 @@ categories: [MachineLearning]
 Moving models from training to serving in production at scale.
 一些常见的部署框架和工具包括
 * TensorFlow Serving
-* ONNX Runtime
+* ONNXRuntime
 * OpenVINO
 * TensorRT
 * TorchScript
@@ -326,6 +326,7 @@ https://github.com/microsoft/onnxruntime
 
 ## openvino
 * https://github.com/openvinotoolkit/openvino
+不足之处可能是只支持 Intel 家的硬件产品。
 
 
 ## TensorFlow Serving
