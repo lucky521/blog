@@ -90,6 +90,20 @@ socket系统调用，是进行TCP/IP通信的接口。
 
 
 
+
+## daemon 前台 后台
+
+Supervisord
+* Supervisord 是用 Python 实现的一款的进程管理工具，supervisord 要求管理的程序是非 daemon 程序，supervisord 会帮你把它转成 daemon 程序
+
+crond
+* crond是用来周期性的执行某种任务或等待处理某些事件的一个守护进程
+
+systemd
+* systemd是一个控制系统和服务的工具，d的意思是demon，守护进程。systemctl是systemd的一个命令，systemctl主要管理的是unit（单元）。systemctl接受以.service（服务）、.mount（挂载点）、.socket（套接口）、.target、.device（设备）等作为管理的unit。
+* systemctl
+
+
 # Linux
 
 ## Page Cache 和 Buffer Cache 
@@ -185,3 +199,13 @@ Magenta 是基于对象的内核。用户空间的程序通过内核对象句柄
 
 
 # HarmonyOS
+
+
+
+
+# CPU架构
+uname -m
+输出结果可能是：
+x86_64：表示是 64 位 x86 架构（Intel/AMD）
+aarch64 或 arm64：表示是 64 位 ARM 架构
+ppc64le：表示是 64 位 PowerPC 小端架构

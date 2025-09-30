@@ -1,0 +1,80 @@
+---
+title: "高性能网络"
+subtitle: "High Performance Network"
+categories: [Tech]
+layout: post
+---
+
+# 网络基础
+
+ifconfig
+
+ethtool
+
+hostname -f
+
+# 容器网络 CNI
+
+
+
+# RDMA
+快手DHPS：国内首个实现基于RDMA 通信的可负载均衡高性能服务架构
+Kimi：mooncake rdma transport engine
+https://libfeng.com/posts/rapid-transfer/
+
+三种网络协议
+* IB (InfiniBand)：     
+    * 原生RDMA协议，从链路层就开始不一样 ， 性能最好。需要支持该技术的网卡和交换机。 
+* RoCE(RDMA over Converged Ethernet） ：  
+    * 基于以太网链路层，性能介于IB和iwarp之间。这允许在标准以太网基础架构（交换机）上使用 RDMA，网卡必须是支持 RoCE 。
+* iWARP(基于TCP/IP实现)：  
+    * 基于tcp传输层，需要部分CPU的参与， 性能最差。
+
+
+## RDMA概念
+
+Memory Region
+Protection Domain  将QP和MR做绑定
+gid 
+qpn  QP number
+RDMA 通信基于三条队列 SQ（Send Queue），RQ（Receive Queue）和 CQ（Completion Queue）组成的集合。
+每一个应用程序可以有很多QP和CQ
+每一个QP包括一个SQ和RQ
+每一个CQ可以跟多个SQ或者RQ相关联
+发送队列（SQ）和接收队列（RQ）负责调度工作，他们总是成对被创建，称之为队列对 QP（Queue Pair）
+QP状态： INIT, RTR, RTS
+当放置在工作队列上的指令被完成的时候，完成队列（CQ）用来发送通知。
+工作队列元素 WQE（Work Queue Element）
+完成队列元素 CQE（Completion Queue Element）
+
+
+# verbs api
+RDMA有三种协议IB/iWARP/RoCE，设计Verbs API通过统一接口，让同一份RDMA程序程序可以无视底层的硬件和链路差异运行在不同的环境中。
+
+# rdma 相关命令
+
+ibv_devinfo 命令 
+query RDMA devices
+Failed to get IB devices list: Unknown error -38
+ibstat 命令
+
+ofed_info 命令
+
+show_gids 命令
+
+ibdev2netdev 命令
+ls: cannot access /sys/class/infiniband/: No such file or directory
+mst命令
+
+mlxlink 命令
+
+mstconfig 命令
+set or query non-volatile configurable options for Mellanox HCAs
+
+systemctl start rdma 命令
+需要吗？？
+
+ethtool命令
+ethtool -i eth0 
+
+

@@ -250,6 +250,7 @@ Nvlink
 通过 Infinteband 连接方案和 Nvidia 的 GPUDirect RDMA 技术，可以实现不同 host 上的卡间直连
 
 ## NUMA
+https://www.cnblogs.com/sysk/p/4886209.html
 
 ## RDMA技术
 RDMA是一种概念，在两个或者多个计算机进行通讯的时候使用DMA， 从一个主机的内存直接访问另一个主机的内存。
