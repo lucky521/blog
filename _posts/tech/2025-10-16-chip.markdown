@@ -1,0 +1,17 @@
+---
+title: "了解芯片"
+subtitle: "半导体"
+categories: [Tech]
+layout: post
+---
+
+CPU、GPU、主板、网卡、声卡、SSD、NFC卡...
+
+# 芯片分类
+
+
+是否主动带电
+
+
+
+# 芯片厂商

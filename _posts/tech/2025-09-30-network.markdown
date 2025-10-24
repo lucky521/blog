@@ -56,6 +56,7 @@ RDMA有三种协议IB/iWARP/RoCE，设计Verbs API通过统一接口，让同一
 ibv_devinfo 命令 
 query RDMA devices
 Failed to get IB devices list: Unknown error -38
+
 ibstat 命令
 
 ofed_info 命令
@@ -64,6 +65,7 @@ show_gids 命令
 
 ibdev2netdev 命令
 ls: cannot access /sys/class/infiniband/: No such file or directory
+
 mst命令
 
 mlxlink 命令

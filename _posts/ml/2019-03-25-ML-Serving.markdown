@@ -82,6 +82,8 @@ GGUF文件全称是GPT-Generated Unified Format，是由Georgi Gerganov定义发
 
 * 32位标准浮点数 FP32
   * 标准的 IEEE 32 位浮点表示, 为“指数”保留了 8 位，为“尾数”保留了 23 位，为符号保留了 1 位。
+* TensorFloat TF32
+  * Nvidia A系列开始支持的跟fp32相同范围的TensorCore数据格式，性能比fp32 cuda core快8倍；
 * 16位浮点数 (FP16)
   * FP16 半精度浮点数，用5bit 表示指数，10bit 表示小数
 * Brain Floating Point (BF16) 
@@ -283,7 +285,7 @@ Optimal Brain Surgeon
 * AI编译器前端
   * 把源程序解析成IR，做各种和硬件无关的优化
 
-## 重点项目
+## AI编译器重点项目
 
 * tvm
   * https://github.com/apache/tvm
@@ -304,8 +306,8 @@ Optimal Brain Surgeon
 * BladeDISC
   * https://github.com/alibaba/BladeDISC
   * [BladeDISC++：Dynamic Shape AI 编译器下的显存优化技术](https://zhuanlan.zhihu.com/p/18880631601)
-
-
+* byteIR
+  * https://github.com/bytedance/byteir
 
 
 * https://github.com/openppl-public/ppl.nn

@@ -28,7 +28,7 @@ OpenAI的GPT系列将大模型推向了大风口。
 ## 预训练架构的几大门派
 NLP各种任务其实收敛到了两个不同的预训练模型框架里：
 * 对于自然语言理解类任务，其技术体系统一到了以Bert为代表的“双向语言模型预训练+应用Fine-tuning”模式(非自回归)；
-* 对于自然语言生成类任务，其技术体系统一到了以GPT为代表的“自回归语言模型（即从左到右单向语言模型）+Zero/Few Shot Prompt”模式
+* 对于自然语言生成类任务，其技术体系统一到了以GPT为代表的“自回归语言模型（即从左到右单向语言模型）+Zero/Few Shot Prompt”模式;
 
 
 * 自编码（autoencoding，AE）：在输入文本中，随机删除连续的一个或者多个token，然后通过上下文来预测该token。这类模型主要以Bert为代表（Mask Language Model）。
@@ -55,14 +55,15 @@ LLM相比它的前身比如Bert，最大的区别不是模型结构而是参数�
 
 Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM 的主流架构可以大致分为三种类型:
 * 编码器-解码器架构
-* 因果解码器架构
+* 因果解码器架构: Causal Mask 是 Transformer Decoder 架构实现“自回归生成”的基石
 * 前缀解码器架构
 
 
+### 结构解析
 * Embedding
 * Transformer Block
   * LayerNorm
-  * Attention
+  * Attention with 位置编码 RoPE ALiBi
   * LayerNorm
   * FFN
 * output
@@ -71,36 +72,7 @@ Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM �
   * softmax
 
 
-Layer Norm
-位置编码
-SoftMax
-
-
 GPT模型输出的logits， key_states， value_states，key_states.3，value_states.3 分别是什么意思？
-
-
-## 模型规模
-* n_layers	32
-* n_heads	32
-* d_model	4096
- * ‌hidden_size‌：表示模型隐藏层的维度大小，在 Transformer 块中对应输入和输出的维度，通常记为 d_model。它定义了模型主体隐藏状态的尺寸
-* vocab size	151851
-* sequence length	8192
-* intermediate_size‌：表示前馈网络（FFN）中隐藏层的维度大小，通常记为 p 或类似符号。它专门用于 FFN 层的中间扩展。
-
-## sequence length 和 context length
-* 一次前向传播过程中能够处理的最大输入或输出序列的长度
-* 一段对话的总文本长度
-
-
-## 外置超参数
-* 温度（Temperature） Temperature参数用于调整语言模型生成文本的随机性，在抽样策略阶段，对这些概率进行调整，以控制生成文本的多样性和可预测性。
-* 顶部概率（Top P）代表了一种概率分布截断技术，它允许模型在生成每个词时只考虑概率最高的一定比例的词汇。
-* 最大长度（Max Length） 用于控制模型生成的词的最大数量。指定最大长度有助于防止过长或不相关的响应，并控制模型的生成成本。
-* 停止序列（Stop Sequences）
-* 频率惩罚（Frequency Penalty）频率惩罚对模型输出的下一个词应用惩罚，频率惩罚的值与该词在响应和提示中出现的频率成正比。频率惩罚越高，一个词再次出现的可能性就越小。这个设置通过给出现次数更多的词更高的惩罚来减少模型响应中词的重复。
-* 存在惩罚（Presence Penalty）
-
 
 
 ## 推理步骤
@@ -125,11 +97,58 @@ GPT模型输出的logits， key_states， value_states，key_states.3，value_st
 Beam search
 Top-k sampling
 
+## 模型规模
+* n_layers	32
+* n_heads	32
+* d_model	4096
+ * ‌hidden_size‌：表示模型隐藏层的维度大小，在 Transformer 块中对应输入和输出的维度，通常记为 d_model。它定义了模型主体隐藏状态的尺寸
+* vocab size	151851
+* sequence length	8192
+* intermediate_size‌：表示前馈网络（FFN）中隐藏层的维度大小，通常记为 p 或类似符号。它专门用于 FFN 层的中间扩展。
+
+## sequence length 和 context length
+* 一次前向传播过程中能够处理的最大输入或输出序列的长度
+* 一段对话的总文本长度
+
+
+## 外置超参数
+* 温度（Temperature）用于调整语言模型生成文本的随机性，在抽样策略阶段，对这些概率进行调整，以控制生成文本的多样性和可预测性。
+* 顶部概率（Top P）代表了一种概率分布截断技术，它允许模型在生成每个词时只考虑概率最高的一定比例的词汇。
+* Top-k限制每步生成仅从概率最高的k个词中采样，避免选择极低概率的无关词汇
+* MinP 过滤掉概率低于0的词汇（实际应用中通常设为极小正值如0.01）
+* 最大长度（Max Length） 用于控制模型生成的词的最大数量。指定最大长度有助于防止过长或不相关的响应，并控制模型的生成成本。
+* 停止序列（Stop Sequences）
+* 频率惩罚（Frequency Penalty）频率惩罚对模型输出的下一个词应用惩罚，频率惩罚的值与该词在响应和提示中出现的频率成正比。频率惩罚越高，一个词再次出现的可能性就越小。这个设置通过给出现次数更多的词更高的惩罚来减少模型响应中词的重复。
+* 存在惩罚（Presence Penalty）
+
+
+## 关于token
+
+### config.json
+    "bos_token_id": 151643,    <|endoftext|>
+    "eos_token_id": [
+        151645,   <|im_end|>
+        151643
+    ],
+    "pad_token_id": 151643,
+
+
+### tokenizer.json
+
+### tokenizer_config.json 
+
+    "eos_token": "<|im_end|>",
+
+
+
+
 
 # 提示工程（Prompt Engineering）
 https://www.promptingguide.ai/zh
 
 Chain-of-Thought(CoT)是一种改进的Prompt技术，目的在于提升大模型LLMs在复杂推理任务上的表现，对于复杂问题尤其是复杂的数学题大模型很难直接给出正确答案
+
+LLM推理中的role是什么意思？system、user、assistant
 
 ## 提示学习 Prompt Learning
 比如做情感分类任务：
@@ -224,7 +243,7 @@ https://github.com/karpathy/llama2.c
 
 
 
-# 大模型工程优化 (accelerate LLM inference)
+# 大模型推理性能优化 (accelerate LLM inference)
 综述：
 * [大语言模型推理性能优化综述](https://zhuanlan.zhihu.com/p/656485997)
 * [综述 A Survey on Efficient Inference for Large Language Models](https://arxiv.org/pdf/2404.14294)
@@ -288,7 +307,8 @@ kv cache容量需求： batch_size * seq_length * attention_head_num * attention
 对于过长的token请求, 如果在一个batch内处理除了会及其占用显存资源导致显存超限外, 还有可能因为单请求无法并行处理严重影响其他请求的TTFT, 所以有了chunked_prefill这个功能, 主要作用就是将过长请求切分成多个chunk分别进行处理。
 
 
-## In-flight Batching / continuous batching / iteration-level batching
+## 连续批处理技术
+In-flight Batching / continuous batching / iteration-level batching
 
 单处理也就是不组成Batch或者说一个Batch中数据始终为1，也就是单个提示（Prompt）传过来直接送入到LLM进行推理。单条数据虽然简单而且灵活，不过因为每次只能处理一条数据，对GPU资源的利用率较低。因此，我们通常会将多条数据放入一个批次进行处理，从而提升GPU的利用率。
 
@@ -302,6 +322,11 @@ https://www.anyscale.com/blog/continuous-batching-llm-inference
 
 
 ## Speculative decoding
+
+
+## 长度外推技术
+https://www.cnblogs.com/rossiXYZ/p/18808744
+https://kexue.fm/archives/9948
 
 
 
@@ -318,7 +343,7 @@ https://www.high-flyer.cn/blog/flash_attn/
 
 
 
-# 大模型量化技术
+## 大模型量化技术
 性能优化的大方向之 model compression methods for Large Language Models.
 * 综述： https://www.zhihu.com/question/10439431486
 * 综述： https://arxiv.org/pdf/2308.07633
@@ -331,13 +356,13 @@ https://www.high-flyer.cn/blog/flash_attn/
 * autoAWQ 
 * QServe: W4A8KV4
 
-## gptq 
+### gptq 
 
 obq
 gptq
 
 
-## bitsandbytes 低比特体系
+### bitsandbytes 低比特体系
 
 
 
@@ -347,6 +372,7 @@ gptq
 
 # LLM大模型部署 inference/runtime
 推荐阅读[LLM 的推理优化技术纵览](https://zhuanlan.zhihu.com/p/642412124)
+
 
 ## fastllm
 https://github.com/ztxz16/fastllm
@@ -367,7 +393,7 @@ https://github.com/ggerganov/llama.cpp
 https://github.com/ggerganov/whisper.cpp
 https://github.com/openai/whisper
 
-## text-generation-inference tgi
+## huggingface/text-generation-inference tgi
 https://github.com/huggingface/text-generation-inference
 
 ## lmdeploy
@@ -516,7 +542,11 @@ LangChain 是一个框架，用于开发由 LLM 驱动的应用程序。
 * OutputParser 用于让 LLM 结构化输出并进行结果解析，方便后续的调用
 
 
-## 模型上下文协议（Model Context Protocol）
+## MCP 协议
+模型上下文协议（Model Context Protocol）
+
+
+## A2A 协议
 
 
 

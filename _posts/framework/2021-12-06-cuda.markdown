@@ -265,6 +265,8 @@ intptr_t(C) % 16 == 0
 
 
 
+
+
 ## CUDA 线程层次
 
 一个CUDA Kernel大概可以分为这么几层（从底层到顶层）：thread < warp < block < grid 
