@@ -97,6 +97,9 @@ sudo yum install perf
 perf record -F 99 -p 进程号 -g -- sleep 秒数
 perf script > out.perf
 
+perf report -i perf.data
+perf top -e cpu-clock -p 进程号
+
 git clone https://github.com/brendangregg/FlameGraph.git
 cd FlameGraph
 ./stackcollapse-perf.pl out.perf > out.folded

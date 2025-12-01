@@ -133,6 +133,9 @@ model = MoE(num_experts=2, input_shape=(28, 28, 1), output_dim=1)
 ```
 
 
+## HSTU
+Hierarchical Sequential Transduction Units 结构
+
 
 
 # Deep-learning based NLP models
@@ -304,7 +307,7 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
   * 每个注意力头共享相同的key和value矩阵，但有不同的query矩阵
 
 ### attention计算优化
-* flash attention
+* Flash Attention
   * 利用 GPU 高速 SRAM 分块计算，避免 HBM（高带宽内存）频繁读写‌; 将 softmax、掩码等操作合并到单次内核计算中‌。
 * paged attention
   * 将注意力矩阵拆分为"页"，仅加载当前计算所需分块（类似操作系统虚拟内存）‌

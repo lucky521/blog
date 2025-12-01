@@ -66,13 +66,17 @@ Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM �
   * Attention with 位置编码 RoPE ALiBi
   * LayerNorm
   * FFN
-* output
+* output (LM Head)
   * LayerNorm
   * linear
   * softmax
 
 
 GPT模型输出的logits， key_states， value_states，key_states.3，value_states.3 分别是什么意思？
+* ‌logits‌：模型输出层的未归一化分数，代表词汇表中每个token的原始得分，后续通过Softmax函数转换为概率分布以预测下一个token‌
+* key_states: 注意力机制中的键向量状态，存储输入序列的信息，用于计算与查询（Query）的相似度权重‌
+* ‌value_states‌：注意力机制中的值向量状态，包含实际的特征值，用于生成加权和输出表示‌
+
 
 
 ## 推理步骤
@@ -321,8 +325,9 @@ https://www.anyscale.com/blog/continuous-batching-llm-inference
 
 
 
-## Speculative decoding
+## Speculative decoding 投机解码
 
+EAGLE-3
 
 ## 长度外推技术
 https://www.cnblogs.com/rossiXYZ/p/18808744
@@ -422,6 +427,9 @@ BasePrefixCache
 https://github.com/mit-han-lab/omniserve
 
 ## ollama
+
+## Xorbits Inference
+https://github.com/xorbitsai/inference
 
 
 

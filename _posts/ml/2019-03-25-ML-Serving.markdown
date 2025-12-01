@@ -47,6 +47,10 @@ TF savedmodel。
 
 ## safetensors
 huggingface自研的模型文件格式，主打安全和无多余内存占用。
+* 前面的 8 bytes是一个无符号的整数，表示 header 占的字节数。
+* 中间的 N bytes是一个UTF-8编码JSON字符串，存储 header 的内容，里面为模型权重的元数据信息。
+* 文件的剩余部分存储模型权重 tensor 的值。
+
 
 ## gguf
 GGUF文件全称是GPT-Generated Unified Format，是由Georgi Gerganov定义发布的一种大模型文件格式。Georgi Gerganov是著名开源项目llama.cpp的创始人。
