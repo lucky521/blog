@@ -296,6 +296,15 @@ model = AutoModel.from_pretrained
 
 model.train()
 
+#### Customizing attention function
+attn_implementation
+https://huggingface.co/docs/transformers/en/attention_interface
+ sdpa
+ flash_attention_2 
+ flex_attention
+ eager
+
+
 
 
 model.eval

@@ -197,3 +197,22 @@ GIL可以翻译为`全局解释器锁`，用于python解释器对多线程的序
 gradio
 
 streamlit
+
+
+# pip
+
+# 安装python 3.10
+```sh
+wget https://www.python.org/ftp/python/3.10.2/Python-3.10.2.tgz
+tar -xzf Python-3.10.2.tgz
+cd Python-3.10.2
+./configure --enable-optimizations
+make altinstall
+python3.10 -V
+pip3.10 --version
+```
+
+如果安装时报"ERROR: Could not install packages due to an OSError: [Errno 28] No space left on device"
+TMPDIR=/xxx pip install torch --cache-dir=/xxx
+
+pip cache purge

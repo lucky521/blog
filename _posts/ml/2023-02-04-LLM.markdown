@@ -138,9 +138,10 @@ Top-k sampling
 
 
 ### tokenizer.json
+词汇表、分词算法细节、合并规则
 
 ### tokenizer_config.json 
-
+分词器类型、特殊标记、处理参数
     "eos_token": "<|im_end|>",
 
 

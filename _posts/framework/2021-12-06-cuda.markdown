@@ -664,6 +664,7 @@ Nvidia
 * Hopper: 简称H系列
   * sm_90
   * cuda 12
+* Blackwell: 简称B系列
 
 
 
