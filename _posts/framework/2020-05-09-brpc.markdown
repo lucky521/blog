@@ -38,6 +38,7 @@ baidu_std and hulu_pbrpc supports attachments which are sent along with messages
 
 
 
+
 # 使用说明
 
 https://github.com/apache/incubator-brpc/blob/master/docs/cn/server.md
@@ -45,26 +46,36 @@ https://github.com/apache/incubator-brpc/blob/master/docs/cn/server.md
 https://github.com/apache/incubator-brpc/blob/master/docs/cn/client.md
 
 
-超时配置
+## 超时配置
 set_timeout_ms
 connect_timeout_ms
 
 
-Backup request
+## Backup request
 先向其中一个server发送请求，如果在ChannelOptions.backup_request_ms 后还没回来，再向另一个server发送.之后哪个先回来就取哪个
 
 
-流式RPC
+## 流式RPC
 https://brpc.apache.org/zh/docs/client/streaming-rpc/
 
 
-熔断策略
+## 熔断策略
 https://github.com/apache/brpc/blob/master/docs/cn/circuit_breaker.md
 
 
 
-请求录制
+## 请求录制
 rpc_dump_dir， 默认放置在./rpc_data/rpc_dump/<app>
+
+
+## 负载均衡策略
+* rr
+* wrr
+* random
+* wr
+* la    locality-aware，优先选择延时低的下游
+    * 原理 https://brpc.apache.org/zh/docs/rpc-in-depth/locality-aware/
+* c_murmurhash
 
 
 # 源码学习

@@ -335,6 +335,8 @@ https://www.cnblogs.com/rossiXYZ/p/18808744
 https://kexue.fm/archives/9948
 
 
+## MTP 多词预测 Multi-token prediction
+
 
 ## StreamingLLM
 

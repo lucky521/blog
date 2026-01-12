@@ -88,23 +88,23 @@ GPU原先作为显卡的芯片处理器，随着并行计算的发展，发展�
 * 计算卡市场： 主要是云端AI芯片市场，GPU(50%)、FPGA(30%)、ASIC(20%)
 
 
-Nvida GPU
+## Nvida GPU
 * 消费级 GeForce系列， 面向普通用户
 * 专业级显卡系列（Quadro/RTX PRO系列）， 面向工作站
 * 数据中心级显卡系列, 面向企业AI
 
 
-AMD GPU
+## AMD GPU
 * AMD Instinct: 应用于计算卡
 * AMD Radeon: 应用于显示卡
 
-Intel GPU
+## Intel GPU
 * Xe架构
 
-ARM GPU
+## ARM GPU
 * Mali GPU: 基于tile-based的渲染原理，旨在通过最小化帧缓冲访问所需的外部DDR存储器带宽来提高系统范围的能效
 
-Apple GPU
+## Apple GPU
 * M1： 内置了8核GPU，深度学习引擎
 
 
@@ -210,9 +210,7 @@ SIMT多个线程各有各的处理单元，和SIMD公用一个ALU不同。因而
 
 # CUDA 
 2007年，nvidia发现了一个能使得GPU进入主流的契机，那就是为GPU制定一个标准的编程接口，这就是CUDA. 
-
 CUDA编译模型使用了和java语言一样的编译原则：基于虚拟指令集的运行时编译。
-
 它使 NVIDIA GPU 能够执行使用 C、C++、Fortran、OpenCL、DirectCompute 和其他语言编写的程序.
 
 CUDA的替代选择(通用并行计算平台和编程模型)
@@ -225,18 +223,23 @@ CUDA的替代选择(通用并行计算平台和编程模型)
 
 ## CUDA GPU 物理层次
 
-一张GPU卡由若干个流处理簇(SM)组成，一个SM配置若干个流处理器（SP），
+一张GPU卡由若干个流处理簇(SM)组成，一个SM配置若干个流处理器（SP），streaming processor(sp): 最基本的处理单元。GPU进行并行计算，也就是很多个sp同时做处理。现在SP的术语已经有点弱化了，而是直接使用thread来代替。一个SP对应一个thread.
 
 * 内存（全局的、常量的、共享的）
 * 流处理器簇（SM)
-  * 每个SM内有多个SP共享的、程序可控的高速缓存
+  * 每个SM内有多个SP共享的、程序可控的高速缓存shared memory
   * 每个SM内有一个寄存器文件
 * 流处理器/流处理单元（SP）
   * 一个SM里的所有SP共享内存和指令单元。
   * 随着更新换代，一个SM中的SP越来越多。
 
-streaming processor(sp): 最基本的处理单元。GPU进行并行计算，也就是很多个sp同时做处理。现在SP的术语已经有点弱化了，而是直接使用thread来代替。一个SP对应一个thread.
+‌寄存器文件‌：SM级资源，warp间隔离，warp内共享。
+‌共享内存‌：SM级资源，block间隔离，block内共享。
+‌全局内存‌：GPU级资源，所有线程共享，但访问速度慢。
 
+
+
+### warp
 
 Warp：warp是SM调度和执行的基础概念，通常一个SM中的SP(thread)会分成几个warp(也就是SP在SM中是进行分组的，物理上进行的分组)，一般每一个WARP中有32个thread.这个WARP中的32个thread(sp)是一起工作的，执行相同的指令，如果没有这么多thread需要工作，那么这个WARP中的一些thread(sp)是不工作的.
 （每一个线程都有自己的寄存器内存和local memory，一个warp中的线程是同时执行的，也就是当进行并行计算时，线程数尽量为32的倍数，如果线程数不上32的倍数的话；假如是1，则warp会生成一个掩码，当一个指令控制器对一个warp单位的线程发送指令时，32个线程中只有一个线程在真正执行，其他31个 进程会进入静默状态。）
@@ -589,7 +592,7 @@ cutlass::arch::global_store
 https://docs.nvidia.com/cuda/pdf/ptx_isa_8.5.pdf
 
 
-## NVIDIA Nsight 产品家族
+## NVIDIA Nsight 工具
 * nsight system是一个全方位的系统性能监控 
   * 本地安装 https://developer.download.nvidia.cn/devtools/nsight-systems/
 * nsight compute 是CUDA核性能细节展开
@@ -605,6 +608,11 @@ nsys profile --output=my_report ./my_application
 
 ```
 运行产出的.nsys-rep报告，可以被NVIDIA Nsight可视化工具查看分析。
+
+
+
+
+
 
 
 
