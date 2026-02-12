@@ -129,18 +129,18 @@ SHOW CREATE TABLE table_name;
 
 ### 查询特定的分区
 ```shell
-show partitions tmpr.rec_feature_log_data partition(dt='2022-06-20',pid='660000');
+show partitions tmpr.xxxxx_data partition(dt='2022-06-20',pid='660000');
 ```
 
 ### 按条件范围删除旧分区
 ```shell
-alter table search.search_rank_feature_log_v1_remote_parquet drop partition (dt<'2022-01-01',topic='jxpp')
+alter table xxx.xxxx_parquet drop partition (dt<'2022-01-01',topic='jxpp')
 ```
 
 
 ### 获取hive表最新分区
 ```shell
-hive -e "set hive.cli.print.header=false;show partitions app.app_query_attr_feature;" | tail -1 | cut -d'=' -f2
+hive -e "set hive.cli.print.header=false;show partitions app.xxxx_feature;" | tail -1 | cut -d'=' -f2
 ```
 
 ### 修改hive表的元信息
@@ -229,6 +229,19 @@ set mapred.output.compression.codec=org.apache.hadoop.io.compress.GzipCodec;
 
 ### 八进制表示转中文
 ```python
+def octal_to_chinese_keep_others(s):
+    # 匹配所有八进制转义序列
+    def replace_func(match):
+        import re
+        octals = re.findall(r'\\([0-7]{3})', match.group(0))
+        bytes_data = bytes([int(oct, 8) for oct in octals])
+        try:
+            return bytes_data.decode('utf-8', errors='ignore')
+        except UnicodeDecodeError:
+            return match.group(0)  # 解码失败则原样返回
+    # 替换所有八进制序列
+    return re.sub(r'(?:\\[0-7]{3})+', replace_func, s)
+
 def decode_unicode_string(unicode_string):
     encoded_bytes = unicode_string.encode('utf-8').decode('unicode_escape').encode('latin1')
     decoded_string = encoded_bytes.decode('utf-8')
@@ -243,7 +256,7 @@ print(decoded_string)
 ## Java
 
 ### 浮点数显示
-任何浮点数，当设计显示，一定就是以string来显示的。
+任何浮点数，当涉及显示，一定就是以string来显示的。
 ```java
 import java.text.DecimalFormat;
 

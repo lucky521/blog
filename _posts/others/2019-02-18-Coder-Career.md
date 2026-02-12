@@ -32,10 +32,10 @@ categories: [other]
 
 ## 技术分类
 
-* 后端 - 你写的程序允许在远端；
+* 后端 - 你写的程序允许在远端服务器；
 * 前端 - 你写的程序运行在浏览器上；
 * 移动端 - 你写的程序运行在用户设备端；
-* 嵌入式 -
+* 嵌入式 - 你写的程序运行在嵌入式设备；
 * 中间件 - 
 * 游戏开发 - https://github.com/miloyip/game-programmer
 * 机器学习 - https://github.com/chris-chris/ml-engineer-roadmap

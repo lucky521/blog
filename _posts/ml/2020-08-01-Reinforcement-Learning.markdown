@@ -42,13 +42,14 @@ categories: [MachineLearning]
 
 
 # 深度强化学习网络
+深度强化学习结合了传统的强化学习方法和深度神经网络，使得智能体能够在复杂的环境中学习到更高级别的特征表示，从而做出更高效的决策。
 
-DQN 算法 Deep Q-network
+## DQN 算法 Deep Q-network
 
 DDPG
 
 
-# 基于人类反馈的强化学习 Reinforcement Learning with Human Feedback RLHF
+# 基于人类反馈的强化学习 Reinforcement Learning with Human Feedback - RLHF
 
 
 
@@ -74,6 +75,7 @@ GRPO的核心思想是：
 # 开源项目
 
 https://docs.ray.io/en/master/rllib.html
+https://github.com/thu-ml/tianshou
 
 
 
@@ -99,3 +101,6 @@ http://web.stanford.edu/class/cs234/index.html
 
 - UCL Course on RL
 https://www.davidsilver.uk/teaching/
+
+- 动手学强化学习
+https://hrl.boyuai.com/chapter/intro
