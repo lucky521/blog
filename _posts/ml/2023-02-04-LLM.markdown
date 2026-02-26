@@ -24,6 +24,7 @@ OpenAI的GPT系列将大模型推向了大风口。
 * 2020.05 GPT-3 1750亿参数
 * 2022.12 ChatGPT
 * 2023.03 GPT-4
+* 2025.08 GPT-5
 
 ## 预训练架构的几大门派
 NLP各种任务其实收敛到了两个不同的预训练模型框架里：
@@ -97,9 +98,11 @@ GPT模型输出的logits， key_states， value_states，key_states.3，value_st
 * 最终输出是文本
 
 ## 生成策略
+贪心搜索、束搜索、Top-k采样、Top-p采样（核采样）、基于温度的采样、Min-P 采样等知名的解码策略，通过了解这些技术，使我们可以更高效的优化LLM的生成结果。
 
-Beam search
-Top-k sampling
+* Beam search
+* Top-k sampling: 在每一步生成过程中，模型只考虑概率最高（Top）的 K个词汇，然后从这 K 个词汇中根据概率进行采样（K=1 就是贪心搜索）
+* Top-p sampling(（又称 Nucleus Sampling): Top-P 采样不是固定选择 K 个词汇，而是选择一组累计概率达到 P 的词汇集合（即从高到低加起来的概率）
 
 ## 模型规模
 * n_layers	32
@@ -155,6 +158,8 @@ Chain-of-Thought(CoT)是一种改进的Prompt技术，目的在于提升大模�
 
 LLM推理中的role是什么意思？system、user、assistant
 
+
+
 ## 提示学习 Prompt Learning
 比如做情感分类任务：
 * 监督学习的做法是输入“我今天考砸了”，模型输出分类的分数或分布.
@@ -165,35 +170,48 @@ LLM推理中的role是什么意思？system、user、assistant
 
 * pre-training 把整个互联网的文本信息压缩到模型中
 * post-training-1: Fine Tuning 让模型学会和人对话，成为助手
-* post-training-2: Reinforcement Learning
+* post-training-2: Reinforcement Learning 优化模型，以符合人类的价值观
 
+
+## 分词器训练
+BPE、WordPiece、ULM、SentencePiece
 
 ## 预训练 (Pre-Training)
-学习无标记文本数据。
+数据集：学习无标记文本数据。
+基于 Transformer 架构，以“预测下一个词”为目标进行自监督训练.
 
 
 ## 指令精调(Instruction Tuning)
-让LLM理解输入命令的含义，并正确执行
+让LLM理解输入命令的含义，并正确执行。
+它跟SFT的过程看起来很像，不过训练目标是有差异的，指令精调更为注重提升模型在面对自然语言指令时的表现，SFT更注重特定领域的知识。实际生产中，这两个事情可能是同一个过程。
 
 
 ## 有监督微调（Supervised Fine-Tuning - SFT）
+数据集：收集高质量 <问题，回答> 对，涵盖开放问答、推理等任务。
 使用标注好的数据集用于LLM微调，这些数据集包含输入和期望输出的示例。
+
+
+## 奖励建模（Reward Modeling）
+数据集：针对同一问题，标注不同模型输出的优劣排序。
+训练奖励模型是一个回归任务
+
+
+## 强化学习 RLHF
+搞清楚强化学习中的“状态”、“动作”在 LLM 中对应什么
+https://huggingface.co/blog/zh/rlhf
 
 
 ## 大模型微调技术
 https://zhuanlan.zhihu.com/p/618894319
 * 全参数微调 Full Tuning
 * 2019年 Houlsby N 等人提出的 Adapter Tuning
-* 2021年微软提出的 LORA (Low-Rank Adaptation
+* 2021年微软提出的 LORA (Low-Rank Adaptation)
 * 2021年斯坦福提出的 Prefix Tuning
 * 谷歌提出的 Prompt Tuning
 * 2022年清华提出的 P-tuning v2
 
-## huggingface PEFT
+### huggingface PEFT
 把微调技术工程化了 https://huggingface.co/docs/peft/index
-
-
-## 强化学习 RLHF
 
 
 
@@ -328,7 +346,14 @@ https://www.anyscale.com/blog/continuous-batching-llm-inference
 
 ## Speculative decoding 投机解码
 
-EAGLE-3
+* 草稿模型（Draft Model）：这是一个参数量远小于目标模型（如仅为目标模型的1/10到1/3）、推理速度更快的模型。它的任务是快速“猜测”接下来的几个Token。
+  * 草稿模型以自回归方式快速生成一段“草稿”序列（例如，连续生成γ个Token）。
+* 目标模型（Target Model）：这是你需要使用的原始大型模型，它负责最终的“审核”。
+  * 目标模型不再是逐个Token生成，而是一次性输入这段草稿序列，并行计算每个位置的概率分布.
+  * 通过比较目标模型和草稿模型的输出概率，系统可以确定草稿中每个Token的“正确性”。如果草稿模型的某个Token被目标模型认可（即概率足够高），则接受该Token；否则，拒绝该Token及其后续所有内容。
+
+EAGLE-3: 使用经过训练的专用草稿模型，与目标模型高度对齐，接受率高
+
 
 ## 长度外推技术
 https://www.cnblogs.com/rossiXYZ/p/18808744
@@ -336,6 +361,7 @@ https://kexue.fm/archives/9948
 
 
 ## MTP 多词预测 Multi-token prediction
+MTP 通过训练时植入“多步预测”能力，推理时以“批量生成+并行验证”替代逐步生成，在保持语义连贯性的同时绕过显式自回归循环。
 
 
 ## StreamingLLM
@@ -445,7 +471,7 @@ https://github.com/xorbitsai/inference
 
 Server-Sent Events (SSE) 是一种基于 HTTP 协议的服务器推送技术，它允许服务器向客户端发送数据和信息。与 WebSocket 不同，SSE 是一种单向通信方式，只有服务器可以向客户端推送消息。SSE 是 HTML5 规范的一部分，使用非常简单，主要由服务端与浏览器端的通讯协议（HTTP协议）和 EventSource 接口来处理 Server-sent events 组成，服务器端的响应的内容类型是“text/event-stream”.
 
-## openAI 服务接口
+## openAI 风格rest服务接口
 
 你可参考openai官网或者https://openai.apifox.cn/
 

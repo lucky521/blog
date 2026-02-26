@@ -171,6 +171,7 @@ ring-base collectives
 ## MapReduce
 
 ## MPI
+MPI是一套集合通信的接口标准，它深刻的影响了后续分布式通信库的实现。
 
 MPI，openMPI，openMP
 
@@ -272,8 +273,8 @@ NCCL是Nvidia Collective multi-GPU Communication Library的简称.
 它是一个实现多GPU的collective communication通信（all-gather, reduce, broadcast）库.
 Nvidia做了很多优化，以在PCIe、Nvlink、InfiniBand上实现较高的通信速度。
 
-- NCCL - https://docs.nvidia.com/deeplearning/sdk/index.html
-- NCCL集合通信 - https://images.nvidia.com/events/sc15/pdfs/NCCL-Woolley.pdf
+
+- 集合通信 - https://images.nvidia.com/events/sc15/pdfs/NCCL-Woolley.pdf
 
 ## cuDNN
 

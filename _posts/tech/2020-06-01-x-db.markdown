@@ -423,10 +423,12 @@ PlanAPI::CreatePlanTreeFromScript
 # X_FS
 广义上讲，文件系统是数据库系统的一种形式。
 
-* 文件存储
+* 文件存储: 可以逐字节存取
 * 对象存储：与文件存储相反，这些对象存储在单个平面结构中，没有文件夹层次结构。在对象存储中，与文件存储使用的嵌套分层结构不同，所有对象都存储在平面地址空间中。
 
-存储接口标准： AWS S3标准协议 (Amazon Simple Storage Service (Amazon S3) )
+存储接口标准： 
+* AWS S3标准协议 (Amazon Simple Storage Service (Amazon S3) )
+* POSIX标准
 
 ## ChubaoFS
 ChubaoFS（CFS）是京东开发的分布式文件系统和对象存储系统

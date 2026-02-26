@@ -13,6 +13,13 @@ ethtool
 
 hostname -f
 
+# 以太网
+10G-EPON指万兆以太网无源光网络(万兆光纤)
+10G-EPON标准支持下列两种配置： 
+* 对称：在下行和上行方向均支持10 Gbit/s传输速率。 
+* 不对称：在下行方向（朝向用户）支持10 Gbit/s的传输速率，但在上行方向（朝向网络）则支持1 Gbit/s的传输速率
+
+
 # 容器网络 CNI
 
 
@@ -48,10 +55,10 @@ QP状态： INIT, RTR, RTS
 完成队列元素 CQE（Completion Queue Element）
 
 
-# verbs api
+## verbs api
 RDMA有三种协议IB/iWARP/RoCE，设计Verbs API通过统一接口，让同一份RDMA程序程序可以无视底层的硬件和链路差异运行在不同的环境中。
 
-# rdma 相关命令
+## rdma 相关命令
 
 ibv_devinfo 命令 
 query RDMA devices
@@ -78,5 +85,21 @@ systemctl start rdma 命令
 
 ethtool命令
 ethtool -i eth0 
+
+## GDR - GPUDirect RDMA
+GDR通过使RDMA网卡直接读写GPU显存，消除了CPU拷贝开销.
+GDRCopy是基于NVIDIA GPUDirect RDMA实现的低延迟GPU内存拷贝库。它支持GPU与CPU间数据传输（D2H/H2D），由CPU驱动
+
+## IBGDA - InfiniBand GPUDirect Async
+IBGDA（InfiniBand GPU Direct Async）和GDR（GPU Direct RDMA）是两种基于InfiniBand的高性能GPU通信技术，核心区别在于‌控制路径的实现方式。IBGDA解决了在GDR模式下，CPU仍需介入控制路径所成为的瓶颈
+
+## IBRC - InfiniBand Reliable Connection
+
+
+# Collective Communication
+广播（broadcast）、规约（reduction）、散播（scatter）和聚集（gather）
+
+集合通信相对P2P通信来讲，它的1对多或者多对多通信。
+集合通信最为典型的用例就是深度学习模型分布式训练时的梯度同步，就是用allreduce实现的。
 
 
