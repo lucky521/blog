@@ -494,6 +494,7 @@ NVIDIA HPC SDK 生态
   * https://github.com/NVIDIA/cutlass
 * NVSHMEM: 并行编程库，它为GPU集群创建了一个跨越多个GPU内存的全局地址空间（PGAS），并提供了API让GPU内核或CPU能直接进行细粒度的数据传输和同步
   * https://github.com/nvidia/nvshmem
+  * https://docs.nvidia.com/nvshmem/api/using.html
 
 
 ## cublas

@@ -32,7 +32,7 @@ https://libfeng.com/posts/rapid-transfer/
 三种网络协议
 * IB (InfiniBand)：     
     * 原生RDMA协议，从链路层就开始不一样 ， 性能最好。需要支持该技术的网卡和交换机。 
-* RoCE(RDMA over Converged Ethernet） ：  
+* RoCE(RDMA over Converged Ethernet) ：  
     * 基于以太网链路层，性能介于IB和iwarp之间。这允许在标准以太网基础架构（交换机）上使用 RDMA，网卡必须是支持 RoCE 。
 * iWARP(基于TCP/IP实现)：  
     * 基于tcp传输层，需要部分CPU的参与， 性能最差。
@@ -93,7 +93,15 @@ GDRCopy是基于NVIDIA GPUDirect RDMA实现的低延迟GPU内存拷贝库。它�
 ## IBGDA - InfiniBand GPUDirect Async
 IBGDA（InfiniBand GPU Direct Async）和GDR（GPU Direct RDMA）是两种基于InfiniBand的高性能GPU通信技术，核心区别在于‌控制路径的实现方式。IBGDA解决了在GDR模式下，CPU仍需介入控制路径所成为的瓶颈
 
+IBGDA was introduced in NVSHMEM 2.6.0 and significantly improved upon in NVSHMEM 2.7.0 and 2.8.0. It enables the GPU to bypass the CPU when issuing internode NVSHMEM communication without any changes to existing applications.
+
+When using IBGDA, GPU and NIC directly exchange information necessary for communication. The WQ and DBR buffers are also moved to the GPU memory to improve efficiency when accessed by the SM, while preserving access by the NIC through GPUDirect RDMA.
+
+[Improving Network Performance of HPC Systems Using NVIDIA Magnum IO NVSHMEM and GPUDirect Async](https://developer.nvidia.com/blog/improving-network-performance-of-hpc-systems-using-nvidia-magnum-io-nvshmem-and-gpudirect-async/)
+
 ## IBRC - InfiniBand Reliable Connection
+
+NVSHMEM IBRC transport, which uses a proxy thread to manage communication
 
 
 # Collective Communication

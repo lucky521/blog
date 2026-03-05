@@ -69,6 +69,14 @@ https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/80RC2alpha003/d
 
 
 
+## Unified Buffer（UB）
+UB 是唯一可编程的片上存储，所有 Cube 计算必须从 UB 读取数据。
+NPU 的 Cube 单元理论算力高达 256 TFLOPS（FP16），但若数据供给不足，实际利用率可能低于 20%。
+
+UB 的使命：作为 Global Memory 与 Cube 之间的“蓄水池”，通过预取 + 分块，确保计算单元永不“饿死”。
+
+理想数据流：Global Memory → (DMA) → UB → (Load) → Cube Registers → Compute
+
 
 
 # 开发接口
@@ -133,3 +141,5 @@ NPU集成了多种硬件加速器（也叫加速引擎），比如AiCore/AiVec/A
 # REF
 
 https://gitee.com/ascend/samples/tree/master
+
+https://ascendai.csdn.net/698610690a2f6a37c5906172.html

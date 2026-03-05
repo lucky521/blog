@@ -39,11 +39,13 @@ hadoop job -list   | grep "rank" |  awk '{split($0,a,"\t"); print a[1],a[5],a[7]
 
 序列化格式:   Kryo, protobuf, avro,  thrift
 
-数据格式： parquet, avro, json, orc, csv, 
+数据格式： parquet, avro, json, orc, csv
 
 数据压缩： zstd, brotli, lz4, gzip, snappy, uncompressed
 
 不同压缩方式的比较： https://blog.csdn.net/weixin_40040107/article/details/87885210
+
+新颖的数据格式： lance、arrow
 
 
 ## Data Lake数据存储中间Table format层

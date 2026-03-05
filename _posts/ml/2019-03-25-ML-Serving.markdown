@@ -315,9 +315,8 @@ Optimal Brain Surgeon
   * [BladeDISC++：Dynamic Shape AI 编译器下的显存优化技术](https://zhuanlan.zhihu.com/p/18880631601)
 * byteIR
   * https://github.com/bytedance/byteir
-
-
-* https://github.com/openppl-public/ppl.nn
+* PPLNN
+  * https://github.com/openppl-public/ppl.nn
 
 
 

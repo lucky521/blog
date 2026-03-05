@@ -67,7 +67,7 @@ Transformer 架构已成为开发各种 LLM 的事实标准骨干，现有 LLM �
   * Attention with 位置编码 RoPE ALiBi
   * LayerNorm
   * FFN
-* output (LM Head)
+* output (LMHead)
   * LayerNorm
   * linear
   * softmax
@@ -148,6 +148,14 @@ GPT模型输出的logits， key_states， value_states，key_states.3，value_st
     "eos_token": "<|im_end|>",
 
 
+
+## Mixture of Experts model
+将前馈神经网络（FFN）层替换为 MoE 层。
+MoE 层被用于替代密集的前馈网络（FFN）层，每个 MoE 层包含一定数量的 expert，每个 expert 都是一个神经网络，每次只有其中部分 expert 参与计算。从这个角度看，整体上的计算是稀疏的，而被选中的 experts 的计算又是并行的。
+https://zhuanlan.zhihu.com/p/28558622452
+
+## CausalLM
+CausalLM 是“只看过去，预测未来”；非 CausalLM（如 BERT）是“看上下文，完形填空”。目前的主流大模型（如 GPT-4）几乎都采用 CausalLM (Decoder-only)
 
 
 
