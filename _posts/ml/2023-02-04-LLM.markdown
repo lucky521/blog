@@ -519,6 +519,32 @@ curl https://api.openai.com/v1/fine_tuning/jobs \
 ```
 
 
+## Embedding model  or embeding mode
+三大差异：
+* 训练目标上的差异，这不体现在推理上，只体现在训练过程
+* 模型结构上，末尾的lm_head的有和无
+* 在因果掩码、无因果掩码上的差异 (存疑)
+  * 两个模型在因果掩码、无因果掩码上有差异吗？如果有，这个差异是体现在模型数据里，还是体现在哪个配置上，还是哪个代码里？
+
+### pooling model 
+pooling model是什么意思？ 和embedding model有什么关系？
+Pooling Model 是 Embedding Model 的子集，特指通过 Pooling 操作（mean/CLS/max/last token）将序列特征聚合为固定维度向量的模型架构。
+
+### embedding model 和 非embedding model(CausalLM)有什么区别？
+Qwen3-VL-8B-Instruct vs Qwen3-VL-Embedding-8B
+* 模型参数上的差异（safetensors）
+  * CausalLM多了一个 lm_head.weight，此外结构是一样的。
+
+
+### sglang 的推理参数 --is-embedding
+https://docs.sglang.io/advanced_features/server_arguments.html
+
+### vllm 的推理参数 --convert embed
+https://docs.vllm.ai/en/stable/cli/serve/
+https://docs.vllm.ai/en/stable/models/supported_models/
+
+### tensorrt-llm
+https://nvidia.github.io/TensorRT-LLM/commands/trtllm-serve/trtllm-serve.html
 
 
 

@@ -67,6 +67,11 @@ http://wiki.jikexueyuan.com/project/13-questions-of-shell/double-single.html
 http://wiki.jikexueyuan.com/project/13-questions-of-shell/double-single.html
 
 
+## 管道符
+`|` 
+语法：command1 | command2
+含义：执行 command1，把它的 标准输出（stdout） 通过管道传给 command2 的 标准输入（stdin），command2 处理后再把结果输出到屏幕或继续往下传。
+可以连续使用：command1 | command2 | command3，形成“命令流水线”
 
 # 特殊符号
 
