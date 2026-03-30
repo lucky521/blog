@@ -654,7 +654,7 @@ Nvidia
 
 ## GPU微架构演进
 
-截止2021年，按时间线顺序的8代NVIDIA GPU微架构：
+按时间线顺序的8代NVIDIA GPU微架构：
 
 * Tesla: 代表是G80, 第一款支持 C 语言的 GPU, 使用标量线程处理器的 GPU，无需程序员手动管理向量寄存器
 * Fermi： 

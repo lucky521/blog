@@ -386,6 +386,7 @@ https://www.high-flyer.cn/blog/flash_attn/
 
 
 ## 大模型量化技术
+本质上是 vector quantization 
 性能优化的大方向之 model compression methods for Large Language Models.
 * 综述： https://www.zhihu.com/question/10439431486
 * 综述： https://arxiv.org/pdf/2308.07633
@@ -408,6 +409,8 @@ gptq
 
 
 
+### turboquant
+https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/
 
 
 

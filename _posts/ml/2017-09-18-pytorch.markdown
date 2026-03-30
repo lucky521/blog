@@ -4,13 +4,16 @@ categories: [MachineLearning]
 layout: post
 ---
 
-torch vs pytorch
+torch vs pytorch: PyTorch 的命名即来源于 “Python + Torch”，它并非 Torch 的竞争对手，而是其 Python 化的成功演进版本。当人们现在讨论“Torch”时，通常指的就是 PyTorch。
 
 # 基本配置
 print(torch.__version__)
 
 torch.set_num_threads(1)
 print(torch.__config__.parallel_info())
+
+
+torch.cuda.get_arch_list() 打印出列表里没有sm_120， 应该怎么升级
 
 
 # 模型操作
