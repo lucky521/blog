@@ -5,6 +5,16 @@ categories: [Tech]
 layout: post
 ---
 
+# 先说通信
+通信是从数据载体到另一个数据载体的传输过程。把数据载体当做节点，通信过程就是边。
+* CPU内部存储
+* 主存
+* GPU内部存储
+* 显存
+* 网卡
+* 网络(交换机、路由器等等)
+* 磁盘
+
 # 网络基础
 
 ifconfig
@@ -12,6 +22,8 @@ ifconfig
 ethtool
 
 hostname -f
+
+sudo tcpdump -i any port 9008 | egrep 11.61.68.16
 
 # 以太网
 10G-EPON指万兆以太网无源光网络(万兆光纤)
@@ -22,6 +34,11 @@ hostname -f
 
 # 容器网络 CNI
 
+
+
+# TCP 
+tcp_slow_start_after_idle
+https://blog.csdn.net/mxy2404830/article/details/122454422
 
 
 # RDMA

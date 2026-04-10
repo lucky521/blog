@@ -268,7 +268,13 @@ https://github.com/karpathy/llama2.c
 
 
 
+# 大模型训练工具
 
+unsloth
+
+https://github.com/modelscope/ms-swift
+
+https://github.com/hiyouga/LlamaFactory
 
 
 
@@ -373,7 +379,6 @@ MTP 通过训练时植入“多步预测”能力，推理时以“批量生成+
 
 
 ## StreamingLLM
-
 Attention Sink
 https://www.high-flyer.cn/blog/streamingllm/
 

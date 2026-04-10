@@ -262,7 +262,8 @@ Quotient of two features: You have a dataset of marketing campaigns with the fea
 
 
 
-
+## Johnson-Lindenstrauss Transform
+‌Johnson-Lindenstrauss Transform（JL 变换）‌ 是一种用于‌高维数据降维‌的数学工具，能够在显著降低数据维度的同时，‌近似保留点对之间的欧几里得距离‌。
 
 
 

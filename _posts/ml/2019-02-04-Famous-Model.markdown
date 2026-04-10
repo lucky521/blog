@@ -305,6 +305,32 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
   * 将查询头（Query Heads）分组，每组共享同一组键/值头（Key/Value Heads），减少KV Cache规模
 * Multi-Query Attention (MQA)
   * 每个注意力头共享相同的key和value矩阵，但有不同的query矩阵
+* Multi-head Latent Attention (MLA)
+  * 通过低秩压缩KV Cache，比GQA更省内存且效果相当
+* Mixture of Block Attention (MoBA)
+* DeepSeek Native Sparse Attention (NSA)
+* DeepSeek Sparse Attention (DSA)
+
+### Linearized / Approximate Attention
+
+### Sparse Attention
+仅关注序列中的局部区域或以稀疏方式选择部分位置进行注意力计算。不再计算每个Token与所有其他Token的注意力，而是只计算一个稀疏子集。
+
+### Cross Attention与Self Attention的区别：
+输入来源：
+Cross Attention：来自两个不同的序列，一个来自编码器，一个来自解码器
+Self Attention：来自编码器的同一序列
+
+实现目标：
+Cross Attention：解码器序列用作查询（Q），编码器序列提供键（K）和值（V），用于在编码器-解码器两个不同序列之间进行注意力转移。
+Self Attention：查询（Q）、键（K）和值（V）均来自编码器同一序列，实现编码器序列内部的注意力计算。
+
+
+### Causal mask
+通常情况下，causal mask 是一个二维矩阵，其中对角线以下的元素都为1，表示允许当前位置之前的信息流动，而对角线及以上的元素都为0，表示屏蔽了当前位置之后的信息。在序列生成任务中，这种掩码非常重要，因为它确保了模型按照序列的顺序逐步生成输出，而不会提前使用未来的信息。
+Causal Mask 是 Transformer Decoder 架构实现“自回归生成”的基石.
+Causal Mask具体是如何做到当前位置只关注之前位置的？
+
 
 ### attention计算优化
 * Flash Attention
@@ -316,23 +342,10 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
 * Decoding Attention
 * CachedAttention (原AttentionStore)
 
-## transformer layer的样子
-通过这种自注意力机制层和普通非线性层来实现对输入信号的编码，得到信号的表示。
-
-* 图解Transformer-en http://jalammar.github.io/illustrated-transformer/
-* 图解Transformer-ch https://mp.weixin.qq.com/s/g6EliR8W1AgpLm8QCcxncw
-* The Annotated Transformer https://nlp.seas.harvard.edu/2018/04/03/attention.html
-* 从Word Embedding到Bert模型—自然语言处理中的预训练技术发展史 https://zhuanlan.zhihu.com/p/49271699
-* 美团如何使用 Transformer 搜索排序 https://tech.meituan.com/2020/04/16/transformer-in-meituan.html
-* Nvidia的FasterTransformer是一个开源的高效Transformer实现 https://github.com/NVIDIA/FasterTransformer
-* 字节开源的Effective Transformer https://github.com/bytedance/effective_transformer
-* Transformer及其attention机制 https://zhuanlan.zhihu.com/p/476585349
-* 从Attention到Transformer https://qiankunli.github.io/2023/10/30/from_attention_to_transformer.html
-* Transformer的最简洁pytorch实现 https://mp.weixin.qq.com/s/rx7SPYr-sEOz_GOYRfSDOw
-* [Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)
-* [深度学习中Attention与全连接层的区别何在？](https://www.zhihu.com/question/320174043)
 
 ## Transformer结构
+通过这种自注意力机制层和普通非线性层来实现对输入信号的编码，得到信号的表示。
+
 * 把输入句子拆成词，把每个词转换为词向量，那么输入句子就变成了向量列表。
 * 输入向量列表进入第一个编码器，它会把向量列表输入到 Self Attention 层，然后经过 feed-forward neural network （前馈神经网络）层，最后得到输出，传入下一个编码器。
   * Self-Attention：
@@ -359,25 +372,6 @@ Attention解决这一限制的方法就是：允许decoder回看原序列的 hid
         *   加法 & 归一化（Add & Norm）
 3.  最后的线性层和softmax层输出预测结果。
 
-
-
-### Cross Attention与Self Attention的区别：
-输入来源：
-
-Cross Attention：来自两个不同的序列，一个来自编码器，一个来自解码器
-
-Self Attention：来自编码器的同一序列
-
-实现目标：
-Cross Attention：解码器序列用作查询（Q），编码器序列提供键（K）和值（V），用于在编码器-解码器两个不同序列之间进行注意力转移。
-Self Attention：查询（Q）、键（K）和值（V）均来自编码器同一序列，实现编码器序列内部的注意力计算。
-
-
-
-### Causal mask
-通常情况下，causal mask 是一个二维矩阵，其中对角线以下的元素都为1，表示允许当前位置之前的信息流动，而对角线及以上的元素都为0，表示屏蔽了当前位置之后的信息。在序列生成任务中，这种掩码非常重要，因为它确保了模型按照序列的顺序逐步生成输出，而不会提前使用未来的信息。
-Causal Mask 是 Transformer Decoder 架构实现“自回归生成”的基石.
-Causal Mask具体是如何做到当前位置只关注之前位置的？
 
 
 ## Transformer门派
@@ -407,6 +401,19 @@ GPT开启了”大模型“时代。 -> LLM -> 请见另一篇以LLM专题的Blo
 
 
 # References
+
+* 图解Transformer-en http://jalammar.github.io/illustrated-transformer/
+* 图解Transformer-ch https://mp.weixin.qq.com/s/g6EliR8W1AgpLm8QCcxncw
+* The Annotated Transformer https://nlp.seas.harvard.edu/2018/04/03/attention.html
+* 从Word Embedding到Bert模型—自然语言处理中的预训练技术发展史 https://zhuanlan.zhihu.com/p/49271699
+* 美团如何使用 Transformer 搜索排序 https://tech.meituan.com/2020/04/16/transformer-in-meituan.html
+* Nvidia的FasterTransformer是一个开源的高效Transformer实现 https://github.com/NVIDIA/FasterTransformer
+* 字节开源的Effective Transformer https://github.com/bytedance/effective_transformer
+* Transformer及其attention机制 https://zhuanlan.zhihu.com/p/476585349
+* 从Attention到Transformer https://qiankunli.github.io/2023/10/30/from_attention_to_transformer.html
+* Transformer的最简洁pytorch实现 https://mp.weixin.qq.com/s/rx7SPYr-sEOz_GOYRfSDOw
+* [Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)
+* [深度学习中Attention与全连接层的区别何在？](https://www.zhihu.com/question/320174043)
 
 [wide&deep](https://arxiv.org/pdf/1606.07792.pdf)
 

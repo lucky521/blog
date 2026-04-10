@@ -78,19 +78,9 @@ embeddings = tf.Variable(tf.random_uniform([voc_size, embedding_size], -1.0, 1.0
 embed = tf.nn.embedding_lookup(embeddings, train_inputs) # lookup table
 ```
 
-## Embedding层的输入：
-
-嵌入层被定义为网络的第一个隐藏层。它必须指定3个参数：
-
-    - input_dim：这是文本数据中词汇的取值可能数。例如，如果您的数据是整数编码为0-9之间的值，那么词汇的大小就是10个单词；
-    - output_dim：这是嵌入单词的向量空间的大小。它为每个单词定义了这个层的输出向量的大小。例如，它可能是32或100甚至更大，可以视为具体问题的超参数；
-    - input_length：这是输入序列的长度，就像您为Keras模型的任何输入层所定义的一样，也就是一次输入带有的词汇个数。例如，如果您的所有输入文档都由1000个字组成，那么input_length就是1000。
-
-被Embedding的对象（比如word）必须是有限个数的。embedding层要求输入数据是整数编码的，所以每个word都用一个唯一的整数表示。这个数据准备步骤可以使用Keras提供的Tokenizer API来执行。
-
-## Embedding层的输出：
-
-嵌入层的输出是一个二维向量，每个word在输入文本（输入文档）序列中嵌入一个。
+## Embedding layer in pytoch
+torch.nn.Embedding
+torch.nn.EmbeddingBag
 
 
 
