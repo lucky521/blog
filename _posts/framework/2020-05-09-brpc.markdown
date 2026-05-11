@@ -47,7 +47,7 @@ https://github.com/apache/incubator-brpc/blob/master/docs/cn/client.md
 
 
 ## 超时配置
-set_timeout_ms
+timeout_ms
 connect_timeout_ms
 
 

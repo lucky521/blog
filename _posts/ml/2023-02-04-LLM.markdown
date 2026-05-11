@@ -102,10 +102,10 @@ GPT模型输出的logits， key_states， value_states，key_states.3，value_st
 
 * Beam search
 * Top-k sampling: 在每一步生成过程中，模型只考虑概率最高（Top）的 K个词汇，然后从这 K 个词汇中根据概率进行采样（K=1 就是贪心搜索）
-* Top-p sampling(（又称 Nucleus Sampling): Top-P 采样不是固定选择 K 个词汇，而是选择一组累计概率达到 P 的词汇集合（即从高到低加起来的概率）
+* Top-p sampling(又称 Nucleus Sampling): Top-P 采样不是固定选择 K 个词汇，而是选择一组累计概率达到 P 的词汇集合（即从高到低加起来的概率）
 
 ## 模型规模
-* n_layers	32
+* n_layers 32
 * n_heads	32
 * d_model	4096
  * ‌hidden_size‌：表示模型隐藏层的维度大小，在 Transformer 块中对应输入和输出的维度，通常记为 d_model。它定义了模型主体隐藏状态的尺寸
@@ -149,7 +149,7 @@ GPT模型输出的logits， key_states， value_states，key_states.3，value_st
 
 
 
-## Mixture of Experts model
+## MOE - Mixture of Experts model
 将前馈神经网络（FFN）层替换为 MoE 层。
 MoE 层被用于替代密集的前馈网络（FFN）层，每个 MoE 层包含一定数量的 expert，每个 expert 都是一个神经网络，每次只有其中部分 expert 参与计算。从这个角度看，整体上的计算是稀疏的，而被选中的 experts 的计算又是并行的。
 https://zhuanlan.zhihu.com/p/28558622452
@@ -527,7 +527,7 @@ curl https://api.openai.com/v1/fine_tuning/jobs \
 ```
 
 
-## Embedding model  or embeding mode
+## Embedding model or embeding mode
 三大差异：
 * 训练目标上的差异，这不体现在推理上，只体现在训练过程
 * 模型结构上，末尾的lm_head的有和无
@@ -588,7 +588,7 @@ https://nvidia.github.io/TensorRT-LLM/commands/trtllm-serve/trtllm-serve.html
 GPT强大的理解能力，能够帮人类完成一些事情的感知->理解->决策->响应。 
 让GPT读、写任何具备API接口能力的服务、设备。
 
-## 基于基于ID（sid）的物料表示
+## 基于ID（sid）的物料表示
 在搜推广领域，希望模型具有召回、排序某种物料的能力，这意味着LLM模型参数内部要记住这些物料id。怎么做到呢？
 
 
@@ -632,6 +632,7 @@ LangChain 是一个框架，用于开发由 LLM 驱动的应用程序。
 
 
 ## Harness Engineering
+
 
 
 

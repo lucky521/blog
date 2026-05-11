@@ -208,6 +208,10 @@ INFO CodeGenerator: Code generated in xxx ms
 
 
 # Graph Computing 图计算
+大规模图计算Giraph/GraphLab/GraphX/Gelly ， 和spark flink有什么区别？ 和tensorflow、 pytorch有什么区别？
+
+专门为图（Graph）这种数据结构设计的计算框架
+
 * GraphX ：Apache 基金会基于 Spark 实现的图计算框架，社区活跃度较高。
 * GraphLab: A New Framework for Parallel Machine Learning. 商业软件，不开源。已被苹果收购
 * Pregel: a system for large-scale graph processing. Google 在 2009 年提出，是图计算模型的开山祖师，后续很多工作都受到它的思想影响。不开源。

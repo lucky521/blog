@@ -16,6 +16,17 @@ categories: [productivity]
 # 图片、视频生成AI
 这类工具帮你做什么？
 
+# CLI（命令行）工具
+claude code
+Codex CLI 
+
+## claude code
+skills
+plugins
+agent
+mcp
+
+
 
 # 个人智能体工作站
 桌面端或者云端
@@ -25,6 +36,12 @@ copaw
 Cowork
 MaxClaw
 Kimi Claw
+
+## Hermes Agent
+tools
+skills
+
+## openclaw
 
 
 # AI专属新闻
