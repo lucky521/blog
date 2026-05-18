@@ -1,7 +1,7 @@
 ---
 title: "经常反复使用的代码片段"
 subtitle: ""
-categories: [productivity]
+categories: [Language]
 layout: post
 ---
 

@@ -8,6 +8,11 @@ https://brpc.apache.org/zh/docs/overview/
 
 brpc提供的可视化分析界面
 
+# 数据结构
+
+butil::atomic
+bvar
+
 # 线程模型(Thread Module)
 
 bthread是brpc实现的一套“协程”。传统意义上的协程是一个线程中开辟多个协程，也就是通常意义的N:1协程。而bthread是M:N的“协程”，每个bthread之间是平等的，所谓的M:N是指协程可以在线程间迁移。
@@ -50,6 +55,34 @@ https://github.com/apache/incubator-brpc/blob/master/docs/cn/client.md
 timeout_ms
 connect_timeout_ms
 
+    ENOSERVICE              = 1001;  // Service not found
+    ENOMETHOD               = 1002;  // Method not found
+    EREQUEST                = 1003;  // Bad Request
+    ERPCAUTH                = 1004;  // Unauthorized, can't be called EAUTH
+                                     // directly which is defined in MACOSX
+    ETOOMANYFAILS           = 1005;  // Too many sub calls failed
+    EPCHANFINISH            = 1006;  // [Internal] ParallelChannel finished
+    EBACKUPREQUEST          = 1007;  // Sending backup request
+    ERPCTIMEDOUT            = 1008;  // RPC call is timed out
+    EFAILEDSOCKET           = 1009;  // Broken socket
+    EHTTP                   = 1010;  // Bad http call
+    EOVERCROWDED            = 1011;  // The server is overcrowded
+    ERTMPPUBLISHABLE        = 1012;  // RtmpRetryingClientStream is publishable
+    ERTMPCREATESTREAM       = 1013;  // createStream was rejected by the RTMP server
+    EEOF                    = 1014;  // Got EOF
+    EUNUSED                 = 1015;  // The socket was not needed
+    ESSL                    = 1016;  // SSL related error
+    EH2RUNOUTSTREAMS        = 1017;  // The H2 socket was run out of streams
+    EREJECT                 = 1018;  // The Request is rejected
+
+    // Errno caused by server
+    EINTERNAL               = 2001;  // Internal Server Error
+    ERESPONSE               = 2002;  // Bad Response
+    ELOGOFF                 = 2003;  // Server is stopping
+    ELIMIT                  = 2004;  // Reached server's limit on resources
+    ECLOSE                  = 2005;  // Close socket initiatively
+    EITP                    = 2006;  // Failed Itp response
+
 
 ## Backup request
 先向其中一个server发送请求，如果在ChannelOptions.backup_request_ms 后还没回来，再向另一个server发送.之后哪个先回来就取哪个
@@ -62,6 +95,12 @@ https://brpc.apache.org/zh/docs/client/streaming-rpc/
 ## 熔断策略
 https://github.com/apache/brpc/blob/master/docs/cn/circuit_breaker.md
 
+- 熔断触发
+- 熔断恢复
+
+## 健康检查策略
+https://github.com/apache/brpc/blob/master/docs/cn/load_balancing.md#%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5
+/health 健康健康接口到底是让谁调用的？ 在brpc源码里并没有它的调用之处。
 
 
 ## 请求录制
