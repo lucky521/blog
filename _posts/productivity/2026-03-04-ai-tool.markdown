@@ -8,6 +8,8 @@ categories: [productivity]
 2026年，AI，或者说LLM大语言模型爆发3年了。诞生了不少对人类工作生活方式影响巨大的AI工具。
 这里主要关注toC的个人工具。
 
+
+
 # 聊天AI
 这类工作帮你做什么？
 替代了信息检索、新闻阅读、创作、闲聊、知识问答等当前的所有nlp场景。
@@ -21,10 +23,7 @@ claude code
 Codex CLI 
 
 ## claude code
-skills
-plugins
-agent
-mcp
+我单独写了另一篇专注于claudecode的blog。
 
 
 
