@@ -19,11 +19,11 @@ categories: [productivity]
 这类工具帮你做什么？
 
 # CLI（命令行）工具
-claude code
-Codex CLI 
-
-## claude code
 我单独写了另一篇专注于claudecode的blog。
+
+* claude code
+* Codex CLI 
+
 
 
 

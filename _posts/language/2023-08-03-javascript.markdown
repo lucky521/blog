@@ -26,6 +26,8 @@ JS的主要应用是在浏览器上运行，同时它还跨界可以在服务器
 
 
 # 后端JS
+这一类程序，它的源代码是一版用 JavaScript 或 TypeScript 编写的，最终是运行在 Node.js 环境下的。
+
 
 ```js
 var http = require('http');
@@ -48,6 +50,9 @@ console.log('Server running at http://127.0.0.1:8888/');
 * require 指令：在 Node.js 中，使用 require 指令来加载和引入模块，引入的模块可以是内置模块，也可以是第三方模块或自定义模块。
 * http模块
 运行： node xxx.js
+
+
+
 
 
 

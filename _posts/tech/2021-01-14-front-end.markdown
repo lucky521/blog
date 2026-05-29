@@ -93,11 +93,15 @@ rollup
 # 前端包管理
 
 * npm
+  * NPM 是 JavaScript 世界的 “App Store”
 * yarn
 * cnpm
 * pnpm
 * lerna
 
+## 常见疑问
+* nvm --version 和 nvm version的结果为什么不一样
+* nvm 和 npm 是什么关系？ 
 
 
 
