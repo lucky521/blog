@@ -623,6 +623,7 @@ LangChain 是一个框架，用于开发由 LLM 驱动的应用程序。
 
 ## MCP 协议
 模型上下文协议（Model Context Protocol）
+API + 工具说明书 + 参数 schema + 调用协议 + 结果返回格式
 
 
 ## A2A 协议

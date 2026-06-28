@@ -133,8 +133,6 @@ model = MoE(num_experts=2, input_shape=(28, 28, 1), output_dim=1)
 ```
 
 
-## HSTU
-Hierarchical Sequential Transduction Units 结构
 
 
 
@@ -396,8 +394,12 @@ GPT开启了”大模型“时代。 -> LLM -> 请见另一篇以LLM专题的Blo
 
 
 
+## HSTU
+Hierarchical Sequential Transduction Units 结构
+用 GPT 的训练方式（预测下一步行为）+ GPT 的架构（Transformer），把整条推荐流水线压缩成一个大模型
 
-
+## TIGER
+让每个商品有"语义身份证"，推荐变成"生成下一个身份证"的任务
 
 
 # References

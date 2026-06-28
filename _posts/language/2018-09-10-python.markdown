@@ -204,7 +204,10 @@ gradio
 streamlit
 
 
-# pip
+# 包管理
+## pip
+
+## uv 
 
 # 安装python 3.10
 ```sh

@@ -12,8 +12,9 @@ Anthropic
 
 plugins ·  skills ·  agents ·  hooks ·  plugin MCP servers ·  plugin LSP servers
 
-gate
-Fact-Forcing Gate
+
+hook:
+* Fact-Forcing Gate
 
 task
 
@@ -33,10 +34,10 @@ harness
   │ MCP servers    │ 外部工具（电话、电脑） │
   └────────────────┴────────────────────────┘
 
-浏览器工具：
-Chrome DevTools Protocol 原生客户端
-Playwright MCP Bridge
-agent-browser
+
+## mcp的部署形态
+stdio (本地)
+Streamable HTTP (远程)
 
 
 # 新手疑问
@@ -72,6 +73,12 @@ https://github.com/affaan-m/ECC
 superpowers
 
 ### 查看、操作web浏览器
+
+浏览器工具：
+Chrome DevTools Protocol 原生客户端
+Playwright MCP Bridge
+agent-browser
+
 
 
 ## 用ClaudeCode做什么
@@ -178,6 +185,8 @@ All your files are in ~/.hermes/:
    API Keys:  ~/.hermes/.env
    Data:      ~/.hermes/cron/, sessions/, logs/
 
+
+# oopenhands
 
 
 # Troubleshoot
