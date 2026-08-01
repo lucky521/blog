@@ -29,6 +29,26 @@ io_submit 是 Linux 内核中 AIO（异步 I/O）接口的一部分，用于提�
 
 
 
+## Tiling计算
+Tiling（分块计算） 是把大规模计算任务切分成小块（tile）来处理的一种优化技术，在深度学习和高性能计算中非常常见。原本一次性处理的大矩阵/大张量，被切成若干个小块，每次只加载和计算一块。
+
+为什么要 Tiling
+
+1. 内存层次利用：GPU 的 SRAM/共享内存/寄存器 容量小但速度快，HBM/显存 容量大但慢。Tile 小到能放进快速内存里，重复使用时就不用反复读慢速内存。
+2. 访存瓶颈：现代 GPU 算力远超带宽，很多算子是 memory-bound。Tiling 提高数据复用率，减少 DRAM 访问。
+3. 并行度：每个 tile 可以分给不同的线程块/SM 并行计算。
+
+典型场景
+
+- 矩阵乘法 (GEMM)：把 A、B、C 都切块，每个线程块负责一个输出 tile。cuBLAS、CUTLASS 都基于此。
+- FlashAttention：把 Q、K、V 分块，在 SRAM 里完成 softmax(QKᵀ)V，避免把完整的 attention 矩阵写回 HBM，显著降低显存占用。
+- 卷积：Winograd、im2col 加上 tile 分块。
+- 推理引擎：TVM、TensorRT、ONNX Runtime 都会做 tiling 自动调优（auto-tuning）。
+
+一句话总结
+
+Tiling = 切块 + 局部性优化，用小块拟合快速缓存，减少慢速访存，提升算力利用率。
+
 ## 高性能取模运算
 
 

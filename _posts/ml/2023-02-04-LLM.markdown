@@ -284,17 +284,19 @@ https://github.com/hiyouga/LlamaFactory
 综述：
 * [大语言模型推理性能优化综述](https://zhuanlan.zhihu.com/p/656485997)
 * [综述 A Survey on Efficient Inference for Large Language Models](https://arxiv.org/pdf/2404.14294)
+* [综述 A Survey on Inference Engines for Large Language Models](https://arxiv.org/pdf/2505.01658)
 * [大模型推理加速技术的学习路线是什么?](https://www.zhihu.com/question/591646269)
 * https://zhuanlan.zhihu.com/p/642412124
 * https://github.com/horseee/Awesome-Efficient-LLM 
 
 优化方向:
 * kvcache
-* transformer/attention变种
-  * 这是奔着模型结构变种的方向探索 the efficient structure design for Large Language Models.
-* batch批处理化
+* 调度、batch批处理化
 * 低比特量化
-* 分布式化
+* 并行、分布式化
+* Sampling / decoding optimization
+* transformer/attention变种
+  * 这是奔着模型结构变种的方向探索
 
 
 性能指标：
@@ -402,20 +404,10 @@ https://www.high-flyer.cn/blog/flash_attn/
 * gptq 
 * smoothquant
 * autoAWQ 
-* QServe: W4A8KV4
-
-### gptq 
-
-obq
-gptq
-
-
-### bitsandbytes 低比特体系
-
-
-
-### turboquant
-https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/
+* QServe: W4A8KV4 
+* obq
+* bitsandbytes 低比特体系
+* turboquant: https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/
 
 
 
@@ -620,6 +612,8 @@ LangChain 是一个框架，用于开发由 LLM 驱动的应用程序。
 * PromptTemplate
 * OutputParser 用于让 LLM 结构化输出并进行结果解析，方便后续的调用
 
+
+## LangGraph
 
 ## MCP 协议
 模型上下文协议（Model Context Protocol）

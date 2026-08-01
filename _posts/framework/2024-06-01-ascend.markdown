@@ -127,6 +127,18 @@ Ascend C API的操作数都是Tensor类型
 
 
 
+# 动态Shape图调度
+两种常规的模型调度模式（下沉调度和Host调度）
+
+# Torch生态适配
+## TorchAir
+
+## torch_npu
+该插件的Python包名为torch_npu，文档中常以torch_npu作为Ascend Extension for PyTorch的简称，二者指代同一软件。
+
+
+
+
 
 
 # 硬件

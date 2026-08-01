@@ -47,6 +47,16 @@ Streamable HTTP (远程)
 * 命令、代理、技能、钩子 是什么
 * plan是什么
 
+
+## claude 使用遇到的问题
+禁止claude code自动更新   export DISABLE_AUTOUPDATER=1
+
+安装特定版本的claude code 版本： npm install -g @anthropic-ai/claude-code@2.1.90
+
+unset MAX_THINKING_TOKENS
+claude --thinking disabled
+
+
 # Claude Code
 
 
