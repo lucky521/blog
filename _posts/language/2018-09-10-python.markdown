@@ -205,9 +205,20 @@ streamlit
 
 
 # 包管理
+包管理、依赖管理、虚拟环境
+一句话总结：pip 是装包的，venv 是隔离环境的，conda 是更大范围的环境和二进制依赖管理器，uv 是更现代、更快的一体化 Python 项目工具。
+
 ## pip
 
+## conda
+
 ## uv 
+
+## venv
+
+
+
+
 
 # 安装python 3.10
 ```sh

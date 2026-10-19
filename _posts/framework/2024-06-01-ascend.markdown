@@ -10,13 +10,13 @@ layout: post
 
 cat /usr/local/Ascend/ascend-toolkit/latest/x86_64-linux/ascend_toolkit_install.info
 
-npu-smi 对标  nvidia-smi
+* npu-smi 对标  nvidia-smi
 
 ```
 $ watch -n 1 npu-smi info
 ```
 
-msprof 对标 nsprof
+* msprof 对标 nsprof
 
 
 AscendCL
@@ -127,8 +127,15 @@ Ascend C API的操作数都是Tensor类型
 
 
 
-# 动态Shape图调度
+# 图调度
 两种常规的模型调度模式（下沉调度和Host调度）
+
+* 静态 Shape 模型怎么减少 CPU 调度
+  * 下沉调度模式：把模型的任务调度信息，从 Host CPU 侧提前放到 Device NPU 侧。   模型下沉的基础是静态 Shape。
+* 动态 Shape 模型无法整图下沉时，怎么把 CPU 调度做得更快。
+  * 1. Host 缓存：算过的不要再算Tiling
+  * 2. CPU 多核并发：把串行工作变成流水线
+  * 3. 小 Shape 算子优化：小活不要送给 NPU
 
 # Torch生态适配
 ## TorchAir

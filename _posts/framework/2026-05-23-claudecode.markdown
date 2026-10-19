@@ -56,6 +56,8 @@ Streamable HTTP (远程)
 unset MAX_THINKING_TOKENS
 claude --thinking disabled
 
+thinking: {type: "adaptive"} 是什么意思，为什么总是出现anthropic协议的兼容性问题
+
 
 # Claude Code
 
